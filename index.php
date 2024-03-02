@@ -28,7 +28,7 @@
 
 <body>
     <header class="container-fluid">
-        <nav class="navbar navbar-expand-lg bg-custom-1">
+        <nav class="navbar navbar-expand-lg bg-custom-1 ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <div class="" id="divLogo">
@@ -68,13 +68,24 @@
         </nav>
     </header>
 
+
+    <!--BANNER-->
     <section class="container-fluid" id="sectionBanner">
         <img src="assets/img/logo/logo.svg" alt="Banner da empresa" id="logoSVG">
         <img src="assets/img/logo/titulo.svg" alt="Título da empresa" id="tituloSVG" class="svgBanner">
         <img src="assets/img/logo/slogan.svg" alt="Slogan da empresa" id="sloganSVG" class="svgBanner">
     </section>
-    <div id="transicaoBanner"></div>
+
+    <main class="container-fluid" id="main">
+        <section class="container-fluid d-grid gap-2 col-6 mx-auto p-5 " id="cadastroSelecao">
+            <h2 class="h2">Se inscrever como</h2>
+            <button class="btn btn-dark botoesCadastro" id="cadastroEstagiario">Estagiário</button>
+            <button class="btn btn-warning botoesCadastro" id="cadastroIE">Instituição de ensino</button>
+            <button class="btn btn-info botoesCadastro" id="cadastroEmpresa">Empresa</button>
+        </section>
+    </main>
+
+
     <script src="assets/js/index.js"></script>
 </body>
-
 </html>

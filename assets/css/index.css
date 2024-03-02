@@ -1,5 +1,20 @@
 @import url(colors.css);
 
+/*SCROLL EDIÇÃO*/
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--color-custom-2);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--color-custom-1);
+    border-radius: 20px;
+    border: 3px solid var(--color-custom-2);
+}
+
 header {
     background-color: var(--color-custom-1);
     width: 100%;
@@ -89,23 +104,31 @@ header {
     }
 }
 
-#transicaoBanner {
-    background: linear-gradient(var(--color-custom-2), #ffffff00);
+#main{
+    background: linear-gradient(var(--color-custom-2), var(--color-custom-4));
     width: 100%;
-    height: 1000vh;
-}
+    min-height: 20vh;
+    max-height: auto;
+    padding-top: 200px;
+    padding-bottom: 200px;
 
-/*SCROLL EDIÇÃO*/
-body::-webkit-scrollbar {
-    width: 12px;
-}
+    & #cadastroSelecao{
+        min-width: 70%;
+        max-width: 100%;
+        min-height: 500px;
+        border-radius: 50px;
+        background-color: #83ED9F;
 
-body::-webkit-scrollbar-track {
-    background: var(--color-custom-2);
-}
+        & h2{
+            font-size: auto;
+            text-wrap:balance;
+            text-align: center;
+        }
 
-body::-webkit-scrollbar-thumb {
-    background-color: var(--color-custom-1);
-    border-radius: 20px;
-    border: 3px solid var(--color-custom-2);
+        & .botoesCadastro{
+            font-size: 22px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            border-radius: 50px;
+        }
+    }
 }
