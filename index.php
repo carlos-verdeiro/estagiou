@@ -7,8 +7,6 @@
     <link rel="shortcut icon" href="assets/img/logo/favicontransparente.ico" type="image/x-icon">
     <title>Estagiou</title>
 
-    <link rel="stylesheet" href="assets/css/index.css">
-
     <!--BIBLIOTECAS-->
 
 
@@ -19,10 +17,13 @@
 
     <!--JQUERY-->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
     <!--FIM JQUERY-->
 
 
     <!--FIM BIBLIOTECAS-->
+
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 <body>
@@ -69,9 +70,11 @@
 
     <section class="container-fluid" id="sectionBanner">
         <img src="assets/img/logo/logo.svg" alt="Banner da empresa" id="logoSVG">
-        <img src="assets/img/logo/titulo.svg" alt="Título da empresa" id="tituloSVG">
-
+        <img src="assets/img/logo/titulo.svg" alt="Título da empresa" id="tituloSVG" class="svgBanner">
+        <img src="assets/img/logo/slogan.svg" alt="Slogan da empresa" id="sloganSVG" class="svgBanner">
     </section>
+    <div id="transicaoBanner"></div>
+    <script src="assets/js/index.js"></script>
 </body>
 
 </html>
