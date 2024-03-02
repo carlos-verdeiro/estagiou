@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/logo/favicontransparente.ico" type="image/x-icon">
     <title>Estagiou</title>
+
+    <link rel="stylesheet" href="assets/css/index.css">
 
     <!--BIBLIOTECAS-->
 
@@ -21,7 +24,48 @@
 
     <!--FIM BIBLIOTECAS-->
 </head>
+
 <body>
-    
+    <header class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-custom-1">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <div class="" id="divLogo">
+                        <img src="assets/img/logo/logo.png" alt="Logo Estagiou">
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    MENU
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Sobre nós</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Objetivos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Suporte</a>
+                        </li>
+                    </ul>
+                    <!--BOTÕES CADASTRO E LOGIN-->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-success" aria-current="page">Realizar Cadastro</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Entrar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 </body>
+
 </html>
