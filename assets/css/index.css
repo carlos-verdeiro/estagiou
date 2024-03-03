@@ -35,7 +35,6 @@ header {
                 & #divLogo {
                     background-color: var(--color-custom-2);
                     border-radius: 30px;
-                    padding: 12px;
                     width: 80px;
                     height: 80px;
                     display: flex;
@@ -47,10 +46,6 @@ header {
                         max-height: 100%;
                     }
                 }
-            }
-
-            & button {
-                min-width: max-content;
             }
         }
 
@@ -141,11 +136,23 @@ header {
 
     & div{
 
+
         & .toast-header{
 
             & img{
                 width: 25px;
                 height: 25px;
+            }
+        }
+
+        & .toast-body{
+            height: auto;
+
+            & form{
+
+                & button{
+                    margin-top: 10px;
+                }
             }
         }
     }
