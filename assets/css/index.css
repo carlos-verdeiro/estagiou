@@ -1,5 +1,9 @@
 @import url(colors.css);
 
+body{
+    background-color: var(--color-custom-4);
+}
+
 /*SCROLL EDIÇÃO*/
 body::-webkit-scrollbar {
     width: 12px;
@@ -44,6 +48,18 @@ header {
                     & img {
                         max-width: 100%;
                         max-height: 100%;
+                    }
+                }
+            }
+
+            & div{
+
+                & #loginEntrar{
+
+                    & #liEntrar{
+                        & button{
+                            font-size: 23px;
+                        }
                     }
                 }
             }
@@ -99,7 +115,7 @@ header {
     }
 }
 
-#main{
+#presentation{
     background: linear-gradient(var(--color-custom-2), var(--color-custom-4));
     width: 100%;
     min-height: 20vh;

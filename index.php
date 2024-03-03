@@ -31,11 +31,15 @@
     <?php
     include_once "public/templates/index/header.php";
     ?>
+    <main id="main">
+        <?php
+        include_once "public/templates/index/banner.php";
+        ?>
 
-    <?php
-    include_once "public/templates/index/initial.php";
-    ?>
-
+        <?php
+        include_once "public/templates/index/initial.php";
+        ?>
+    </main>
     <script src="assets/js/index.js"></script>
 </body>
 
