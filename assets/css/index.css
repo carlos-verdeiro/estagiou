@@ -117,7 +117,7 @@ header {
         max-width: 100%;
         min-height: 500px;
         border-radius: 50px;
-        background-color: #83ED9F;
+        background-color: var(--color-custom-5);
 
         & h2{
             font-size: auto;
@@ -129,6 +129,24 @@ header {
             font-size: 22px;
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             border-radius: 50px;
+        }
+    }
+}
+
+#toastLogin{
+    top: 0;
+    right: 0;
+    margin-top: 8vh;
+    margin-right: 18vw;
+
+    & div{
+
+        & .toast-header{
+
+            & img{
+                width: 25px;
+                height: 25px;
+            }
         }
     }
 }

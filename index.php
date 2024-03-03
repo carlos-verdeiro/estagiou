@@ -57,7 +57,7 @@
                     <!--BOTÕES CADASTRO E LOGIN-->
                     <ul class="navbar-nav mb-2 mb-lg-0 w-25 column-gap-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Entrar</a>
+                            <a class="nav-link" href="#" id="toastLoginBtn">Entrar</a>
                         </li>
                         <li class="nav-item center-h">
                             <button type="button" class="btn btn-success" aria-current="page">Realizar Cadastro</button>
@@ -85,7 +85,20 @@
         </section>
     </main>
 
+    <div class="toast-container position-fixed p-3" id="toastLogin" >
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <img src="assets/img/logo/logo_transparente.png" class="rounded me-2" alt="Mini logo">
+                <strong class="me-auto">Entrar</strong>
+                <small>Login</small>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
 
     <script src="assets/js/index.js"></script>
 </body>
+
 </html>
