@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     const toastLoginBtn = $('#toastLoginBtn');
     const toastLogin = $('#liveToast');
 
@@ -6,11 +7,11 @@ $(document).ready(function () {
     const btnEntrar = $('#toastLoginBtn')
     const banner = $('')
 
-
-
     let mouseDentroToast = false;
 
-    if (toastLoginBtn.length && toastLogin.length) {
+    var larguraPg = window.innerWidth;
+
+    if (toastLoginBtn.length && toastLogin.length && larguraPg > 1000) {
         toastLoginBtn.on("mouseenter", function () {
             toastLogin.toast('show');
             mouseDentroToast = true;

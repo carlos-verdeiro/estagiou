@@ -24,7 +24,7 @@
 
     <!--FIM BIBLIOTECAS-->
 
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/index/index.css">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
         include_once "public/templates/index/initial.php";
         ?>
     </main>
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/index/index.js"></script>
 </body>
 
 </html>

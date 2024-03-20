@@ -1,51 +1,53 @@
-<style>
-    #sectionLogin {
-        background: var(--color-custom-2);
-        width: 100%;
-        height: 85vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row-reverse;
-        flex-wrap: wrap;
-
-
-        & #loginDiv1 {
-            max-width: 50%;
-            width: 600px;
-            max-width: 100%;
-            min-height: 50%;
-            max-height: 100%;
-            background-color: var(--color-custom-5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            border-radius: 50px;
-
-            & form {
-                width: 85%;
-                height: 100%;
-            }
-        }
-
-        & #loginDiv2 {
-            width: 50%;
-            max-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            & img {
-                max-height: 85vh;
-                max-width: 100%;
-            }
-        }
-    }
-</style>
-
 <section id="sectionLogin">
+    <style>
+        #sectionLogin {
+            background: var(--color-custom-2);
+            width: 100%;
+            min-height: 85vh;
+            max-height: max-content;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: row-reverse;
+            flex-wrap: wrap;
+
+
+            & #loginDiv1 {
+                max-width: 50%;
+                width: 600px;
+                max-width: 90%;
+                min-height: 50%;
+                max-height: 100%;
+                background-color: var(--color-custom-5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 20px;
+                border-radius: 50px;
+
+                & form {
+                    width: 85%;
+                    height: 100%;
+                }
+            }
+
+            & #loginDiv2 {
+                width: 600px;
+                max-width: 90%;
+                max-height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                & img {
+                    max-height: 85vh;
+                    width: 100%;
+                    
+                }
+            }
+        }
+    </style>
     <div id="loginDiv1">
         <div>
             bagui do google
