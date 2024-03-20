@@ -56,6 +56,9 @@
                         <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
                         <label for="floatingPassword">Senha</label>
                     </div>
+                    <div>
+                        <a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
+                    </div>
                     <button type="submit" class="btn btn-success w-100">Acessar</button>
                 </form>
             </div>

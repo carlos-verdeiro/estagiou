@@ -43,7 +43,7 @@
                 & img {
                     max-height: 85vh;
                     width: 100%;
-                    
+
                 }
             }
         }
@@ -67,7 +67,12 @@
                     <label class="btn btn-outline-warning" for="btn-check-outlined"><img id="checkPassLabelImg" src="assets/img/eyeSlash.svg" alt="olho de senha"></label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success mb-3 w-100">Entrar</button>
+            <div class="mb-3">
+                <a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success mb-3 w-100">Entrar</button>
+            </div>
         </form>
     </div>
     <div id="loginDiv2"><img src="assets\img\loginImg.svg" alt="Imagem de login"></div>
