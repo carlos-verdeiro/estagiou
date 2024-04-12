@@ -1,11 +1,16 @@
 $(document).ready(function () {
-    
+
     const toastLoginBtn = $('#toastLoginBtn');
     const toastLogin = $('#liveToast');
 
     const main = $('#main');
-    const btnEntrar = $('#toastLoginBtn')
-    const banner = $('')
+    const btnEntrar = $('#toastLoginBtn');
+    const btnSobre = $('#btnSobre');
+    const btnIndex = $('#btnIndex');
+    const btnObjetivos = $('#btnObjetivos');
+    const btnSuporte = $('#btnSuporte');
+
+    const banner = $('#sectionBanner');
 
     let mouseDentroToast = false;
 
@@ -34,29 +39,89 @@ $(document).ready(function () {
         });
     }
 
-    //caso clique fora ele desaparece
+    // Caso clique fora, ele desaparece
     $(document).on("click", function (event) {
+        // Reatribuindo as constantes toastLoginBtn e toastLogin aqui para evitar repetição de código
         const toastLoginBtn = $('#toastLoginBtn');
         const toastLogin = $('#liveToast');
-        //verifica se foi clicado fora do toast
+        // Verifica se foi clicado fora do toast
         if (!toastLogin.is(event.target) && toastLogin.has(event.target).length === 0 && !toastLoginBtn.is(event.target) && toastLoginBtn.has(event.target).length === 0) {
             toastLogin.toast('hide');
         }
     });
 
-
-
-    btnEntrar.on("click", function () {
-        banner.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para o banner (se desejado)
-        main.animate({ width: 'toggle' }, function () { // Adicione uma transição de deslizamento lateral suave para main
-            main.empty(); // Limpe o conteúdo de main
-            main.load("public/entrar/entrar.php", function () { // Carregue o conteúdo do arquivo PHP em main
-                main.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para exibir o novo conteúdo de main
+    btnIndex.on("click", function () {
+        if (!$(this).hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            banner.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para o banner (se desejado)
+            main.animate({ width: 'toggle' }, function () { // Adicione uma transição de deslizamento lateral suave para main
+                main.empty(); // Limpe o conteúdo de main
+                main.load("public/templates/index/initial.php", function () { // Carregue o conteúdo do arquivo PHP em main
+                    main.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para exibir o novo conteúdo de main
+                });
             });
-        });
-        banner.remove();
+            banner.remove();
+        }
     });
 
+    btnSobre.on("click", function () {
+        if (!$(this).hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            banner.animate({ width: 'toggle' });
+            main.animate({ width: 'toggle' }, function () {
+                main.empty();
+                main.load("public/pages/sobre.php", function () {
+                    main.animate({ width: 'toggle' });
+                });
+            });
+            banner.remove();
+        }
+    });
 
+    btnObjetivos.on("click", function () {
+        if (!$(this).hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            banner.animate({ width: 'toggle' });
+            main.animate({ width: 'toggle' }, function () {
+                main.empty();
+                main.load("public/pages/objetivos.php", function () {
+                    main.animate({ width: 'toggle' });
+                });
+            });
+            banner.remove();
+        }
+    });
 
+    btnSuporte.on("click", function () {
+        if (!$(this).hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            banner.animate({ width: 'toggle' });
+            main.animate({ width: 'toggle' }, function () {
+                main.empty();
+                main.load("public/pages/suporte.php", function () {
+                    main.animate({ width: 'toggle' });
+                });
+            });
+            banner.remove();
+        }
+    });
+
+    btnEntrar.on("click", function () {
+        if (!$(this).hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            banner.animate({ width: 'toggle' });
+            main.animate({ width: 'toggle' }, function () {
+                main.empty();
+                main.load("public/pages/entrar.php", function () {
+                    main.animate({ width: 'toggle' });
+                });
+            });
+            banner.remove();
+        }
+    });
 });

@@ -2,7 +2,7 @@
 @import url(headerIndex.css);
 
 body{
-    background-color: var(--color-custom-4);
+    background-color: var(--color-custom-2);
 }
 
 /*SCROLL EDIÇÃO*/
@@ -49,7 +49,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 #presentation{
-    background: linear-gradient(var(--color-custom-2), var(--color-custom-4));
+    background: var(--color-custom-2);
     width: 100%;
     min-height: 20vh;
     max-height: auto;

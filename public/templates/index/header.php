@@ -1,7 +1,7 @@
 <header class="container-fluid">
     <nav class="navbar navbar-expand-lg bg-custom-1 ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.php">
                 <div class="" id="divLogo">
                     <img src="assets/img/logo/logo.svg" alt="Logo Estagiou">
                 </div>
@@ -13,25 +13,25 @@
             <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                        <a class="nav-link btn active" aria-current="page" id="btnIndex">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sobre nós</a>
+                        <a class="nav-link btn" id="btnSobre">Sobre nós</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Objetivos</a>
+                        <a class="nav-link btn" id="btnObjetivos">Objetivos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Suporte</a>
+                        <a class="nav-link btn" id="btnSuporte">Suporte</a>
                     </li>
                 </ul>
                 <!--BOTÕES CADASTRO E LOGIN-->
                 <ul class="navbar-nav mb-2 mb-lg-0 w-25 column-gap-3" id="loginEntrar">
                     <li class="nav-item" id="liEntrar">
-                        <button class="btn"id="toastLoginBtn">Entrar</button>
+                        <button class="btn nav-link"id="toastLoginBtn">Entrar</button>
                     </li>
                     <li class="nav-item center-h">
-                        <button type="button" class="btn btn-success" aria-current="page">Realizar Cadastro</button>
+                        <a type="button" class="btn btn-success" aria-current="page" href="public/pages/cadastro.php">Realizar Cadastro</a>
                     </li>
                 </ul>
             </div>
