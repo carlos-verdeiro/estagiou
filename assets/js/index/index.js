@@ -62,7 +62,6 @@ $(document).ready(function () {
                     main.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para exibir o novo conteúdo de main
                 });
             });
-            banner.remove();
         }
     });
 
@@ -77,7 +76,6 @@ $(document).ready(function () {
                     main.animate({ width: 'toggle' });
                 });
             });
-            banner.remove();
         }
     });
 
@@ -92,7 +90,6 @@ $(document).ready(function () {
                     main.animate({ width: 'toggle' });
                 });
             });
-            banner.remove();
         }
     });
 
@@ -107,7 +104,6 @@ $(document).ready(function () {
                     main.animate({ width: 'toggle' });
                 });
             });
-            banner.remove();
         }
     });
 
@@ -122,7 +118,6 @@ $(document).ready(function () {
                     main.animate({ width: 'toggle' });
                 });
             });
-            banner.remove();
         }
     });
 
@@ -136,7 +131,6 @@ $(document).ready(function () {
                     main.animate({ width: 'toggle' });
                 });
             });
-            banner.remove();
         }
     });
 });
