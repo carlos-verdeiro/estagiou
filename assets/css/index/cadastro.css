@@ -9,18 +9,34 @@
     align-items:center;
     justify-content: center;
     flex-direction: column;
-    color: var(--color-custom-4);
+
+    & #tituloCadastro{
+        color: var(--color-custom-4);
+    }
 
     & .formComponent{
         background-color: var(--color-custom-5);
-        width: 50%;
-        max-width: 800px;
+        min-width: 50%;
+        max-width: 700px;
         min-height: 300px;
+        border-radius: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50px;
-        flex-direction:column;
+        flex-direction: column;
+
+        & .divInputs{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-custom-6);
+
+            & .form-floating{
+                min-width: 40%;
+                max-width: 700px;
+            }
+        }
 
         & .spanPreencha{
             color: var(--color-custom-2);
