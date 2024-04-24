@@ -127,7 +127,7 @@ $(document).ready(function () {
             banner.animate({ width: 'toggle' });
             main.animate({ width: 'toggle' }, function () {
                 main.empty();
-                main.load("public/pages/cadastro.php", function () {
+                main.load("public/pages/cadastro/cadastro.php", function () {
                     main.animate({ width: 'toggle' });
                 });
             });
