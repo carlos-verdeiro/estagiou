@@ -6,15 +6,13 @@
     justify-content: center;
     background-color: var(--color-custom-2);
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    & #tituloCadastro{
+    & #tituloCadastro {
         color: var(--color-custom-4);
     }
-
-    & .formComponent{
+    & .formComponent {
         background-color: var(--color-custom-5);
         min-width: 50%;
         max-width: 700px;
@@ -24,36 +22,42 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-
-        & .divInputs{
+        & .divInputs {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             color: var(--color-custom-6);
-
-            & .form-floating{
+            & .form-floating {
                 min-width: 40%;
                 max-width: 700px;
             }
-
-            & .botoesCadastro{
+            & #formNome {
+                width: 80%;
+            }
+            & .botoesCadastro {
                 width: 70%;
                 margin-bottom: 5px;
                 font-size: 20px;
                 font-weight: 600;
             }
+            & .botoesAvanco{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: row;
+                width: 100%;
+                & .btn{
+                    margin-left: 10px;
+                    width: 30%;
+                }
+            }
         }
-
-        & .spanPreencha{
+        & .spanPreencha {
             color: var(--color-custom-2);
             font-weight: 600;
             margin-bottom: 30px;
-        }
-
-        & .btnProximo{
-            margin-top: 20px;
         }
     }
 }

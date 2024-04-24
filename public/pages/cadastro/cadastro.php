@@ -6,7 +6,7 @@
         <div class="formComponent p-4">
             <div class="progress w-75" role="progressbar" aria-label="Example with label" aria-valuenow="0"
                 aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 25%">25%</div>
+                <div class="progress-bar" style="width: 0%">0%</div>
             </div>
             <span class="spanPreencha">*Preencha com atenção*</span>
             <div class="divInputs d-flex flex-wrap w-100">
