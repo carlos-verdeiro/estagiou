@@ -3,7 +3,7 @@
     <script src="assets/js/cadastro.js"></script>
     <div class="divCadastro" id="cadastro">
         <h1 id='tituloCadastro'>CADASTRO</h1>
-        <div class="formComponent p-4">
+        <form class="formComponent p-4">
             <div class="progress w-75" role="progressbar" aria-label="Example with label" aria-valuenow="0"
                 aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar" style="width: 0%">0%</div>
@@ -14,6 +14,6 @@
                 include_once "tipoPessoa.php";
                 ?>
             </div>
-        </div>
+        </form>
     </div>
 </section>

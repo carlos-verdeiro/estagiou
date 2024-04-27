@@ -16,6 +16,6 @@
 </div>
 </div>
 <div class="botoesAvanco">
-    <button type="button" class="btn btn-warning btnProximo btn btn-lg w-50">VOLTAR</button>
-    <button type="button" class="btn btn-success btnVoltar btn btn-lg w-50">PRÓXIMO</button>
+    <button type="button" class="btn btn-warning btnVoltar  btn btn-lg w-50">VOLTAR</button>
+    <button type="button" class="btn btn-success btnProximo btn btn-lg w-50">PRÓXIMO</button>
 </div>

@@ -1,41 +1,75 @@
 $(document).ready(function () {
-
     const main = $('.divInputs');
-    const btnEstagiario = $('#cadastroEstagiario');
-    const btnIE = $('#cadastroIE');
-    const btnEmpresa = $('#cadastroEmpresa');
     const progress = $('.progress-bar');
 
     let tipoPessoa = null;
-    let etapaAtual = 1;
+    let etapaAtual = 0;
 
-    function aumetarBarraStatus(porc) {
-        $(progress).width(porc);
-        $(progress).text(porc);
+    function aumentarBarraStatus(porc) {
+        progress.width(porc);
+        progress.text(porc);
     }
 
-    $(btnEstagiario).click(function (e) {
-        $(main).empty();
-        $(main).load('public/pages/cadastro/estagiario/nomePessoa.php');
+    // Função para carregar o conteúdo de um arquivo PHP
+    function carregarConteudo(arquivo) {
+        main.empty();
+        main.load(arquivo);
+    }
+
+    // Delegação de eventos para botões de avanço e voltar
+    main.on('click', '.btnProximo', function (e) {
+        e.preventDefault();
+        carregarProximaEtapa();
+    });
+
+    main.on('click', '.btnVoltar', function (e) {
+        e.preventDefault();
+
+        if (etapaAtual <= 1) {
+            let etapaAnteriorArquivo = 'public/pages/cadastro/tipoPessoa.php';
+            carregarConteudo(etapaAnteriorArquivo);
+            let progressoAnterior = '0%';
+            aumentarBarraStatus(progressoAnterior);
+            etapaAtual--;
+        } else {
+            let etapaAnteriorArquivo = `public/pages/cadastro/${tipoPessoa}/etapa${etapaAtual - 1}.php`;
+            carregarConteudo(etapaAnteriorArquivo);
+            let progressoAnterior = '0%';
+            aumentarBarraStatus(progressoAnterior);
+            etapaAtual--;
+        }
+    });
+
+    // Delegação de eventos para seleção do tipo de cadastro
+    main.on('click', '#cadastroEstagiario', function (e) {
+        e.preventDefault();
+        carregarConteudo('public/pages/cadastro/estagiario/etapa1.php');
         tipoPessoa = 'estagiario';
-        aumetarBarraStatus('20%');
-        etapaAtual = 2;
+        aumentarBarraStatus('20%');
+        etapaAtual = 1;
     });
 
-    $(btnIE).click(function (e) {
+    main.on('click', '#cadastroIE', function (e) {
+        e.preventDefault();
+        carregarConteudo('public/pages/cadastro/ie/etapa1.php');
         tipoPessoa = 'ensino';
-        $(main).empty();
-        $(main).load('public/pages/cadastro/ie/nomeIe.php');
-        aumetarBarraStatus('20%');
-        etapaAtual = 2;
+        aumentarBarraStatus('20%');
+        etapaAtual = 1;
     });
 
-    $(btnEmpresa).click(function (e) {
+    main.on('click', '#cadastroEmpresa', function (e) {
+        e.preventDefault();
+        carregarConteudo('public/pages/cadastro/empresa/etapa1.php');
         tipoPessoa = 'empresa';
-        $(main).empty();
-        $(main).load('public/pages/cadastro/empresa/nomeEmpresa.php');
-        aumetarBarraStatus('20%');
-        etapaAtual = 2;
+        aumentarBarraStatus('20%');
+        etapaAtual = 1;
     });
 
+    // Função para carregar a próxima etapa do formulário
+    function carregarProximaEtapa() {
+        let proximaEtapaArquivo = `public/pages/cadastro/${tipoPessoa}/etapa${etapaAtual + 1}.php`;
+        carregarConteudo(proximaEtapaArquivo);
+        aumentarBarraStatus((etapaAtual + 1) * 20 + '%');
+        etapaAtual++;
+    }
 });

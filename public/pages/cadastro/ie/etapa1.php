@@ -7,4 +7,7 @@
     </div>
 </div>
 </div>
-<button type="button" class="btn btn-success btnProximo btn-lg w-50">PRÓXIMO</button>
+<div class="botoesAvanco">
+    <button type="button" class="btn btn-warning btnVoltar  btn btn-lg w-50">VOLTAR</button>
+    <button type="button" class="btn btn-success btnProximo btn btn-lg w-50">PRÓXIMO</button>
+</div>
