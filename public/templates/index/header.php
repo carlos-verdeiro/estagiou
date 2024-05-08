@@ -31,7 +31,7 @@
                         <button class="btn nav-link"id="toastLoginBtn">Entrar</button>
                     </li>
                     <li class="nav-item center-h">
-                        <a type="button" class="btn btn-success" aria-current="page" id="btnCadastro">Realizar Cadastro</a>
+                        <a type="button" class="btn btn-success" aria-current="page" id="btnCadastro" href="public/cadastro/cadastro.php">Realizar Cadastro</a>
                     </li>
                 </ul>
             </div>
