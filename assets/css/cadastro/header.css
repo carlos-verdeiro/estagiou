@@ -4,7 +4,7 @@ header {
     height: auto;
 
     & nav {
-        min-height: 12vh;
+        min-height: 15vh;
         background-color: var(--color-custom-1);
 
         & div {

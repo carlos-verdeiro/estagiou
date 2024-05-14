@@ -7,6 +7,29 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
     $status = $_SESSION["status"];
     $tipoUsuario = $_SESSION["tipoUsuario"];
     $etapa = $_SESSION["etapa"];
+
+    if (isset($_POST['continuarCadastro'])) {
+        switch ($tipoUsuario) {
+            case 'empresa':
+                header("location: empresa/etapa$etapa.php");
+                die; //Nada é executado depois
+                break; //Sai do switch por precaução
+            case 'estagiario':
+                header("location: estagiario/etapa$etapa.php");
+                die; //Nada é executado depois
+                break; //Sai do switch por precaução
+            case 'ie':
+                header("location: ie/etapa$etapa.php");
+                die; //Nada é executado depois
+                break; //Sai do switch por precaução
+
+            default:
+                $status = "iniciado";
+                $tipoUsuario = NULL;
+                $etapa = 0;
+                break;
+        }
+    }
 } else {
     $status = "iniciado";
     $tipoUsuario = NULL;
@@ -50,27 +73,18 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
     include_once "../templates/cadastro/header.php";
     //---------HEADER---------
 
-    //////////////////////////////////////////////////////////////////////////////MANIPULAR O QUE VAI APARECER NO MEIO DA TELA//////////////////////////////////////////////////////////////////////////////
     ?>
     <section id="sectionCadastro">
         <div class="divCadastro" id="cadastro">
             <form class="formComponent p-4">
-                <div class="progress w-75" role="progressbar" aria-label="Example with label" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" style="width: 0%">0%</div>
-                </div>
-                <span class="spanPreencha">*Preencha com atenção*</span>
-                <div class="divInputs d-flex flex-wrap w-100">
-                    <h2 class="h2">Se inscrever como</h2>
-                    <form action="cadastro.php" method="post">
-                        <button class="btn btn-dark botoesCadastro" id="cadastroEstagiario">Estagiário</button>
-                        <button class="btn btn-warning botoesCadastro" id="cadastroIE">Instituição de ensino</button>
-                        <button class="btn btn-info botoesCadastro" id="cadastroEmpresa">Empresa</button>
-                    </form>
-                </div>
+                <?php
+
+                include_once("../templates/cadastro/selecao.php");
+
+                ?>
             </form>
         </div>
     </section>
-    <script src="../../assets/js/cadastro/cadastro.js"></script>
 </body>
 
 </html>
