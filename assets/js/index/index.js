@@ -9,7 +9,6 @@ $(document).ready(function () {
     const btnIndex = $('#btnIndex');
     const btnObjetivos = $('#btnObjetivos');
     const btnSuporte = $('#btnSuporte');
-    const btnCadastro = $('#btnCadastro');
 
     const banner = $('#sectionBanner');
 

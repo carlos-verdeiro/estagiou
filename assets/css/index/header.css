@@ -47,7 +47,7 @@ header {
     }
 
     .active {
-        color: rgb(0, 0, 0) !important;
+        color: var(--color-custom-2) !important;
         font-weight: 600 !important;
     }
 
@@ -56,6 +56,7 @@ header {
 
         & .nav-link {
             font-size: 20px !important;
+            color: var(--color-white);
         }
     }
 

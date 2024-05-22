@@ -13,15 +13,12 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
             case 'empresa':
                 header("location: empresa/etapa$etapa.php");
                 die; //Nada é executado depois
-                break; //Sai do switch por precaução
             case 'estagiario':
                 header("location: estagiario/etapa$etapa.php");
                 die; //Nada é executado depois
-                break; //Sai do switch por precaução
             case 'ie':
                 header("location: ie/etapa$etapa.php");
                 die; //Nada é executado depois
-                break; //Sai do switch por precaução
 
             default:
                 $status = "iniciado";
