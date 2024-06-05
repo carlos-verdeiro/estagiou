@@ -1,24 +1,5 @@
-@import url(../colors.css);
-@import url(headerIndex.css);
-
-body{
-    background-color: var(--color-custom-2);
-}
-
-/*SCROLL EDIÇÃO*/
-body::-webkit-scrollbar {
-    width: 12px;
-}
-
-body::-webkit-scrollbar-track {
-    background: var(--color-custom-2);
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: var(--color-custom-1);
-    border-radius: 20px;
-    border: 3px solid var(--color-custom-2);
-}
+@import url(header.css);
+@import url(../custom.css);
 
 #sectionBanner {
     background-color: var(--color-custom-2);

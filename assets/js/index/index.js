@@ -9,7 +9,6 @@ $(document).ready(function () {
     const btnIndex = $('#btnIndex');
     const btnObjetivos = $('#btnObjetivos');
     const btnSuporte = $('#btnSuporte');
-    const btnCadastro = $('#btnCadastro');
 
     const banner = $('#sectionBanner');
 
@@ -115,19 +114,6 @@ $(document).ready(function () {
             main.animate({ width: 'toggle' }, function () {
                 main.empty();
                 main.load("public/pages/entrar.php", function () {
-                    main.animate({ width: 'toggle' });
-                });
-            });
-        }
-    });
-
-    btnCadastro.on("click", function () {
-        if (!$(this).hasClass('active')) {
-            $('.nav-link').removeClass('active');
-            banner.animate({ width: 'toggle' });
-            main.animate({ width: 'toggle' }, function () {
-                main.empty();
-                main.load("public/pages/cadastro.php", function () {
                     main.animate({ width: 'toggle' });
                 });
             });

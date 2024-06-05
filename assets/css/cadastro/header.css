@@ -46,6 +46,11 @@ header {
 
     }
 
+#tituloCadastro{
+    color: var(--color-white) !important;
+
+}
+
     .active {
         color: rgb(0, 0, 0) !important;
         font-weight: 600 !important;
@@ -56,6 +61,8 @@ header {
 
         & .nav-link {
             font-size: 20px !important;
+            color: var(--color-white) !important;
+
         }
     }
 
