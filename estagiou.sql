@@ -1,12 +1,11 @@
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
     nome_completo VARCHAR(100) NOT NULL,
     estado_civil VARCHAR(50) NOT NULL,
     cpf VARCHAR(11) NOT NULL UNIQUE,
-    rg VARCHAR(20) NOT NULL UNIQUE,
+    rg VARCHAR(20) NOT NULL,
     rg_org_emissor VARCHAR(50) NOT NULL,
     data_nascimento DATE NOT NULL,
     telefone VARCHAR(20),

@@ -39,7 +39,7 @@
     </nav>
 
     <!--   TOAST DE LOGIN    -->
-    <div class="toast-container position-fixed p-3" id="toastLogin" data-bs-theme="dark">
+    <div class="toast-container position-fixed p-3" id="toastLogin" data-bs-theme="light">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
             <div class="toast-header">
                 <img src="assets/img/logo/logo_transparente.png" class="rounded me-2" alt="Mini logo">
