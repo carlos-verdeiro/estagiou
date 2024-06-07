@@ -1,9 +1,15 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (!isset($_POST['cpf'])) {
+    if (!isset($_POST['cpf']) && !is_numeric($_POST['cpf'])) {
         http_response_code(400);
-        echo json_encode(['mensagem' => 'Parâmetros inválidos.', 'dados' => $_POST]);
+        echo json_encode(['mensagem' => 'Parametros invalidos. TYPE', 'code' => 0]);
+        exit;
+    }
+
+    if (strlen($_POST['cpf']) != 11) {
+        http_response_code(400);
+        echo json_encode(['mensagem' => 'Parametros invalidos. NUM', 'code' => 1]);
         exit;
     }
 
@@ -13,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($mysqli->connect_error) {
         http_response_code(500);
-        echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.']);
+        echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
         exit;
     }
 
@@ -24,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->fetch();
 
     if ($count > 0) {
-        $mensagem = "CPF indisponível.";
+        $mensagem = false;//CPF indisponível
     } else {
-        $mensagem = "CPF disponível.";
+        $mensagem = true;//CPF disponível
     }
 
     $stmt->close();

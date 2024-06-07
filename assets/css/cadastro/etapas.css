@@ -33,7 +33,7 @@
             min-height: 300px;
         }
         & .form-floating {
-
+            
             & label {
                 margin-left: 10px;
                 width: max-content;

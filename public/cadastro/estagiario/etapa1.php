@@ -43,28 +43,28 @@
                 <div class="form-floating m-1 row"><!--CPF-->
                     <input type="text" id="cpf" class="form-control w-100" placeholder="CPF" aria-label="CPF" name="cpf" required>
                     <label for="cpf">CPF</label>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="feedback-cpf">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--NOME-->
                     <input type="text" id="nome" class="form-control w-100" placeholder="Nome" aria-label="Nome" name="nome" required>
                     <label for="nome">Nome</label>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="feedback-nome">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--SOBRENOME-->
-                    <input type="text" id="sobrenome" class="form-control w-100" placeholder="Sobrenome" aria-label="Sobrenome" name="sobrenome" required>
+                    <input type="text" id="sobrenome" class="form-control w-100" placeholder="Sobrenome" aria-label="Sobrenome" name="sobrenome">
                     <label for="sobrenome">Sobrenome</label>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="feedback-sobrenome">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--EMAIL-->
                     <input type="email" id="email" class="form-control w-100" placeholder="Email" aria-label="Email" name="email" required>
                     <label for="email">E-mail</label>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="feedback-email">
                         Preencha corretamente!
                     </div>
                 </div>
