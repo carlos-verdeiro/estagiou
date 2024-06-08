@@ -16,9 +16,10 @@
     <script src="assets/js/bootstrap.js"></script>
     <!--FIM BOOTSTRAP-->
 
-    <!--JQUERY-->
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+        <!--JQUERY-->
+    <script src="assets/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.mask.js"></script><!--PLUGIN JQUERY MASK-->
+
     <!--FIM JQUERY-->
 
 
