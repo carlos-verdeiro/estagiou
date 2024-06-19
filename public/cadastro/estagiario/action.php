@@ -24,12 +24,29 @@
 session_start();
 
 // Gere um token de sessão se ele ainda não existir
-if (!isset($_SESSION['token'])) {
-  $_SESSION['token'] = bin2hex(random_bytes(32)); // Gera um token aleatório seguro
+if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "finalizado") {
+  session_destroy();
+  session_start();
+  $_SESSION['statusCadastro'] = "andamento";
+  $_SESSION['etapaCadastro'] = 1;
+  header("location: etapa1.php");
+  exit;
+} else if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andamento") {
+
+  if (isset($_SESSION['etapaCadastro']) && $_SESSION['etapaCadastro'] != NULL) {
+
+    header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+    exit;
+  }
+
+} else {
+  $_SESSION['statusCadastro'] = "andamento";
+  $_SESSION['etapaCadastro'] = 1;
+  header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+  exit;
 }
 
-$token = $_SESSION['token'];
 
-header("location: etapa1.php");
+header("location: ../cadastro.php");
 
 ?>
