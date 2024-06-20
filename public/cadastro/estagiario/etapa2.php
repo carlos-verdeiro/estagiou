@@ -72,13 +72,6 @@ if (isset($_POST['cpf']) && $_POST['cpf'] != NULL && isset($_POST['nome']) && $_
 
     $estadoCivil = (isset($_SESSION["estadoCivilEstagiario"]) && $_SESSION["estadoCivilEstagiario"] != NULL) ? $_SESSION["estadoCivilEstagiario"] : NULL;
 
-    $nacionalidade = (isset($_SESSION["nacionalidadeEstagiario"]) && $_SESSION["nacionalidadeEstagiario"] != NULL) ? $_SESSION["nacionalidadeEstagiario"] : NULL;
-
-    $dataNascimento = (isset($_SESSION["dataNascimentoEstagiario"]) && $_SESSION["dataNascimentoEstagiario"] != NULL) ? $_SESSION["dataNascimentoEstagiario"] : NULL;
-
-    $dependentes = (isset($_SESSION["dependentesEstagiario"]) && $_SESSION["dependentesEstagiario"] != NULL) ? $_SESSION["dependentesEstagiario"] : NULL;
-
-    $cnh = (isset($_SESSION["cnhEstagiario"]) && $_SESSION["cnhEstagiario"] != NULL) ? $_SESSION["cnhEstagiario"] : NULL;
 
     ?>
 
@@ -156,7 +149,14 @@ if (isset($_POST['cpf']) && $_POST['cpf'] != NULL && isset($_POST['nome']) && $_
                         Preencha corretamente!
                     </div>
                 </div>
-<!--//hvdsavhiasuihfbaihfbdfbihubguhbyiugbghbiudgfbuidshgiyudshbgyidshgyusghuisui  ACABAR TODOS OS CAMPOS -->
+                <div class="form-floating m-1 row"><!--NOME SOCIAL-->
+                    <input type="text" id="nomeSocial" class="form-control w-100" placeholder="Nome Social" aria-label="Nome Social" name="nomeSocial"
+                        value="<?php echo $nomeSocial; ?>" required>
+                    <label for="nomeSocial">Nome Social</label>
+                    <div class="invalid-feedback" id="feedback-rg">
+                        Preencha corretamente!
+                    </div>
+                </div>
                 <div class="form-floating m-1 row"><!--ESTADO CIVIL-->
                     <select id="estadoCivil" class="form-select w-100" placeholder="Estado Civil"
                         aria-label="Estado Civil" name="estadoCivil" value="<?php echo $estadoCivil; ?>" required>

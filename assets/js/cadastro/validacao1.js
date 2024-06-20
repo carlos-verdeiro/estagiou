@@ -1,15 +1,20 @@
 $(document).ready(function () {
-    
+    //etapa 1
     const cpf = $("#cpf");
     const feedbackCPF = $("#feedback-cpf");
     const nome = $("#nome");
     const feedbackNome = $("#feedback-nome");
     const email = $("#email");
     const feedbackEmail = $("#feedback-email");
-
+    //etapa 2
+    const rg = $("#rg");
+    const feedbackRG = $("#feedback-rg");
 
     // Máscara para o CPF
     cpf.mask('000.000.000-00', { reverse: false });
+
+    // Máscara para o CPF
+    rg.mask('00.000.000-0', {reverse: true});
 
     function calculoCPF(strCPF) {
         var Soma;
@@ -138,11 +143,81 @@ $(document).ready(function () {
             email.removeClass('is-invalid').addClass('is-valid');
         }
     }
+
+    function validacaoRG() {
+
+        let rgVal = rg.val().replace(/\D/g, '');
+
+        if (!$.isNumeric(rgVal) ||rgVal.length !== 9) {
+            $(feedbackRG).text('Deve ter 9 dígitos *');
+            $(rg).removeClass('is-valid');
+            $(rg).addClass('is-invalid');
+        }else{
+            // Enviar o RG ao servidor
+            $.ajax({
+                type: "POST",
+                url: '/estagiou/api/validacao.php',
+                data: {
+                    rg: rgVal,
+                },
+                dataType: "json",
+                success: function (data) {
+                    // Exibir feedback ao usuário
+                    if (data.mensagem) {
+                        $(rg).removeClass('is-invalid');
+                        $(rg).addClass('is-valid');//RG Disponível
+                    } else {
+                        $(feedbackRG).text('RG já utilizado');
+                        $(rg).removeClass('is-valid');
+                        $(rg).addClass('is-invalid');//RG indisponível
+                    }
+                },
+                error: function (xhr) {
+                    // Tente fazer o parse da resposta JSON
+                    let response;
+                    try {
+                        response = JSON.parse(xhr.responseText);
+                    } catch (e) {
+                        console.error('Erro ao parsear a resposta JSON:', e);
+                        alert('Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.');
+                        return;
+                    }
+
+                    // Verifique o código de erro e tome as ações apropriadas
+                    if (response.code == 1) { // erro de caractere insuficiente
+                        $(feedbackRG).text('Preencha corretamente');
+                        $(rg).removeClass('is-valid');
+                        $(rg).addClass('is-invalid'); // RG indisponível
+                    } else if (response.code == 2) { // erro de banco de dados
+                        $(rg).removeClass('is-valid');
+                        $(rg).removeClass('is-invalid');
+                        alert('Ocorreu um erro, por favor tente novamente mais tarde.');
+                        console.log('Erro de conexão com o banco de dados');
+                    } else {
+                        // Tratamento para outros códigos de erro não especificados
+                        $(rg).removeClass('is-valid');
+                        $(rg).removeClass('is-invalid');
+                        alert('Ocorreu um erro não identificado. Por favor, tente novamente mais tarde.');
+                        console.log('Erro desconhecido:', response);
+                    }
+                }
+
+
+
+            })
+                .always(function () {
+                    // Sempre executado após done ou fail
+                    console.log('AJAX requisição completa.');
+                });
+        }
+
+    }
     
 
     // Chamar as funções ao clicar fora dos campos
     cpf.on("blur", validacaoCPF);
     nome.on("blur", validacaoNome);
     email.on("blur", validacaoEmail);
+    rg.on("blur", validacaoRG);
 
 });
