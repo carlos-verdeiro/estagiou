@@ -25,7 +25,7 @@ if (
     $_SESSION['etapaCadastro'] = 3;
     header("Location: etapa" . $_SESSION['etapaCadastro'] . ".php");
     exit;
-}else{
+} else {
     $_SESSION['etapaCadastro'] = 2;
 }
 
@@ -80,7 +80,6 @@ if (
     function pegarSessao($key)
     {
         return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
-        echo "oi";
     }
 
     $rg = pegarSessao(RG_KEY);
@@ -106,8 +105,15 @@ if (
                 </div>
                 <div class="m-1 row">
                     <div class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
-                        <input type="text" id="orgaoEmissor" class="form-control w-100" placeholder="Órgão Emissor" aria-label="Órgão Emissor" name="orgaoEmissor" value="<?php echo $orgaoEmissor; ?>" maxlength="10" required>
+                        <input type="text" id="orgaoEmissor" list="orgaos" class="form-control w-100" placeholder="Órgão Emissor" aria-label="Órgão Emissor" name="orgaoEmissor" value="<?php echo $orgaoEmissor; ?>" maxlength="10" required>
                         <label for="orgaoEmissor">Órgão Emissor *</label>
+                        <datalist id="orgaos">
+                            <option value="SSP">Secretaria de Segurança Pública</option>
+                            <option value="PC">Polícia Civil</option>
+                            <option value="IIF">Instituto de Identificação Forense</option>
+                            <option value="PAC">Postos de Atendimento ao Cidadão</option>
+
+                        </datalist>
                         <div class="invalid-feedback" id="feedback-orgaoEmissor">
                             Preencha corretamente!
                         </div>
