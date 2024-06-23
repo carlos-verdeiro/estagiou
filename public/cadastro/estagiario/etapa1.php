@@ -4,32 +4,28 @@ session_start();
 function validaEmail($email)
 {
     $conta = "/^[a-zA-Z0-9\._-]+@";
-    $domino = "[a-zA-Z0-9\._-]+.";
+    $dominio = "[a-zA-Z0-9\._-]+.";
     $extensao = "([a-zA-Z]{2,4})$/";
-    $pattern = $conta . $domino . $extensao;
-    if (preg_match($pattern, $email, $check))
-        return true;
-    else
-        return false;
+    $pattern = $conta . $dominio . $extensao;
+    return preg_match($pattern, $email);
 }
 
 function validaCPF($cpf)
 {
-
     // Extrai somente os números
     $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
-    // Verifica se foi informado todos os digitos corretamente
+    // Verifica se foi informado todos os dígitos corretamente
     if (strlen($cpf) != 11) {
         return false;
     }
 
-    // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+    // Verifica se foi informada uma sequência de dígitos repetidos. Ex: 111.111.111-11
     if (preg_match('/(\d)\1{10}/', $cpf)) {
         return false;
     }
 
-    // Faz o calculo para validar o CPF
+    // Faz o cálculo para validar o CPF
     for ($t = 9; $t < 11; $t++) {
         for ($d = 0, $c = 0; $c < $t; $c++) {
             $d += $cpf[$c] * (($t + 1) - $c);
@@ -40,32 +36,36 @@ function validaCPF($cpf)
         }
     }
     return true;
-
 }
 
+if (
+    isset($_POST['cpf']) && !empty($_POST['cpf']) &&
+    isset($_POST['nome']) && !empty($_POST['nome']) &&
+    isset($_POST['sobrenome']) && !empty($_POST['sobrenome']) &&
+    isset($_POST['email']) && !empty($_POST['email'])
+) {
+    $cpf = htmlspecialchars($_POST['cpf'], ENT_QUOTES, 'UTF-8');
+    $nome = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
+    $sobrenome = htmlspecialchars($_POST['sobrenome'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
 
-
-if (isset($_POST['cpf']) && $_POST['cpf'] != NULL && isset($_POST['nome']) && $_POST['nome'] != NULL && isset($_POST['sobrenome']) && isset($_POST['email']) && $_POST['email'] != NULL) {
-
-    if (validaEmail($_POST['email']) && validaCPF($_POST['cpf'])) {
-        $_SESSION["cpfEstagiario"] = $_POST['cpf'];
-        $_SESSION["nomeEstagiario"] = $_POST['nome'];
-        $_SESSION["sobrenomeEstagiario"] = $_POST['sobrenome'];
-        $_SESSION["emailEstagiario"] = $_POST['email'];
+    if (validaEmail($email) && validaCPF($cpf)) {
+        $_SESSION["cpfEstagiario"] = $cpf;
+        $_SESSION["nomeEstagiario"] = $nome;
+        $_SESSION["sobrenomeEstagiario"] = $sobrenome;
+        $_SESSION["emailEstagiario"] = $email;
         $_SESSION['statusCadastro'] = "andamento";
         $_SESSION['etapaCadastro'] = 2;
-        header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+        header("Location: etapa" . $_SESSION['etapaCadastro'] . ".php");
         exit;
     } else {
         $_SESSION['etapaCadastro'] = 1;
     }
-
-
 } else {
     $_SESSION['etapaCadastro'] = 1;
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-be">
@@ -102,40 +102,51 @@ if (isset($_POST['cpf']) && $_POST['cpf'] != NULL && isset($_POST['nome']) && $_
     include_once "../../templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
-    $cpf = (isset($_SESSION["cpfEstagiario"]) && $_SESSION["cpfEstagiario"] != NULL) ? $_SESSION["cpfEstagiario"] : NULL ;
-    $nome = (isset($_SESSION["nomeEstagiario"]) && $_SESSION["nomeEstagiario"] != NULL) ? $_SESSION["nomeEstagiario"] : NULL ;
-    $sobrenome = (isset($_SESSION["sobrenomeEstagiario"]) && $_SESSION["sobrenomeEstagiario"] != NULL) ? $_SESSION["sobrenomeEstagiario"] : NULL ;
-    $email = (isset($_SESSION["emailEstagiario"]) && $_SESSION["emailEstagiario"] != NULL) ? $_SESSION["emailEstagiario"] : NULL ;
+    define('CPF_KEY', 'cpfEstagiario');
+    define('NOME_KEY', 'nomeEstagiario');
+    define('SOBRENOME_KEY', 'sobrenomeEstagiario');
+    define('EMAIL_KEY', 'emailEstagiario');
 
+    // Função para obter valor da sessão
+    function pegarSessao($key)
+    {
+        return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
+    }
+
+    $cpf = pegarSessao(CPF_KEY);
+    $nome = pegarSessao(NOME_KEY);
+    $sobrenome = pegarSessao(SOBRENOME_KEY);
+    $email = pegarSessao(EMAIL_KEY);
     ?>
+
     <section id="cadastro">
-        <form class="formComponent row" method="post">
+        <form class="formComponent row" method="post" id="formEtapa1" novalidate>
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs">
                 <div class="form-floating m-1 row"><!--CPF-->
-                    <input type="text" id="cpf" class="form-control w-100" placeholder="CPF" aria-label="CPF" name="cpf" value="<?php echo $cpf;?>" required>
-                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" class="form-control w-100" placeholder="CPF" aria-label="CPF" name="cpf" value="<?php echo $cpf; ?>" required>
+                    <label for="cpf">CPF *</label>
                     <div class="invalid-feedback" id="feedback-cpf">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--NOME-->
-                    <input type="text" id="nome" class="form-control w-100" placeholder="Nome" aria-label="Nome" name="nome" value="<?php echo $nome;?>" required>
-                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" class="form-control w-100" placeholder="Nome" aria-label="Nome" name="nome" value="<?php echo $nome; ?>" maxlength="50" required>
+                    <label for="nome">Nome *</label>
                     <div class="invalid-feedback" id="feedback-nome">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--SOBRENOME-->
-                    <input type="text" id="sobrenome" class="form-control w-100" placeholder="Sobrenome" aria-label="Sobrenome" value="<?php echo $sobrenome;?>" name="sobrenome">
+                    <input type="text" id="sobrenome" class="form-control w-100" placeholder="Sobrenome" aria-label="Sobrenome" value="<?php echo $sobrenome; ?>" maxlength="50" name="sobrenome">
                     <label for="sobrenome">Sobrenome</label>
                     <div class="invalid-feedback" id="feedback-sobrenome">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--EMAIL-->
-                    <input type="email" id="email" class="form-control w-100" placeholder="Email" aria-label="Email" name="email" value="<?php echo $email;?>" required>
-                    <label for="email">E-mail</label>
+                    <input type="email" id="email" class="form-control w-100" placeholder="Email" aria-label="Email" name="email" value="<?php echo $email; ?>" required>
+                    <label for="email">E-mail *</label>
                     <div class="invalid-feedback" id="feedback-email">
                         Preencha corretamente!
                     </div>
