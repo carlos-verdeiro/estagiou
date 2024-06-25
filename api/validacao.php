@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM usuarios WHERE cpf = ?");
+        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM estagiario WHERE cpf = ?");
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->bind_result($count);
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM usuarios WHERE rg = ?");
+        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM estagiario WHERE rg = ?");
         $stmt->bind_param("s", $rg);
         $stmt->execute();
         $stmt->bind_result($count);
