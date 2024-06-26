@@ -3,15 +3,16 @@ session_start();
 
 
 if (
-    isset($_POST['rg']) && !empty($_POST['rg']) &&
-    isset($_POST['orgaoEmissor']) && !empty($_POST['orgaoEmissor']) &&
-    isset($_POST['estadoEmissor']) && $_POST['estadoEmissor'] != 'NA' &&
-    isset($_POST['genero']) && $_POST['genero'] != 'NA' &&
-    isset($_POST['estadoCivil']) && $_POST['estadoCivil'] != 'NA'
+    isset($_POST['dataNascimento']) && !empty($_POST['dataNascimento']) &&
+    isset($_POST['nacionalidade']) && !empty($_POST['nacionalidade']) &&
+    isset($_POST['celular']) && !empty($_POST['celular']) &&
+    isset($_POST['cnhSem']) || isset($_POST['cnh']) &&
+    isset($_POST['dependentes']) && !empty($_POST['dependentes']) || isset($_POST['semDependentes'])
+
 ) {
-    $_SESSION["rgEstagiario"] = htmlspecialchars($_POST['rg'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["orgaoEmissorEstagiario"] = htmlspecialchars($_POST['orgaoEmissor'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["estadoEmissorEstagiario"] = htmlspecialchars($_POST['estadoEmissor'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["dataNascimentoEstagiario"] = htmlspecialchars($_POST['dataNascimento'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["nacionalidadeEstagiario"] = htmlspecialchars($_POST['nacionalidade'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["celularEstagiario"] = htmlspecialchars($_POST['celular'], ENT_QUOTES, 'UTF-8');
     $_SESSION["generoEstagiario"] = htmlspecialchars($_POST['genero'], ENT_QUOTES, 'UTF-8');
 
     if (isset($_POST['nomeSocial']) && !empty($_POST['nomeSocial'])) {
@@ -84,11 +85,10 @@ if (
 
     $dataNascimento = pegarSessao(DATA_NASCIMENTO_KEY);
     $nacionalidade = pegarSessao(NACIONALIDADE_KEY);
-    $cnh = pegarSessao(CNH_KEY);
-    $dependentes = pegarSessao(DEPENDENTES_KEY);
     $celular = pegarSessao(CELULAR_KEY);
     $telefone = pegarSessao(TELEFONE_KEY);
-
+    $cnh = pegarSessao(CNH_KEY);
+    $dependentes = pegarSessao(DEPENDENTES_KEY);
 
     ?>
 
@@ -134,8 +134,8 @@ if (
                         </div>
                     </div>
                     <div class="form-floating col p-0 md-1"><!--TELEFONE-->
-                        <input type="text" id="telefone" class="form-control w-100" placeholder="Telefone" aria-label="Telefone" name="telefone" value="<?php echo $telefone; ?>" required>
-                        <label for="telefone">Telefone *</label>
+                        <input type="text" id="telefone" class="form-control w-100" placeholder="Telefone" aria-label="Telefone" name="telefone" value="<?php echo $telefone; ?>">
+                        <label for="telefone">Telefone</label>
                         <div class="invalid-feedback" id="feedback-telefone">
                             Preencha corretamente!
                         </div>
@@ -179,7 +179,7 @@ if (
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="semCNH" id="cnhSem" name="cnhNaoPossui">
+                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem">
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>
@@ -194,7 +194,7 @@ if (
                             Preencha corretamente!
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="semDependentes" name="semDependentes">
+                            <input class="form-check-input" type="checkbox" value="semDependentes" id="semDependentes" name="semDependentes">
                             <label class="form-check-label" for="semDependentes">
                                 Sem dependentes
                             </label>
