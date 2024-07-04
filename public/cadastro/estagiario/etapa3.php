@@ -13,15 +13,28 @@ if (
     $_SESSION["dataNascimentoEstagiario"] = htmlspecialchars($_POST['dataNascimento'], ENT_QUOTES, 'UTF-8');
     $_SESSION["nacionalidadeEstagiario"] = htmlspecialchars($_POST['nacionalidade'], ENT_QUOTES, 'UTF-8');
     $_SESSION["celularEstagiario"] = htmlspecialchars($_POST['celular'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["generoEstagiario"] = htmlspecialchars($_POST['genero'], ENT_QUOTES, 'UTF-8');
-
-    if (isset($_POST['nomeSocial']) && !empty($_POST['nomeSocial'])) {
-        $_SESSION["nomeSocialEstagiario"] = htmlspecialchars($_POST['nomeSocial'], ENT_QUOTES, 'UTF-8');
-    } else {
-        $_SESSION["nomeSocialEstagiario"] = '';
+    if (isset($_POST['telefone']) && $_POST['telefone'] != NULL) {
+        $_SESSION["telefoneEstagiario"] = htmlspecialchars($_POST['telefone'], ENT_QUOTES, 'UTF-8');
+    }
+    if (isset($_POST['cnhSem'])) {
+        $_SESSION["cnhEstagiario"] = NULL;
+    } else if (isset($_POST['cnh'])) {
+        $cnhzin = '';
+        for ($i = 0; $i < count($_POST['cnh']); $i++) {
+            $cnhzin .= $_POST['cnh'][$i];
+        }
+        $_SESSION["cnhEstagiario"] = htmlspecialchars($cnhzin, ENT_QUOTES, 'UTF-8');
+    }else {
+        $_SESSION["cnhEstagiario"] = NULL;
     }
 
-    $_SESSION["estadoCivilEstagiario"] = htmlspecialchars($_POST['estadoCivil'], ENT_QUOTES, 'UTF-8');
+
+    if (isset($_POST['dependentes']) && $_POST['dependentes'] != NULL && is_numeric($_POST['dependentes'])) {
+        $_SESSION["dependentesEstagiario"] = htmlspecialchars($_POST['dependentes'], ENT_QUOTES, 'UTF-8');
+    }else{
+        $_SESSION["dependentesEstagiario"] = 0;
+    }
+
     $_SESSION['statusCadastro'] = "andamento";
     $_SESSION['etapaCadastro'] = 4;
     header("Location: etapa" . $_SESSION['etapaCadastro'] . ".php");
@@ -35,7 +48,7 @@ if (
 
 
 <!DOCTYPE html>
-<html lang="pt-be">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -72,10 +85,11 @@ if (
     // Definindo constantes para as chaves da sessão
     define('DATA_NASCIMENTO_KEY', 'dataNascimentoEstagiario');
     define('NACIONALIDADE_KEY', 'nacionalidadeEstagiario');
-    define('CNH_KEY', 'cnhEstagiario');
-    define('DEPENDENTES_KEY', 'dependentesEstagiario');
     define('CELULAR_KEY', 'celularEstagiario');
     define('TELEFONE_KEY', 'telefoneEstagiario');
+    define('CNH_KEY', 'cnhEstagiario');
+    define('DEPENDENTES_KEY', 'dependentesEstagiario');
+
 
     // Função para obter valor da sessão
     function pegarSessao($key)
@@ -90,11 +104,12 @@ if (
     $cnh = pegarSessao(CNH_KEY);
     $dependentes = pegarSessao(DEPENDENTES_KEY);
 
+
     ?>
 
 
     <section id="cadastro">
-        <form class="formComponent row" method="post" id="formEtapa2">
+        <form class="formComponent row" method="post" id="formEtapa3">
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
                 <div class="m-1 row">
@@ -120,7 +135,7 @@ if (
                             <option value="Espanhola"></option>
                             <option value="Chinesa"></option>
                         </datalist>
-                        <div class="invalid-feedback" id="feedback-orgaoEmissor">
+                        <div class="invalid-feedback" id="feedback-nacionalidade">
                             Preencha corretamente!
                         </div>
                     </div>
@@ -147,19 +162,19 @@ if (
                         <div class=" m-1 form-floating row p-0 me-1">
                             <div class="form-floating col p-0 me-1">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="A" id="cnhA" name="cnh">
+                                    <input class="form-check-input" type="checkbox" value="A" id="cnhA" name="cnh[]" <?php echo $c = (in_array("A", str_split($cnh))) ? 'checked' : '' ;?>>
                                     <label class="form-check-label" for="cnhA">
                                         A
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="B" id="cnhB" name="cnh">
+                                    <input class="form-check-input" type="checkbox" value="B" id="cnhB" name="cnh[]" <?php echo $c = (in_array("B", str_split($cnh))) ? 'checked' : '' ;?>>
                                     <label class="form-check-label" for="cnhB">
                                         B
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="C" id="cnhC" name="cnh">
+                                    <input class="form-check-input" type="checkbox" value="C" id="cnhC" name="cnh[]" <?php echo $c = (in_array("C", str_split($cnh))) ? 'checked' : '' ;?>>
                                     <label class="form-check-label" for="cnhC">
                                         C
                                     </label>
@@ -167,19 +182,19 @@ if (
                             </div>
                             <div class="form-floating col p-0 me-1"><!--CNH-->
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="D" id="cnhD" name="cnh">
+                                    <input class="form-check-input" type="checkbox" value="D" id="cnhD" name="cnh[]" <?php echo $c = (in_array("D", str_split($cnh))) ? 'checked' : '' ;?>>
                                     <label class="form-check-label" for="cnhD">
                                         D
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="E" id="cnhE" name="cnh">
+                                    <input class="form-check-input" type="checkbox" value="E" id="cnhE" name="cnh[]" <?php echo $c = (in_array("E", str_split($cnh))) ? 'checked' : '' ;?>>
                                     <label class="form-check-label" for="cnhE">
                                         E
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem">
+                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = ($cnh === NULL) ? 'checked' : '' ;?>>
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>
@@ -193,19 +208,14 @@ if (
                         <div class="invalid-feedback" id="feedback-dependentes">
                             Preencha corretamente!
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="semDependentes" id="semDependentes" name="semDependentes">
-                            <label class="form-check-label" for="semDependentes">
-                                Sem dependentes
-                            </label>
-                        </div>
+                        <p class="text-secondary text-end">Digite 0 caso não haja!</p>
                     </div>
                 </div>
 
             </div>
 
             <div class="botoesAvanco row"><!--BOTÕES-->
-                <a href="etapa1.php" class="btn btn-warning btnVoltar col  m-1 btn btn-lg w-50">VOLTAR</a>
+                <a href="etapa2.php" class="btn btn-warning btnVoltar col  m-1 btn btn-lg w-50">VOLTAR</a>
                 <button type="submit" class="btn btn-success btnProximo col m-1 btn btn-lg w-50">PRÓXIMO</button>
             </div>
         </form>

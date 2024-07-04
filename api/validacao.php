@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
     //------RG------
-    if(isset($_POST['rg'])){
+    if (isset($_POST['rg'])) {
 
         if (!isset($_POST['rg']) && !is_numeric($_POST['rg'])) {
             http_response_code(400);
@@ -79,6 +79,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo json_encode(['mensagem' => $mensagem]);
         exit;
-
     }
 }

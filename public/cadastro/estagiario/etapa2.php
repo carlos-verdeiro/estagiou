@@ -34,7 +34,7 @@ if (
 
 
 <!DOCTYPE html>
-<html lang="pt-be">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">

@@ -1,7 +1,7 @@
 <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/ring.js"></script>
 <link rel="stylesheet" href="../../../assets/css/cadastro/action.css">
 <!DOCTYPE html>
-<html lang="pt-be">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">

@@ -17,6 +17,9 @@ $(document).ready(function () {
     const feedbackGenero = $("#feedback-genero");
     const estadoCivil = $("#estadoCivil");
     const feedbackEstadoCivil = $("#feedback-estadoCivil");
+    //etapa 3
+    const nacionalidade = $("#nacionalidade");
+    const feedbackNacionalidade = $("#feedback-nacionalidade");
 
 
     // Máscara para o CPF
@@ -122,21 +125,6 @@ $(document).ready(function () {
                 });
             }
         });
-    }
-
-    function validacaoNome() {
-        let valNome = $(nome).val();
-
-        if (valNome.length == 0) {
-            $(feedbackNome).text('Campo obrigatório *');
-            $(nome).removeClass('is-valid');
-            $(nome).addClass('is-invalid');
-            return false;
-        } else {
-            $(nome).removeClass('is-invalid');
-            $(nome).addClass('is-valid');
-            return true;
-        }
     }
 
     function validacaoEmail() {
@@ -255,14 +243,35 @@ $(document).ready(function () {
         }
     }
 
+    function validacaoVazio(element, feedbackElement) {
+        let valor = $(element).val().trim();
+
+        if (valor.length == 0) {
+            $(feedbackElement).text('Campo obrigatório *');
+            $(element).removeClass('is-valid');
+            $(element).addClass('is-invalid');
+            return false;
+        } else {
+            $(element).removeClass('is-invalid');
+            $(element).addClass('is-valid');
+            return true;
+        }
+    }
+
+
 
     // Chamar as funções ao clicar fora dos campos
     cpf.on("blur", validacaoCPF);
-    nome.on("blur", validacaoNome);
+
+    nome.on("blur", function () {
+        validacaoVazio(nome, feedbackNome);
+    });
+
     email.on("blur", validacaoEmail);
 
     rg.on("blur", validacaoRG);
     orgaoEmissor.on("blur", validacaoOrgaoEmissor);
+
     estadoEmissor.on("blur change", function () {
         validacaoSelect(estadoEmissor, feedbackEstadoEmissor);
     });
@@ -271,6 +280,10 @@ $(document).ready(function () {
     });
     estadoCivil.on("blur change", function () {
         validacaoSelect(estadoCivil, feedbackEstadoCivil);
+    });
+
+    nacionalidade.on("blur", function () {
+        validacaoVazio(nacionalidade, feedbackNacionalidade);
     });
 
     $('#formEtapa1').submit(async function (event) {
@@ -291,6 +304,20 @@ $(document).ready(function () {
 
 
     $('#formEtapa2').submit(function (event) {
+        // Evita o envio padrão do formulário
+        event.preventDefault();
+
+        // Realiza a validação do campo antes do envio
+        if (validacaoRG() && validacaoOrgaoEmissor() && validacaoSelect(estadoEmissor, feedbackEstadoEmissor) && validacaoSelect(genero, feedbackGenero) && validacaoSelect(estadoCivil, feedbackEstadoCivil)) {
+            // Se a validação for bem-sucedida, prossegue com o envio do formulário
+            this.submit();
+        } else {
+            // Se a validação falhar, exibe mensagem ou realiza ação necessária
+            console.log('Campos não preenchidos corretamente');
+        }
+    });
+
+    $('#formEtapa3').submit(function (event) {
         // Evita o envio padrão do formulário
         event.preventDefault();
 
