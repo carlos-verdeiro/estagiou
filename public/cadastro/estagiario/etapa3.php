@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 3) {
+    header("Location: action.php");
+}
+
 
 if (
     isset($_POST['dataNascimento']) && !empty($_POST['dataNascimento']) &&
@@ -10,6 +14,7 @@ if (
     isset($_POST['dependentes']) && !empty($_POST['dependentes']) || isset($_POST['semDependentes'])
 
 ) {
+
     $_SESSION["dataNascimentoEstagiario"] = htmlspecialchars($_POST['dataNascimento'], ENT_QUOTES, 'UTF-8');
     $_SESSION["nacionalidadeEstagiario"] = htmlspecialchars($_POST['nacionalidade'], ENT_QUOTES, 'UTF-8');
     $_SESSION["celularEstagiario"] = htmlspecialchars($_POST['celular'], ENT_QUOTES, 'UTF-8');
@@ -24,23 +29,21 @@ if (
             $cnhzin .= $_POST['cnh'][$i];
         }
         $_SESSION["cnhEstagiario"] = htmlspecialchars($cnhzin, ENT_QUOTES, 'UTF-8');
-    }else {
+    } else {
         $_SESSION["cnhEstagiario"] = NULL;
     }
 
 
     if (isset($_POST['dependentes']) && $_POST['dependentes'] != NULL && is_numeric($_POST['dependentes'])) {
         $_SESSION["dependentesEstagiario"] = htmlspecialchars($_POST['dependentes'], ENT_QUOTES, 'UTF-8');
-    }else{
+    } else {
         $_SESSION["dependentesEstagiario"] = 0;
     }
 
     $_SESSION['statusCadastro'] = "andamento";
     $_SESSION['etapaCadastro'] = 4;
-    header("Location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+    header("Location: etapa4.php");
     exit;
-} else {
-    $_SESSION['etapaCadastro'] = 3;
 }
 
 
@@ -142,14 +145,14 @@ if (
                 </div>
                 <div class="form-floating m-1 row">
                     <div class="form-floating col p-0 me-1"><!--CELULAR-->
-                        <input type="text" id="celular" class="form-control w-100" placeholder="Celular" aria-label="Celular" name="celular" value="<?php echo $celular; ?>" required>
+                        <input type="text" id="celular" class="form-control w-100" placeholder="Celular" aria-label="Celular" name="celular" value="<?php echo $celular; ?>" required maxlength="15">
                         <label for="celular">Celular *</label>
                         <div class="invalid-feedback" id="feedback-celular">
                             Preencha corretamente!
                         </div>
                     </div>
                     <div class="form-floating col p-0 md-1"><!--TELEFONE-->
-                        <input type="text" id="telefone" class="form-control w-100" placeholder="Telefone" aria-label="Telefone" name="telefone" value="<?php echo $telefone; ?>">
+                        <input type="text" id="telefone" class="form-control w-100" placeholder="Telefone" aria-label="Telefone" name="telefone" value="<?php echo $telefone; ?>" maxlength="14">
                         <label for="telefone">Telefone</label>
                         <div class="invalid-feedback" id="feedback-telefone">
                             Preencha corretamente!
@@ -162,19 +165,19 @@ if (
                         <div class=" m-1 form-floating row p-0 me-1">
                             <div class="form-floating col p-0 me-1">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="A" id="cnhA" name="cnh[]" <?php echo $c = (in_array("A", str_split($cnh))) ? 'checked' : '' ;?>>
+                                    <input class="form-check-input" type="checkbox" value="A" id="cnhA" name="cnh[]" <?php echo $c = (in_array("A", str_split($cnh))) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhA">
                                         A
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="B" id="cnhB" name="cnh[]" <?php echo $c = (in_array("B", str_split($cnh))) ? 'checked' : '' ;?>>
+                                    <input class="form-check-input" type="checkbox" value="B" id="cnhB" name="cnh[]" <?php echo $c = (in_array("B", str_split($cnh))) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhB">
                                         B
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="C" id="cnhC" name="cnh[]" <?php echo $c = (in_array("C", str_split($cnh))) ? 'checked' : '' ;?>>
+                                    <input class="form-check-input" type="checkbox" value="C" id="cnhC" name="cnh[]" <?php echo $c = (in_array("C", str_split($cnh))) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhC">
                                         C
                                     </label>
@@ -182,19 +185,19 @@ if (
                             </div>
                             <div class="form-floating col p-0 me-1"><!--CNH-->
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="D" id="cnhD" name="cnh[]" <?php echo $c = (in_array("D", str_split($cnh))) ? 'checked' : '' ;?>>
+                                    <input class="form-check-input" type="checkbox" value="D" id="cnhD" name="cnh[]" <?php echo $c = (in_array("D", str_split($cnh))) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhD">
                                         D
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="E" id="cnhE" name="cnh[]" <?php echo $c = (in_array("E", str_split($cnh))) ? 'checked' : '' ;?>>
+                                    <input class="form-check-input" type="checkbox" value="E" id="cnhE" name="cnh[]" <?php echo $c = (in_array("E", str_split($cnh))) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhE">
                                         E
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = ($cnh === NULL) ? 'checked' : '' ;?>>
+                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = ($cnh === NULL) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>

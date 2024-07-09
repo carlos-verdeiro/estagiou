@@ -40,6 +40,8 @@ if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "finali
   }
 
 } else {
+  session_destroy();
+  session_start();
   $_SESSION['statusCadastro'] = "andamento";
   $_SESSION['etapaCadastro'] = 1;
   header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");

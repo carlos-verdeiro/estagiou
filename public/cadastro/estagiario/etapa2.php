@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 2) {
+    header("Location: action.php");
+}
+
 
 if (
     isset($_POST['rg']) && !empty($_POST['rg']) &&
@@ -23,10 +27,8 @@ if (
     $_SESSION["estadoCivilEstagiario"] = htmlspecialchars($_POST['estadoCivil'], ENT_QUOTES, 'UTF-8');
     $_SESSION['statusCadastro'] = "andamento";
     $_SESSION['etapaCadastro'] = 3;
-    header("Location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+    header("Location: etapa3.php");
     exit;
-} else {
-    $_SESSION['etapaCadastro'] = 2;
 }
 
 

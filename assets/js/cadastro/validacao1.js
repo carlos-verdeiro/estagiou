@@ -20,7 +20,19 @@ $(document).ready(function () {
     //etapa 3
     const nacionalidade = $("#nacionalidade");
     const feedbackNacionalidade = $("#feedback-nacionalidade");
-
+    const celular = $("#celular");
+    const feedbackCelular = $("#feedback-celular");
+    const telefone = $("#telefone");
+    const feedbackTelefone = $("#feedback-telefone");
+    const dataNascimento = $("#dataNascimento");
+    const feedbackDataNascimento = $("#feedback-dataNascimento");
+    const dependentes = $("#dependentes");
+    const feedbackDependentes = $("#feedback-dependentes");
+    //etapa 4
+    const senha = $("#senha");
+    const feedbackSenha = $("#feedback-senha");
+    const confirmacaoSenha = $("#confirmacaoSenha");
+    const feedbackConfirmacaoSenha = $("#feedback-confirmacaoSenha");
 
     // Máscara para o CPF
     cpf.mask('000.000.000-00', { reverse: false });
@@ -38,6 +50,21 @@ $(document).ready(function () {
         }
     });
 
+    // Máscara para o Celular
+    celular.mask('(00) 00000-0000', { reverse: false });
+
+    // Máscara para o telefone
+    telefone.mask('(00) 0000-0000', { reverse: false });
+
+    //Bloqueia colagem na senha
+    senha.bind('cut copy paste', function(e) {
+        e.preventDefault();
+    }); 
+
+    //Bloqueia colagem na confirmação de senha
+    confirmacaoSenha.bind('cut copy paste', function(e) {
+        e.preventDefault();
+    }); 
 
     function calculoCPF(strCPF) {
         var Soma;
@@ -243,18 +270,111 @@ $(document).ready(function () {
         }
     }
 
-    function validacaoVazio(element, feedbackElement) {
+    function validacaoTamanho(element, feedbackElement, tipo, caracteres) {
         let valor = $(element).val().trim();
 
-        if (valor.length == 0) {
-            $(feedbackElement).text('Campo obrigatório *');
-            $(element).removeClass('is-valid');
-            $(element).addClass('is-invalid');
+        switch (tipo) {
+            case 'igual':
+                if (valor.length != caracteres) {
+                    $(feedbackElement).text('Campo obrigatório *');
+                    $(element).removeClass('is-valid');
+                    $(element).addClass('is-invalid');
+                    return false;
+                } else {
+                    $(element).removeClass('is-invalid');
+                    $(element).addClass('is-valid');
+                    return true;
+                }
+            case 'maximo':
+                if (valor.length >= caracteres) {
+                    $(feedbackElement).text('Campo Excedido *');
+                    $(element).removeClass('is-valid');
+                    $(element).addClass('is-invalid');
+                    return false;
+                } else {
+                    $(element).removeClass('is-invalid');
+                    $(element).addClass('is-valid');
+                    return true;
+                }
+            case 'minimo':
+                if (valor.length <= caracteres) {
+                    $(feedbackElement).text('Campo obrigatório *');
+                    $(element).removeClass('is-valid');
+                    $(element).addClass('is-invalid');
+                    return false;
+                } else {
+                    $(element).removeClass('is-invalid');
+                    $(element).addClass('is-valid');
+                    return true;
+                }
+
+            default:
+                break;
+        }
+
+
+    }
+
+    function validacaoSenha() {
+        let valor = senha.val();
+        if (valor.length < 8) {
+            feedbackSenha.text('Deve conter no mínimo 8 caracteres *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
             return false;
-        } else {
-            $(element).removeClass('is-invalid');
-            $(element).addClass('is-valid');
+        }
+
+        if (!/[A-Z]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos uma letra maiúscula *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[a-z]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos uma letra minúscula *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[0-9]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos um número *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos um caractere especial *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        senha.removeClass('is-invalid');
+        senha.addClass('is-valid');
+        return true;
+
+    }
+
+    function validacaoConfirmacaoSenha() {
+        if (!validacaoSenha()) {
+            feedbackConfirmacaoSenha.text('A senha não atende os requisitos *');
+            confirmacaoSenha.removeClass('is-valid');
+            confirmacaoSenha.addClass('is-invalid');
+            return false; 
+        }
+
+        if (senha.val() === confirmacaoSenha.val() ) {
+            confirmacaoSenha.addClass('is-valid');
+            confirmacaoSenha.removeClass('is-invalid');
             return true;
+        }else{
+            feedbackConfirmacaoSenha.text('As senhas são divergentes *');
+            confirmacaoSenha.removeClass('is-valid');
+            confirmacaoSenha.addClass('is-invalid');
+            return false;
         }
     }
 
@@ -264,27 +384,63 @@ $(document).ready(function () {
     cpf.on("blur", validacaoCPF);
 
     nome.on("blur", function () {
-        validacaoVazio(nome, feedbackNome);
+        validacaoTamanho(nome, feedbackNome, 'minimo', 0);
     });
 
     email.on("blur", validacaoEmail);
 
     rg.on("blur", validacaoRG);
+
     orgaoEmissor.on("blur", validacaoOrgaoEmissor);
 
     estadoEmissor.on("blur change", function () {
         validacaoSelect(estadoEmissor, feedbackEstadoEmissor);
     });
+
     genero.on("blur change", function () {
         validacaoSelect(genero, feedbackGenero);
     });
+
     estadoCivil.on("blur change", function () {
         validacaoSelect(estadoCivil, feedbackEstadoCivil);
     });
 
-    nacionalidade.on("blur", function () {
-        validacaoVazio(nacionalidade, feedbackNacionalidade);
+    dataNascimento.on("blur", function () {
+        validacaoTamanho(dataNascimento, feedbackDataNascimento, 'igual', 10);
     });
+
+    nacionalidade.on("blur", function () {
+        validacaoTamanho(nacionalidade, feedbackNacionalidade, 'minimo', 0);
+    });
+
+    celular.on("blur", function () {
+        validacaoTamanho(celular, feedbackCelular, 'igual', 15);
+    });
+
+    dependentes.on("blur", function () {
+        if (dependentes.val() == 0) {
+            dependentes.val(0);
+        }
+
+    });
+
+    dependentes.on("blur", function () {
+        if (dependentes.val() == 0) {
+            dependentes.val(0);
+        }
+
+    });
+
+    senha.on("blur", function () {
+        validacaoSenha();
+    });
+
+    confirmacaoSenha.on("blur", function () {
+        validacaoConfirmacaoSenha();
+    });
+
+
+
 
     $('#formEtapa1').submit(async function (event) {
         event.preventDefault();
@@ -292,7 +448,7 @@ $(document).ready(function () {
         try {
             let cpfValido = await validacaoCPF();
 
-            if (cpfValido && validacaoNome() && validacaoEmail()) {
+            if (cpfValido && validacaoTamanho(nome, feedbackNome, 'minimo', 0) && validacaoEmail()) {
                 this.submit(); // Envio do formulário
             } else {
                 console.log('Campos não preenchidos corretamente');
@@ -322,7 +478,21 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Realiza a validação do campo antes do envio
-        if (validacaoRG() && validacaoOrgaoEmissor() && validacaoSelect(estadoEmissor, feedbackEstadoEmissor) && validacaoSelect(genero, feedbackGenero) && validacaoSelect(estadoCivil, feedbackEstadoCivil)) {
+        if (validacaoTamanho(dataNascimento, feedbackDataNascimento, 'igual', 10) && validacaoTamanho(nacionalidade, feedbackNacionalidade, 'minimo', 0) && validacaoTamanho(celular, feedbackCelular, 'igual', 15)) {
+            // Se a validação for bem-sucedida, prossegue com o envio do formulário
+            this.submit();
+        } else {
+            // Se a validação falhar, exibe mensagem ou realiza ação necessária
+            console.log('Campos não preenchidos corretamente');
+        }
+    });
+
+    $('#formEtapa4').submit(function (event) {
+        // Evita o envio padrão do formulário
+        event.preventDefault();
+
+        // Realiza a validação do campo antes do envio
+        if (validacaoSenha() && validacaoConfirmacaoSenha()) {
             // Se a validação for bem-sucedida, prossegue com o envio do formulário
             this.submit();
         } else {

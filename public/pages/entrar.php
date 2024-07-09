@@ -16,7 +16,7 @@
                 <div class="input-group has-validation">
                     <input type="password" class="form-control" id="validationCustomPass" aria-describedby="inputGroupPrepend" required>
                     <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btn-check-outlined"><img id="checkPassLabelImg" src="assets/img/eyeSlash.svg" alt="olho de senha"></label>
+                    <label class="btn btn-outline-info" for="btn-check-outlined"><img id="checkPassLabelImg" src="assets/img/icons/eyeSlash.svg" alt="olho de senha"></label>
                 </div>
             </div>
             <div class="mb-3">

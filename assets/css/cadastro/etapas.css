@@ -18,12 +18,15 @@
         background-color: var(--color-custom-5);
         min-width: 10%;
         max-width: 600px;
-        min-height: 600px;
+        max-height: max-content;
+        min-height: 70vh;
         border-radius: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: row;
+        padding-bottom: 20px;
+        padding-top: 20px;
 
         & #tituloCadastro{
             color: var(--color-custom-6);
@@ -31,7 +34,7 @@
         }
 
         & .divInputs{
-            min-height: 300px;
+            min-height: 100px;
         }
         & .form-floating {
             

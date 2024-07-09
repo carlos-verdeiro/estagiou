@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if ($_SESSION['statusCadastro'] != "andamento") {
+    header("Location: action.php");
+}
+
 function validaEmail($email)
 {
     $conta = "/^[a-zA-Z0-9\._-]+@";
@@ -56,13 +60,9 @@ if (
         $_SESSION["emailEstagiario"] = $email;
         $_SESSION['statusCadastro'] = "andamento";
         $_SESSION['etapaCadastro'] = 2;
-        header("Location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+        header("Location: etapa2.php");
         exit;
-    } else {
-        $_SESSION['etapaCadastro'] = 1;
     }
-} else {
-    $_SESSION['etapaCadastro'] = 1;
 }
 ?>
 
