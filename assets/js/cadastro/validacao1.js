@@ -29,6 +29,21 @@ $(document).ready(function () {
     const dependentes = $("#dependentes");
     const feedbackDependentes = $("#feedback-dependentes");
     //etapa 4
+    const cep = $("#cep");
+    const feedbackCep = $("#feedback-cep");
+    const pais = $("#pais");
+    const feedbackPais = $("#feedback-pais");
+    const cidade = $("#cidade");
+    const feedbackCidade = $("#feedback-cidade");
+    const estado = $("#estado");
+    const feedbackEstado = $("#feedback-estado");
+    const endereco = $("#endereco");
+    const feedbackEndereco = $("#feedback-endereco");
+    const bairro = $("#bairro");
+    const feedbackBairro = $("#feedback-bairro");
+    const numero = $("#numero");
+    const feedbackNumero = $("#feedback-numero");
+    //etapa 5
     const senha = $("#senha");
     const feedbackSenha = $("#feedback-senha");
     const confirmacaoSenha = $("#confirmacaoSenha");
@@ -56,15 +71,21 @@ $(document).ready(function () {
     // Máscara para o telefone
     telefone.mask('(00) 0000-0000', { reverse: false });
 
+    // Máscara para o CEP
+    cep.mask('00000-000', { reverse: false });
+
+    // Máscara para o Número
+    numero.mask('0000000000', { reverse: false });
+
     //Bloqueia colagem na senha
-    senha.bind('cut copy paste', function(e) {
+    senha.bind('cut copy paste', function (e) {
         e.preventDefault();
-    }); 
+    });
 
     //Bloqueia colagem na confirmação de senha
-    confirmacaoSenha.bind('cut copy paste', function(e) {
+    confirmacaoSenha.bind('cut copy paste', function (e) {
         e.preventDefault();
-    }); 
+    });
 
     function calculoCPF(strCPF) {
         var Soma;
@@ -257,7 +278,7 @@ $(document).ready(function () {
 
     function validacaoSelect(element, feedbackElement) {
 
-        if (element.val == 'NA') {
+        if (element.val() == 'NA' || element.val() == '' || element.val() == null) {
             feedbackElement.text('Selecione um valor válido *');
             element.removeClass('is-valid');
             element.addClass('is-invalid');
@@ -363,19 +384,42 @@ $(document).ready(function () {
             feedbackConfirmacaoSenha.text('A senha não atende os requisitos *');
             confirmacaoSenha.removeClass('is-valid');
             confirmacaoSenha.addClass('is-invalid');
-            return false; 
+            return false;
         }
 
-        if (senha.val() === confirmacaoSenha.val() ) {
+        if (senha.val() === confirmacaoSenha.val()) {
             confirmacaoSenha.addClass('is-valid');
             confirmacaoSenha.removeClass('is-invalid');
             return true;
-        }else{
+        } else {
             feedbackConfirmacaoSenha.text('As senhas são divergentes *');
             confirmacaoSenha.removeClass('is-valid');
             confirmacaoSenha.addClass('is-invalid');
             return false;
         }
+    }
+
+    async function buscaCEP(valor) {
+
+        $.getJSON(`https://api.brasilaberto.com/v1/zipcode/${valor}`,
+            function (data, textStatus, jqXHR) {
+                console.log(textStatus);
+                cidade.val(data.result.city);
+                estado.val(data.result.stateShortname);
+                endereco.val(data.result.street);
+                bairro.val(data.result.district);
+                pais.val('Brasil');
+                
+                validacaoSelect(cidade,feedbackCidade);
+                validacaoSelect(estado,feedbackEstado);
+                validacaoSelect(endereco,feedbackEndereco);
+                validacaoSelect(bairro,feedbackBairro);
+                validacaoSelect(pais,feedbackPais);
+
+            }
+        );
+
+
     }
 
 
@@ -420,22 +464,58 @@ $(document).ready(function () {
     dependentes.on("blur", function () {
         if (dependentes.val() == 0) {
             dependentes.val(0);
+            return true;
         }
 
     });
 
-    dependentes.on("blur", function () {
-        if (dependentes.val() == 0) {
-            dependentes.val(0);
+    cep.on("blur", function () {
+        if (validacaoTamanho(cep, feedbackCep, 'igual', 9)) {
+            buscaCEP(cep.val().replace(/[^0-9]/g, ''));
         }
+    });
+
+    pais.on("blur", function () {
+        validacaoTamanho(pais, feedbackPais, 'minimo', 0);
+
 
     });
 
-    senha.on("blur", function () {
+    cidade.on("blur", function () {
+
+        validacaoTamanho(cidade, feedbackCidade, 'minimo', 0);
+
+    });
+
+    estado.on("change", function () {
+        
+        validacaoSelect(estado,feedbackEstado);
+
+    });
+
+    endereco.on("blur", function () {
+
+        validacaoTamanho(endereco, feedbackEndereco, 'minimo', 0);
+
+    });
+
+    bairro.on("blur", function () {
+
+        validacaoTamanho(bairro, feedbackBairro, 'minimo', 0);
+
+    });
+    
+    numero.on("blur", function () {
+
+        validacaoTamanho(numero, feedbackNumero, 'minimo', 0);
+
+    });
+
+    senha.on("input", function () {
         validacaoSenha();
     });
 
-    confirmacaoSenha.on("blur", function () {
+    confirmacaoSenha.on("blur change", function () {
         validacaoConfirmacaoSenha();
     });
 
@@ -487,7 +567,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#formEtapa4').submit(function (event) {
+    $('#formEtapa5').submit(function (event) {
         // Evita o envio padrão do formulário
         event.preventDefault();
 

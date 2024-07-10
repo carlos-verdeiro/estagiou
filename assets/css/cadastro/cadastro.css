@@ -9,13 +9,12 @@
     justify-content: center;
     background-color: var(--color-custom-2);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 
     & #tituloCadastro {
         color: var(--color-custom-4);
     }
+
+
 
     & .formComponent {
         background-color: var(--color-custom-5);

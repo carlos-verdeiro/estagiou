@@ -9,10 +9,13 @@
     align-items: center;
     justify-content: center;
     background-color: var(--color-custom-2);
+    flex-direction: column;
 
     & #tituloCadastro {
         color: var(--color-custom-4);
     }
+
+    
 
     & .formComponent {
         background-color: var(--color-custom-5);
@@ -27,6 +30,11 @@
         flex-direction: row;
         padding-bottom: 20px;
         padding-top: 20px;
+
+        & .progress{
+            width: 70%;
+    
+        }
 
         & #tituloCadastro{
             color: var(--color-custom-6);

@@ -96,6 +96,10 @@ if (
 
     <section id="cadastro">
         <form class="formComponent row" method="post" id="formEtapa2">
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 20%;">20%</div>
+            </div>
+
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
                 <div class="form-floating m-1 row"><!--RG-->
@@ -121,8 +125,8 @@ if (
                         </div>
                     </div>
                     <div class="form-floating col p-0 md-1"><!--ESTADO EMISSOR-->
-                        <select id="estadoEmissor" class="form-select w-100" aria-label="Estado Emissor" name="estadoEmissor">
-                            <option <?php echo ($estadoEmissor == 'NA') ? 'selected' : ''; ?> hidden disabled value="NA" required>Selecione</option>
+                        <select id="estadoEmissor" class="form-select w-100" aria-label="Estado Emissor" name="estadoEmissor" required>
+                            <option <?php echo ($estadoEmissor == 'NA') ? 'selected' : ''; ?> hidden value="NA">Selecione</option>
                             <option <?php echo ($estadoEmissor == 'AC') ? 'selected' : ''; ?> value="AC">Acre</option>
                             <option <?php echo ($estadoEmissor == 'AL') ? 'selected' : ''; ?> value="AL">Alagoas</option>
                             <option <?php echo ($estadoEmissor == 'AP') ? 'selected' : ''; ?> value="AP">Amapá</option>
