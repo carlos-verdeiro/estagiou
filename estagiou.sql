@@ -23,47 +23,36 @@ ALTER TABLE
 ALTER TABLE
     `empresa` ADD UNIQUE `empresa_cnpj_unique`(`cnpj`);
 
-CREATE TABLE `estagiario`(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `email` VARCHAR(100) NOT NULL,
-    `senha` VARCHAR(255) NOT NULL,
-    `nome` VARCHAR(100) NOT NULL,
-    `sobrenome` VARCHAR(100),
-    `estado_civil` VARCHAR(50) NOT NULL,
-    `cpf` VARCHAR(11) NOT NULL,
-    `rg` VARCHAR(20) NOT NULL,
-    `rg_org_emissor` VARCHAR(50) NOT NULL,
-    `data_nascimento` DATE NOT NULL,
-    `telefone` VARCHAR(20),
-    `celular` VARCHAR(20) NOT NULL,
-    `data_criacao` TIMESTAMP NOT NULL,
-    `ultimo_login` TIMESTAMP NULL,
-    `status` BOOLEAN NOT NULL DEFAULT '1',
-    `rg_estado_emissor` VARCHAR(2) NOT NULL,
-    `nacionalidade` VARCHAR(100) NOT NULL,
-    `dependentes` INT NOT NULL,
-    `cnh` VARCHAR(50) NOT NULL,
-    `genero` VARCHAR(50) NOT NULL,
-    `nome_social` VARCHAR(255) 
-);
-ALTER TABLE
-    `estagiario` ADD UNIQUE `estagiario_email_unique`(`email`);
-ALTER TABLE
-    `estagiario` ADD UNIQUE `estagiario_cpf_unique`(`cpf`);
-ALTER TABLE
-    `estagiario` ADD UNIQUE `estagiario_rg_unique`(`rg`);
-
-CREATE TABLE `endereco_estagiario`(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `estagiario_id` INT UNSIGNED NOT NULL,
-    `endereco` VARCHAR(255) NOT NULL,
-    `numero` INT NOT NULL,
-    `complemento` VARCHAR(255) NULL,
-    `cidade` VARCHAR(100) NOT NULL,
-    `estado` VARCHAR(100) NOT NULL,
-    `cep` VARCHAR(10) NOT NULL,
-    `pais` VARCHAR(100) NOT NULL,
-    FOREIGN KEY (`estagiario_id`) REFERENCES `estagiario`(`id`)
+CREATE TABLE `estagiario` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `sobrenome` varchar(100) DEFAULT NULL,
+  `estado_civil` varchar(50) NOT NULL,
+  `cpf` varchar(11) NOT NULL,
+  `rg` varchar(20) NOT NULL,
+  `rg_org_emissor` varchar(50) NOT NULL,
+  `data_nascimento` date NOT NULL,
+  `telefone` varchar(20) DEFAULT NULL,
+  `celular` varchar(20) NOT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ultimo_login` timestamp NULL DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `rg_estado_emissor` varchar(2) NOT NULL,
+  `nacionalidade` varchar(100) NOT NULL,
+  `dependentes` int(11) NOT NULL,
+  `cnh` varchar(50) DEFAULT NULL,
+  `genero` varchar(50) NOT NULL,
+  `nome_social` varchar(255) DEFAULT NULL,
+  `endereco` varchar(255) NOT NULL,
+  `numero` int(11) NOT NULL,
+  `complemento` varchar(255) DEFAULT NULL,
+  `cidade` varchar(100) NOT NULL,
+  `estado` varchar(100) NOT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `pais` varchar(100) NOT NULL,
+  `bairro` varchar(100) DEFAULT NULL
 );
 
 CREATE TABLE `endereco_escola_empresa`(
@@ -92,5 +81,37 @@ CREATE TABLE `vaga`(
     FOREIGN KEY (`empresa_id`) REFERENCES `empresa`(`id`)
 );
 
+--
+-- Despejando dados para a tabela `estagiario`
+--
 
-INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`) VALUES (NULL, 'carlos.d.verdeiro@gmail.com', '123', 'Carlos Daniel', 'Verdeiro', 'solteiro', '01234567890', '143873722', '', '2007-02-09', NULL, '44991567723', current_timestamp(), NULL, '1', 'SP', 'brasileira', '1', 'AB', 'M', 'oi');
+INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`) VALUES
+(1, 'carlos.d.verdeiro@gmail.com', '123', 'Carlos Daniel', 'Verdeiro', 'solteiro', '01234567890', '143873722', '', '2007-02-09', NULL, '44991567723', '2024-06-26 01:33:33', NULL, 1, 'SP', 'brasileira', 1, 'AB', 'M', 'oi', '', 0, NULL, '', '', '', '', NULL);
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `estagiario`
+--
+ALTER TABLE `estagiario`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `estagiario_email_unique` (`email`),
+  ADD UNIQUE KEY `estagiario_cpf_unique` (`cpf`),
+  ADD UNIQUE KEY `estagiario_rg_unique` (`rg`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `estagiario`
+--
+ALTER TABLE `estagiario`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */

@@ -1,0 +1,35 @@
+--select estagiario:
+estagiarioSelect
+123
+
+--insert estagiario:
+estagiarioInsert
+123
+
+--update estagiario:
+estagiarioUpdate
+123
+
+--select empresa:
+empresaSelect
+123
+
+--insert empresa:
+empresaInsert
+123
+
+--update empresa:
+empresaUpdate
+123
+
+--select ie:
+ieSelect
+123
+
+--insert ie:
+ieInsert
+123
+
+--update ie:
+ieUpdate
+123

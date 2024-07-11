@@ -7,13 +7,17 @@ if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 6
 
 
 if (
-    isset($_POST['confirmado']) && !empty($_POST['confirmado'])
+    isset($_POST['confirmado'])
 ) {
 
     $_SESSION['statusCadastro'] = "confirmado";
     $_SESSION['tipoCadastro'] = "estagiario";
     $_SESSION['etapaCadastro'] = 6;
-    header("Location: ../../../index.php?entrar");
+
+
+
+
+    header("Location: insert.php");
     exit;
 }
 
@@ -480,11 +484,12 @@ if (
                     <a href="etapa4.php" class="btn btn-primary btnProximo">EDITAR</a>
                 </div>
             </div>
+            <input type="hidden" name="confirmado">
 
             <!--FIM FORMULARIO-->
             <div class="botoesAvanco row"><!--BOTÕES-->
-                <a href="etapa4.php" class="btn btn-warning btnVoltar col  m-1 btn btn-lg w-50">VOLTAR</a>
-                <button type="submit" class="btn btn-success btnProximo col m-1 btn btn-lg w-50">PRÓXIMO</button>
+                <a href="etapa5.php" class="btn btn-warning btnVoltar col  m-1 btn btn-lg w-50">VOLTAR</a>
+                <button type="submit" class="btn btn-success btnProximo col m-1 btn btn-lg w-50">CONCLUIR</button>
             </div>
         </form>
     </section>

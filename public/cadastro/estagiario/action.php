@@ -27,28 +27,7 @@ session_start();
 // Gere um token de sessão se ele ainda não existir
 if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "confirmado") {
 
-  switch ($_SESSION['tipoCadastro']) {
-
-    case 'estagiario':
-      
-      
-      
-      break;
-
-    case 'empresa':
-      # code...
-      break;
-
-    case 'ie':
-      # code...
-      break;
-    
-    default:
-      # code...
-      break;
-  }
-
-  header("location: ../../../index.php");
+  header("location: insert.php");
   exit;
 }
 
