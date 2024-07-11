@@ -126,6 +126,7 @@ if (
                 <div class="progress-bar" style="width: 0%;">0%</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
+            
             <div class="row divInputs">
                 <div class="form-floating m-1 row"><!--CPF-->
                     <input autofocus type="text" id="cpf" class="form-control w-100" placeholder="CPF" aria-label="CPF" name="cpf" value="<?php echo $cpf; ?>" required>

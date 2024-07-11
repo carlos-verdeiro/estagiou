@@ -63,7 +63,6 @@ if (
 
     // Definindo constantes para as chaves da sessão
     define('SENHA_KEY', 'senhaEstagiario');
-    define('CONFIRMACAO_SENHA_KEY', 'confirmacaoSenhaEstagiario');
 
 
     // Função para obter valor da sessão
@@ -73,7 +72,6 @@ if (
     }
 
     $senha = pegarSessao(SENHA_KEY);
-    $confirmacaoSenha = pegarSessao(CONFIRMACAO_SENHA_KEY);
 
 
 
@@ -103,7 +101,7 @@ if (
                 <div class="m-1 row">
                     <label for="confirmacaoSenha" class="form-label">Confirme a senha:</label><!--CONFIRMAÇÃO SENHA-->
                     <div class="form-group">
-                        <input type="password" class="form-control p-3" placeholder="Confirmação de Senha" id="confirmacaoSenha" placeholder="Confirmação de Senha" aria-label="Confirmação de Senha" name="confirmacaoSenha" value="<?php echo $confirmacaoSenha; ?>" required maxlength="50" onpaste="return false" ondrop="return false">
+                        <input type="password" class="form-control p-3" placeholder="Confirmação de Senha" id="confirmacaoSenha" placeholder="Confirmação de Senha" aria-label="Confirmação de Senha" name="confirmacaoSenha" required maxlength="50" onpaste="return false" ondrop="return false">
                         <input type="checkbox" class="btn-check" id="confirmacaoSenha-Check" autocomplete="off">
                         <div class="invalid-feedback" id="feedback-confirmacaoSenha">
                             Preencha corretamente!

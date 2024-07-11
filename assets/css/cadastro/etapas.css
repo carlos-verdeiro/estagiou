@@ -15,7 +15,7 @@
         color: var(--color-custom-4);
     }
 
-    
+
 
     & .formComponent {
         background-color: var(--color-custom-5);
@@ -31,27 +31,65 @@
         padding-bottom: 20px;
         padding-top: 20px;
 
-        & .progress{
+        & .progress {
             width: 70%;
-    
+
         }
 
-        & #tituloCadastro{
+        & #tituloCadastro {
             color: var(--color-custom-6);
             text-align: center;
         }
 
-        & .divInputs{
+        & .divInputs {
             min-height: 100px;
         }
+
         & .form-floating {
-            
+
             & label {
                 margin-left: 10px;
                 width: max-content;
             }
         }
-       
+
+    }
+
+    .formConfirmacao {
+        background-color: var(--color-custom-5);
+        min-width: 70%;
+        max-width: 400px;
+        max-height: max-content;
+        min-height: 70vh;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        padding-bottom: 20px;
+        padding-top: 20px;
+
+        & .progress {
+            width: 50%;
+
+        }
+
+        & #tituloCadastro {
+            color: var(--color-custom-6);
+            text-align: center;
+        }
+
+        & .divInputs {
+            min-height: 100px;
+        }
+
+        & .form-floating {
+
+            & label {
+                margin-left: 10px;
+                width: max-content;
+            }
+        }
     }
 
 
