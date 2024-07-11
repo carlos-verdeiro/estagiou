@@ -119,8 +119,8 @@ if (
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
                 <div class="m-1 row">
-                    <div class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
-                        <input type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
+                    <div  class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
+                        <input autofocus type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
                         <label for="dataNascimento">Data de nascimento *</label>
                         <div class="invalid-feedback" id="feedback-dataNascimento">
                             Preencha corretamente!

@@ -515,7 +515,7 @@ $(document).ready(function () {
         validacaoSenha();
     });
 
-    confirmacaoSenha.on("blur change", function () {
+    confirmacaoSenha.on("blur change input", function () {
         validacaoConfirmacaoSenha();
     });
 

@@ -1,24 +1,19 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 5) {
+if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 6) {
     header("Location: action.php");
 }
 
 
 if (
-    isset($_POST['senha']) && !empty($_POST['senha']) &&
-    isset($_POST['confirmacaoSenha']) && !empty($_POST['confirmacaoSenha']) &&
-    $_POST['senha'] === $_POST['confirmacaoSenha']
+    isset($_POST['confirmado']) && !empty($_POST['confirmado'])
+){
 
-) {
-
-    $_SESSION["senhaEstagiario"] = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
-
-
-    $_SESSION['statusCadastro'] = "andamento";
+    $_SESSION['statusCadastro'] = "confirmado";
+    $_SESSION['tipoCadastro'] = "estagiario";
     $_SESSION['etapaCadastro'] = 6;
-    header("Location: etapa6.php");
+    header("Location: ../../../index.php?entrar");
     exit;
 }
 
@@ -91,7 +86,7 @@ if (
                 <div class="m-1 row">
                     <label for="senha" class="form-label">Senha:</label><!--SENHA-->
                     <div class="input-group">
-                        <input autofocus type="password" class="form-control p-3" placeholder="Senha" id="senha" placeholder="Senha" aria-label="Senha" name="senha" value="<?php echo $senha; ?>" required maxlength="50" onpaste="return false" ondrop="return false">
+                        <input type="password" class="form-control p-3" placeholder="Senha" id="senha" placeholder="Senha" aria-label="Senha" name="senha" value="<?php echo $senha; ?>" required maxlength="50" onpaste="return false" ondrop="return false">
                         <input type="checkbox" class="btn-check" id="senha-Check" autocomplete="off">
                         <label class="btn btn-outline-info d-flex align-items-center justify-content-center rounded-end" for="senha-Check"><img id="checkPassLabelImgSenha" src="../../../assets/img/icons/eyeSlash.svg" alt="olho de senha"></label>
                         <div class="invalid-feedback" id="feedback-senha">

@@ -21,32 +21,55 @@
 
 <?php
 
+
 session_start();
 
 // Gere um token de sessão se ele ainda não existir
-if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "finalizado") {
-  session_destroy();
-  session_start();
-  $_SESSION['statusCadastro'] = "andamento";
-  $_SESSION['etapaCadastro'] = 1;
-  header("location: etapa1.php");
+if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "confirmado") {
+
+  switch ($_SESSION['tipoCadastro']) {
+
+    case 'estagiario':
+      
+      
+      
+      break;
+
+    case 'empresa':
+      # code...
+      break;
+
+    case 'ie':
+      # code...
+      break;
+    
+    default:
+      # code...
+      break;
+  }
+
+  header("location: ../../../index.php");
   exit;
-} else if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andamento") {
+}
+
+if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andamento") {
 
   if (isset($_SESSION['etapaCadastro']) && $_SESSION['etapaCadastro'] != NULL) {
 
     header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
     exit;
   }
-
-} else {
-  session_destroy();
-  session_start();
-  $_SESSION['statusCadastro'] = "andamento";
-  $_SESSION['etapaCadastro'] = 1;
-  header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+  header("location: ../cadastro.php");
   exit;
 }
+
+session_destroy();
+session_start();
+$_SESSION['statusCadastro'] = "andamento";
+$_SESSION['etapaCadastro'] = 1;
+header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+exit;
+
 
 
 header("location: ../cadastro.php");

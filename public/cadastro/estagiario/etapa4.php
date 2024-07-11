@@ -109,8 +109,8 @@ if (
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs">
                 <div class="form-floating m-1 row">
-                    <div class="form-floating col p-0 me-1"><!--CEP-->
-                        <input type="text" id="cep" class="form-control w-100" placeholder="CEP" aria-label="CEP" name="cep" value="<?php echo $cep; ?>">
+                    <div  class="form-floating col p-0 me-1"><!--CEP-->
+                        <input autofocus type="text" id="cep" class="form-control w-100" placeholder="CEP" aria-label="CEP" name="cep" value="<?php echo $cep; ?>">
                         <label for="cep">CEP</label>
                         <div class="invalid-feedback" id="feedback-cep">
                             Preencha corretamente!

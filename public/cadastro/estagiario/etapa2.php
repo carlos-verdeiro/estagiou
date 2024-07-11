@@ -103,7 +103,7 @@ if (
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
                 <div class="form-floating m-1 row"><!--RG-->
-                    <input type="text" id="rg" class="form-control w-100" placeholder="RG" aria-label="RG" name="rg" value="<?php echo $rg; ?>" required>
+                    <input autofocus type="text" id="rg" class="form-control w-100" placeholder="RG" aria-label="RG" name="rg" value="<?php echo $rg; ?>" required>
                     <label for="rg">RG *</label>
                     <div class="invalid-feedback" id="feedback-rg">
                         Preencha corretamente!
