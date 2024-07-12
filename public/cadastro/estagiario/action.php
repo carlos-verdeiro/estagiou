@@ -11,8 +11,8 @@
 
 <body>
   <div>
-    <l-ring size="2a00" stroke="10" bg-opacity="0" speed="2" color="#4c4eba"></l-ring>
     <h3>Carregando...</h3>
+    <l-ring size="200" stroke="10" bg-opacity="0" speed="2" color="#4c4eba"></l-ring>
     <a href="../cadastro.php">Cancelar</a>
   </div>
 </body>
