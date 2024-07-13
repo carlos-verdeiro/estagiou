@@ -41,7 +41,6 @@ if (
         if (!isset( //etapa 1
             $_SESSION['cpfEstagiario'],
             $_SESSION['nomeEstagiario'],
-            $_SESSION['sobrenomeEstagiario'],
             $_SESSION['emailEstagiario']
         )) {
             throw new variavelNaoExiste("Variável da etapa 1 não existe ou é nulo.");
@@ -177,7 +176,6 @@ if (
 
             switch ($tipo) {
                 case 'nome':
-                case 'sobrenome':
                 case 'bairro':
                 case 'cidade':
                 case 'pais':
@@ -186,11 +184,8 @@ if (
                 case 'genero':
                 case 'estadoEmissor':
                 case 'estado':
-                case 'endereco':
                 case 'estadoCivil':
-
-
-
+                case 'cnh':
 
 
                     if (strlen($texto) < $min || strlen($texto) > $max) {
@@ -207,10 +202,6 @@ if (
                 case 'celular':
                 case 'cep':
                 case 'numero':
-
-
-
-
 
                     if (strlen($texto) < $min || strlen($texto) > $max) {
                         return false;
@@ -237,9 +228,9 @@ if (
                     return false;
                     break;
 
-                case 'cnh':
                 case 'nomeSocial':
-                case 'complemento':
+                case 'sobrenome':
+
 
 
                     if ($texto != NULL || $texto != '') {
@@ -266,6 +257,7 @@ if (
 
                 case 'senha':
                 case 'email':
+                case 'complemento':
 
 
 
@@ -274,6 +266,16 @@ if (
                     }
 
 
+                    break;
+
+                case 'endereco':
+
+                    if (strlen($texto) < $min || strlen($texto) > $max) {
+                        return false;
+                    }
+                    if (!preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ' -.,:]+$/", $texto)) {
+                        return false;
+                    }
                     break;
 
                 default:
@@ -285,103 +287,103 @@ if (
 
 
         if (!validar($cpf, 'cpf', 11, 11)) {
-            echo "CPF ERRO\n";
+            throw new variavelNaoExiste("CPF ERRO\n");
             $erros++;
         }
         if (!validar($nome, 'nome', 1, 100)) {
-            echo "Nome ERRO\n";
+            throw new variavelNaoExiste("Nome ERRO\n");
             $erros++;
         }
         if (!validar($sobrenome, 'sobrenome', 0, 100)) {
-            echo "Sobrenome ERRO\n";
+            throw new variavelNaoExiste("Sobrenome ERRO\n");
             $erros++;
         }
         if (!validar($email, 'email', 3, 100)) {
-            echo "Email ERRO\n";
+            throw new variavelNaoExiste("Email ERRO\n");
             $erros++;
         }
         if (!validar($rg, 'rg', 9, 9)) {
-            echo "RG ERRO\n";
+            throw new variavelNaoExiste("RG ERRO\n");
             $erros++;
         }
         if (!validar($orgaoEmissor, 'orgaoEmissor', 1, 50)) {
-            echo "Órgão Emissor ERRO\n";
+            throw new variavelNaoExiste("Órgão Emissor ERRO\n");
             $erros++;
         }
         if (!validar($estadoEmissor, 'estadoEmissor', 2, 2)) {
-            echo "Estado Emissor ERRO\n";
+            throw new variavelNaoExiste("Estado Emissor ERRO\n");
             $erros++;
         }
         if (!validar($genero, 'genero', 1, 50)) {
-            echo "Gênero ERRO\n";
+            throw new variavelNaoExiste("Gênero ERRO\n");
             $erros++;
         }
         if (!validar($nomeSocial, 'nomeSocial', 0, 255)) {
-            echo "Nome Social ERRO\n";
+            throw new variavelNaoExiste("Nome Social ERRO\n");
             $erros++;
         }
         if (!validar($estadoCivil, 'estadoCivil', 2, 255)) {
-            echo "Estado Civil ERRO\n";
+            throw new variavelNaoExiste("Estado Civil ERRO\n");
             $erros++;
         }
         if (!validar($dataNascimento, 'dataNascimento', 0, 100)) {
-            echo "Data de Nascimento ERRO\n";
+            throw new variavelNaoExiste("Data de Nascimento ERRO\n");
             $erros++;
         }
         if (!validar($nacionalidade, 'nacionalidade', 0, 100)) {
-            echo "Nacionalidade ERRO\n";
+            throw new variavelNaoExiste("Nacionalidade ERRO\n");
             $erros++;
         }
         if (!validar($celular, 'celular', 11, 11)) {
-            echo "Celular ERRO\n";
+            throw new variavelNaoExiste("Celular ERRO\n");
             $erros++;
         }
         if (!validar($telefone, 'telefone', 0, 10)) {
-            echo "Telefone ERRO\n";
+            throw new variavelNaoExiste("Telefone ERRO\n");
             $erros++;
         }
-        if (!validar($cnh, 'cnh', 0, 50)) {
-            echo "CNH ERRO\n";
+        if (!validar($cnh, 'cnh', 1, 50)) {
+            throw new variavelNaoExiste("CNH ERRO\n");
             $erros++;
         }
         if (!validar($dependentes, 'dependentes', 0, 11)) {
-            echo "Dependentes ERRO\n";
+            throw new variavelNaoExiste("Dependentes ERRO\n");
             $erros++;
         }
         if (!validar($endereco, 'endereco', 0, 255)) {
-            echo "Endereço ERRO\n";
+            throw new variavelNaoExiste("Endereço ERRO\n");
             $erros++;
         }
         if (!validar($bairro, 'bairro', 0, 100)) {
-            echo "Bairro ERRO\n";
+            throw new variavelNaoExiste("Bairro ERRO\n");
             $erros++;
         }
         if (!validar($numero, 'numero', 0, 50)) {
-            echo "Número ERRO\n";
+            throw new variavelNaoExiste("Número ERRO\n");
             $erros++;
         }
         if (!validar($complemento, 'complemento', 0, 255)) {
-            echo "Complemento ERRO\n";
+            throw new variavelNaoExiste("Complemento ERRO\n");
             $erros++;
         }
         if (!validar($cidade, 'cidade', 0, 100)) {
-            echo "Cidade ERRO\n";
+            throw new variavelNaoExiste("Cidade ERRO\n");
             $erros++;
         }
         if (!validar($estado, 'estado', 0, 100)) {
-            echo "Estado ERRO\n";
+            throw new variavelNaoExiste("Estado ERRO\n");
             $erros++;
         }
         if (!validar($cep, 'cep', 8, 8)) {
-            echo "CEP ERRO\n";
+            throw new variavelNaoExiste("CEP ERRO\n");
             $erros++;
         }
         if (!validar($pais, 'pais', 2, 100)) {
-            echo "País ERRO\n";
+            throw new variavelNaoExiste("País ERRO\n");
             $erros++;
         }
         if (!validar($senha, 'senha', 0, 100)) {
-            echo "Senha ERRO\n";
+            throw new variavelNaoExiste("Senha ERRO\n");
             $erros++;
         }
 
@@ -392,26 +394,107 @@ if (
             exit;
         }
 
+        //BANCO DE DADOS
+
+        require_once '../../../server/conexao.php';
+
+        class Usuario
+        {
+            private $conn;
+            private $table;
+
+            public function __construct($db, $table)
+            {
+                $this->conn = $db;
+                $this->table = $table;
+            }
+
+            public function inserirUsuario($dados)
+            {
+                $sql = "INSERT INTO " . $this->table . " (
+                    cpf, nome, sobrenome, email, rg, rg_org_emissor, rg_estado_emissor, genero, nome_social, estado_civil, data_nascimento,
+                    nacionalidade, celular, telefone, cnh, dependentes, endereco, bairro, numero, complemento, cidade, estado,
+                    cep, pais, senha, status
+                ) VALUES (
+                    :cpf, :nome, :sobrenome, :email, :rg, :orgaoEmissor, :estadoEmissor, :genero, :nomeSocial, :estadoCivil, :dataNascimento,
+                    :nacionalidade, :celular, :telefone, :cnh, :dependentes, :endereco, :bairro, :numero, :complemento, :cidade, :estado,
+                    :cep, :pais, :senha, :status
+                )";
+
+                $stmt = $this->conn->prepare($sql);
+
+                // Bind dos parâmetros
+                foreach ($dados as $chave => $valor) {
+                    $stmt->bindValue(':' . $chave, htmlspecialchars(strip_tags($valor)));
+                }
+
+                if ($stmt->execute()) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        // Dados de conexão ao banco de dados
+        $db_name = 'estagiou';
+        $username = 'estagiarioInsert';
+        $password = '123';
+        $table = 'estagiario';
+
+        $database = new Database($db_name, $username, $password);
+        $db = $database->connect();
+
+        $usuario = new Usuario($db, $table);
+
+        // Dados do usuário tratados previamente
+        $dependentes = preg_replace('/[^0-9]/', '', $dependentes);
 
 
+        $dados = [
+            'cpf' => $cpf,
+            'nome' => $nome,
+            'sobrenome' => $sobrenome,
+            'email' => $email,
+            'rg' => $rg,
+            'orgaoEmissor' => $orgaoEmissor,
+            'estadoEmissor' => $estadoEmissor,
+            'genero' => $genero,
+            'nomeSocial' => $nomeSocial,
+            'estadoCivil' => $estadoCivil,
+            'dataNascimento' => $dataNascimento,
+            'nacionalidade' => $nacionalidade,
+            'celular' => $celular,
+            'telefone' => $telefone,
+            'cnh' => $cnh,
+            'dependentes' => $dependentes,
+            'endereco' => $endereco,
+            'bairro' => $bairro,
+            'numero' => $numero,
+            'complemento' => $complemento,
+            'cidade' => $cidade,
+            'estado' => $estado,
+            'cep' => $cep,
+            'pais' => $pais,
+            'senha' => password_hash($senha, PASSWORD_BCRYPT), // Hash da senha
+            'status' => 1
 
+        ];
 
-
-
-
-
-
-
-        $usernameDB = "estagiarioInsert";
-        $passwordDB = "123";
-        include_once "../../../server/conexao.php";
+        if ($usuario->inserirUsuario($dados)) {
+            session_unset();
+            session_destroy();
+            header("location: ../sucesso.php");
+        } else {
+            echo "Erro ao inserir usuário.";
+        }
     } catch (variavelNaoExiste $e) {
         echo 'Erro capturado: ',  $e->getMessage(), "\n";
     } catch (validacaoVariaveis $e) {
         echo 'Erro capturado: ',  $e->getMessage(), "\n";
     } catch (Exception $e) {
-        // tratar exceções gerais
+        echo 'Erro capturado: ',  $e->getMessage(), "\n";
     }
 } else {
+    header("location: action.php");
 }
 ?>

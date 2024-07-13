@@ -176,25 +176,77 @@ $(document).ready(function () {
     }
 
     function validacaoEmail() {
+        return new Promise(function (resolve, reject) {
+            let valEmail = email.val();
 
-        let valEmail = email.val();
+            // Expressão regular para validar o formato do e-mail
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        // Expressão regular para validar o formato do e-mail
-        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (valEmail.length === 0) {
+                feedbackEmail.text('Campo obrigatório *');
+                email.removeClass('is-valid').addClass('is-invalid');
+                return false;
+            }
 
-        if (valEmail.length === 0) {
-            feedbackEmail.text('Campo obrigatório *');
-            email.removeClass('is-valid').addClass('is-invalid');
-            return false;
-        } else if (!emailRegex.test(valEmail)) {
-            feedbackEmail.text('Formato de e-mail inválido');
-            email.removeClass('is-valid').addClass('is-invalid');
-            return false;
-        } else {
-            feedbackEmail.text('');
-            email.removeClass('is-invalid').addClass('is-valid');
-            return true;
-        }
+            if (valEmail.length > 100) {
+                feedbackEmail.text('Limite de 100 caracteres *');
+                email.removeClass('is-valid').addClass('is-invalid');
+                return false;
+            }
+
+            if (!emailRegex.test(valEmail)) {
+                feedbackEmail.text('Formato de e-mail inválido');
+                email.removeClass('is-valid').addClass('is-invalid');
+                return false;
+            }
+
+            // Enviar o Email  ao servidor
+            $.ajax({
+                type: "POST",
+                url: '/estagiou/server/api/validacao.php',
+                data: {
+                    email: valEmail,
+                },
+                dataType: "json",
+                success: function (data) {
+                    // Exibir feedback ao usuário
+                    if (data.mensagem) {
+                        email.removeClass('is-invalid');
+                        email.addClass('is-valid');
+                        resolve(true); // CPF disponível
+                    } else {
+                        feedbackEmail.text('Usuário já existente');
+                        email.removeClass('is-valid');
+                        email.addClass('is-invalid');
+                        reject('Usuário já existente');
+                    }
+                },
+                error: function (xhr) {
+                    // Trate o erro de acordo com a resposta do servidor
+
+                    console.error('Erro resposta JSON:', xhr.mensagem);
+
+                    alert('Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.');
+                    reject('Erro inesperado');
+
+
+                    if (response && response.code == 1) {
+                        feedbackEmail.text('Preencha corretamente');
+                        email.removeClass('is-valid');
+                        email.addClass('is-invalid');
+                        reject('Preencha corretamente');
+                    } else if (response && response.code == 2) {
+                        alert('Ocorreu um erro, por favor tente novamente mais tarde.');
+                        console.log('Erro de conexão com o banco de dados');
+                        reject('Erro de conexão com o banco de dados');
+                    } else {
+                        alert('Ocorreu um erro não identificado. Por favor, tente novamente mais tarde.');
+                        console.log('Erro desconhecido:', response);
+                        reject('Erro desconhecido');
+                    }
+                }
+            });
+        });
     }
 
     function validacaoRG() {
@@ -409,12 +461,12 @@ $(document).ready(function () {
                 endereco.val(data.result.street);
                 bairro.val(data.result.district);
                 pais.val('Brasil');
-                
-                validacaoSelect(cidade,feedbackCidade);
-                validacaoSelect(estado,feedbackEstado);
-                validacaoSelect(endereco,feedbackEndereco);
-                validacaoSelect(bairro,feedbackBairro);
-                validacaoSelect(pais,feedbackPais);
+
+                validacaoTamanho(cidade, feedbackCidade, 'minimo', 0);
+                validacaoSelect(estado, feedbackEstado);
+                validacaoTamanho(endereco, feedbackEndereco, 'minimo', 0);
+                validacaoTamanho(bairro, feedbackBairro, 'minimo', 0);
+                validacaoTamanho(pais, feedbackPais, 'minimo', 0);
 
             }
         );
@@ -470,7 +522,7 @@ $(document).ready(function () {
     });
 
     cep.on("blur", function () {
-        if (validacaoTamanho(cep, feedbackCep, 'igual', 9)) {
+        if (validacaoTamanho(cep, feedbackCep, 'igual', 9) && !endereco.val() && !bairro.val() && !cidade.val()) {
             buscaCEP(cep.val().replace(/[^0-9]/g, ''));
         }
     });
@@ -488,8 +540,8 @@ $(document).ready(function () {
     });
 
     estado.on("change", function () {
-        
-        validacaoSelect(estado,feedbackEstado);
+
+        validacaoSelect(estado, feedbackEstado);
 
     });
 
@@ -504,7 +556,7 @@ $(document).ready(function () {
         validacaoTamanho(bairro, feedbackBairro, 'minimo', 0);
 
     });
-    
+
     numero.on("blur", function () {
 
         validacaoTamanho(numero, feedbackNumero, 'minimo', 0);
@@ -520,15 +572,16 @@ $(document).ready(function () {
     });
 
 
-
-
     $('#formEtapa1').submit(async function (event) {
         event.preventDefault();
 
         try {
-            let cpfValido = await validacaoCPF();
 
-            if (cpfValido && validacaoTamanho(nome, feedbackNome, 'minimo', 0) && validacaoEmail()) {
+            let cpaF = await validacaoCPF();
+            let emailF = await validacaoEmail()
+
+
+            if (cpaF && validacaoTamanho(nome, feedbackNome, 'minimo', 0) && emailF) {
                 this.submit(); // Envio do formulário
             } else {
                 console.log('Campos não preenchidos corretamente');
@@ -537,7 +590,6 @@ $(document).ready(function () {
             console.log('Erro na validação do CPF:', error);
         }
     });
-
 
     $('#formEtapa2').submit(function (event) {
         // Evita o envio padrão do formulário

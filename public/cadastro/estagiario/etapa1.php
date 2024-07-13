@@ -45,7 +45,6 @@ function validaCPF($cpf)
 if (
     isset($_POST['cpf']) && !empty($_POST['cpf']) &&
     isset($_POST['nome']) && !empty($_POST['nome']) &&
-    isset($_POST['sobrenome']) && !empty($_POST['sobrenome']) &&
     isset($_POST['email']) && !empty($_POST['email'])
 ) {
     $cpf = htmlspecialchars($_POST['cpf'], ENT_QUOTES, 'UTF-8');

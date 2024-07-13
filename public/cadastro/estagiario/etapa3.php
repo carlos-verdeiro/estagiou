@@ -3,38 +3,33 @@ session_start();
 
 if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 3) {
     header("Location: action.php");
+    exit;
 }
-
 
 if (
     isset($_POST['dataNascimento']) && !empty($_POST['dataNascimento']) &&
     isset($_POST['nacionalidade']) && !empty($_POST['nacionalidade']) &&
-    isset($_POST['celular']) && !empty($_POST['celular']) &&
-    isset($_POST['cnhSem']) || isset($_POST['cnh']) &&
-    isset($_POST['dependentes']) && !empty($_POST['dependentes']) || isset($_POST['semDependentes'])
-
+    isset($_POST['celular']) && !empty($_POST['celular'])
 ) {
-
     $_SESSION["dataNascimentoEstagiario"] = htmlspecialchars($_POST['dataNascimento'], ENT_QUOTES, 'UTF-8');
     $_SESSION["nacionalidadeEstagiario"] = htmlspecialchars($_POST['nacionalidade'], ENT_QUOTES, 'UTF-8');
     $_SESSION["celularEstagiario"] = htmlspecialchars($_POST['celular'], ENT_QUOTES, 'UTF-8');
-    if (isset($_POST['telefone']) && $_POST['telefone'] != NULL) {
+    if (isset($_POST['telefone']) && !empty($_POST['telefone'])) {
         $_SESSION["telefoneEstagiario"] = htmlspecialchars($_POST['telefone'], ENT_QUOTES, 'UTF-8');
+    } else {
+        $_SESSION["telefoneEstagiario"] = NULL;
     }
+
     if (isset($_POST['cnhSem'])) {
-        $_SESSION["cnhEstagiario"] = NULL;
-    } else if (isset($_POST['cnh'])) {
-        $cnhzin = '';
-        for ($i = 0; $i < count($_POST['cnh']); $i++) {
-            $cnhzin .= $_POST['cnh'][$i];
-        }
+        $_SESSION["cnhEstagiario"] = 'N';
+    } elseif (isset($_POST['cnh'])) {
+        $cnhzin = implode('', $_POST['cnh']);
         $_SESSION["cnhEstagiario"] = htmlspecialchars($cnhzin, ENT_QUOTES, 'UTF-8');
     } else {
-        $_SESSION["cnhEstagiario"] = NULL;
+        $_SESSION["cnhEstagiario"] = 'N';
     }
 
-
-    if (isset($_POST['dependentes']) && $_POST['dependentes'] != NULL && is_numeric($_POST['dependentes'])) {
+    if (isset($_POST['dependentes']) && is_numeric($_POST['dependentes'])) {
         $_SESSION["dependentesEstagiario"] = htmlspecialchars($_POST['dependentes'], ENT_QUOTES, 'UTF-8');
     } else {
         $_SESSION["dependentesEstagiario"] = 0;
@@ -45,9 +40,8 @@ if (
     header("Location: etapa4.php");
     exit;
 }
-
-
 ?>
+
 
 
 <!DOCTYPE html>
@@ -119,7 +113,7 @@ if (
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
                 <div class="m-1 row">
-                    <div  class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
+                    <div class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
                         <input autofocus type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
                         <label for="dataNascimento">Data de nascimento *</label>
                         <div class="invalid-feedback" id="feedback-dataNascimento">
@@ -200,7 +194,7 @@ if (
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = ($cnh === NULL) ? 'checked' : ''; ?>>
+                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (isset($_SESSION['cnhEstagiario'])&&$_SESSION['cnhEstagiario'] === 'N') ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>
@@ -209,8 +203,8 @@ if (
                         </div>
                     </div>
                     <div class="form-floating col p-0 md-1"><!--DEPENDENTES-->
-                        <input type="number" id="dependentes" min=0 class="form-control w-100" placeholder="Dependentes" aria-label="Dependentes" name="dependentes" value="<?php echo $dependentes; ?>" maxlength="10" required>
-                        <label for="dependentes">Dependentes *</label>
+                        <input type="number" id="dependentes" min=0 class="form-control w-100" placeholder="Dependentes" aria-label="Dependentes" name="dependentes" value="<?php echo $dependentes; ?>" maxlength="10">
+                        <label for="dependentes">Dependentes</label>
                         <div class="invalid-feedback" id="feedback-dependentes">
                             Preencha corretamente!
                         </div>

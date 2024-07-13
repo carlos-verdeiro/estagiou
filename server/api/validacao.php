@@ -80,4 +80,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode(['mensagem' => $mensagem]);
         exit;
     }
+    //------EMAIL------
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+    
+        if (strlen($email) > 100 || strlen($email) < 1) {
+            http_response_code(400);
+            echo json_encode(['mensagem' => 'Parâmetro inválido.', 'code' => 1]);
+            exit;
+        }
+    
+        $mysqli = new mysqli("localhost", "estagiarioSelect", "123", "estagiou");
+    
+        if ($mysqli->connect_error) {
+            http_response_code(500);
+            echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
+            exit;
+        }
+    
+        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM estagiario WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+    
+        $mensagem = ($count > 0) ? false : true; // Email disponível se $count == 0
+    
+        $stmt->close();
+        $mysqli->close();
+    
+        echo json_encode(['mensagem' => $mensagem]);
+        exit;
+    }
 }
