@@ -33,3 +33,8 @@ ieInsert
 --update ie:
 ieUpdate
 123
+
+
+--select email e senha TODOS
+loginAll
+123

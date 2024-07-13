@@ -84,6 +84,9 @@ if (
         // Função para obter valor da sessão
         function pegarSessao($key)
         {
+            if ($key === 'dependentesEstagiario') {
+                return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : 0;
+            }
             return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
         }
 
@@ -475,7 +478,7 @@ if (
             'estado' => $estado,
             'cep' => $cep,
             'pais' => $pais,
-            'senha' => password_hash($senha, PASSWORD_BCRYPT), // Hash da senha
+            'senha' => password_hash($senha, PASSWORD_DEFAULT), // Hash da senha
             'status' => 1
 
         ];

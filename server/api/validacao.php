@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $cpf = $_POST['cpf'];
 
-        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        $mysqli = new mysqli("localhost", "estagiarioSelect", "123", "estagiou");
 
         if ($mysqli->connect_error) {
             http_response_code(500);
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $rg = $_POST['rg'];
 
-        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        $mysqli = new mysqli("localhost", "estagiarioSelect", "123", "estagiou");
 
         if ($mysqli->connect_error) {
             http_response_code(500);

@@ -30,9 +30,9 @@ $(document).ready(function () {
 
     }
 
-    function trocaPage(url) {
-        var self = $(this); // Salva a referência ao elemento clicado
-
+    function trocaPage(button, url) {
+        var self = $(button);
+    
         if (!self.hasClass('active')) {
             $('.nav-link').removeClass('active');
             self.addClass('active');
@@ -45,6 +45,8 @@ $(document).ready(function () {
             });
         }
     }
+    
+    
 
     if (toastLoginBtn.length && toastLogin.length && larguraPg > 1000) {
         toastLoginBtn.on("mouseenter", function () {
@@ -80,25 +82,42 @@ $(document).ready(function () {
         }
     });
 
-    // Ajusta os eventos de clique para passar funções em vez de executar imediatamente
-    btnIndex.on('click', function () {
-        trocaPage("public/templates/index/initial.php");
+    function trocaPage(button, url) {
+        var self = $(button);
+    
+        if (!self.hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            self.addClass('active');
+            banner.animate({ width: 'toggle' });
+            main.animate({ width: 'toggle' }, function () {
+                main.empty();
+                main.load(url, function () {
+                    main.animate({ width: 'toggle' });
+                });
+            });
+        }
+    }
+    
+    btnIndex.on('click', function() {
+        trocaPage(this, "public/templates/index/initial.php");
     });
-
-    btnSobre.on('click', function () {
-        trocaPage("public/pages/sobre.php");
+    
+    btnSobre.on('click', function() {
+        trocaPage(this, "public/pages/sobre.php");
     });
-
-    btnObjetivos.on('click', function () {
-        trocaPage("public/pages/objetivos.php");
+    
+    btnObjetivos.on('click', function() {
+        trocaPage(this, "public/pages/objetivos.php");
     });
-
-    btnSuporte.on('click', function () {
-        trocaPage("public/pages/suporte.php");
+    
+    btnSuporte.on('click', function() {
+        trocaPage(this, "public/pages/suporte.php");
     });
-
-    btnEntrar.on('click', function () {
-        trocaPage("public/pages/entrar.php");
+    
+    btnEntrar.on('click', function() {
+        trocaPage(this, "public/pages/entrar.php");
     });
+    
+    
 
 });

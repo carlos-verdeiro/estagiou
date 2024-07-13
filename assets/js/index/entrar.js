@@ -1,7 +1,7 @@
 $(document).ready(function () {
     const checkPass = $("#btn-check-outlined");
     const checkPassLabelImg = $("#checkPassLabelImg");
-    const inputPass = $("#validationCustomPass")
+    const inputPass = $("#senha")
 
     checkPass.on('click', function () {
         if (checkPassLabelImg.attr('src') === 'assets/img/icons/eyeSlash.svg') {
