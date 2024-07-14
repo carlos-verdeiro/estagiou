@@ -1,0 +1,9 @@
+#sectionSobre{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    margin: 0 auto;
+    background-color: aqua;
+}
