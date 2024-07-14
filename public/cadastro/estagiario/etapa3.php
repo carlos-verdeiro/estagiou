@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 3) {
+if ($_SESSION['statusCadastroEstagiario'] != "andamento" || $_SESSION['etapaCadastroEstagiario'] < 3) {
     header("Location: action.php");
     exit;
 }
@@ -35,8 +35,8 @@ if (
         $_SESSION["dependentesEstagiario"] = 0;
     }
 
-    $_SESSION['statusCadastro'] = "andamento";
-    $_SESSION['etapaCadastro'] = 4;
+    $_SESSION['statusCadastroEstagiario'] = "andamento";
+    $_SESSION['etapaCadastroEstagiario'] = 4;
     header("Location: etapa4.php");
     exit;
 }
@@ -221,7 +221,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEstagiario.js"></script>
 
 </body>
 

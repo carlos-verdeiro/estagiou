@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento") {
+if ($_SESSION['statusCadastroEstagiario'] != "andamento") {
     header("Location: action.php");
 }
 
@@ -57,8 +57,8 @@ if (
         $_SESSION["nomeEstagiario"] = $nome;
         $_SESSION["sobrenomeEstagiario"] = $sobrenome;
         $_SESSION["emailEstagiario"] = $email;
-        $_SESSION['statusCadastro'] = "andamento";
-        $_SESSION['etapaCadastro'] = 2;
+        $_SESSION['statusCadastroEstagiario'] = "andamento";
+        $_SESSION['etapaCadastroEstagiario'] = 2;
         header("Location: etapa2.php");
         exit;
     }
@@ -149,7 +149,7 @@ if (
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--EMAIL-->
-                    <input type="email" id="email" class="form-control w-100" placeholder="Email" aria-label="Email" name="email" value="<?php echo $email; ?>" required>
+                    <input type="email" id="email" class="form-control w-100" placeholder="Email" aria-label="Email" name="email" value="<?php echo $email; ?>" maxlength="100" required>
                     <label for="email">E-mail *</label>
                     <div class="invalid-feedback" id="feedback-email">
                         Preencha corretamente!
@@ -164,7 +164,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEstagiario.js"></script>
 
 </body>
 

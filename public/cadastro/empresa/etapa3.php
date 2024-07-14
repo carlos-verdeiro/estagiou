@@ -1,47 +1,42 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 3) {
+if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 3) {
     header("Location: action.php");
-    exit;
 }
 
+
 if (
-    isset($_POST['dataNascimento']) && !empty($_POST['dataNascimento']) &&
-    isset($_POST['nacionalidade']) && !empty($_POST['nacionalidade']) &&
-    isset($_POST['celular']) && !empty($_POST['celular'])
+    isset($_POST['endereco']) && !empty($_POST['endereco']) &&
+    isset($_POST['bairro']) && !empty($_POST['bairro']) &&
+    isset($_POST['numero']) && !empty($_POST['numero']) &&
+    isset($_POST['cidade']) && !empty($_POST['cidade']) &&
+    isset($_POST['estado']) && !empty($_POST['estado']) &&
+    isset($_POST['cep']) && !empty($_POST['cep']) &&
+    isset($_POST['pais']) && !empty($_POST['pais'])
+
 ) {
-    $_SESSION["dataNascimentoEstagiario"] = htmlspecialchars($_POST['dataNascimento'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["nacionalidadeEstagiario"] = htmlspecialchars($_POST['nacionalidade'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["celularEstagiario"] = htmlspecialchars($_POST['celular'], ENT_QUOTES, 'UTF-8');
-    if (isset($_POST['telefone']) && !empty($_POST['telefone'])) {
-        $_SESSION["telefoneEstagiario"] = htmlspecialchars($_POST['telefone'], ENT_QUOTES, 'UTF-8');
-    } else {
-        $_SESSION["telefoneEstagiario"] = NULL;
-    }
 
-    if (isset($_POST['cnhSem'])) {
-        $_SESSION["cnhEstagiario"] = 'N';
-    } elseif (isset($_POST['cnh'])) {
-        $cnhzin = implode('', $_POST['cnh']);
-        $_SESSION["cnhEstagiario"] = htmlspecialchars($cnhzin, ENT_QUOTES, 'UTF-8');
-    } else {
-        $_SESSION["cnhEstagiario"] = 'N';
+    $_SESSION["enderecoEmpresa"] = htmlspecialchars($_POST['endereco'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["bairroEmpresa"] = htmlspecialchars($_POST['bairro'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["numeroEmpresa"] = htmlspecialchars($_POST['numero'], ENT_QUOTES, 'UTF-8');
+    if (isset($_POST['complemento']) && $_POST['complemento'] != NULL) {
+        $_SESSION["complementoEmpresa"] = htmlspecialchars($_POST['complemento'], ENT_QUOTES, 'UTF-8');
     }
+    $_SESSION["cidadeEmpresa"] = htmlspecialchars($_POST['cidade'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["estadoEmpresa"] = htmlspecialchars($_POST['estado'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["cepEmpresa"] = htmlspecialchars($_POST['cep'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["paisEmpresa"] = htmlspecialchars($_POST['pais'], ENT_QUOTES, 'UTF-8');
 
-    if (isset($_POST['dependentes']) && is_numeric($_POST['dependentes'])) {
-        $_SESSION["dependentesEstagiario"] = htmlspecialchars($_POST['dependentes'], ENT_QUOTES, 'UTF-8');
-    } else {
-        $_SESSION["dependentesEstagiario"] = 0;
-    }
 
-    $_SESSION['statusCadastro'] = "andamento";
-    $_SESSION['etapaCadastro'] = 4;
+    $_SESSION['statusCadastroEmpresa'] = "andamento";
+    $_SESSION['etapaCadastroEmpresa'] = 4;
     header("Location: etapa4.php");
     exit;
 }
-?>
 
+
+?>
 
 
 <!DOCTYPE html>
@@ -79,13 +74,14 @@ if (
     include_once "../../templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
-    // Definindo constantes para as chaves da sessão
-    define('DATA_NASCIMENTO_KEY', 'dataNascimentoEstagiario');
-    define('NACIONALIDADE_KEY', 'nacionalidadeEstagiario');
-    define('CELULAR_KEY', 'celularEstagiario');
-    define('TELEFONE_KEY', 'telefoneEstagiario');
-    define('CNH_KEY', 'cnhEstagiario');
-    define('DEPENDENTES_KEY', 'dependentesEstagiario');
+    define('ENDERECO_KEY', 'enderecoEmpresa');
+    define('BAIRRO_KEY', 'bairroEmpresa');
+    define('NUMERO_KEY', 'numeroEmpresa');
+    define('COMPLEMENTO_KEY', 'complementoEmpresa');
+    define('CIDADE_KEY', 'cidadeEmpresa');
+    define('ESTADO_KEY', 'estadoEmpresa');
+    define('CEP_KEY', 'cepEmpresa');
+    define('PAIS_KEY', 'paisEmpresa');
 
 
     // Função para obter valor da sessão
@@ -94,124 +90,118 @@ if (
         return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
     }
 
-    $dataNascimento = pegarSessao(DATA_NASCIMENTO_KEY);
-    $nacionalidade = pegarSessao(NACIONALIDADE_KEY);
-    $celular = pegarSessao(CELULAR_KEY);
-    $telefone = pegarSessao(TELEFONE_KEY);
-    $cnh = pegarSessao(CNH_KEY);
-    $dependentes = pegarSessao(DEPENDENTES_KEY);
-
+    $endereco = pegarSessao(ENDERECO_KEY);
+    $bairro = pegarSessao(BAIRRO_KEY);
+    $numero = pegarSessao(NUMERO_KEY);
+    $complemento = pegarSessao(COMPLEMENTO_KEY);
+    $cidade = pegarSessao(CIDADE_KEY);
+    $estado = pegarSessao(ESTADO_KEY);
+    $cep = pegarSessao(CEP_KEY);
+    $pais = pegarSessao(PAIS_KEY);
 
     ?>
 
-
     <section id="cadastro">
-        <form class="formComponent row" method="post" id="formEtapa3">
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 40%;">40%</div>
+        <form class="formComponent row" method="post" id="formEtapa3" novalidate>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 60%;">60%</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
-            <div class="row divInputs ">
-                <div class="m-1 row">
-                    <div class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
-                        <input autofocus type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
-                        <label for="dataNascimento">Data de nascimento *</label>
-                        <div class="invalid-feedback" id="feedback-dataNascimento">
+            <div class="row divInputs">
+                <div class="form-floating m-1 row">
+                    <div  class="form-floating col p-0 me-1"><!--CEP-->
+                        <input autofocus type="text" id="cep" class="form-control w-100" placeholder="CEP" aria-label="CEP" name="cep" value="<?php echo $cep; ?>" required>
+                        <label for="cep">CEP *</label>
+                        <div class="invalid-feedback" id="feedback-cep">
                             Preencha corretamente!
                         </div>
                     </div>
-                    <div class="form-floating col p-0 md-1"><!--ESTADO EMISSOR-->
-                        <input type="text" id="nacionalidade" list="listaNacionalidade" class="form-control w-100" placeholder="Nacionalidade" aria-label="Nacionalidade" name="nacionalidade" value="<?php echo $nacionalidade; ?>" maxlength="20" required>
-                        <label for="nacionalidade">Nacionalidade *</label>
-                        <datalist id="listaNacionalidade">
-                            <option value="Brasileira"></option>
-                            <option value="Americana"></option>
-                            <option value="Portuguesa"></option>
-                            <option value="Italiana"></option>
-                            <option value="Japonesa"></option>
-                            <option value="Alemã"></option>
-                            <option value="Argentina"></option>
-                            <option value="Francesa"></option>
-                            <option value="Espanhola"></option>
-                            <option value="Chinesa"></option>
-                        </datalist>
-                        <div class="invalid-feedback" id="feedback-nacionalidade">
+                    <div class="form-floating col p-0 md-1"><!--PAÍS-->
+                        <input type="text" id="pais" class="form-control w-100" placeholder="País" aria-label="País" name="pais" value="<?php echo ($pais != NULL) ? $pais : 'Brasil'; ?>" maxlength="40" required>
+                        <label for="pais">País *</label>
+                        <div class="invalid-feedback" id="feedback-pais">
+                            Preencha corretamente!
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-floating m-1 row">
+                    <div class="form-floating col p-0 me-1"><!--CIDADE-->
+                        <input type="text" id="cidade" class="form-control w-100" placeholder="Cidade" aria-label="Cidade" value="<?php echo $cidade; ?>" maxlength="50" name="cidade" required>
+                        <label for="cidade">Cidade *</label>
+                        <div class="invalid-feedback" id="feedback-cidade">
+                            Preencha corretamente!
+                        </div>
+                    </div>
+                    <div class="form-floating col p-0 md-1"><!--ESTADO-->
+                        <select id="estado" class="form-select w-100" aria-label="Estado" name="estado" required>
+                            <option <?php echo ($estado == 'NA' || $estado == NULL || $estado == '') ? 'selected' : ''; ?> disabled hidden value="NA">Selecione</option>
+                            <option <?php echo ($estado == 'AC') ? 'selected' : ''; ?> value="AC">Acre</option>
+                            <option <?php echo ($estado == 'AL') ? 'selected' : ''; ?> value="AL">Alagoas</option>
+                            <option <?php echo ($estado == 'AP') ? 'selected' : ''; ?> value="AP">Amapá</option>
+                            <option <?php echo ($estado == 'AM') ? 'selected' : ''; ?> value="AM">Amazonas</option>
+                            <option <?php echo ($estado == 'BA') ? 'selected' : ''; ?> value="BA">Bahia</option>
+                            <option <?php echo ($estado == 'CE') ? 'selected' : ''; ?> value="CE">Ceará</option>
+                            <option <?php echo ($estado == 'DF') ? 'selected' : ''; ?> value="DF">Distrito Federal</option>
+                            <option <?php echo ($estado == 'ES') ? 'selected' : ''; ?> value="ES">Espírito Santo</option>
+                            <option <?php echo ($estado == 'GO') ? 'selected' : ''; ?> value="GO">Goiás</option>
+                            <option <?php echo ($estado == 'MA') ? 'selected' : ''; ?> value="MA">Maranhão</option>
+                            <option <?php echo ($estado == 'MT') ? 'selected' : ''; ?> value="MT">Mato Grosso</option>
+                            <option <?php echo ($estado == 'MS') ? 'selected' : ''; ?> value="MS">Mato Grosso do Sul</option>
+                            <option <?php echo ($estado == 'MG') ? 'selected' : ''; ?> value="MG">Minas Gerais</option>
+                            <option <?php echo ($estado == 'PA') ? 'selected' : ''; ?> value="PA">Pará</option>
+                            <option <?php echo ($estado == 'PB') ? 'selected' : ''; ?> value="PB">Paraíba</option>
+                            <option <?php echo ($estado == 'PR') ? 'selected' : ''; ?> value="PR">Paraná</option>
+                            <option <?php echo ($estado == 'PE') ? 'selected' : ''; ?> value="PE">Pernambuco</option>
+                            <option <?php echo ($estado == 'PI') ? 'selected' : ''; ?> value="PI">Piauí</option>
+                            <option <?php echo ($estado == 'RJ') ? 'selected' : ''; ?> value="RJ">Rio de Janeiro</option>
+                            <option <?php echo ($estado == 'RN') ? 'selected' : ''; ?> value="RN">Rio Grande do Norte</option>
+                            <option <?php echo ($estado == 'RS') ? 'selected' : ''; ?> value="RS">Rio Grande do Sul</option>
+                            <option <?php echo ($estado == 'RO') ? 'selected' : ''; ?> value="RO">Rondônia</option>
+                            <option <?php echo ($estado == 'RR') ? 'selected' : ''; ?> value="RR">Roraima</option>
+                            <option <?php echo ($estado == 'SC') ? 'selected' : ''; ?> value="SC">Santa Catarina</option>
+                            <option <?php echo ($estado == 'SP') ? 'selected' : ''; ?> value="SP">São Paulo</option>
+                            <option <?php echo ($estado == 'SE') ? 'selected' : ''; ?> value="SE">Sergipe</option>
+                            <option <?php echo ($estado == 'TO') ? 'selected' : ''; ?> value="TO">Tocantins</option>
+
+                        </select> <label for="estado">Estado *</label>
+                        <div class="invalid-feedback" id="feedback-estado">
                             Preencha corretamente!
                         </div>
                     </div>
                 </div>
                 <div class="form-floating m-1 row">
-                    <div class="form-floating col p-0 me-1"><!--CELULAR-->
-                        <input type="text" id="celular" class="form-control w-100" placeholder="Celular" aria-label="Celular" name="celular" value="<?php echo $celular; ?>" required maxlength="15">
-                        <label for="celular">Celular *</label>
-                        <div class="invalid-feedback" id="feedback-celular">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                    <div class="form-floating col p-0 md-1"><!--TELEFONE-->
-                        <input type="text" id="telefone" class="form-control w-100" placeholder="Telefone" aria-label="Telefone" name="telefone" value="<?php echo $telefone; ?>" maxlength="14">
-                        <label for="telefone">Telefone</label>
-                        <div class="invalid-feedback" id="feedback-telefone">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                </div>
-                <div class="m-1 row">
-                    <div class=" form-floating col p-0 me-1"><!--CNH-->
-                        <h6>Categoria de CNH que possui: </h6>
-                        <div class=" m-1 form-floating row p-0 me-1">
-                            <div class="form-floating col p-0 me-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="A" id="cnhA" name="cnh[]" <?php echo $c = (in_array("A", str_split($cnh))) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cnhA">
-                                        A
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="B" id="cnhB" name="cnh[]" <?php echo $c = (in_array("B", str_split($cnh))) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cnhB">
-                                        B
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="C" id="cnhC" name="cnh[]" <?php echo $c = (in_array("C", str_split($cnh))) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cnhC">
-                                        C
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-floating col p-0 me-1"><!--CNH-->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="D" id="cnhD" name="cnh[]" <?php echo $c = (in_array("D", str_split($cnh))) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cnhD">
-                                        D
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="E" id="cnhE" name="cnh[]" <?php echo $c = (in_array("E", str_split($cnh))) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cnhE">
-                                        E
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (isset($_SESSION['cnhEstagiario'])&&$_SESSION['cnhEstagiario'] === 'N') ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cnhSem">
-                                        Não Possuo
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-floating col p-0 md-1"><!--DEPENDENTES-->
-                        <input type="number" id="dependentes" min=0 class="form-control w-100" placeholder="Dependentes" aria-label="Dependentes" name="dependentes" value="<?php echo $dependentes; ?>" maxlength="10">
-                        <label for="dependentes">Dependentes</label>
-                        <div class="invalid-feedback" id="feedback-dependentes">
-                            Preencha corretamente!
-                        </div>
-                        <p class="text-secondary text-end">Digite 0 caso não haja!</p>
-                    </div>
-                </div>
 
+                    <div class="form-floating col p-0 me-1"><!--ENDEREÇO-->
+                        <input type="text" id="endereco" class="form-control w-100" placeholder="Endereço" aria-label="Endereço" value="<?php echo $endereco; ?>" maxlength="255" name="endereco" required>
+                        <label for="endereco">Endereço *</label>
+                        <div class="invalid-feedback" id="feedback-endereco">
+                            Preencha corretamente!
+                        </div>
+                    </div>
+                    <div class="form-floating col p-0 md-1"><!--BAIRRO-->
+                        <input type="text" id="bairro" class="form-control w-100" placeholder="Bairro" aria-label="Bairro" value="<?php echo $bairro; ?>" maxlength="70" name="bairro" required>
+                        <label for="bairro">Bairro *</label>
+                        <div class="invalid-feedback" id="feedback-bairro">
+                            Preencha corretamente!
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating m-1 row"><!--NÚMERO-->
+                    <input type="text" id="numero" class="form-control w-100" placeholder="Número" aria-label="Número" name="numero" value="<?php echo $numero; ?>" maxlength="10" required>
+                    <label for="numero">Número *</label>
+                    <div class="invalid-feedback" id="feedback-numero">
+                        Preencha corretamente!
+                    </div>
+                </div>
+                <div class="form-floating m-1 row"><!--COMPLEMENTO-->
+                    <input type="text" id="complemento" class="form-control w-100" placeholder="Complemento" aria-label="Complemento" name="complemento" value="<?php echo $complemento; ?>">
+                    <label for="complemento">Complemento</label>
+                    <div class="invalid-feedback" id="feedback-complemento">
+                        Preencha corretamente!
+                    </div>
+                </div>
             </div>
 
             <div class="botoesAvanco row"><!--BOTÕES-->
@@ -221,7 +211,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
 
 </body>
 

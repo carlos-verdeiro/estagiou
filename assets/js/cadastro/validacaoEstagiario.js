@@ -215,10 +215,10 @@ $(document).ready(function () {
                         email.addClass('is-valid');
                         resolve(true); // CPF disponível
                     } else {
-                        feedbackEmail.text('Usuário já existente');
+                        feedbackEmail.text('E-mail já utilizado');
                         email.removeClass('is-valid');
                         email.addClass('is-invalid');
-                        reject('Usuário já existente');
+                        reject('E-mail já utilizado');
                     }
                 },
                 error: function (xhr) {
@@ -611,6 +611,20 @@ $(document).ready(function () {
 
         // Realiza a validação do campo antes do envio
         if (validacaoTamanho(dataNascimento, feedbackDataNascimento, 'igual', 10) && validacaoTamanho(nacionalidade, feedbackNacionalidade, 'minimo', 0) && validacaoTamanho(celular, feedbackCelular, 'igual', 15)) {
+            // Se a validação for bem-sucedida, prossegue com o envio do formulário
+            this.submit();
+        } else {
+            // Se a validação falhar, exibe mensagem ou realiza ação necessária
+            console.log('Campos não preenchidos corretamente');
+        }
+    });
+
+    $('#formEtapa4').submit(function (event) {
+        // Evita o envio padrão do formulário
+        event.preventDefault();
+
+        // Realiza a validação do campo antes do envio
+        if (validacaoTamanho(cep, feedbackCep, 'igual', 9) && validacaoTamanho(pais, feedbackPais, 'minimo', 0) && validacaoTamanho(cidade, feedbackCidade, 'minimo', 0) && validacaoSelect(estado, feedbackEstado) && validacaoTamanho(endereco, feedbackEndereco, 'minimo', 0) && validacaoTamanho(bairro, feedbackBairro, 'minimo', 0) && validacaoTamanho(numero, feedbackNumero, 'minimo', 0)) {
             // Se a validação for bem-sucedida, prossegue com o envio do formulário
             this.submit();
         } else {

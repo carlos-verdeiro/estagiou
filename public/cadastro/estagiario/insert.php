@@ -23,9 +23,8 @@
 session_start();
 
 if (
-    isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "confirmado" &&
-    isset($_SESSION['tipoCadastro']) && $_SESSION['tipoCadastro'] == "estagiario" &&
-    isset($_SESSION['etapaCadastro']) && $_SESSION['etapaCadastro'] == 6
+    isset($_SESSION['statusCadastroEstagiario']) && $_SESSION['statusCadastroEstagiario'] == "confirmado" &&
+    isset($_SESSION['etapaCadastroEstagiario']) && $_SESSION['etapaCadastroEstagiario'] == 6
 ) {
 
     class variavelNaoExiste extends Exception
@@ -261,24 +260,16 @@ if (
                 case 'senha':
                 case 'email':
                 case 'complemento':
-
-
-
-                    if (strlen($texto) < $min || strlen($texto) > $max) {
-                        return false;
-                    }
-
-
-                    break;
-
                 case 'endereco':
 
+
+
+
                     if (strlen($texto) < $min || strlen($texto) > $max) {
                         return false;
                     }
-                    if (!preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ' -.,:]+$/", $texto)) {
-                        return false;
-                    }
+
+
                     break;
 
                 default:
@@ -287,7 +278,6 @@ if (
 
             return true;
         }
-
 
         if (!validar($cpf, 'cpf', 11, 11)) {
             throw new variavelNaoExiste("CPF ERRO\n");
@@ -391,8 +381,8 @@ if (
         }
 
         if ($erros > 0) {
-            $_SESSION['statusCadastro'] = "andamento";
-            $_SESSION['etapaCadastro'] = 6;
+            $_SESSION['statusCadastroEstagiario'] = "andamento";
+            $_SESSION['etapaCadastroEstagiario'] = 6;
             header("Location: etapa6.php?erro");
             exit;
         }
@@ -482,6 +472,7 @@ if (
             'status' => 1
 
         ];
+        
 
         if ($usuario->inserirUsuario($dados)) {
             session_unset();

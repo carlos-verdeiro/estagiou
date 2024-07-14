@@ -24,18 +24,17 @@
 
 session_start();
 
-// Gere um token de sessão se ele ainda não existir
-if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "confirmado") {
+if (isset($_SESSION['statusCadastroEstagiario']) && $_SESSION['statusCadastroEstagiario'] == "confirmado") {
 
   header("location: insert.php");
   exit;
 }
 
-if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andamento") {
+if (isset($_SESSION['statusCadastroEstagiario']) && $_SESSION['statusCadastroEstagiario'] == "andamento") {
 
-  if (isset($_SESSION['etapaCadastro']) && $_SESSION['etapaCadastro'] != NULL) {
+  if (isset($_SESSION['etapaCadastroEstagiario']) && $_SESSION['etapaCadastroEstagiario'] != NULL) {
 
-    header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+    header("location: etapa" . $_SESSION['etapaCadastroEstagiario'] . ".php");
     exit;
   }
   header("location: ../cadastro.php");
@@ -44,9 +43,9 @@ if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andame
 
 session_destroy();
 session_start();
-$_SESSION['statusCadastro'] = "andamento";
-$_SESSION['etapaCadastro'] = 1;
-header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+$_SESSION['statusCadastroEstagiario'] = "andamento";
+$_SESSION['etapaCadastroEstagiario'] = 1;
+header("location: etapa" . $_SESSION['etapaCadastroEstagiario'] . ".php");
 exit;
 
 

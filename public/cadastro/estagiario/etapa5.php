@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 5) {
+if ($_SESSION['statusCadastroEstagiario'] != "andamento" || $_SESSION['etapaCadastroEstagiario'] < 5) {
     header("Location: action.php");
 }
 
@@ -16,8 +16,8 @@ if (
     $_SESSION["senhaEstagiario"] = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
 
 
-    $_SESSION['statusCadastro'] = "andamento";
-    $_SESSION['etapaCadastro'] = 6;
+    $_SESSION['statusCadastroEstagiario'] = "andamento";
+    $_SESSION['etapaCadastroEstagiario'] = 6;
     header("Location: etapa6.php");
     exit;
 }
@@ -112,8 +112,6 @@ if (
 
             </div>
 
-
-
             </div>
 
             <div class="botoesAvanco row"><!--BOTÕES-->
@@ -123,27 +121,11 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEstagiario.js"></script>
     <script>
         const senhaCheck = $("#senha-Check");
         const checkPassLabelImgSenha = $("#checkPassLabelImgSenha");
         const senha = $("#senha");
-
-        const confirmacaoSenhaCheck = $("#confirmacaoSenha-Check");
-        const checkPassLabelImgConfirmacaoSenha = $("#checkPassLabelImgConfirmacaoSenha");
-        const confirmacaoSenha = $("#confirmacaoSenha");
-
-        confirmacaoSenhaCheck.on('click', function() {
-            if (checkPassLabelImgConfirmacaoSenha.attr('src') === '../../../assets/img/icons/eyeSlash.svg') {
-                checkPassLabelImgConfirmacaoSenha.attr('src', '../../../assets/img/icons/eyeFill.svg');
-                confirmacaoSenha.attr('type', 'text');
-                confirmacaoSenha.focus();
-            } else {
-                checkPassLabelImgConfirmacaoSenha.attr('src', '../../../assets/img/icons/eyeSlash.svg');
-                confirmacaoSenha.attr('type', 'password');
-                confirmacaoSenha.focus();
-            }
-        });
 
         senhaCheck.on('click', function() {
             if (checkPassLabelImgSenha.attr('src') === '../../../assets/img/icons/eyeSlash.svg') {

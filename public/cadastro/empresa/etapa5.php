@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 5) {
+if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 4) {
     header("Location: action.php");
 }
 
@@ -10,14 +10,12 @@ if (
     isset($_POST['senha']) && !empty($_POST['senha']) &&
     isset($_POST['confirmacaoSenha']) && !empty($_POST['confirmacaoSenha']) &&
     $_POST['senha'] === $_POST['confirmacaoSenha']
-
 ) {
 
-    $_SESSION["senhaEstagiario"] = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["senhaEmpresa"] = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
 
-
-    $_SESSION['statusCadastro'] = "andamento";
-    $_SESSION['etapaCadastro'] = 6;
+    $_SESSION['statusCadastroEmpresa'] = "andamento";
+    $_SESSION['etapaCadastroEmpresa'] = 6;
     header("Location: etapa6.php");
     exit;
 }
@@ -32,7 +30,7 @@ if (
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etapa 5</title>
+    <title>Etapa 4</title>
 
     <link rel="stylesheet" href="../../../assets/css/cadastro/etapas.css">
 
@@ -41,6 +39,7 @@ if (
     <!--BOOTSTRAP-->
     <link href="../../../assets/css/bootstrap.css" rel="stylesheet">
     <script src="../../../assets/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!--ICONES-->
     <!--FIM BOOTSTRAP-->
 
     <!--JQUERY-->
@@ -62,7 +61,9 @@ if (
     //---------HEADER---------
 
     // Definindo constantes para as chaves da sessão
-    define('SENHA_KEY', 'senhaEstagiario');
+    define('SENHA_KEY', 'senhaEmpresa');
+
+
 
 
     // Função para obter valor da sessão
@@ -74,15 +75,14 @@ if (
     $senha = pegarSessao(SENHA_KEY);
 
 
-
     ?>
 
 
     <section id="cadastro">
 
-        <form class="formComponent row" method="post" id="formEtapa5">
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 80%;">80%</div>
+        <form class="formComponent row" method="post" id="formEtapa5" novalidate>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 20%;">20%</div>
             </div>
             <h1 id='tituloCadastro'>CRIE UMA SENHA</h1>
             <div class="row divInputs ">
@@ -112,10 +112,6 @@ if (
 
             </div>
 
-
-
-            </div>
-
             <div class="botoesAvanco row"><!--BOTÕES-->
                 <a href="etapa4.php" class="btn btn-warning btnVoltar col  m-1 btn btn-lg w-50">VOLTAR</a>
                 <button type="submit" class="btn btn-success btnProximo col m-1 btn btn-lg w-50">PRÓXIMO</button>
@@ -123,27 +119,11 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
     <script>
         const senhaCheck = $("#senha-Check");
         const checkPassLabelImgSenha = $("#checkPassLabelImgSenha");
         const senha = $("#senha");
-
-        const confirmacaoSenhaCheck = $("#confirmacaoSenha-Check");
-        const checkPassLabelImgConfirmacaoSenha = $("#checkPassLabelImgConfirmacaoSenha");
-        const confirmacaoSenha = $("#confirmacaoSenha");
-
-        confirmacaoSenhaCheck.on('click', function() {
-            if (checkPassLabelImgConfirmacaoSenha.attr('src') === '../../../assets/img/icons/eyeSlash.svg') {
-                checkPassLabelImgConfirmacaoSenha.attr('src', '../../../assets/img/icons/eyeFill.svg');
-                confirmacaoSenha.attr('type', 'text');
-                confirmacaoSenha.focus();
-            } else {
-                checkPassLabelImgConfirmacaoSenha.attr('src', '../../../assets/img/icons/eyeSlash.svg');
-                confirmacaoSenha.attr('type', 'password');
-                confirmacaoSenha.focus();
-            }
-        });
 
         senhaCheck.on('click', function() {
             if (checkPassLabelImgSenha.attr('src') === '../../../assets/img/icons/eyeSlash.svg') {

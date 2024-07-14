@@ -38,3 +38,11 @@ ieUpdate
 --select email e senha TODOS
 loginAll
 123
+
+-- select cnpj TODOS
+cnpjSelect
+123
+
+-- select email TODOS
+emailSelect
+123

@@ -23,9 +23,8 @@
 session_start();
 
 if (
-    isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "confirmado" &&
-    isset($_SESSION['tipoCadastro']) && $_SESSION['tipoCadastro'] == "estagiario" &&
-    isset($_SESSION['etapaCadastro']) && $_SESSION['etapaCadastro'] == 6
+    isset($_SESSION['statusCadastroEmpresa']) && $_SESSION['statusCadastroEmpresa'] == "confirmado" &&
+    isset($_SESSION['etapaCadastroEmpresa']) && $_SESSION['etapaCadastroEmpresa'] == 6
 ) {
 
     class variavelNaoExiste extends Exception
@@ -391,8 +390,8 @@ if (
         }
 
         if ($erros > 0) {
-            $_SESSION['statusCadastro'] = "andamento";
-            $_SESSION['etapaCadastro'] = 6;
+            $_SESSION['statusCadastroEmpresa'] = "andamento";
+            $_SESSION['etapaCadastroEmpresa'] = 6;
             header("Location: etapa6.php?erro");
             exit;
         }

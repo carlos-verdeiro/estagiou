@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 6) {
+if ($_SESSION['statusCadastroEstagiario'] != "andamento" || $_SESSION['etapaCadastroEstagiario'] < 6) {
     header("Location: action.php");
 }
 
@@ -10,9 +10,8 @@ if (
     isset($_POST['confirmado'])
 ) {
 
-    $_SESSION['statusCadastro'] = "confirmado";
-    $_SESSION['tipoCadastro'] = "estagiario";
-    $_SESSION['etapaCadastro'] = 6;
+    $_SESSION['statusCadastroEstagiario'] = "confirmado";
+    $_SESSION['etapaCadastroEstagiario'] = 6;
 
 
 
@@ -494,7 +493,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEstagiario.js"></script>
 
 </body>
 

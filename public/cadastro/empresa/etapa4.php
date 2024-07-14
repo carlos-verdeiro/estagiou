@@ -1,36 +1,33 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento" || $_SESSION['etapaCadastro'] < 4) {
+if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 4) {
     header("Location: action.php");
 }
 
 
 if (
-    isset($_POST['endereco']) && !empty($_POST['endereco']) &&
-    isset($_POST['bairro']) && !empty($_POST['bairro']) &&
-    isset($_POST['numero']) && !empty($_POST['numero']) &&
-    isset($_POST['cidade']) && !empty($_POST['cidade']) &&
-    isset($_POST['estado']) && !empty($_POST['estado']) &&
-    isset($_POST['cep']) && !empty($_POST['cep']) &&
-    isset($_POST['pais']) && !empty($_POST['pais'])
-
+    isset($_POST['atuacao']) && !empty($_POST['atuacao']) &&
+    isset($_POST['descricao']) && !empty($_POST['descricao'])
 ) {
 
-    $_SESSION["enderecoEstagiario"] = htmlspecialchars($_POST['endereco'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["bairroEstagiario"] = htmlspecialchars($_POST['bairro'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["numeroEstagiario"] = htmlspecialchars($_POST['numero'], ENT_QUOTES, 'UTF-8');
-    if (isset($_POST['complemento']) && $_POST['complemento'] != NULL) {
-        $_SESSION["complementoEstagiario"] = htmlspecialchars($_POST['complemento'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["atuacaoEmpresa"] = htmlspecialchars($_POST['atuacao'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["descricaoEmpresa"] = htmlspecialchars($_POST['descricao'], ENT_QUOTES, 'UTF-8');
+
+    if (isset($_POST['website']) && !empty($_POST['website'])) {
+        $_SESSION["websiteEmpresa"] = htmlspecialchars($_POST['website'], ENT_QUOTES, 'UTF-8');
     }
-    $_SESSION["cidadeEstagiario"] = htmlspecialchars($_POST['cidade'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["estadoEstagiario"] = htmlspecialchars($_POST['estado'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["cepEstagiario"] = htmlspecialchars($_POST['cep'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["paisEstagiario"] = htmlspecialchars($_POST['pais'], ENT_QUOTES, 'UTF-8');
-
-
-    $_SESSION['statusCadastro'] = "andamento";
-    $_SESSION['etapaCadastro'] = 5;
+    if (isset($_POST['linkedin']) && !empty($_POST['linkedin'])) {
+        $_SESSION["linkedinEmpresa"] = htmlspecialchars($_POST['linkedin'], ENT_QUOTES, 'UTF-8');
+    }
+    if (isset($_POST['instagram']) && !empty($_POST['instagram'])) {
+        $_SESSION["instagramEmpresa"] = htmlspecialchars($_POST['instagram'], ENT_QUOTES, 'UTF-8');
+    }
+    if (isset($_POST['facebook']) && !empty($_POST['facebook'])) {
+        $_SESSION["facebookEmpresa"] = htmlspecialchars($_POST['facebook'], ENT_QUOTES, 'UTF-8');
+    }
+    $_SESSION['statusCadastroEmpresa'] = "andamento";
+    $_SESSION['etapaCadastroEmpresa'] = 5;
     header("Location: etapa5.php");
     exit;
 }
@@ -54,12 +51,12 @@ if (
     <!--BOOTSTRAP-->
     <link href="../../../assets/css/bootstrap.css" rel="stylesheet">
     <script src="../../../assets/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!--ICONES-->
     <!--FIM BOOTSTRAP-->
 
     <!--JQUERY-->
     <script src="../../../assets/js/jquery-3.7.1.js"></script>
     <script type="text/javascript" src="../../../assets/js/jquery.mask.js"></script><!--PLUGIN JQUERY MASK-->
-
     <!--FIM JQUERY-->
 
     <!--FIM BIBLIOTECAS-->
@@ -68,20 +65,21 @@ if (
 
 <body>
 
+
     <?php
 
     //---------HEADER---------
     include_once "../../templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
-    define('ENDERECO_KEY', 'enderecoEstagiario');
-    define('BAIRRO_KEY', 'bairroEstagiario');
-    define('NUMERO_KEY', 'numeroEstagiario');
-    define('COMPLEMENTO_KEY', 'complementoEstagiario');
-    define('CIDADE_KEY', 'cidadeEstagiario');
-    define('ESTADO_KEY', 'estadoEstagiario');
-    define('CEP_KEY', 'cepEstagiario');
-    define('PAIS_KEY', 'paisEstagiario');
+    // Definindo constantes para as chaves da sessão
+    define('ATUACAO_KEY', 'atuacaoEmpresa');
+    define('DESCRICAO_KEY', 'descricaoEmpresa');
+    define('WEBSITE_KEY', 'websiteEmpresa');
+    define('LINKEDIN_KEY', 'linkedinEmpresa');
+    define('INSTAGRAM_KEY', 'instagramEmpresa');
+    define('FACEBOOK_KEY', 'facebookEmpresa');
+
 
 
     // Função para obter valor da sessão
@@ -90,117 +88,56 @@ if (
         return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
     }
 
-    $endereco = pegarSessao(ENDERECO_KEY);
-    $bairro = pegarSessao(BAIRRO_KEY);
-    $numero = pegarSessao(NUMERO_KEY);
-    $complemento = pegarSessao(COMPLEMENTO_KEY);
-    $cidade = pegarSessao(CIDADE_KEY);
-    $estado = pegarSessao(ESTADO_KEY);
-    $cep = pegarSessao(CEP_KEY);
-    $pais = pegarSessao(PAIS_KEY);
+    $atuacao = pegarSessao(ATUACAO_KEY);
+    $descricao = pegarSessao(DESCRICAO_KEY);
+    $website = pegarSessao(WEBSITE_KEY);
+    $linkedin = pegarSessao(LINKEDIN_KEY);
+    $instagram = pegarSessao(INSTAGRAM_KEY);
+    $facebook = pegarSessao(FACEBOOK_KEY);
 
     ?>
 
+
     <section id="cadastro">
+
         <form class="formComponent row" method="post" id="formEtapa4" novalidate>
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 60%;">60%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 20%;">20%</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
+
             <div class="row divInputs">
-                <div class="form-floating m-1 row">
-                    <div  class="form-floating col p-0 me-1"><!--CEP-->
-                        <input autofocus type="text" id="cep" class="form-control w-100" placeholder="CEP" aria-label="CEP" name="cep" value="<?php echo $cep; ?>" required>
-                        <label for="cep">CEP *</label>
-                        <div class="invalid-feedback" id="feedback-cep">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                    <div class="form-floating col p-0 md-1"><!--PAÍS-->
-                        <input type="text" id="pais" class="form-control w-100" placeholder="País" aria-label="País" name="pais" value="<?php echo ($pais != NULL) ? $pais : 'Brasil'; ?>" maxlength="40" required>
-                        <label for="pais">País *</label>
-                        <div class="invalid-feedback" id="feedback-pais">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="form-floating m-1 row">
-                    <div class="form-floating col p-0 me-1"><!--CIDADE-->
-                        <input type="text" id="cidade" class="form-control w-100" placeholder="Cidade" aria-label="Cidade" value="<?php echo $cidade; ?>" maxlength="50" name="cidade" required>
-                        <label for="cidade">Cidade *</label>
-                        <div class="invalid-feedback" id="feedback-cidade">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                    <div class="form-floating col p-0 md-1"><!--ESTADO-->
-                        <select id="estado" class="form-select w-100" aria-label="Estado" name="estado" required>
-                            <option <?php echo ($estado == 'NA' || $estado == NULL || $estado == '') ? 'selected' : ''; ?> disabled hidden value="NA">Selecione</option>
-                            <option <?php echo ($estado == 'AC') ? 'selected' : ''; ?> value="AC">Acre</option>
-                            <option <?php echo ($estado == 'AL') ? 'selected' : ''; ?> value="AL">Alagoas</option>
-                            <option <?php echo ($estado == 'AP') ? 'selected' : ''; ?> value="AP">Amapá</option>
-                            <option <?php echo ($estado == 'AM') ? 'selected' : ''; ?> value="AM">Amazonas</option>
-                            <option <?php echo ($estado == 'BA') ? 'selected' : ''; ?> value="BA">Bahia</option>
-                            <option <?php echo ($estado == 'CE') ? 'selected' : ''; ?> value="CE">Ceará</option>
-                            <option <?php echo ($estado == 'DF') ? 'selected' : ''; ?> value="DF">Distrito Federal</option>
-                            <option <?php echo ($estado == 'ES') ? 'selected' : ''; ?> value="ES">Espírito Santo</option>
-                            <option <?php echo ($estado == 'GO') ? 'selected' : ''; ?> value="GO">Goiás</option>
-                            <option <?php echo ($estado == 'MA') ? 'selected' : ''; ?> value="MA">Maranhão</option>
-                            <option <?php echo ($estado == 'MT') ? 'selected' : ''; ?> value="MT">Mato Grosso</option>
-                            <option <?php echo ($estado == 'MS') ? 'selected' : ''; ?> value="MS">Mato Grosso do Sul</option>
-                            <option <?php echo ($estado == 'MG') ? 'selected' : ''; ?> value="MG">Minas Gerais</option>
-                            <option <?php echo ($estado == 'PA') ? 'selected' : ''; ?> value="PA">Pará</option>
-                            <option <?php echo ($estado == 'PB') ? 'selected' : ''; ?> value="PB">Paraíba</option>
-                            <option <?php echo ($estado == 'PR') ? 'selected' : ''; ?> value="PR">Paraná</option>
-                            <option <?php echo ($estado == 'PE') ? 'selected' : ''; ?> value="PE">Pernambuco</option>
-                            <option <?php echo ($estado == 'PI') ? 'selected' : ''; ?> value="PI">Piauí</option>
-                            <option <?php echo ($estado == 'RJ') ? 'selected' : ''; ?> value="RJ">Rio de Janeiro</option>
-                            <option <?php echo ($estado == 'RN') ? 'selected' : ''; ?> value="RN">Rio Grande do Norte</option>
-                            <option <?php echo ($estado == 'RS') ? 'selected' : ''; ?> value="RS">Rio Grande do Sul</option>
-                            <option <?php echo ($estado == 'RO') ? 'selected' : ''; ?> value="RO">Rondônia</option>
-                            <option <?php echo ($estado == 'RR') ? 'selected' : ''; ?> value="RR">Roraima</option>
-                            <option <?php echo ($estado == 'SC') ? 'selected' : ''; ?> value="SC">Santa Catarina</option>
-                            <option <?php echo ($estado == 'SP') ? 'selected' : ''; ?> value="SP">São Paulo</option>
-                            <option <?php echo ($estado == 'SE') ? 'selected' : ''; ?> value="SE">Sergipe</option>
-                            <option <?php echo ($estado == 'TO') ? 'selected' : ''; ?> value="TO">Tocantins</option>
-
-                        </select> <label for="estado">Estado *</label>
-                        <div class="invalid-feedback" id="feedback-estado">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                </div>
-                <div class="form-floating m-1 row">
-
-                    <div class="form-floating col p-0 me-1"><!--ENDEREÇO-->
-                        <input type="text" id="endereco" class="form-control w-100" placeholder="Endereço" aria-label="Endereço" value="<?php echo $endereco; ?>" maxlength="255" name="endereco" required>
-                        <label for="endereco">Endereço *</label>
-                        <div class="invalid-feedback" id="feedback-endereco">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                    <div class="form-floating col p-0 md-1"><!--BAIRRO-->
-                        <input type="text" id="bairro" class="form-control w-100" placeholder="Bairro" aria-label="Bairro" value="<?php echo $bairro; ?>" maxlength="70" name="bairro" required>
-                        <label for="bairro">Bairro *</label>
-                        <div class="invalid-feedback" id="feedback-bairro">
-                            Preencha corretamente!
-                        </div>
-                    </div>
-                </div>
-                <div class="form-floating m-1 row"><!--NÚMERO-->
-                    <input type="text" id="numero" class="form-control w-100" placeholder="Número" aria-label="Número" name="numero" value="<?php echo $numero; ?>" maxlength="10" required>
-                    <label for="numero">Número *</label>
-                    <div class="invalid-feedback" id="feedback-numero">
+                <div class="form-floating m-1 row"><!--ÁREA DE ATUAÇÃO-->
+                    <input autofocus type="text" id="atuacao" class="form-control w-100" placeholder="Área de Atuação Empresarial" aria-label="Área de Atuação Empresarial" name="atuacao" value="<?php echo $atuacao; ?>" required>
+                    <label for="atuacao">Área de Atuação Empresarial *</label>
+                    <div class="invalid-feedback" id="feedback-atuacao">
                         Preencha corretamente!
                     </div>
                 </div>
-                <div class="form-floating m-1 row"><!--COMPLEMENTO-->
-                    <input type="text" id="complemento" class="form-control w-100" placeholder="Complemento" aria-label="Complemento" name="complemento" value="<?php echo $complemento; ?>">
-                    <label for="complemento">Complemento</label>
-                    <div class="invalid-feedback" id="feedback-complemento">
+                <div class="form-floating m-1 row"><!--DESCRIÇÃO-->
+                    <textarea id="descricao" class="form-control w-100" placeholder="Descrição da Empresa" aria-label="Descrição da Empresa" name="descricao" maxlength="500" required><?php echo $descricao; ?></textarea>
+                    <label for="descricao">Descrição da Empresa *</label>
+                    <div class="invalid-feedback" id="feedback-descricao">
                         Preencha corretamente!
                     </div>
+                </div>
+                <p class="text-dark text-start m-1 mt-3 ">Redes sociais:</p>
+
+                <div class="input-group  m-1"><!--WEBSITE-->
+                    <span class="input-group-text" id="websiteSpan"><i class="bi bi-globe2"></i></span>
+                    <input type="text" class="form-control" placeholder="Website" aria-label="Website" aria-describedby="Website-link" maxlength="100"  value="<?php echo $website; ?>"  name="website">
+                </div>
+                <div class="input-group  m-1"><!--LINKEDIN-->
+                    <span class="input-group-text" id="linkedinSpan"><i class="bi bi-linkedin"></i></span>
+                    <input type="text" class="form-control" placeholder="Linkedin" aria-label="Linkedin" aria-describedby="Linkedin-link" maxlength="100"  value="<?php echo $linkedin; ?>"  name="linkedin">
+                </div>
+                <div class="input-group  m-1"><!--INSTAGRAM-->
+                    <span class="input-group-text" id="instagramSpan"><i class="bi bi-instagram"></i></span>
+                    <input type="text" class="form-control" placeholder="Instagram" aria-label="Instagram" aria-describedby="Instagram-link" maxlength="100"  value="<?php echo $instagram; ?>"  name="instagram">
+                </div>
+                <div class="input-group  m-1"><!--FACEBOOK-->
+                    <span class="input-group-text" id="facebookSpan"><i class="bi bi-facebook"></i></span>
+                    <input type="text" class="form-control" placeholder="Facebook" aria-label="Facebook" aria-describedby="Facebook-link" maxlength="100"  value="<?php echo $facebook; ?>"  name="facebook">
                 </div>
             </div>
 
@@ -211,7 +148,40 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
+    <script>
+        const senhaCheck = $("#senha-Check");
+        const checkPassLabelImgSenha = $("#checkPassLabelImgSenha");
+        const senha = $("#senha");
+
+        const confirmacaoSenhaCheck = $("#confirmacaoSenha-Check");
+        const checkPassLabelImgConfirmacaoSenha = $("#checkPassLabelImgConfirmacaoSenha");
+        const confirmacaoSenha = $("#confirmacaoSenha");
+
+        confirmacaoSenhaCheck.on('click', function() {
+            if (checkPassLabelImgConfirmacaoSenha.attr('src') === '../../../assets/img/icons/eyeSlash.svg') {
+                checkPassLabelImgConfirmacaoSenha.attr('src', '../../../assets/img/icons/eyeFill.svg');
+                confirmacaoSenha.attr('type', 'text');
+                confirmacaoSenha.focus();
+            } else {
+                checkPassLabelImgConfirmacaoSenha.attr('src', '../../../assets/img/icons/eyeSlash.svg');
+                confirmacaoSenha.attr('type', 'password');
+                confirmacaoSenha.focus();
+            }
+        });
+
+        senhaCheck.on('click', function() {
+            if (checkPassLabelImgSenha.attr('src') === '../../../assets/img/icons/eyeSlash.svg') {
+                checkPassLabelImgSenha.attr('src', '../../../assets/img/icons/eyeFill.svg');
+                senha.attr('type', 'text');
+                senha.focus();
+            } else {
+                checkPassLabelImgSenha.attr('src', '../../../assets/img/icons/eyeSlash.svg');
+                senha.attr('type', 'password');
+                senha.focus();
+            }
+        });
+    </script>
 
 </body>
 

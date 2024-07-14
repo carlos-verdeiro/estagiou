@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastro'] != "andamento") {
+if ($_SESSION['statusCadastroEmpresa'] != "andamento") {
     header("Location: action.php");
 }
 
@@ -14,51 +14,74 @@ function validaEmail($email)
     return preg_match($pattern, $email);
 }
 
-function validaCPF($cpf)
+function validaCNPJ($cnpj)
 {
     // Extrai somente os números
-    $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+    $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
 
-    // Verifica se foi informado todos os dígitos corretamente
-    if (strlen($cpf) != 11) {
+    // Verifica se o CNPJ tem 14 dígitos
+    if (strlen($cnpj) != 14) {
         return false;
     }
 
-    // Verifica se foi informada uma sequência de dígitos repetidos. Ex: 111.111.111-11
-    if (preg_match('/(\d)\1{10}/', $cpf)) {
+    // Verifica se foi informada uma sequência de dígitos repetidos. Ex: 11.111.111/1111-11
+    if (preg_match('/(\d)\1{13}/', $cnpj)) {
         return false;
     }
 
-    // Faz o cálculo para validar o CPF
-    for ($t = 9; $t < 11; $t++) {
-        for ($d = 0, $c = 0; $c < $t; $c++) {
-            $d += $cpf[$c] * (($t + 1) - $c);
-        }
-        $d = ((10 * $d) % 11) % 10;
-        if ($cpf[$c] != $d) {
-            return false;
-        }
+    // Calcula os dígitos verificadores para verificar se o CNPJ é válido
+    $weightFirstDigit = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    $weightSecondDigit = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+
+    // Calcula o primeiro dígito verificador
+    $sum = 0;
+    for ($i = 0; $i < 12; $i++) {
+        $sum += $cnpj[$i] * $weightFirstDigit[$i];
     }
+    $remainder = $sum % 11;
+    $firstVerifierDigit = $remainder < 2 ? 0 : 11 - $remainder;
+
+    // Verifica o primeiro dígito verificador
+    if ($cnpj[12] != $firstVerifierDigit) {
+        return false;
+    }
+
+    // Calcula o segundo dígito verificador
+    $sum = 0;
+    for ($i = 0; $i < 13; $i++) {
+        $sum += $cnpj[$i] * $weightSecondDigit[$i];
+    }
+    $remainder = $sum % 11;
+    $secondVerifierDigit = $remainder < 2 ? 0 : 11 - $remainder;
+
+    // Verifica o segundo dígito verificador
+    if ($cnpj[13] != $secondVerifierDigit) {
+        return false;
+    }
+
     return true;
 }
 
+
 if (
-    isset($_POST['cpf']) && !empty($_POST['cpf']) &&
-    isset($_POST['nome']) && !empty($_POST['nome']) &&
+    isset($_POST['cnpj']) && !empty($_POST['cnpj']) &&
+    isset($_POST['nomeEmpresa']) && !empty($_POST['nomeEmpresa']) &&
+    isset($_POST['telefone']) && !empty($_POST['telefone']) &&
     isset($_POST['email']) && !empty($_POST['email'])
+
 ) {
-    $cpf = htmlspecialchars($_POST['cpf'], ENT_QUOTES, 'UTF-8');
-    $nome = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
-    $sobrenome = htmlspecialchars($_POST['sobrenome'], ENT_QUOTES, 'UTF-8');
+    $cnpj = htmlspecialchars($_POST['cnpj'], ENT_QUOTES, 'UTF-8');
+    $nomeEmpresa = htmlspecialchars($_POST['nomeEmpresa'], ENT_QUOTES, 'UTF-8');
+    $telefone = htmlspecialchars($_POST['telefone'], ENT_QUOTES, 'UTF-8');
     $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
 
-    if (validaEmail($email) && validaCPF($cpf)) {
-        $_SESSION["cpfEstagiario"] = $cpf;
-        $_SESSION["nomeEstagiario"] = $nome;
-        $_SESSION["sobrenomeEstagiario"] = $sobrenome;
-        $_SESSION["emailEstagiario"] = $email;
-        $_SESSION['statusCadastro'] = "andamento";
-        $_SESSION['etapaCadastro'] = 2;
+    if (validaEmail($email) && validaCNPJ($cnpj)) {
+        $_SESSION["cnpjEmpresa"] = $cnpj;
+        $_SESSION["nomeEmpresa"] = $nomeEmpresa;
+        $_SESSION["telefoneEmpresa"] = $telefone;
+        $_SESSION["emailEmpresa"] = $email;
+        $_SESSION['statusCadastroEmpresa'] = "andamento";
+        $_SESSION['etapaCadastroEmpresa'] = 2;
         header("Location: etapa2.php");
         exit;
     }
@@ -101,10 +124,10 @@ if (
     include_once "../../templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
-    define('CPF_KEY', 'cpfEstagiario');
-    define('NOME_KEY', 'nomeEstagiario');
-    define('SOBRENOME_KEY', 'sobrenomeEstagiario');
-    define('EMAIL_KEY', 'emailEstagiario');
+    define('CNPJ_KEY', 'cnpjEmpresa');
+    define('NOME_EMPRESA_KEY', 'nomeEmpresa');
+    define('TELEFONE_KEY', 'telefoneEmpresa');
+    define('EMAIL_KEY', 'emailEmpresa');
 
     // Função para obter valor da sessão
     function pegarSessao($key)
@@ -112,9 +135,9 @@ if (
         return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
     }
 
-    $cpf = pegarSessao(CPF_KEY);
-    $nome = pegarSessao(NOME_KEY);
-    $sobrenome = pegarSessao(SOBRENOME_KEY);
+    $cnpj = pegarSessao(CNPJ_KEY);
+    $nomeEmpresa = pegarSessao(NOME_EMPRESA_KEY);
+    $telefone = pegarSessao(TELEFONE_KEY);
     $email = pegarSessao(EMAIL_KEY);
     ?>
 
@@ -125,32 +148,32 @@ if (
                 <div class="progress-bar" style="width: 0%;">0%</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
-            
+
             <div class="row divInputs">
-                <div class="form-floating m-1 row"><!--CPF-->
-                    <input autofocus type="text" id="cpf" class="form-control w-100" placeholder="CPF" aria-label="CPF" name="cpf" value="<?php echo $cpf; ?>" required>
-                    <label for="cpf">CPF *</label>
-                    <div class="invalid-feedback" id="feedback-cpf">
+                <div class="form-floating m-1 row"><!--CNPJ-->
+                    <input autofocus type="text" id="cnpj" class="form-control w-100" placeholder="CNPJ" aria-label="CNPJ" name="cnpj" value="<?php echo $cnpj; ?>" required>
+                    <label for="cnpj">CNPJ *</label>
+                    <div class="invalid-feedback" id="feedback-cnpj">
                         Preencha corretamente!
                     </div>
                 </div>
-                <div class="form-floating m-1 row"><!--NOME-->
-                    <input type="text" id="nome" class="form-control w-100" placeholder="Nome" aria-label="Nome" name="nome" value="<?php echo $nome; ?>" maxlength="50" required>
-                    <label for="nome">Nome *</label>
-                    <div class="invalid-feedback" id="feedback-nome">
+                <div class="form-floating m-1 row"><!--NOME DA EMPRESA-->
+                    <input type="text" id="nomeEmpresa" class="form-control w-100" placeholder="Nome da Empresa" aria-label="Nome da Empresa" name="nomeEmpresa" value="<?php echo $nomeEmpresa; ?>" maxlength="50" required>
+                    <label for="nomeEmpresa">Nome da Empresa *</label>
+                    <div class="invalid-feedback" id="feedback-nomeEmpresa">
                         Preencha corretamente!
                     </div>
                 </div>
-                <div class="form-floating m-1 row"><!--SOBRENOME-->
-                    <input type="text" id="sobrenome" class="form-control w-100" placeholder="Sobrenome" aria-label="Sobrenome" value="<?php echo $sobrenome; ?>" maxlength="50" name="sobrenome">
-                    <label for="sobrenome">Sobrenome</label>
-                    <div class="invalid-feedback" id="feedback-sobrenome">
+                <div class="form-floating m-1 row"><!--TELEFONE-->
+                    <input type="text" id="telefone" class="form-control w-100" placeholder="Telefone" aria-label="Telefone" value="<?php echo $telefone; ?>" maxlength="50" name="telefone" required>
+                    <label for="telefone">Telefone *</label>
+                    <div class="invalid-feedback" id="feedback-telefone">
                         Preencha corretamente!
                     </div>
                 </div>
-                <div class="form-floating m-1 row"><!--EMAIL-->
-                    <input type="email" id="email" class="form-control w-100" placeholder="Email" aria-label="Email" name="email" value="<?php echo $email; ?>" required>
-                    <label for="email">E-mail *</label>
+                <div class="form-floating m-1 row"><!--EMAIL CORPORATIVO-->
+                    <input type="email" id="email" class="form-control w-100" placeholder="E-mail Corporativo" aria-label="E-mail Corporativo" name="email" value="<?php echo $email; ?>" maxlength="100" required>
+                    <label for="email">E-mail Corporativo *</label>
                     <div class="invalid-feedback" id="feedback-email">
                         Preencha corretamente!
                     </div>
@@ -164,7 +187,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacao1.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
 
 </body>
 

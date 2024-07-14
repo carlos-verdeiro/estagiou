@@ -24,18 +24,17 @@
 
 session_start();
 
-// Gere um token de sessão se ele ainda não existir
-if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "confirmado") {
+if (isset($_SESSION['statusCadastroEmpresa']) && $_SESSION['statusCadastroEmpresa'] == "confirmado") {
 
   header("location: insert.php");
   exit;
 }
 
-if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andamento") {
+if (isset($_SESSION['statusCadastroEmpresa']) && $_SESSION['statusCadastroEmpresa'] == "andamento") {
 
-  if (isset($_SESSION['etapaCadastro']) && $_SESSION['etapaCadastro'] != NULL) {
+  if (isset($_SESSION['etapaCadastroEmpresa']) && $_SESSION['etapaCadastroEmpresa'] != NULL) {
 
-    header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+    header("location: etapa" . $_SESSION['etapaCadastroEmpresa'] . ".php");
     exit;
   }
   header("location: ../cadastro.php");
@@ -44,9 +43,9 @@ if (isset($_SESSION['statusCadastro']) && $_SESSION['statusCadastro'] == "andame
 
 session_destroy();
 session_start();
-$_SESSION['statusCadastro'] = "andamento";
-$_SESSION['etapaCadastro'] = 1;
-header("location: etapa" . $_SESSION['etapaCadastro'] . ".php");
+$_SESSION['statusCadastroEmpresa'] = "andamento";
+$_SESSION['etapaCadastroEmpresa'] = 1;
+header("location: etapa1.php");
 exit;
 
 
