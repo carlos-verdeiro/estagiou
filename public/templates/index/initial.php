@@ -7,8 +7,8 @@
 <section class="container-fluid" id="presentation">
     <section class="container-fluid d-grid gap-2 col-6 mx-auto p-5 " id="cadastroSelecao">
         <h2 class="h2">Se inscrever como</h2>
-        <button class="btn btn-dark botoesCadastro" id="cadastroEstagiario">Estagiário</button>
-        <button class="btn btn-warning botoesCadastro" id="cadastroIE">Instituição de ensino</button>
-        <button class="btn btn-info botoesCadastro" id="cadastroEmpresa">Empresa</button>
+        <a href="public/cadastro/estagiario/action.php" class="btn btn-dark botoesCadastro d-flex align-items-center justify-content-center" id="cadastroEstagiario">Estagiário</a>
+        <a href="public/cadastro/ie/action.php" class="btn btn-warning botoesCadastro d-flex align-items-center justify-content-center" id="cadastroIE">Instituição de ensino</a>
+        <a href="public/cadastro/empresa/action.php" class="btn btn-info botoesCadastro d-flex align-items-center justify-content-center" id="cadastroEmpresa">Empresa</a>
     </section>
 </section>

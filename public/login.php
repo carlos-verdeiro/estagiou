@@ -1,7 +1,11 @@
 <?php
 
-class BancoDadosException extends Exception {}
-class ParametrosException extends Exception {}
+class BancoDadosException extends Exception
+{
+}
+class ParametrosException extends Exception
+{
+}
 
 try {
     // Verifica se os parâmetros foram passados via POST
@@ -55,11 +59,9 @@ try {
 
         echo $mensagem;
         exit;
-
     } else {
         throw new ParametrosException("Não foram passados os parâmetros de forma correta.");
     }
-
 } catch (PDOException $e) {
     echo 'Erro capturado: ' . $e->getMessage() . "\n";
 } catch (BancoDadosException $e) {
@@ -69,4 +71,3 @@ try {
 } catch (Exception $e) {
     echo 'Erro capturado: ' . $e->getMessage() . "\n";
 }
-?>
