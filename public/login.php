@@ -85,7 +85,7 @@ try {
             }
         }
 
-        //echo $mensagem;
+        echo $mensagem;
         exit;
     } else {
         throw new ParametrosException("Não foram passados os parâmetros de forma correta.");

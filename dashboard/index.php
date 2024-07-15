@@ -14,9 +14,11 @@
     <!--BOOTSTRAP-->
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
     <script src="../assets/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!--ICONES-->
+
     <!--FIM BOOTSTRAP-->
 
-        <!--JQUERY-->
+    <!--JQUERY-->
     <script src="../assets/js/jquery-3.7.1.js"></script>
     <script type="text/javascript" src="../assets/js/jquery.mask.js"></script><!--PLUGIN JQUERY MASK-->
 
@@ -29,15 +31,21 @@
 </head>
 
 <body>
-    <nav id="sidebar">
-        <ul>
-            <li><button class="btn" id="divLogoNav"><img src="../assets/img/logo.svg" alt="Logo Estagiou"></button></li>
-        </ul>
-        
+
+    <nav class="offcanvas-sm offcanvas-start sidebar" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Responsive offcanvas</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <button class="btn" id="divLogoNav"><img src="../assets/img/logo.svg" alt="Logo Estagiou"></button>
+        </div>
     </nav>
+
     <main id="main">
         <header id="header">
-
+            <button class="btn btn-secondary d-sm-none botaoMenu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list"></i></button>
+            </button>
         </header>
         <section id="sectionPrincipal">
 

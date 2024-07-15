@@ -1,53 +1,53 @@
 @import url(../custom.css);
 
 
-body{
+body {
     display: flex;
     flex-direction: row;
 
-    & #sidebar{
+    & .sidebar {
         width: 270px;
         height: 100vh;
-        background-color: var(--color-custom-1);
+        background-color: var(--color-custom-1) !important;
 
-        & ul{
-                padding: 0;
 
-            & li{
-                list-style: none;
-                & #divLogoNav{
-                    width: 80%;
-                    height: 60px;
-                    margin-inline: 10%;
-                    margin-top: 30px;
-                    background-color: var(--color-custom-2);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50px;
-        
-                    & img{
-                        height: 100%;
-                    }
-                }
+        & #divLogoNav {
+            width: 80%;
+            height: 60px;
+            margin-inline: 10%;
+            margin-top: 30px;
+            background-color: var(--color-custom-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+
+            & img {
+                height: 100%;
             }
         }
-        
     }
 
-    & #main{
+}
+
+& #main {
+    width: 100%;
+    height: 100vh;
+
+    & #header {
         width: 100%;
-        height: 100vh;
-
-        & #header{
-            width: 100%;
-            height: 8%;
-            background-color: var(--color-custom-4) !important;
+        height: 8%;
+        background-color: var(--color-custom-4) !important;
+        display: flex;
+        align-items: center;
+        justify-content:space-around;
+        & .botaoMenu{
+            width: 100px;
         }
+    }
 
-        & #sectionPrincipal{
-            width: 100%;
-            height: 92%;
-        }
+    & #sectionPrincipal {
+        width: 100%;
+        height: 92%;
     }
 }
