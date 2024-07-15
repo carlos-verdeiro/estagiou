@@ -68,7 +68,7 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
     <?php
 
     //---------HEADER---------
-    include_once "../templates/cadastro/header.php";
+    include_once "../../assets/templates/cadastro/header.php";
     //---------HEADER---------
 
     ?>
@@ -77,7 +77,7 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
             <form class="formComponent p-4">
                 <?php
 
-                include_once("../templates/cadastro/selecao.php");
+                include_once("../../assets/templates/cadastro/selecao.php");
 
                 ?>
             </form>

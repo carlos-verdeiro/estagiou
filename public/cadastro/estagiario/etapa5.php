@@ -59,7 +59,7 @@ if (
     <?php
 
     //---------HEADER---------
-    include_once "../../templates/cadastro/headerEtapa.php";
+    include_once "../../../assets/templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
     // Definindo constantes para as chaves da sessão

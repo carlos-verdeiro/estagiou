@@ -1,3 +1,24 @@
+<script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/ring.js"></script>
+<link rel="stylesheet" href="../assets/css/cadastro/action.css">
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando...</title>
+</head>
+
+<body>
+    <div>
+        <h3>Carregando...</h3>
+        <l-ring size="200" stroke="10" bg-opacity="0" speed="2" color="#4c4eba"></l-ring>
+        <a href="../index.php">Cancelar</a>
+    </div>
+</body>
+
+</html>
+
 <?php
 
 class BancoDadosException extends Exception
@@ -23,7 +44,7 @@ try {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Consulta preparada para estagiário
-        $stmt_estagiario = $conn->prepare("SELECT senha FROM estagiario WHERE email = :email");
+        $stmt_estagiario = $conn->prepare("SELECT senha, id FROM estagiario WHERE email = :email");
         $stmt_estagiario->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt_estagiario->execute();
         $row_estagiario = $stmt_estagiario->fetch(PDO::FETCH_ASSOC);
@@ -31,6 +52,13 @@ try {
         // Verificação de senha para estagiário
         if ($row_estagiario && password_verify($senha, $row_estagiario['senha'])) {
             $mensagem = "Login bem-sucedido como estagiário!";
+            session_start();
+            session_unset();
+            $_SESSION['tipoUsuarioLogin'] = 'estagiario';
+            $_SESSION['statusLogin'] = 'autenticado';
+            $_SESSION['idUsuarioLogin'] = $row_estagiario['id'];
+            header('location: ../dashboard/index.php');
+            exit;
         } else {
             // Consulta preparada para escola
             $stmt_escola = $conn->prepare("SELECT senha FROM escola WHERE email = :email");
@@ -57,7 +85,7 @@ try {
             }
         }
 
-        echo $mensagem;
+        //echo $mensagem;
         exit;
     } else {
         throw new ParametrosException("Não foram passados os parâmetros de forma correta.");
