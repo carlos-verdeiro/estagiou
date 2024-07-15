@@ -1,11 +1,6 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 6) {
-    header("Location: action.php");
-}
-
-
 if (
     isset($_POST['confirmado'])
 ) {
@@ -17,6 +12,9 @@ if (
     exit;
 }
 
+if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 6) {
+    header("Location: action.php");
+}
 
 ?>
 
@@ -343,7 +341,7 @@ if (
                         <a href="etapa4.php" class="btn btn-primary btnProximo">EDITAR</a>
                     </div>
                 </div>
-                <input disabled type="hidden" name="confirmado">
+                <input type="hidden" name="confirmado">
 
                 <!--FIM FORMULARIO-->
                 <div class="botoesAvanco row"><!--BOTÕES-->
@@ -353,7 +351,6 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
 
 </body>
 

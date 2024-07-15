@@ -38,43 +38,42 @@ if (
     try {
 
         if (!isset( //etapa 1
-            $_SESSION['cpfEstagiario'],
-            $_SESSION['nomeEstagiario'],
-            $_SESSION['emailEstagiario']
+            $_SESSION['cnpjEmpresa'],
+            $_SESSION['nomeEmpresa'],
+            $_SESSION['telefoneEmpresa'],
+            $_SESSION['emailEmpresa']
         )) {
             throw new variavelNaoExiste("Variável da etapa 1 não existe ou é nulo.");
         }
         if (!isset( //etapa 2
-            $_SESSION['rgEstagiario'],
-            $_SESSION['orgaoEmissorEstagiario'],
-            $_SESSION['estadoEmissorEstagiario'],
-            $_SESSION['generoEstagiario'],
-            $_SESSION['estadoCivilEstagiario']
+            $_SESSION['nomeResponsavelEmpresa'],
+            $_SESSION['cargoResponsavelEmpresa'],
+            $_SESSION['telefoneResponsavelEmpresa'],
+            $_SESSION['emailResponsavelEmpresa']
         )) {
             throw new variavelNaoExiste("Variável da etapa 2 não existe ou é nulo.");
         }
         if (!isset( //etapa 3
-            $_SESSION['dataNascimentoEstagiario'],
-            $_SESSION['nacionalidadeEstagiario'],
-            $_SESSION['celularEstagiario'],
-            $_SESSION['dependentesEstagiario']
+            $_SESSION['enderecoEmpresa'],
+            $_SESSION['bairroEmpresa'],
+            $_SESSION['numeroEmpresa'],
+            $_SESSION['cidadeEmpresa'],
+            $_SESSION['estadoEmpresa'],
+            $_SESSION['cepEmpresa'],
+            $_SESSION['paisEmpresa']
         )) {
             throw new variavelNaoExiste("Variável da etapa 3 não existe ou é nulo.");
         }
         if (!isset( //etapa 4
-            $_SESSION['enderecoEstagiario'],
-            $_SESSION['bairroEstagiario'],
-            $_SESSION['numeroEstagiario'],
-            $_SESSION['cidadeEstagiario'],
-            $_SESSION['estadoEstagiario'],
-            $_SESSION['cepEstagiario'],
-            $_SESSION['paisEstagiario']
+
+            $_SESSION['atuacaoEmpresa'],
+            $_SESSION['descricaoEmpresa']
 
         )) {
             throw new variavelNaoExiste("Variável da etapa 4 não existe ou é nulo.");
         }
         if (!isset( //etapa 5
-            $_SESSION['senhaEstagiario']
+            $_SESSION['senhaEmpresa']
 
         )) {
             throw new variavelNaoExiste("Variável da etapa 5 não existe ou é nulo.");
@@ -91,48 +90,39 @@ if (
 
 
 
-        define('CPF_KEY', 'cpfEstagiario');
-        define('NOME_KEY', 'nomeEstagiario');
-        define('SOBRENOME_KEY', 'sobrenomeEstagiario');
-        define('EMAIL_KEY', 'emailEstagiario');
-        define('RG_KEY', 'rgEstagiario');
-        define('ORGAO_EMISSOR_KEY', 'orgaoEmissorEstagiario');
-        define('ESTADO_EMISSOR_KEY', 'estadoEmissorEstagiario');
-        define('GENERO_KEY', 'generoEstagiario');
-        define('NOME_SOCIAL_KEY', 'nomeSocialEstagiario');
-        define('ESTADO_CIVIL_KEY', 'estadoCivilEstagiario');
-        define('DATA_NASCIMENTO_KEY', 'dataNascimentoEstagiario');
-        define('NACIONALIDADE_KEY', 'nacionalidadeEstagiario');
-        define('CELULAR_KEY', 'celularEstagiario');
-        define('TELEFONE_KEY', 'telefoneEstagiario');
-        define('CNH_KEY', 'cnhEstagiario');
-        define('DEPENDENTES_KEY', 'dependentesEstagiario');
-        define('ENDERECO_KEY', 'enderecoEstagiario');
-        define('BAIRRO_KEY', 'bairroEstagiario');
-        define('NUMERO_KEY', 'numeroEstagiario');
-        define('COMPLEMENTO_KEY', 'complementoEstagiario');
-        define('CIDADE_KEY', 'cidadeEstagiario');
-        define('ESTADO_KEY', 'estadoEstagiario');
-        define('CEP_KEY', 'cepEstagiario');
-        define('PAIS_KEY', 'paisEstagiario');
-        define('SENHA_KEY', 'senhaEstagiario');
+        // Definindo constantes para as chaves da sessão
+        define('CNPJ_KEY', 'cnpjEmpresa');
+        define('NOME_EMPRESA_KEY', 'nomeEmpresa');
+        define('TELEFONE_KEY', 'telefoneEmpresa');
+        define('EMAIL_KEY', 'emailEmpresa');
+        define('NOME_RESPONSAVEL_KEY', 'nomeResponsavelEmpresa');
+        define('CARGO_RESPONSAVEL_KEY', 'cargoResponsavelEmpresa');
+        define('TELEFONE_RESPONSAVEL_KEY', 'telefoneResponsavelEmpresa');
+        define('EMAIL_RESPONSAVEL_KEY', 'emailResponsavelEmpresa');
+        define('ENDERECO_KEY', 'enderecoEmpresa');
+        define('BAIRRO_KEY', 'bairroEmpresa');
+        define('NUMERO_KEY', 'numeroEmpresa');
+        define('COMPLEMENTO_KEY', 'complementoEmpresa');
+        define('CIDADE_KEY', 'cidadeEmpresa');
+        define('ESTADO_KEY', 'estadoEmpresa');
+        define('CEP_KEY', 'cepEmpresa');
+        define('PAIS_KEY', 'paisEmpresa');
+        define('ATUACAO_KEY', 'atuacaoEmpresa');
+        define('DESCRICAO_KEY', 'descricaoEmpresa');
+        define('WEBSITE_KEY', 'websiteEmpresa');
+        define('LINKEDIN_KEY', 'linkedinEmpresa');
+        define('INSTAGRAM_KEY', 'instagramEmpresa');
+        define('FACEBOOK_KEY', 'facebookEmpresa');
+        define('SENHA_KEY', 'senhaEmpresa');
 
-        $cpf = preg_replace('/[^0-9]/', '', pegarSessao(CPF_KEY));
-        $nome = pegarSessao(NOME_KEY);
-        $sobrenome = pegarSessao(SOBRENOME_KEY);
-        $email = pegarSessao(EMAIL_KEY);
-        $rg = preg_replace('/[^0-9]/', '', pegarSessao(RG_KEY));
-        $orgaoEmissor = pegarSessao(ORGAO_EMISSOR_KEY);
-        $estadoEmissor = pegarSessao(ESTADO_EMISSOR_KEY);
-        $genero = pegarSessao(GENERO_KEY);
-        $nomeSocial = pegarSessao(NOME_SOCIAL_KEY);
-        $estadoCivil = pegarSessao(ESTADO_CIVIL_KEY);
-        $dataNascimento = pegarSessao(DATA_NASCIMENTO_KEY);
-        $nacionalidade = pegarSessao(NACIONALIDADE_KEY);
-        $celular = preg_replace('/[^0-9]/', '', pegarSessao(CELULAR_KEY));
+        $cnpj = preg_replace('/[^0-9]/', '', pegarSessao(CNPJ_KEY));
+        $nome = pegarSessao(NOME_EMPRESA_KEY);
         $telefone = preg_replace('/[^0-9]/', '', pegarSessao(TELEFONE_KEY));
-        $cnh = pegarSessao(CNH_KEY);
-        $dependentes = pegarSessao(DEPENDENTES_KEY);
+        $email = pegarSessao(EMAIL_KEY);
+        $nomeResponsavel = pegarSessao(NOME_RESPONSAVEL_KEY);
+        $cargoResponsavel = pegarSessao(CARGO_RESPONSAVEL_KEY);
+        $telefoneResponsavel = preg_replace('/[^0-9]/', '', pegarSessao(TELEFONE_RESPONSAVEL_KEY));
+        $emailResponsavel = pegarSessao(EMAIL_RESPONSAVEL_KEY);
         $endereco = pegarSessao(ENDERECO_KEY);
         $bairro = pegarSessao(BAIRRO_KEY);
         $numero = pegarSessao(NUMERO_KEY);
@@ -141,53 +131,22 @@ if (
         $estado = pegarSessao(ESTADO_KEY);
         $cep = preg_replace('/[^0-9]/', '', pegarSessao(CEP_KEY));
         $pais = pegarSessao(PAIS_KEY);
+        $atuacao = pegarSessao(ATUACAO_KEY);
+        $descricao = pegarSessao(DESCRICAO_KEY);
+        $website = pegarSessao(WEBSITE_KEY);
+        $linkedin = pegarSessao(LINKEDIN_KEY);
+        $instagram = pegarSessao(INSTAGRAM_KEY);
+        $facebook = pegarSessao(FACEBOOK_KEY);
         $senha = pegarSessao(SENHA_KEY);
 
         $erros = 0;
-
-
-
-        function validarCPF($cpf)
-        {
-            $cpf = preg_replace('/[^0-9]/', '', $cpf);
-
-            if (strlen($cpf) != 11) {
-                return false;
-            }
-
-            if (preg_match('/(\d)\1{10}/', $cpf)) {
-                return false;
-            }
-
-            for ($t = 9; $t < 11; $t++) {
-                for ($d = 0, $c = 0; $c < $t; $c++) {
-                    $d += $cpf[$c] * (($t + 1) - $c);
-                }
-                $d = ((10 * $d) % 11) % 10;
-                if ($cpf[$c] != $d) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
 
         function validar($texto, $tipo, $min, $max)
         {
             $texto = trim($texto);
 
             switch ($tipo) {
-                case 'nome':
-                case 'bairro':
-                case 'cidade':
-                case 'pais':
-                case 'nacionalidade':
-                case 'orgaoEmissor':
-                case 'genero':
-                case 'estadoEmissor':
-                case 'estado':
-                case 'estadoCivil':
-                case 'cnh':
+                case 'textObrigatorio':
 
 
                     if (strlen($texto) < $min || strlen($texto) > $max) {
@@ -198,12 +157,7 @@ if (
                     }
                     break;
 
-                case 'cpf':
-                case 'rg':
-                case 'dependentes':
-                case 'celular':
-                case 'cep':
-                case 'numero':
+                case 'numberObrigatorio':
 
                     if (strlen($texto) < $min || strlen($texto) > $max) {
                         return false;
@@ -213,53 +167,7 @@ if (
                     }
                     break;
 
-                case 'dataNascimento':
-
-
-                    if (preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $texto, $matches)) {
-                        // Checa se é uma data válida
-                        $ano = intval($matches[1]);
-                        $mes = intval($matches[2]);
-                        $dia = intval($matches[3]);
-
-                        if (checkdate($mes, $dia, $ano)) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                    break;
-
-                case 'nomeSocial':
-                case 'sobrenome':
-
-
-
-                    if ($texto != NULL || $texto != '') {
-                        if (strlen($texto) < $min || strlen($texto) > $max) {
-                            return false;
-                        }
-                        if (!preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ' -]+$/", $texto)) {
-                            return false;
-                        }
-                    }
-
-                    break;
-                case 'telefone':
-                    if ($texto != NULL || $texto != '') {
-                        if (strlen($texto) < $min || strlen($texto) > $max) {
-                            return false;
-                        }
-                        if (!preg_match("/^[0-9]+$/", $texto)) {
-                            return false;
-                        }
-                    }
-
-                    break;
-
-                case 'senha':
-                case 'email':
-                case 'complemento':
+                case 'comprimento':
 
 
 
@@ -268,16 +176,6 @@ if (
                     }
 
 
-                    break;
-
-                case 'endereco':
-
-                    if (strlen($texto) < $min || strlen($texto) > $max) {
-                        return false;
-                    }
-                    if (!preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ' -.,:]+$/", $texto)) {
-                        return false;
-                    }
                     break;
 
                 default:
@@ -288,119 +186,104 @@ if (
         }
 
 
-        if (!validar($cpf, 'cpf', 11, 11)) {
-            throw new variavelNaoExiste("CPF ERRO\n");
+        if (!validar($cnpj, 'numberObrigatorio', 14, 14)) {
+            throw new variavelNaoExiste("CNPJ ERRO\n");
             $erros++;
         }
-        if (!validar($nome, 'nome', 1, 100)) {
-            throw new variavelNaoExiste("Nome ERRO\n");
+        if (!validar($nome, 'textObrigatorio', 1, 255)) {
+            throw new variavelNaoExiste("nome ERRO\n");
             $erros++;
         }
-        if (!validar($sobrenome, 'sobrenome', 0, 100)) {
-            throw new variavelNaoExiste("Sobrenome ERRO\n");
+        if (!validar($telefone, 'numberObrigatorio', 0, 20)) {
+            throw new variavelNaoExiste("telefone ERRO\n");
             $erros++;
         }
-        if (!validar($email, 'email', 3, 100)) {
-            throw new variavelNaoExiste("Email ERRO\n");
+        if (!validar($email, 'comprimento', 3, 255)) {
+            throw new variavelNaoExiste("email ERRO\n");
             $erros++;
         }
-        if (!validar($rg, 'rg', 9, 9)) {
-            throw new variavelNaoExiste("RG ERRO\n");
+        if (!validar($senha, 'comprimento', 8, 255)) {
+            throw new variavelNaoExiste("senha ERRO\n");
             $erros++;
         }
-        if (!validar($orgaoEmissor, 'orgaoEmissor', 1, 50)) {
-            throw new variavelNaoExiste("Órgão Emissor ERRO\n");
-            $erros++;
-        }
-        if (!validar($estadoEmissor, 'estadoEmissor', 2, 2)) {
-            throw new variavelNaoExiste("Estado Emissor ERRO\n");
-            $erros++;
-        }
-        if (!validar($genero, 'genero', 1, 50)) {
-            throw new variavelNaoExiste("Gênero ERRO\n");
-            $erros++;
-        }
-        if (!validar($nomeSocial, 'nomeSocial', 0, 255)) {
-            throw new variavelNaoExiste("Nome Social ERRO\n");
-            $erros++;
-        }
-        if (!validar($estadoCivil, 'estadoCivil', 2, 255)) {
-            throw new variavelNaoExiste("Estado Civil ERRO\n");
-            $erros++;
-        }
-        if (!validar($dataNascimento, 'dataNascimento', 0, 100)) {
-            throw new variavelNaoExiste("Data de Nascimento ERRO\n");
-            $erros++;
-        }
-        if (!validar($nacionalidade, 'nacionalidade', 0, 100)) {
-            throw new variavelNaoExiste("Nacionalidade ERRO\n");
-            $erros++;
-        }
-        if (!validar($celular, 'celular', 11, 11)) {
-            throw new variavelNaoExiste("Celular ERRO\n");
-            $erros++;
-        }
-        if (!validar($telefone, 'telefone', 0, 10)) {
-            throw new variavelNaoExiste("Telefone ERRO\n");
-            $erros++;
-        }
-        if (!validar($cnh, 'cnh', 1, 50)) {
-            throw new variavelNaoExiste("CNH ERRO\n");
-            $erros++;
-        }
-        if (!validar($dependentes, 'dependentes', 0, 11)) {
-            throw new variavelNaoExiste("Dependentes ERRO\n");
-            $erros++;
-        }
-        if (!validar($endereco, 'endereco', 0, 255)) {
+        if (!validar($endereco, 'textObrigatorio', 1, 255)) {
             throw new variavelNaoExiste("Endereço ERRO\n");
             $erros++;
         }
-        if (!validar($bairro, 'bairro', 0, 100)) {
+        if (!validar($bairro, 'textObrigatorio', 1, 100)) {
             throw new variavelNaoExiste("Bairro ERRO\n");
             $erros++;
         }
-        if (!validar($numero, 'numero', 0, 50)) {
+        if (!validar($numero, 'numberObrigatorio', 1, 50)) {
             throw new variavelNaoExiste("Número ERRO\n");
             $erros++;
         }
-        if (!validar($complemento, 'complemento', 0, 255)) {
+        if (!validar($complemento, 'comprimento', 0, 255)) {
             throw new variavelNaoExiste("Complemento ERRO\n");
             $erros++;
         }
-        if (!validar($cidade, 'cidade', 0, 100)) {
+        if (!validar($cidade, 'textObrigatorio', 1, 100)) {
             throw new variavelNaoExiste("Cidade ERRO\n");
             $erros++;
         }
-        if (!validar($estado, 'estado', 0, 100)) {
+        if (!validar($estado, 'textObrigatorio', 1, 5)) {
             throw new variavelNaoExiste("Estado ERRO\n");
             $erros++;
         }
-        if (!validar($cep, 'cep', 8, 8)) {
+        if (!validar($cep, 'numberObrigatorio', 8, 10)) {
             throw new variavelNaoExiste("CEP ERRO\n");
             $erros++;
         }
-        if (!validar($pais, 'pais', 2, 100)) {
+        if (!validar($pais, 'textObrigatorio', 2, 100)) {
             throw new variavelNaoExiste("País ERRO\n");
             $erros++;
         }
-        if (!validar($senha, 'senha', 0, 100)) {
-            throw new variavelNaoExiste("Senha ERRO\n");
+        if (!validar($nomeResponsavel, 'textObrigatorio', 1, 255)) {
+            throw new variavelNaoExiste("nomeResponsavel ERRO\n");
             $erros++;
         }
-
-        if ($erros > 0) {
-            $_SESSION['statusCadastroEmpresa'] = "andamento";
-            $_SESSION['etapaCadastroEmpresa'] = 6;
-            header("Location: etapa6.php?erro");
-            exit;
+        if (!validar($cargoResponsavel, 'textObrigatorio', 1, 100)) {
+            throw new variavelNaoExiste("cargoResponsavel ERRO\n");
+            $erros++;
+        }
+        if (!validar($telefoneResponsavel, 'numberObrigatorio', 1, 25)) {
+            throw new variavelNaoExiste("telefoneResponsavel ERRO\n");
+            $erros++;
+        }
+        if (!validar($emailResponsavel, 'comprimento', 1, 255)) {
+            throw new variavelNaoExiste("emailResponsavel ERRO\n");
+            $erros++;
+        }
+        if (!validar($atuacao, 'textObrigatorio', 1, 100)) {
+            throw new variavelNaoExiste("areaAtuacao ERRO\n");
+            $erros++;
+        }
+        if (!validar($descricao, 'comprimento', 1, 500)) {
+            throw new variavelNaoExiste("descricao ERRO\n");
+            $erros++;
+        }
+        if (!validar($website, 'comprimento', 0, 100)) {
+            throw new variavelNaoExiste("website ERRO\n");
+            $erros++;
+        }
+        if (!validar($linkedin, 'comprimento', 0, 100)) {
+            throw new variavelNaoExiste("linkedin ERRO\n");
+            $erros++;
+        }
+        if (!validar($instagram, 'comprimento', 0, 100)) {
+            throw new variavelNaoExiste("instagram ERRO\n");
+            $erros++;
+        }
+        if (!validar($facebook, 'comprimento', 0, 100)) {
+            throw new variavelNaoExiste("facebook ERRO\n");
+            $erros++;
         }
 
         //BANCO DE DADOS
 
         require_once '../../../server/conexao.php';
 
-        class Usuario
+        class Empresa
         {
             private $conn;
             private $table;
@@ -411,17 +294,17 @@ if (
                 $this->table = $table;
             }
 
-            public function inserirUsuario($dados)
+            public function inserirEmpresa($dados)
             {
                 $sql = "INSERT INTO " . $this->table . " (
-                    cpf, nome, sobrenome, email, rg, rg_org_emissor, rg_estado_emissor, genero, nome_social, estado_civil, data_nascimento,
-                    nacionalidade, celular, telefone, cnh, dependentes, endereco, bairro, numero, complemento, cidade, estado,
-                    cep, pais, senha, status
-                ) VALUES (
-                    :cpf, :nome, :sobrenome, :email, :rg, :orgaoEmissor, :estadoEmissor, :genero, :nomeSocial, :estadoCivil, :dataNascimento,
-                    :nacionalidade, :celular, :telefone, :cnh, :dependentes, :endereco, :bairro, :numero, :complemento, :cidade, :estado,
-                    :cep, :pais, :senha, :status
-                )";
+            cnpj, nome, telefone, email, nome_responsavel, cargo_responsavel, telefone_responsavel, email_responsavel,
+            endereco, bairro, numero, complemento, cidade, estado, cep, pais, area_atuacao, descricao, website, linkedin,
+            instagram, facebook, senha, status
+        ) VALUES (
+            :cnpj, :nome, :telefone, :email, :nomeResponsavel, :cargoResponsavel, :telefoneResponsavel, :emailResponsavel,
+            :endereco, :bairro, :numero, :complemento, :cidade, :estado, :cep, :pais, :atuacao, :descricao, :website, :linkedin,
+            :instagram, :facebook, :senha, :status
+        )";
 
                 $stmt = $this->conn->prepare($sql);
 
@@ -439,36 +322,24 @@ if (
 
         // Dados de conexão ao banco de dados
         $db_name = 'estagiou';
-        $username = 'estagiarioInsert';
+        $username = 'empresaInsert';
         $password = '123';
-        $table = 'estagiario';
+        $table = 'empresa';
 
         $database = new Database($db_name, $username, $password);
         $db = $database->connect();
 
-        $usuario = new Usuario($db, $table);
-
-        // Dados do usuário tratados previamente
-        $dependentes = preg_replace('/[^0-9]/', '', $dependentes);
-
+        $empresa = new Empresa($db, $table);
 
         $dados = [
-            'cpf' => $cpf,
+            'cnpj' => $cnpj,
             'nome' => $nome,
-            'sobrenome' => $sobrenome,
-            'email' => $email,
-            'rg' => $rg,
-            'orgaoEmissor' => $orgaoEmissor,
-            'estadoEmissor' => $estadoEmissor,
-            'genero' => $genero,
-            'nomeSocial' => $nomeSocial,
-            'estadoCivil' => $estadoCivil,
-            'dataNascimento' => $dataNascimento,
-            'nacionalidade' => $nacionalidade,
-            'celular' => $celular,
             'telefone' => $telefone,
-            'cnh' => $cnh,
-            'dependentes' => $dependentes,
+            'email' => $email,
+            'nomeResponsavel' => $nomeResponsavel,
+            'cargoResponsavel' => $cargoResponsavel,
+            'telefoneResponsavel' => $telefoneResponsavel,
+            'emailResponsavel' => $emailResponsavel,
             'endereco' => $endereco,
             'bairro' => $bairro,
             'numero' => $numero,
@@ -477,20 +348,29 @@ if (
             'estado' => $estado,
             'cep' => $cep,
             'pais' => $pais,
+            'atuacao' => $atuacao,
+            'descricao' => $descricao,
+            'website' => $website,
+            'linkedin' => $linkedin,
+            'instagram' => $instagram,
+            'facebook' => $facebook,
             'senha' => password_hash($senha, PASSWORD_DEFAULT), // Hash da senha
             'status' => 1
-
         ];
 
-        if ($usuario->inserirUsuario($dados)) {
+        if ($empresa->inserirEmpresa($dados)) {
             session_unset();
             session_destroy();
             header("location: ../sucesso.php");
         } else {
-            echo "Erro ao inserir usuário.";
+            echo "Erro ao inserir empresa.";
         }
     } catch (variavelNaoExiste $e) {
         echo 'Erro capturado: ',  $e->getMessage(), "\n";
+        $_SESSION['statusCadastroEmpresa'] = "andamento";
+        $_SESSION['etapaCadastroEmpresa'] = 6;
+        header("Location: etapa6.php?erro");
+        exit;
     } catch (validacaoVariaveis $e) {
         echo 'Erro capturado: ',  $e->getMessage(), "\n";
     } catch (Exception $e) {

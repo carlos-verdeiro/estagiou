@@ -101,14 +101,14 @@ if (
     <section id="cadastro">
 
         <form class="formComponent row" method="post" id="formEtapa4" novalidate>
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 20%;">20%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 70%;">70%</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
 
             <div class="row divInputs">
                 <div class="form-floating m-1 row"><!--ÁREA DE ATUAÇÃO-->
-                    <input autofocus type="text" id="atuacao" class="form-control w-100" placeholder="Área de Atuação Empresarial" aria-label="Área de Atuação Empresarial" name="atuacao" value="<?php echo $atuacao; ?>" required>
+                    <input autofocus type="text" id="atuacao" class="form-control w-100" maxlength="100" placeholder="Área de Atuação Empresarial" aria-label="Área de Atuação Empresarial" name="atuacao" value="<?php echo $atuacao; ?>" required>
                     <label for="atuacao">Área de Atuação Empresarial *</label>
                     <div class="invalid-feedback" id="feedback-atuacao">
                         Preencha corretamente!

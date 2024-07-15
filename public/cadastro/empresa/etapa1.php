@@ -158,7 +158,7 @@ if (
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--NOME DA EMPRESA-->
-                    <input type="text" id="nomeEmpresa" class="form-control w-100" placeholder="Nome da Empresa" aria-label="Nome da Empresa" name="nomeEmpresa" value="<?php echo $nomeEmpresa; ?>" maxlength="50" required>
+                    <input type="text" id="nomeEmpresa" class="form-control w-100" placeholder="Nome da Empresa" aria-label="Nome da Empresa" name="nomeEmpresa" value="<?php echo $nomeEmpresa; ?>" maxlength="255" required>
                     <label for="nomeEmpresa">Nome da Empresa *</label>
                     <div class="invalid-feedback" id="feedback-nomeEmpresa">
                         Preencha corretamente!
@@ -172,7 +172,7 @@ if (
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--EMAIL CORPORATIVO-->
-                    <input type="email" id="email" class="form-control w-100" placeholder="E-mail Corporativo" aria-label="E-mail Corporativo" name="email" value="<?php echo $email; ?>" maxlength="100" required>
+                    <input type="email" id="email" class="form-control w-100" placeholder="E-mail Corporativo" aria-label="E-mail Corporativo" name="email" value="<?php echo $email; ?>" maxlength="255" required>
                     <label for="email">E-mail Corporativo *</label>
                     <div class="invalid-feedback" id="feedback-email">
                         Preencha corretamente!

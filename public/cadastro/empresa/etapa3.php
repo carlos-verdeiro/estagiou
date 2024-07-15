@@ -103,8 +103,8 @@ if (
 
     <section id="cadastro">
         <form class="formComponent row" method="post" id="formEtapa3" novalidate>
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 60%;">60%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 50%;">50%</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs">
@@ -117,7 +117,7 @@ if (
                         </div>
                     </div>
                     <div class="form-floating col p-0 md-1"><!--PAÍS-->
-                        <input type="text" id="pais" class="form-control w-100" placeholder="País" aria-label="País" name="pais" value="<?php echo ($pais != NULL) ? $pais : 'Brasil'; ?>" maxlength="40" required>
+                        <input type="text" id="pais" class="form-control w-100" placeholder="País" aria-label="País" name="pais" value="<?php echo ($pais != NULL) ? $pais : 'Brasil'; ?>" maxlength="100" required>
                         <label for="pais">País *</label>
                         <div class="invalid-feedback" id="feedback-pais">
                             Preencha corretamente!
@@ -128,7 +128,7 @@ if (
 
                 <div class="form-floating m-1 row">
                     <div class="form-floating col p-0 me-1"><!--CIDADE-->
-                        <input type="text" id="cidade" class="form-control w-100" placeholder="Cidade" aria-label="Cidade" value="<?php echo $cidade; ?>" maxlength="50" name="cidade" required>
+                        <input type="text" id="cidade" class="form-control w-100" placeholder="Cidade" aria-label="Cidade" value="<?php echo $cidade; ?>" maxlength="100" name="cidade" required>
                         <label for="cidade">Cidade *</label>
                         <div class="invalid-feedback" id="feedback-cidade">
                             Preencha corretamente!
@@ -181,7 +181,7 @@ if (
                         </div>
                     </div>
                     <div class="form-floating col p-0 md-1"><!--BAIRRO-->
-                        <input type="text" id="bairro" class="form-control w-100" placeholder="Bairro" aria-label="Bairro" value="<?php echo $bairro; ?>" maxlength="70" name="bairro" required>
+                        <input type="text" id="bairro" class="form-control w-100" placeholder="Bairro" aria-label="Bairro" value="<?php echo $bairro; ?>" maxlength="100" name="bairro" required>
                         <label for="bairro">Bairro *</label>
                         <div class="invalid-feedback" id="feedback-bairro">
                             Preencha corretamente!
@@ -189,14 +189,14 @@ if (
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--NÚMERO-->
-                    <input type="text" id="numero" class="form-control w-100" placeholder="Número" aria-label="Número" name="numero" value="<?php echo $numero; ?>" maxlength="10" required>
+                    <input type="text" id="numero" class="form-control w-100" placeholder="Número" aria-label="Número" name="numero" value="<?php echo $numero; ?>" maxlength="50" required>
                     <label for="numero">Número *</label>
                     <div class="invalid-feedback" id="feedback-numero">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--COMPLEMENTO-->
-                    <input type="text" id="complemento" class="form-control w-100" placeholder="Complemento" aria-label="Complemento" name="complemento" value="<?php echo $complemento; ?>">
+                    <input type="text" id="complemento" class="form-control w-100" placeholder="Complemento" maxlength="255" aria-label="Complemento" name="complemento" value="<?php echo $complemento; ?>">
                     <label for="complemento">Complemento</label>
                     <div class="invalid-feedback" id="feedback-complemento">
                         Preencha corretamente!

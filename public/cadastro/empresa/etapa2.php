@@ -105,28 +105,28 @@ if (
 
             <div class="row divInputs">
                 <div class="form-floating m-1 row"><!--NOME RESPONSÁVEL-->
-                    <input autofocus type="text" id="nomeResponsavel" class="form-control w-100" placeholder="Nome do Responsável" aria-label="Nome do Responsável" name="nomeResponsavel" value="<?php echo $nomeResponsavel; ?>" required>
-                    <label for="nomeResponsavel">Nome do Responsável *</label>
+                    <input autofocus type="text" id="nomeResponsavel" class="form-control w-100" maxlength="255" placeholder="Nome do Responsável" aria-label="Nome do Responsável" name="nomeResponsavel" value="<?php echo $nomeResponsavel; ?>" required>
+                    <label for="nomeResponsavel">Nome Completo do Responsável *</label>
                     <div class="invalid-feedback" id="feedback-nomeResponsavel">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--CARGO RESPONSÁVEL-->
-                    <input type="text" id="cargoResponsavel" class="form-control w-100" placeholder="Cargo do Responsável" aria-label="Cargo do Responsável" name="cargoResponsavel" value="<?php echo $cargoResponsavel; ?>" maxlength="50" required>
+                    <input type="text" id="cargoResponsavel" class="form-control w-100" placeholder="Cargo do Responsável" aria-label="Cargo do Responsável" name="cargoResponsavel" value="<?php echo $cargoResponsavel; ?>" maxlength="100" required>
                     <label for="cargoResponsavel">Cargo do Responsável *</label>
                     <div class="invalid-feedback" id="feedback-cargoResponsavel">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--TELEFONE RESPONSAVEL-->
-                    <input type="text" id="telefoneResponsavel" class="form-control w-100" placeholder="Telefone do Responsável" aria-label="Telefone do Responsável" value="<?php echo $telefoneResponsavel; ?>" maxlength="50" name="telefoneResponsavel" required>
+                    <input type="text" id="telefoneResponsavel" class="form-control w-100" placeholder="Telefone do Responsável" aria-label="Telefone do Responsável" value="<?php echo $telefoneResponsavel; ?>" maxlength="25" name="telefoneResponsavel" required>
                     <label for="telefoneResponsavel">Telefone do Responsável *</label>
                     <div class="invalid-feedback" id="feedback-telefoneResponsavel">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--EMAIL RESPONSAVEL-->
-                    <input type="email" id="emailResponsavel" class="form-control w-100" placeholder="E-mail do Responsável" aria-label="E-mail do Responsável" name="emailResponsavel" value="<?php echo $emailResponsavel; ?>" maxlength="100" required>
+                    <input type="email" id="emailResponsavel" class="form-control w-100" placeholder="E-mail do Responsável" aria-label="E-mail do Responsável" name="emailResponsavel" value="<?php echo $emailResponsavel; ?>" maxlength="255" required>
                     <label for="emailResponsavel">E-mail do Responsável *</label>
                     <div class="invalid-feedback" id="feedback-emailResponsavel">
                         Preencha corretamente!
