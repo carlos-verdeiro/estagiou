@@ -5,14 +5,14 @@ if (
     isset($_POST['confirmado'])
 ) {
 
-    $_SESSION['statusCadastroEmpresa'] = "confirmado";
-    $_SESSION['etapaCadastroEmpresa'] = 6;
+    $_SESSION['statusCadastroEscola'] = "confirmado";
+    $_SESSION['etapaCadastroEscola'] = 6;
 
     header("Location: insert.php");
     exit;
 }
 
-if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 6) {
+if ($_SESSION['statusCadastroEscola'] != "andamento" || $_SESSION['etapaCadastroEscola'] < 6) {
     header("Location: action.php");
 }
 
@@ -65,31 +65,31 @@ if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastr
 
 
     // Definindo constantes para as chaves da sessão
-    define('CNPJ_KEY', 'cnpjEmpresa');
-    define('NOME_EMPRESA_KEY', 'nomeEmpresa');
-    define('TELEFONE_KEY', 'telefoneEmpresa');
-    define('EMAIL_KEY', 'emailEmpresa');
-    define('NOME_RESPONSAVEL_KEY', 'nomeResponsavelEmpresa');
-    define('CARGO_RESPONSAVEL_KEY', 'cargoResponsavelEmpresa');
-    define('TELEFONE_RESPONSAVEL_KEY', 'telefoneResponsavelEmpresa');
-    define('EMAIL_RESPONSAVEL_KEY', 'emailResponsavelEmpresa');
-    define('ENDERECO_KEY', 'enderecoEmpresa');
-    define('BAIRRO_KEY', 'bairroEmpresa');
-    define('NUMERO_KEY', 'numeroEmpresa');
-    define('COMPLEMENTO_KEY', 'complementoEmpresa');
-    define('CIDADE_KEY', 'cidadeEmpresa');
-    define('ESTADO_KEY', 'estadoEmpresa');
-    define('CEP_KEY', 'cepEmpresa');
-    define('PAIS_KEY', 'paisEmpresa');
-    define('ATUACAO_KEY', 'atuacaoEmpresa');
-    define('DESCRICAO_KEY', 'descricaoEmpresa');
-    define('WEBSITE_KEY', 'websiteEmpresa');
-    define('LINKEDIN_KEY', 'linkedinEmpresa');
-    define('INSTAGRAM_KEY', 'instagramEmpresa');
-    define('FACEBOOK_KEY', 'facebookEmpresa');
+    define('CNPJ_KEY', 'cnpjEscola');
+    define('NOME_EMPRESA_KEY', 'nomeEscola');
+    define('TELEFONE_KEY', 'telefoneEscola');
+    define('EMAIL_KEY', 'emailEscola');
+    define('NOME_RESPONSAVEL_KEY', 'nomeResponsavelEscola');
+    define('CARGO_RESPONSAVEL_KEY', 'cargoResponsavelEscola');
+    define('TELEFONE_RESPONSAVEL_KEY', 'telefoneResponsavelEscola');
+    define('EMAIL_RESPONSAVEL_KEY', 'emailResponsavelEscola');
+    define('ENDERECO_KEY', 'enderecoEscola');
+    define('BAIRRO_KEY', 'bairroEscola');
+    define('NUMERO_KEY', 'numeroEscola');
+    define('COMPLEMENTO_KEY', 'complementoEscola');
+    define('CIDADE_KEY', 'cidadeEscola');
+    define('ESTADO_KEY', 'estadoEscola');
+    define('CEP_KEY', 'cepEscola');
+    define('PAIS_KEY', 'paisEscola');
+    define('niveisEnsino_KEY', 'niveisEnsinoEscola');
+    define('DESCRICAO_KEY', 'descricaoEscola');
+    define('WEBSITE_KEY', 'websiteEscola');
+    define('LINKEDIN_KEY', 'linkedinEscola');
+    define('INSTAGRAM_KEY', 'instagramEscola');
+    define('FACEBOOK_KEY', 'facebookEscola');
 
     $cnpj = pegarSessao(CNPJ_KEY);
-    $nomeEmpresa = pegarSessao(NOME_EMPRESA_KEY);
+    $nomeEscola = pegarSessao(NOME_EMPRESA_KEY);
     $telefone = pegarSessao(TELEFONE_KEY);
     $email = pegarSessao(EMAIL_KEY);
     $nomeResponsavel = pegarSessao(NOME_RESPONSAVEL_KEY);
@@ -104,7 +104,7 @@ if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastr
     $estado = pegarSessao(ESTADO_KEY);
     $cep = pegarSessao(CEP_KEY);
     $pais = pegarSessao(PAIS_KEY);
-    $atuacao = pegarSessao(ATUACAO_KEY);
+    $niveisEnsino = pegarSessao(niveisEnsino_KEY);
     $descricao = pegarSessao(DESCRICAO_KEY);
     $website = pegarSessao(WEBSITE_KEY);
     $linkedin = pegarSessao(LINKEDIN_KEY);
@@ -133,10 +133,10 @@ if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastr
                         Preencha corretamente!
                     </div>
                 </div>
-                <div class="form-floating m-1 row"><!--NOME DA EMPRESA-->
-                    <input disabled type="text" id="nomeEmpresa" class="form-control w-100" placeholder="Nome da Empresa" aria-label="Nome da Empresa" name="nomeEmpresa" value="<?php echo $nomeEmpresa; ?>" maxlength="50" required>
-                    <label for="nomeEmpresa">Nome da Empresa *</label>
-                    <div class="invalid-feedback" id="feedback-nomeEmpresa">
+                <div class="form-floating m-1 row"><!--NOME DA ESCOLA-->
+                    <input disabled type="text" id="nomeEscola" class="form-control w-100" placeholder="Nome da Escola" aria-label="Nome da Escola" name="nomeEscola" value="<?php echo $nomeEscola; ?>" maxlength="50" required>
+                    <label for="nomeEscola">Nome da Escola *</label>
+                    <div class="invalid-feedback" id="feedback-nomeEscola">
                         Preencha corretamente!
                     </div>
                 </div>
@@ -306,15 +306,15 @@ if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastr
             <div class="row divInputs bg-dark-subtle p-2 rounded">
                 <h3 class="m-3">Etapa 4</h3>
                 <div class="form-floating m-1 row">
-                    <div class="form-floating m-1 row"><!--ÁREA DE ATUAÇÃO-->
-                        <input disabled autofocus type="text" id="atuacao" class="form-control w-100" placeholder="Área de Atuação Empresarial" aria-label="Área de Atuação Empresarial" name="atuacao" value="<?php echo $atuacao; ?>" required>
-                        <label for="atuacao">Área de Atuação Empresarial *</label>
-                        <div class="invalid-feedback" id="feedback-atuacao">
+                    <div class="form-floating m-1 row"><!--NIVEIS DE ENSINO-->
+                        <input disabled autofocus type="text" id="niveisEnsino" class="form-control w-100" maxlength="100" placeholder="Níveis de Ensino Oferecidos" aria-label="Níveis de Ensino Oferecidos" name="niveisEnsino" value="<?php echo $niveisEnsino; ?>" required>
+                        <label for="niveisEnsino">Níveis de Ensino Oferecidos *</label>
+                        <div class="invalid-feedback" id="feedback-niveisEnsino">
                             Preencha corretamente!
                         </div>
                     </div>
                     <div class="form-floating m-1 row"><!--DESCRIÇÃO-->
-                        <textarea disabled id="descricao" class="form-control w-100" placeholder="Descrição da Empresa" aria-label="Descrição da Empresa" name="descricao" maxlength="500" required><?php echo $descricao; ?></textarea>
+                        <textarea disabled id="descricao" class="form-control w-100" placeholder="Descrição da Escola" aria-label="Descrição da Escola" name="descricao" maxlength="500" required><?php echo $descricao; ?></textarea>
                         <label for="descricao">Descrição da Empresa *</label>
                         <div class="invalid-feedback" id="feedback-descricao">
                             Preencha corretamente!

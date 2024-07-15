@@ -1,33 +1,33 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 4) {
+if ($_SESSION['statusCadastroEscola'] != "andamento" || $_SESSION['etapaCadastroEscola'] < 4) {
     header("Location: action.php");
 }
 
 
 if (
-    isset($_POST['atuacao']) && !empty($_POST['atuacao']) &&
+    isset($_POST['niveisEnsino']) && !empty($_POST['niveisEnsino']) &&
     isset($_POST['descricao']) && !empty($_POST['descricao'])
 ) {
 
-    $_SESSION["atuacaoEmpresa"] = htmlspecialchars($_POST['atuacao'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["descricaoEmpresa"] = htmlspecialchars($_POST['descricao'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["niveisEnsinoEscola"] = htmlspecialchars($_POST['niveisEnsino'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["descricaoEscola"] = htmlspecialchars($_POST['descricao'], ENT_QUOTES, 'UTF-8');
 
     if (isset($_POST['website']) && !empty($_POST['website'])) {
-        $_SESSION["websiteEmpresa"] = htmlspecialchars($_POST['website'], ENT_QUOTES, 'UTF-8');
+        $_SESSION["websiteEscola"] = htmlspecialchars($_POST['website'], ENT_QUOTES, 'UTF-8');
     }
     if (isset($_POST['linkedin']) && !empty($_POST['linkedin'])) {
-        $_SESSION["linkedinEmpresa"] = htmlspecialchars($_POST['linkedin'], ENT_QUOTES, 'UTF-8');
+        $_SESSION["linkedinEscola"] = htmlspecialchars($_POST['linkedin'], ENT_QUOTES, 'UTF-8');
     }
     if (isset($_POST['instagram']) && !empty($_POST['instagram'])) {
-        $_SESSION["instagramEmpresa"] = htmlspecialchars($_POST['instagram'], ENT_QUOTES, 'UTF-8');
+        $_SESSION["instagramEscola"] = htmlspecialchars($_POST['instagram'], ENT_QUOTES, 'UTF-8');
     }
     if (isset($_POST['facebook']) && !empty($_POST['facebook'])) {
-        $_SESSION["facebookEmpresa"] = htmlspecialchars($_POST['facebook'], ENT_QUOTES, 'UTF-8');
+        $_SESSION["facebookEscola"] = htmlspecialchars($_POST['facebook'], ENT_QUOTES, 'UTF-8');
     }
-    $_SESSION['statusCadastroEmpresa'] = "andamento";
-    $_SESSION['etapaCadastroEmpresa'] = 5;
+    $_SESSION['statusCadastroEscola'] = "andamento";
+    $_SESSION['etapaCadastroEscola'] = 5;
     header("Location: etapa5.php");
     exit;
 }
@@ -74,12 +74,12 @@ if (
     //---------HEADER---------
 
     // Definindo constantes para as chaves da sessão
-    define('ATUACAO_KEY', 'atuacaoEmpresa');
-    define('DESCRICAO_KEY', 'descricaoEmpresa');
-    define('WEBSITE_KEY', 'websiteEmpresa');
-    define('LINKEDIN_KEY', 'linkedinEmpresa');
-    define('INSTAGRAM_KEY', 'instagramEmpresa');
-    define('FACEBOOK_KEY', 'facebookEmpresa');
+    define('niveisEnsino_KEY', 'niveisEnsinoEscola');
+    define('DESCRICAO_KEY', 'descricaoEscola');
+    define('WEBSITE_KEY', 'websiteEscola');
+    define('LINKEDIN_KEY', 'linkedinEscola');
+    define('INSTAGRAM_KEY', 'instagramEscola');
+    define('FACEBOOK_KEY', 'facebookEscola');
 
 
 
@@ -89,7 +89,7 @@ if (
         return isset($_SESSION[$key]) && $_SESSION[$key] != NULL ? $_SESSION[$key] : NULL;
     }
 
-    $atuacao = pegarSessao(ATUACAO_KEY);
+    $niveisEnsino = pegarSessao(niveisEnsino_KEY);
     $descricao = pegarSessao(DESCRICAO_KEY);
     $website = pegarSessao(WEBSITE_KEY);
     $linkedin = pegarSessao(LINKEDIN_KEY);
@@ -108,16 +108,16 @@ if (
             <h1 id='tituloCadastro'>CADASTRO</h1>
 
             <div class="row divInputs">
-                <div class="form-floating m-1 row"><!--ÁREA DE ATUAÇÃO-->
-                    <input autofocus type="text" id="atuacao" class="form-control w-100" maxlength="100" placeholder="Área de Atuação Empresarial" aria-label="Área de Atuação Empresarial" name="atuacao" value="<?php echo $atuacao; ?>" required>
-                    <label for="atuacao">Área de Atuação Empresarial *</label>
-                    <div class="invalid-feedback" id="feedback-atuacao">
+                <div class="form-floating m-1 row"><!--NIVEIS DE ENSINO-->
+                    <input autofocus type="text" id="niveisEnsino" class="form-control w-100" maxlength="100" placeholder="Níveis de Ensino Oferecidos" aria-label="Níveis de Ensino Oferecidos" name="niveisEnsino" value="<?php echo $niveisEnsino; ?>" required>
+                    <label for="niveisEnsino">Níveis de Ensino Oferecidos *</label>
+                    <div class="invalid-feedback" id="feedback-niveisEnsino">
                         Preencha corretamente!
                     </div>
                 </div>
                 <div class="form-floating m-1 row"><!--DESCRIÇÃO-->
-                    <textarea id="descricao" class="form-control w-100" placeholder="Descrição da Empresa" aria-label="Descrição da Empresa" name="descricao" maxlength="500" required><?php echo $descricao; ?></textarea>
-                    <label for="descricao">Descrição da Empresa *</label>
+                    <textarea id="descricao" class="form-control w-100" placeholder="Descrição da Escola" aria-label="Descrição da Escola" name="descricao" maxlength="500" required><?php echo $descricao; ?></textarea>
+                    <label for="descricao">Descrição da Escola *</label>
                     <div class="invalid-feedback" id="feedback-descricao">
                         Preencha corretamente!
                     </div>
@@ -149,7 +149,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEscola.js"></script>
     <script>
         const senhaCheck = $("#senha-Check");
         const checkPassLabelImgSenha = $("#checkPassLabelImgSenha");

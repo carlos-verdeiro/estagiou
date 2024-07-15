@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastroEmpresa'] != "andamento") {
+if ($_SESSION['statusCadastroEscola'] != "andamento") {
     header("Location: action.php");
 }
 
@@ -30,12 +30,12 @@ if (
     $email = htmlspecialchars($_POST['emailResponsavel'], ENT_QUOTES, 'UTF-8');
 
     if (validaEmail($email)) {
-        $_SESSION["nomeResponsavelEmpresa"] = $nome;
-        $_SESSION["cargoResponsavelEmpresa"] = $cargo;
-        $_SESSION["telefoneResponsavelEmpresa"] = $telefone;
-        $_SESSION["emailResponsavelEmpresa"] = $email;
-        $_SESSION['statusCadastroEmpresa'] = "andamento";
-        $_SESSION['etapaCadastroEmpresa'] = 3;
+        $_SESSION["nomeResponsavelEscola"] = $nome;
+        $_SESSION["cargoResponsavelEscola"] = $cargo;
+        $_SESSION["telefoneResponsavelEscola"] = $telefone;
+        $_SESSION["emailResponsavelEscola"] = $email;
+        $_SESSION['statusCadastroEscola'] = "andamento";
+        $_SESSION['etapaCadastroEscola'] = 3;
         header("Location: etapa3.php");
         exit;
     }
@@ -79,10 +79,10 @@ if (
     include_once "../../templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
-    define('NOME_KEY', 'nomeResponsavelEmpresa');
-    define('CARGO_KEY', 'cargoResponsavelEmpresa');
-    define('TELEFONE_KEY', 'telefoneResponsavelEmpresa');
-    define('EMAIL_KEY', 'emailResponsavelEmpresa');
+    define('NOME_KEY', 'nomeResponsavelEscola');
+    define('CARGO_KEY', 'cargoResponsavelEscola');
+    define('TELEFONE_KEY', 'telefoneResponsavelEscola');
+    define('EMAIL_KEY', 'emailResponsavelEscola');
 
     // Função para obter valor da sessão
     function pegarSessao($key)
@@ -142,7 +142,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEscola.js"></script>
 
 </body>
 

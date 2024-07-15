@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 4) {
+if ($_SESSION['statusCadastroEscola'] != "andamento" || $_SESSION['etapaCadastroEscola'] < 4) {
     header("Location: action.php");
 }
 
@@ -12,10 +12,10 @@ if (
     $_POST['senha'] === $_POST['confirmacaoSenha']
 ) {
 
-    $_SESSION["senhaEmpresa"] = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["senhaEscola"] = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
 
-    $_SESSION['statusCadastroEmpresa'] = "andamento";
-    $_SESSION['etapaCadastroEmpresa'] = 6;
+    $_SESSION['statusCadastroEscola'] = "andamento";
+    $_SESSION['etapaCadastroEscola'] = 6;
     header("Location: etapa6.php");
     exit;
 }
@@ -62,7 +62,7 @@ if (
     //---------HEADER---------
 
     // Definindo constantes para as chaves da sessão
-    define('SENHA_KEY', 'senhaEmpresa');
+    define('SENHA_KEY', 'senhaEscola');
 
 
 
@@ -120,7 +120,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEscola.js"></script>
     <script>
         const senhaCheck = $("#senha-Check");
         const checkPassLabelImgSenha = $("#checkPassLabelImgSenha");

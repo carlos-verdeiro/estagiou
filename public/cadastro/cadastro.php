@@ -61,6 +61,7 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
     <!--FIM BIBLIOTECAS-->
 
     <link rel="stylesheet" href="../../assets/css/cadastro/cadastro.css">
+    <link rel="shortcut icon" href="../../assets/img/icons/favicontransparente.ico" type="image/x-icon">
 </head>
 
 <body>

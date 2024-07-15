@@ -53,6 +53,7 @@ if (
     <title>Etapa 3</title>
 
     <link rel="stylesheet" href="../../../assets/css/cadastro/etapas.css">
+    <link rel="shortcut icon" href="../../../assets/img/icons/favicontransparente.ico" type="image/x-icon">
 
     <!--BIBLIOTECAS-->
 

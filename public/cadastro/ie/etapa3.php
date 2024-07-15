@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastroEmpresa'] < 3) {
+if ($_SESSION['statusCadastroEscola'] != "andamento" || $_SESSION['etapaCadastroEscola'] < 3) {
     header("Location: action.php");
 }
 
@@ -17,20 +17,20 @@ if (
 
 ) {
 
-    $_SESSION["enderecoEmpresa"] = htmlspecialchars($_POST['endereco'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["bairroEmpresa"] = htmlspecialchars($_POST['bairro'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["numeroEmpresa"] = htmlspecialchars($_POST['numero'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["enderecoEscola"] = htmlspecialchars($_POST['endereco'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["bairroEscola"] = htmlspecialchars($_POST['bairro'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["numeroEscola"] = htmlspecialchars($_POST['numero'], ENT_QUOTES, 'UTF-8');
     if (isset($_POST['complemento']) && $_POST['complemento'] != NULL) {
-        $_SESSION["complementoEmpresa"] = htmlspecialchars($_POST['complemento'], ENT_QUOTES, 'UTF-8');
+        $_SESSION["complementoEscola"] = htmlspecialchars($_POST['complemento'], ENT_QUOTES, 'UTF-8');
     }
-    $_SESSION["cidadeEmpresa"] = htmlspecialchars($_POST['cidade'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["estadoEmpresa"] = htmlspecialchars($_POST['estado'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["cepEmpresa"] = htmlspecialchars($_POST['cep'], ENT_QUOTES, 'UTF-8');
-    $_SESSION["paisEmpresa"] = htmlspecialchars($_POST['pais'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["cidadeEscola"] = htmlspecialchars($_POST['cidade'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["estadoEscola"] = htmlspecialchars($_POST['estado'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["cepEscola"] = htmlspecialchars($_POST['cep'], ENT_QUOTES, 'UTF-8');
+    $_SESSION["paisEscola"] = htmlspecialchars($_POST['pais'], ENT_QUOTES, 'UTF-8');
 
 
-    $_SESSION['statusCadastroEmpresa'] = "andamento";
-    $_SESSION['etapaCadastroEmpresa'] = 4;
+    $_SESSION['statusCadastroEscola'] = "andamento";
+    $_SESSION['etapaCadastroEscola'] = 4;
     header("Location: etapa4.php");
     exit;
 }
@@ -75,14 +75,14 @@ if (
     include_once "../../templates/cadastro/headerEtapa.php";
     //---------HEADER---------
 
-    define('ENDERECO_KEY', 'enderecoEmpresa');
-    define('BAIRRO_KEY', 'bairroEmpresa');
-    define('NUMERO_KEY', 'numeroEmpresa');
-    define('COMPLEMENTO_KEY', 'complementoEmpresa');
-    define('CIDADE_KEY', 'cidadeEmpresa');
-    define('ESTADO_KEY', 'estadoEmpresa');
-    define('CEP_KEY', 'cepEmpresa');
-    define('PAIS_KEY', 'paisEmpresa');
+    define('ENDERECO_KEY', 'enderecoEscola');
+    define('BAIRRO_KEY', 'bairroEscola');
+    define('NUMERO_KEY', 'numeroEscola');
+    define('COMPLEMENTO_KEY', 'complementoEscola');
+    define('CIDADE_KEY', 'cidadeEscola');
+    define('ESTADO_KEY', 'estadoEscola');
+    define('CEP_KEY', 'cepEscola');
+    define('PAIS_KEY', 'paisEscola');
 
 
     // Função para obter valor da sessão
@@ -212,7 +212,7 @@ if (
         </form>
     </section>
 
-    <script src="../../../assets/js/cadastro/validacaoEmpresa.js"></script>
+    <script src="../../../assets/js/cadastro/validacaoEscola.js"></script>
 
 </body>
 
