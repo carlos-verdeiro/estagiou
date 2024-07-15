@@ -1,0 +1,25 @@
+if (!isset($_POST['cpf']) && !is_numeric($_POST['cpf'])) {
+        http_response_code(400);
+        echo json_encode(['mensagem' => 'Parâmetros inválidos. TYPE', 'code' => 0]);    -----------
+        exit;
+    }
+
+    if (strlen($_POST['cpf']) != 11) {
+        http_response_code(400);
+        echo json_encode(['mensagem' => 'Parâmetros inválidos. NUM', 'code' => 1]); -------------
+        exit;
+    }
+
+    $cpf = $_POST['cpf'];
+
+    $mysqli = new mysqli("localhost", "root", "", "estagiou");
+
+    if ($mysqli->connect_error) {
+        http_response_code(500);
+        echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]); ------------
+        exit;
+    }
+
+
+
+    validacao.php

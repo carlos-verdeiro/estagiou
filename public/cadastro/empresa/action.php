@@ -24,17 +24,17 @@
 
 session_start();
 
-if (isset($_SESSION['statusCadastroEstagiario']) && $_SESSION['statusCadastroEstagiario'] == "confirmado") {
+if (isset($_SESSION['statusCadastroEmpresa']) && $_SESSION['statusCadastroEmpresa'] == "confirmado") {
 
   header("location: insert.php");
   exit;
 }
 
-if (isset($_SESSION['statusCadastroEstagiario']) && $_SESSION['statusCadastroEstagiario'] == "andamento") {
+if (isset($_SESSION['statusCadastroEmpresa']) && $_SESSION['statusCadastroEmpresa'] == "andamento") {
 
-  if (isset($_SESSION['etapaCadastroEstagiario']) && $_SESSION['etapaCadastroEstagiario'] != NULL) {
+  if (isset($_SESSION['etapaCadastroEmpresa']) && $_SESSION['etapaCadastroEmpresa'] != NULL) {
 
-    header("location: etapa" . $_SESSION['etapaCadastroEstagiario'] . ".php");
+    header("location: etapa" . $_SESSION['etapaCadastroEmpresa'] . ".php");
     exit;
   }
   header("location: ../cadastro.php");
@@ -43,9 +43,9 @@ if (isset($_SESSION['statusCadastroEstagiario']) && $_SESSION['statusCadastroEst
 
 session_destroy();
 session_start();
-$_SESSION['statusCadastroEstagiario'] = "andamento";
-$_SESSION['etapaCadastroEstagiario'] = 1;
-header("location: etapa" . $_SESSION['etapaCadastroEstagiario'] . ".php");
+$_SESSION['statusCadastroEmpresa'] = "andamento";
+$_SESSION['etapaCadastroEmpresa'] = 1;
+header("location: etapa1.php");
 exit;
 
 

@@ -1,0 +1,48 @@
+--select estagiario:
+estagiarioSelect
+123
+
+--insert estagiario:
+estagiarioInsert
+123
+
+--update estagiario:
+estagiarioUpdate
+123
+
+--select empresa:
+empresaSelect
+123
+
+--insert empresa:
+empresaInsert
+123
+
+--update empresa:
+empresaUpdate
+123
+
+--select escola:
+escolaSelect
+123
+
+--insert escola:
+escolaInsert
+123
+
+--update escola:
+escolaUpdate
+123
+
+
+--select email e senha TODOS
+loginAll
+123
+
+-- select cnpj TODOS
+cnpjSelect
+123
+
+-- select email TODOS
+emailSelect
+123

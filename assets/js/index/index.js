@@ -16,6 +16,38 @@ $(document).ready(function () {
 
     var larguraPg = window.innerWidth;
 
+    //função para verificar se parâmetro existe
+    function parametroExiste(nomeParametro) {
+        let parametros = new URLSearchParams(window.location.search);
+        return parametros.has(nomeParametro);
+    }
+
+    if (parametroExiste('entrar')) {
+        $('.nav-link').removeClass('active');
+        btnEntrar.addClass('active');
+        main.empty();
+        main.load("public/pages/entrar.php");
+
+    }
+
+    function trocaPage(button, url) {
+        var self = $(button);
+    
+        if (!self.hasClass('active')) {
+            $('.nav-link').removeClass('active');
+            self.addClass('active');
+            banner.animate({ width: 'toggle' });
+            main.animate({ width: 'toggle' }, function () {
+                main.empty();
+                main.load(url, function () {
+                    main.animate({ width: 'toggle' });
+                });
+            });
+        }
+    }
+    
+    
+
     if (toastLoginBtn.length && toastLogin.length && larguraPg > 1000) {
         toastLoginBtn.on("mouseenter", function () {
             toastLogin.toast('show');
@@ -50,73 +82,42 @@ $(document).ready(function () {
         }
     });
 
-    btnIndex.on("click", function () {
-        if (!$(this).hasClass('active')) {
+    function trocaPage(button, url) {
+        var self = $(button);
+    
+        if (!self.hasClass('active')) {
             $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-            banner.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para o banner (se desejado)
-            main.animate({ width: 'toggle' }, function () { // Adicione uma transição de deslizamento lateral suave para main
-                main.empty(); // Limpe o conteúdo de main
-                main.load("public/templates/index/initial.php", function () { // Carregue o conteúdo do arquivo PHP em main
-                    main.animate({ width: 'toggle' }); // Adicione uma transição de deslizamento lateral para exibir o novo conteúdo de main
-                });
-            });
-        }
-    });
-
-    btnSobre.on("click", function () {
-        if (!$(this).hasClass('active')) {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
+            self.addClass('active');
             banner.animate({ width: 'toggle' });
             main.animate({ width: 'toggle' }, function () {
                 main.empty();
-                main.load("public/pages/sobre.php", function () {
+                main.load(url, function () {
                     main.animate({ width: 'toggle' });
                 });
             });
         }
+    }
+    
+    btnIndex.on('click', function() {
+        trocaPage(this, "public/templates/index/initial.php");
     });
+    
+    btnSobre.on('click', function() {
+        trocaPage(this, "public/pages/sobre.php");
+    });
+    
+    btnObjetivos.on('click', function() {
+        trocaPage(this, "public/pages/objetivos.php");
+    });
+    
+    btnSuporte.on('click', function() {
+        trocaPage(this, "public/pages/suporte.php");
+    });
+    
+    btnEntrar.on('click', function() {
+        trocaPage(this, "public/pages/entrar.php");
+    });
+    
+    
 
-    btnObjetivos.on("click", function () {
-        if (!$(this).hasClass('active')) {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-            banner.animate({ width: 'toggle' });
-            main.animate({ width: 'toggle' }, function () {
-                main.empty();
-                main.load("public/pages/objetivos.php", function () {
-                    main.animate({ width: 'toggle' });
-                });
-            });
-        }
-    });
-
-    btnSuporte.on("click", function () {
-        if (!$(this).hasClass('active')) {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-            banner.animate({ width: 'toggle' });
-            main.animate({ width: 'toggle' }, function () {
-                main.empty();
-                main.load("public/pages/suporte.php", function () {
-                    main.animate({ width: 'toggle' });
-                });
-            });
-        }
-    });
-
-    btnEntrar.on("click", function () {
-        if (!$(this).hasClass('active')) {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-            banner.animate({ width: 'toggle' });
-            main.animate({ width: 'toggle' }, function () {
-                main.empty();
-                main.load("public/pages/entrar.php", function () {
-                    main.animate({ width: 'toggle' });
-                });
-            });
-        }
-    });
 });

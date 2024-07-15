@@ -47,13 +47,13 @@
                 <small>Login</small>
             </div>
             <div class="toast-body">
-                <form class="form-floating">
+                <form class="form-floating" method="post" action="public/login.php">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuário ou e-mail">
-                        <label for="floatingInput">Usuário ou e-mail</label>
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuário ou e-mail" name="email">
+                        <label for="floatingInput">E-mail</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="senha">
                         <label for="floatingPassword">Senha</label>
                     </div>
                     <div>

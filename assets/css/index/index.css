@@ -3,7 +3,7 @@
 
 #sectionBanner {
     background-color: var(--color-custom-2);
-    min-height: 70vh;
+    min-height: 60vh;
     max-height: 80vh;
     display: flex;
     align-items: center;
@@ -36,8 +36,8 @@
     width: 100%;
     min-height: 20vh;
     max-height: auto;
-    padding-top: 200px;
-    padding-bottom: 200px;
+    padding-top: 100px;
+    padding-bottom: 100px;
 
     & #cadastroSelecao{
         min-width: 70%;
