@@ -35,16 +35,35 @@
     <nav class="offcanvas-sm offcanvas-start sidebar" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Responsive offcanvas</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <button class="btn" id="divLogoNav"><img src="../assets/img/logo.svg" alt="Logo Estagiou"></button>
+        
+        <div class="offcanvas-body btnLogo">
+            <button type="button" class="btn" id="divLogoNav"><img src="../assets/img/logo.svg" alt="Logo Estagiou"></button>
+
         </div>
+        <section class="divNavBody">
+            <div class="offcanvas-body itemNav">
+                <a href="" class="btn linkNav"><i class="bi bi-house"></i>MENU</a>
+            </div>
+            <div class="offcanvas-body itemNav">
+                <a href="" class="btn linkNav"><i class="bi bi-person-vcard"></i>Currículo</a>
+            </div>
+            <div class="offcanvas-body itemNav">
+                <a href="" class="btn linkNav"><i class="bi bi-grid"></i></i>Vagas</a>
+            </div>
+            <div class="offcanvas-body itemNav">
+                <a href="" class="btn linkNav"><i class="bi bi-bell"></i>Notificações</a>
+            </div>
+            <div class="offcanvas-body itemNav">
+                <a href="" class="btn linkNav"><i class="bi bi-chat"></i>Mensagens</a>
+            </div>
+        </section>
     </nav>
 
     <main id="main">
         <header id="header">
-            <button class="btn btn-secondary d-sm-none botaoMenu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list"></i></button>
+            <button class="btn btn-secondary d-sm-none botaoMenu" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list"></i></button>
+
             </button>
         </header>
         <section id="sectionPrincipal">
