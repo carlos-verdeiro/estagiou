@@ -4,16 +4,19 @@
 body {
     display: flex;
     flex-direction: row;
+    background-color: var(--color-custom-1);
 
     & .sidebar {
         width: 300px;
         height: 100vh;
         padding-top: 20px;
         background-color: var(--color-custom-1) !important;
+        transition: width 0.4s;
 
         & .btnLogo {
             height: 20%;
             padding: 0;
+
             & #divLogoNav {
                 width: 80%;
                 height: 60px;
@@ -31,40 +34,53 @@ body {
             }
         }
 
-        & .divNavBody{
+        & .divNavBody {
             width: 100%;
             height: 80%;
             display: flex;
-            align-items:center;
-            justify-content: start; 
-            flex-direction: column;
-            gap: 3em;
-
-           & .itemNav{
-            text-align: start;
-            width: 100%;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 0;
+            justify-content: start;
+            flex-direction: column;
+            gap: 1em;
 
-            & .linkNav{
+            & .itemNav {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 padding: 0;
-                margin: 0;
-                color: white;
-                font-size: 21px;
-                min-width: 90%;
-                text-align: start;
-                
+
+                & .linkNav {
+                    padding-inline: 10px;
+                    margin: 0;
+                    color: var(--color-white);
+                    font-size: 21px;
+                    min-width: 90%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 1em;
 
 
-                & i{
-                    font-size: 30px;
-                    text-align: start;
-                    margin-inline: 10%;
+                    & i {
+                        font-size: 30px;
+                        width: 10%;
+                        text-align: start;
+                        transition: width 0.4s ease;
+
+                        text-align: center;
+                    }
+
+                    & p{
+                        margin: 0;
+                    }
+                }
+
+                & .linkNav:hover {
+                    background-color: var(--color-custom-8);
                 }
             }
-           }
         }
     }
 
@@ -77,7 +93,7 @@ body {
     & #header {
         width: 100%;
         height: 8%;
-        background-color: var(--color-custom-4) !important;
+        background-color: var(--color-custom-1) !important;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -88,7 +104,13 @@ body {
     }
 
     & #sectionPrincipal {
+        background-color: var(--color-custom-2);
         width: 100%;
         height: 92%;
+        border-radius: 50px 50px 0px 0px ;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

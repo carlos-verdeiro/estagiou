@@ -1,3 +1,20 @@
+<?php
+
+session_start();
+if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || !isset($_SESSION['idUsuarioLogin'])) {
+    session_unset();
+    session_destroy();
+    header('location: ../index.php?acessoNegado');
+    exit;
+}
+
+$usuario = array(
+    "tipo" => $_SESSION['tipoUsuarioLogin'],
+    "id" => $_SESSION['idUsuarioLogin']
+);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -24,6 +41,9 @@
 
     <!--FIM JQUERY-->
 
+    <!--CARREGAMENTO-->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/ring.js"></script>
+    <!--FIM CARREGAMENTO-->
 
     <!--FIM BIBLIOTECAS-->
 
@@ -33,30 +53,96 @@
 <body>
 
     <nav class="offcanvas-sm offcanvas-start sidebar" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Responsive offcanvas</h5>
-        </div>
-        
         <div class="offcanvas-body btnLogo">
             <button type="button" class="btn" id="divLogoNav"><img src="../assets/img/logo.svg" alt="Logo Estagiou"></button>
-
         </div>
         <section class="divNavBody">
-            <div class="offcanvas-body itemNav">
-                <a href="" class="btn linkNav"><i class="bi bi-house"></i>MENU</a>
-            </div>
-            <div class="offcanvas-body itemNav">
-                <a href="" class="btn linkNav"><i class="bi bi-person-vcard"></i>Currículo</a>
-            </div>
-            <div class="offcanvas-body itemNav">
-                <a href="" class="btn linkNav"><i class="bi bi-grid"></i></i>Vagas</a>
-            </div>
-            <div class="offcanvas-body itemNav">
-                <a href="" class="btn linkNav"><i class="bi bi-bell"></i>Notificações</a>
-            </div>
-            <div class="offcanvas-body itemNav">
-                <a href="" class="btn linkNav"><i class="bi bi-chat"></i>Mensagens</a>
-            </div>
+
+            <?php
+            switch ($usuario['tipo']) {
+                case 'estagiario':
+                    echo '
+                    <div class="offcanvas-body itemNav">
+                        <button class="btn linkNav linkNavEstagiario linkNavMenu" id="btnNavEstagiarioMenu"><i class="bi bi-house iconLinkNav"></i><p class="textLinkNav">MENU</p></button>
+                    </div>';
+                    echo '
+                    <div class="offcanvas-body itemNav">
+                        <button class="btn linkNav linkNavEstagiario" id="btnNavEstagiarioCurriculo"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Currículo</p></button>
+                    </div>';
+                    echo '
+                    <div class="offcanvas-body itemNav">
+                        <button class="btn linkNav linkNavEstagiario" id="btnNavEstagiarioVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
+                    </div>';
+                    echo '
+                    <div class="offcanvas-body itemNav">
+                        <button class="btn linkNav linkNavEstagiario" id="btnNavEstagiarioNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>
+                    </div>';
+                    echo '
+                    <div class="offcanvas-body itemNav">
+                        <button class="btn linkNav linkNavEstagiario linkNavMensagens" id="btnNavEstagiarioMensagens"><i class="bi bi-chat iconLinkNav"></i><p class="textLinkNav">Mensagens</p></button>
+                    </div>';
+                    break;
+
+
+                case 'empresa':
+                    echo '
+                        <div class="offcanvas-body itemNav">
+                            <button class="btn linkNav linkNavEmpresa linkNavMenu" id="btnNavEmpresaMenu"><i class="bi bi-house iconLinkNav"></i><p class="textLinkNav">MENU</p></button>
+                        </div>';
+                    echo '
+                        <div class="offcanvas-body itemNav">
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaBancoTalentos"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Talentos</p></button>
+                        </div>';
+                    echo '
+                        <div class="offcanvas-body itemNav">
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
+                        </div>';
+                    echo '
+                        <div class="offcanvas-body itemNav">
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaSeusEstagiarios"><i class="bi bi-person-check iconLinkNav"></i></i><p class="textLinkNav">Seus Estagiários</p></button>
+                        </div>';
+                    echo '
+                        <div class="offcanvas-body itemNav">
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>
+                        </div>';
+                    echo '
+                        <div class="offcanvas-body itemNav">
+                            <button class="btn linkNav linkNavEmpresa linkNavMensagens" id="btnNavEmpresaMensagens"><i class="bi bi-chat iconLinkNav"></i><p class="textLinkNav">Mensagens</p></button>
+                        </div>';
+                    break;
+
+
+                case 'escola':
+                    echo '
+                            <div class="offcanvas-body itemNav">
+                                <button class="btn linkNav linkNavEscola linkNavMenu" id="btnNavEscolaMenu"><i class="bi bi-house iconLinkNav"></i><p class="textLinkNav">MENU</p></button>
+                            </div>';
+                    echo '
+                            <div class="offcanvas-body itemNav">
+                                <button class="btn linkNav linkNavEscola" id="btnNavEscolaCurriculo"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Currículos</p></button>
+                            </div>';
+                    echo '
+                            <div class="offcanvas-body itemNav">
+                                <button class="btn linkNav linkNavEscola" id="btnNavEscolaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
+                            </div>';
+                    echo '
+                            <div class="offcanvas-body itemNav">
+                                <button class="btn linkNav linkNavEscola" id="btnNavEscolaEmpresas"><i class="bi bi-building iconLinkNav"></i></i><p class="textLinkNav">Empresas</p></button>
+                            </div>';
+                    echo '
+                            <div class="offcanvas-body itemNav">
+                                <button class="btn linkNav linkNavEscola" id="btnNavEscolaNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>
+                            </div>';
+                    echo '
+                            <div class="offcanvas-body itemNav">
+                                <button class="btn linkNav linkNavEscola linkNavMensagens" id="btnNavEscolaMensagens"><i class="bi bi-chat iconLinkNav"></i><p class="textLinkNav">Mensagens</p></button>
+                            </div>';
+                    break;
+                default:
+                    echo 'ERROR';
+                    break;
+            }
+            ?>
         </section>
     </nav>
 
@@ -67,10 +153,34 @@
             </button>
         </header>
         <section id="sectionPrincipal">
-
+            <?php include_once "templates/carregamento.php"; ?>
         </section>
     </main>
-    <script src="assets/js/index/index.js"></script>
+    <script src="../assets/js/dashboard/dashboard.js"></script>
+    <?php
+    switch ($usuario['tipo']) {
+        case 'estagiario':
+
+            echo '<script src="../assets/js/dashboard/estagiario.js"></script>';
+
+            break;
+
+        case 'empresa':
+
+            echo '<script src="../assets/js/dashboard/empresa.js"></script>';
+
+            break;
+
+        case 'escola':
+
+            echo '<script src="../assets/js/dashboard/escola.js"></script>';
+
+            break;
+        default:
+            echo 'ERROR';
+            break;
+    }
+    ?>
 </body>
 
 </html>
