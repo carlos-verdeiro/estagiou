@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+if (isset($_SESSION['statusLogin']) && $_SESSION['statusLogin'] === 'autenticado' && isset($_SESSION['idUsuarioLogin'])) {
+    header('location: dashboard/');
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -30,12 +39,12 @@
 
 <body>
     <?php
-    include_once "public/templates/index/header.php";
+    include_once "assets/templates/index/header.php";
     ?>
     <main id="main">
 
         <?php
-        include_once "public/templates/index/initial.php";
+        include_once "assets/templates/index/initial.php";
         ?>
     </main>
     <script src="assets/js/index/index.js"></script>

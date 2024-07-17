@@ -1,0 +1,1 @@
+<l-ring size="100" stroke="8" bg-opacity="0" speed="2" color="#274476"></l-ring>

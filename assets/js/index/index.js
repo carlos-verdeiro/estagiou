@@ -99,7 +99,7 @@ $(document).ready(function () {
     }
     
     btnIndex.on('click', function() {
-        trocaPage(this, "public/templates/index/initial.php");
+        trocaPage(this, "assets/templates/index/initial.php");
     });
     
     btnSobre.on('click', function() {
