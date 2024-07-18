@@ -72,7 +72,7 @@ body {
                         text-align: center;
                     }
 
-                    & p{
+                    & p {
                         margin: 0;
                     }
                 }
@@ -84,33 +84,59 @@ body {
         }
     }
 
-}
-
-& #main {
-    width: 100%;
-    height: 100vh;
-
-    & #header {
+    & #main {
         width: 100%;
-        height: 8%;
-        background-color: var(--color-custom-1) !important;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
+        height: 100vh;
 
-        & .botaoMenu {
-            width: 100px;
+        & #header {
+            width: 100%;
+            height: 8%;
+            background-color: var(--color-custom-1) !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            & .botaoMenu {
+                width: 100px;
+            }
+        }
+
+        & #sectionPrincipal {
+            background-color: var(--color-custom-2);
+            width: 100%;
+            height: 92%;
+            border-radius: 50px 50px 0px 0px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            & .sectionPages {
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                flex-direction: column;
+                overflow-y: auto;
+
+            }
         }
     }
+}
 
-    & #sectionPrincipal {
-        background-color: var(--color-custom-2);
-        width: 100%;
-        height: 92%;
-        border-radius: 50px 50px 0px 0px ;
-        padding: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+/*SCROLL EDIÇÃO*/
+.sectionPages::-webkit-scrollbar {
+    width: 12px;
+}
+
+.sectionPages::-webkit-scrollbar-track {
+    background: var(--color-custom-2);
+}
+
+.sectionPages::-webkit-scrollbar-thumb {
+    background-color: var(--color-custom-1);
+    border-radius: 20px;
+    border: 3px solid var(--color-custom-2);
 }

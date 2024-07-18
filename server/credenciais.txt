@@ -46,3 +46,15 @@ cnpjSelect
 -- select email TODOS
 emailSelect
 123
+
+-- ultimo Login Update
+ultimoLoginUpdate
+123
+
+-- curriculo Select Estagiario
+curriculoSelectEstagiario
+123
+
+-- curriculo upload
+curriculoInsertEstagiario
+123

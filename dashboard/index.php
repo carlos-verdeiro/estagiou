@@ -13,6 +13,8 @@ $usuario = array(
     "id" => $_SESSION['idUsuarioLogin']
 );
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +48,6 @@ $usuario = array(
     <!--FIM CARREGAMENTO-->
 
     <!--FIM BIBLIOTECAS-->
-
     <link rel="stylesheet" href="../assets/css/dashboard/dashboard.css">
 </head>
 
@@ -161,19 +162,19 @@ $usuario = array(
     switch ($usuario['tipo']) {
         case 'estagiario':
 
-            echo '<script src="../assets/js/dashboard/estagiario.js"></script>';
+            echo '<script src="../assets/js/dashboard/estagiario/estagiario.js"></script>';
 
             break;
 
         case 'empresa':
 
-            echo '<script src="../assets/js/dashboard/empresa.js"></script>';
+            echo '<script src="../assets/js/dashboard/empresa/empresa.js"></script>';
 
             break;
 
         case 'escola':
 
-            echo '<script src="../assets/js/dashboard/escola.js"></script>';
+            echo '<script src="../assets/js/dashboard/escola/escola.js"></script>';
 
             break;
         default:
