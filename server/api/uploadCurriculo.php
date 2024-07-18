@@ -20,10 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tamanho = $arquivo['size'];
         $tipo = $arquivo['type'];
         $extensao = strtolower(pathinfo($nome, PATHINFO_EXTENSION));
-        $novoNome = uniqid();
-        $path = $pasta . $novoNome . '.' . $extensao;
-        $uploadResposta = move_uploaded_file($arquivo['tmp_name'], $path);
-        
+        $novoNome = uniqid() .'.'. $extensao;
+        $path = $pasta . $novoNome;
+
         // Verifica se é um arquivo PDF
         if ($tipo == 'application/pdf') {
             try {
@@ -46,6 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt0->close();
                 $mysqliSelect->close();
 
+                if ($count > 0) {
+                    // Remove o arquivo antigo
+                    $caminho_arquivo_antigo = "../curriculos/" . $caminho_arquivo;
+                    if (file_exists($caminho_arquivo_antigo)) {
+                        unlink($caminho_arquivo_antigo);
+                    }
+                }
+
+                // Faz o upload do novo arquivo
+                $uploadResposta = move_uploaded_file($arquivo['tmp_name'], $path);
+
                 // Conecta ao banco de dados para inserção
                 $mysqli = new mysqli('localhost', 'curriculoInsertEstagiario', '123', 'estagiou');
                 if ($mysqli->connect_error) {
@@ -56,21 +66,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $mysqli->begin_transaction();
 
                 if ($count > 0) {
-                    // Remove currículos antigos
+                    // Remove currículos antigos do banco de dados
                     $stmt1 = $mysqli->prepare("DELETE FROM curriculo WHERE estagiario_id = ?");
                     if (!$stmt1) {
                         throw new Exception("Erro na preparação da consulta para remoção: " . $mysqli->error);
                     }
 
                     $stmt1->bind_param('i', $estagiario_id);
-                    if ($stmt1->execute()) {
-                        if (!unlink($caminho_arquivo)) {
-                            throw new Exception("Erro ao excluir arquivo antigo");
-                        }
-                    } else {
-                        throw new Exception("Erro ao deletar dados antigos");
-                    }
-
+                    $stmt1->execute();
                     $stmt1->close();
                 }
 
@@ -80,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     throw new Exception("Erro na preparação da consulta para inserção: " . $mysqli->error);
                 }
 
-                $stmt2->bind_param('isssiss', $estagiario_id, $data_submissao, $nome, $tipo, $tamanho, $path, $observacoes);
+                $stmt2->bind_param('isssiss', $estagiario_id, $data_submissao, $nome, $tipo, $tamanho, $novoNome, $observacoes);
                 $stmt2->execute();
 
                 // Atualiza a tabela estagiario com o ID do novo currículo
@@ -92,6 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     throw new Exception("Erro na preparação da consulta para atualização: " . $mysqli->error);
                 }
 
+                if (!$uploadResposta) {
+                    throw new Exception("Erro ao enviar o arquivo");
+                }
+
                 $stmt3->bind_param('ii', $curriculo_id, $estagiario_id);
                 $stmt3->execute();
                 $stmt3->close();
@@ -101,7 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "Currículo enviado com sucesso!";
             } catch (Exception $e) {
                 // Rollback em caso de exceção
-                $mysqli->rollback();
+                if (isset($mysqli)) {
+                    $mysqli->rollback();
+                }
                 echo "Erro ao enviar currículo: " . $e->getMessage();
             } finally {
                 // Fechar as conexões

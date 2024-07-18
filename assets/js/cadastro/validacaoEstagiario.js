@@ -126,7 +126,7 @@ $(document).ready(function () {
                 // Enviar o CPF ao servidor
                 $.ajax({
                     type: "POST",
-                    url: '/estagiou/server/api/validacao.php',
+                    url: '/server/api/validacao.php',
                     data: {
                         cpf: cpfVal,
                     },
@@ -203,7 +203,7 @@ $(document).ready(function () {
             // Enviar o Email  ao servidor
             $.ajax({
                 type: "POST",
-                url: '/estagiou/server/api/validacao.php',
+                url: '/server/api/validacao.php',
                 data: {
                     email: valEmail,
                 },
@@ -262,7 +262,7 @@ $(document).ready(function () {
                 // Enviar o RG ao servidor
                 $.ajax({
                     type: "POST",
-                    url: '/estagiou/server/api/validacao.php',
+                    url: '/server/api/validacao.php',
                     data: {
                         rg: rgVal,
                     },

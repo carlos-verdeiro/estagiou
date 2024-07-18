@@ -1,7 +1,7 @@
 <section class="sectionPages sectionPagesEstagiario" id="sectionPageCurriculo">
-    <link rel="stylesheet" href="../assets/css/dashboard/curriculo.css">
+    <link rel="stylesheet" href="../assets/css/dashboard/estagiario/curriculo.css">
     <script src="../assets/js/dashboard/estagiario/curriculo.js"></script>
-    <h1 class="tituloPage">CURRÍCULO</h1>
+    <h1 class="tituloPage mb-5">CURRÍCULO</h1>
 
     <?php
     session_start();
@@ -18,25 +18,29 @@
     $select_stmt->execute();
     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$row['curriculo_id']) {
-        echo"Você não possui nenhum currículo salvo.";
-    }
-
     ?>
 
-    <div>
+    <div class="divBlocos row d-flex flex-wrap">
+        <div class="blocos col arquivo visually-hidden">
+            <iframe id="iframeArquivo"frameborder="0">
+            </iframe>
+        </div>
+        <div class="blocos col formulario">
+
+            <form id="formUploadArquivo" class="p-3" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="curriculo" class="form-label">Faça upload de seu currículo aqui:</label>
+                    <input class="form-control form-control" id="curriculo" name="curriculo" type="file" accept="application/pdf">
+
+                </div>
+                <div class="mb-3">
+                    <label for="observacoes" class="form-label">Observação:</label>
+                    <textarea class="form-control form-control-sm" id="observacoes" name="observacoes" type="text" maxlength="500"></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary sm" value="Salvar">
+
+            </form>
+        </div>
 
     </div>
-    <form id="formArquivo" enctype="multipart/form-data">
-
-        <label for="curriculo" class="form-label">Faça upload de seu currículo aqui:</label>
-        <input class="form-control form-control-lg" id="curriculo" name="curriculo" type="file" accept="application/pdf">
-
-        <label for="observacoes" class="form-label">Observação:</label>
-        <input class="form-control form-control-sm" id="observacoes" name="observacoes" type="text">
-        <input type="submit" class="btn btn-primary sm" value="Salvar">
-
-
-    </form>
-
 </section>

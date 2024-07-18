@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/07/2024 às 09:38
+-- Tempo de geração: 18/07/2024 às 16:44
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `estagiou`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `curriculo`
+--
+
+CREATE TABLE `curriculo` (
+  `id` int(11) NOT NULL,
+  `data_submissao` date NOT NULL,
+  `nome_arquivo` varchar(255) NOT NULL,
+  `tipo_arquivo` varchar(50) NOT NULL,
+  `tamanho_arquivo` int(11) NOT NULL,
+  `caminho_arquivo` varchar(255) NOT NULL,
+  `observacoes` text NOT NULL,
+  `estagiario_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `curriculo`
+--
+
+INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
+(8, '2024-07-18', 'Curriculo_Carlos.pdf', 'application/pdf', 52520, '../curriculos/66992a3b9355a.pdf', 'teste', 41);
 
 -- --------------------------------------------------------
 
@@ -52,7 +76,8 @@ CREATE TABLE `empresa` (
   `linkedin` varchar(100) DEFAULT NULL,
   `instagram` varchar(100) DEFAULT NULL,
   `facebook` varchar(100) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `ultimo_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -86,7 +111,8 @@ CREATE TABLE `escola` (
   `linkedin` varchar(100) DEFAULT NULL,
   `instagram` varchar(100) DEFAULT NULL,
   `facebook` varchar(100) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `ultimo_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -96,7 +122,7 @@ CREATE TABLE `escola` (
 --
 
 CREATE TABLE `estagiario` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(255) NOT NULL,
   `nome` varchar(100) NOT NULL,
@@ -124,8 +150,16 @@ CREATE TABLE `estagiario` (
   `estado` varchar(100) NOT NULL,
   `cep` varchar(10) DEFAULT NULL,
   `pais` varchar(100) NOT NULL,
-  `bairro` varchar(100) DEFAULT NULL
+  `bairro` varchar(100) DEFAULT NULL,
+  `curriculo_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `estagiario`
+--
+
+INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`) VALUES
+(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-07-18 14:44:11', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 8);
 
 -- --------------------------------------------------------
 
@@ -146,6 +180,14 @@ CREATE TABLE `vaga` (
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `curriculo`
+--
+ALTER TABLE `curriculo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `caminho_arquivo` (`caminho_arquivo`),
+  ADD KEY `id_curriculo` (`estagiario_id`);
 
 --
 -- Índices de tabela `empresa`
@@ -170,7 +212,8 @@ ALTER TABLE `estagiario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `estagiario_email_unique` (`email`),
   ADD UNIQUE KEY `estagiario_cpf_unique` (`cpf`),
-  ADD UNIQUE KEY `estagiario_rg_unique` (`rg`);
+  ADD UNIQUE KEY `estagiario_rg_unique` (`rg`),
+  ADD UNIQUE KEY `curriculo_id` (`curriculo_id`);
 
 --
 -- Índices de tabela `vaga`
@@ -182,6 +225,12 @@ ALTER TABLE `vaga`
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `curriculo`
+--
+ALTER TABLE `curriculo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -199,7 +248,7 @@ ALTER TABLE `escola`
 -- AUTO_INCREMENT de tabela `estagiario`
 --
 ALTER TABLE `estagiario`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
@@ -210,6 +259,12 @@ ALTER TABLE `vaga`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `curriculo`
+--
+ALTER TABLE `curriculo`
+  ADD CONSTRAINT `id_curriculo` FOREIGN KEY (`estagiario_id`) REFERENCES `estagiario` (`id`);
 
 --
 -- Restrições para tabelas `vaga`

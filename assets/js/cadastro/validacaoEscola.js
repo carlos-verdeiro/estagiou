@@ -122,7 +122,7 @@ $(document).ready(function () {
                 // Enviar o CNPJ ao servidor
                 $.ajax({
                     type: "POST",
-                    url: '/estagiou/server/api/validacao.php',
+                    url: '/server/api/validacao.php',
                     data: {
                         cnpj: cnpjVal,
                     },
@@ -199,7 +199,7 @@ $(document).ready(function () {
             // Enviar o Email  ao servidor
             $.ajax({
                 type: "POST",
-                url: '/estagiou/server/api/validacao.php',
+                url: '/server/api/validacao.php',
                 data: {
                     email: valEmail,
                 },
