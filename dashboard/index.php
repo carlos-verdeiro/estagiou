@@ -32,7 +32,8 @@ $usuario = array(
 
     <!--BOOTSTRAP-->
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <script src="../assets/js/bootstrap.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!--ICONES-->
 
     <!--FIM BOOTSTRAP-->
@@ -56,6 +57,7 @@ $usuario = array(
     <nav class="offcanvas-sm offcanvas-start sidebar" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div class="offcanvas-body btnLogo">
             <button type="button" class="btn" id="divLogoNav"><img src="../assets/img/logo.svg" alt="Logo Estagiou"></button>
+
         </div>
         <section class="divNavBody">
 
@@ -148,10 +150,22 @@ $usuario = array(
     </nav>
 
     <main id="main">
-        <header id="header">
-            <button class="btn btn-secondary d-sm-none botaoMenu" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list"></i></button>
+        <header id="header" class="d-flex flex-row px-2">
+            <button class="btn d-sm-none botaoMenu text-white p-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list text-white fs-1"></i></button>
 
-            </button>
+            <div class="dropdown text-white-50 ms-auto">
+                <button class="btn  dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle text-white fs-4 "></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Perfil</a></li>
+                    <li><a class="dropdown-item" href="#">Configurações</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger " href="#">Sair</a></li>
+                </ul>
+            </div>
         </header>
         <section id="sectionPrincipal">
             <?php include_once "templates/carregamento.php"; ?>
@@ -182,6 +196,7 @@ $usuario = array(
             break;
     }
     ?>
+
 </body>
 
 </html>

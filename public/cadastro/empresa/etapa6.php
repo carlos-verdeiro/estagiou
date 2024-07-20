@@ -34,7 +34,7 @@ if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastr
 
     <!--BOOTSTRAP-->
     <link href="../../../assets/css/bootstrap.css" rel="stylesheet">
-    <script src="../../../assets/js/bootstrap.js"></script>
+    <script src="../../../assets/js/bootstrap.bundle.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!--ICONES-->
     <!--FIM BOOTSTRAP-->
 

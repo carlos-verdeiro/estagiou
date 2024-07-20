@@ -22,7 +22,7 @@ if (isset($_SESSION['statusLogin']) && $_SESSION['statusLogin'] === 'autenticado
 
     <!--BOOTSTRAP-->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/bootstrap.bundle.js"></script>
     <!--FIM BOOTSTRAP-->
 
         <!--JQUERY-->
