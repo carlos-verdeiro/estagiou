@@ -61,7 +61,7 @@ try {
             exit;
         } else {
             // Consulta preparada para escola
-            $stmt_escola = $conn->prepare("SELECT senha FROM escola WHERE email = :email");
+            $stmt_escola = $conn->prepare("SELECT senha, id FROM escola WHERE email = :email");
             $stmt_escola->bindValue(':email', $email, PDO::PARAM_STR);
             $stmt_escola->execute();
             $row_escola = $stmt_escola->fetch(PDO::FETCH_ASSOC);
@@ -69,9 +69,17 @@ try {
             // Verificação de senha para escola
             if ($row_escola && password_verify($senha, $row_escola['senha'])) {
                 $mensagem = "Login bem-sucedido como escola!";
+
+                session_start();
+                session_unset();
+                $_SESSION['tipoUsuarioLogin'] = 'escola';
+                $_SESSION['statusLogin'] = 'autenticado';
+                $_SESSION['idUsuarioLogin'] = $row_escola['id'];
+                header('location: ../dashboard/index.php');
+                exit;
             } else {
                 // Consulta preparada para empresa
-                $stmt_empresa = $conn->prepare("SELECT senha FROM empresa WHERE email = :email");
+                $stmt_empresa = $conn->prepare("SELECT senha, id FROM empresa WHERE email = :email");
                 $stmt_empresa->bindValue(':email', $email, PDO::PARAM_STR);
                 $stmt_empresa->execute();
                 $row_empresa = $stmt_empresa->fetch(PDO::FETCH_ASSOC);
@@ -79,6 +87,14 @@ try {
                 // Verificação de senha para empresa
                 if ($row_empresa && password_verify($senha, $row_empresa['senha'])) {
                     $mensagem = "Login bem-sucedido como empresa!";
+
+                    session_start();
+                    session_unset();
+                    $_SESSION['tipoUsuarioLogin'] = 'empresa';
+                    $_SESSION['statusLogin'] = 'autenticado';
+                    $_SESSION['idUsuarioLogin'] = $row_empresa['id'];
+                    header('location: ../dashboard/index.php');
+                    exit;
                 } else {
                     $mensagem = "E-mail ou senha incorretos.";
                 }

@@ -13,7 +13,12 @@ $usuario = array(
     "id" => $_SESSION['idUsuarioLogin']
 );
 
-
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header('location: ../index.php');
+    exit;
+}
 
 ?>
 
@@ -163,7 +168,7 @@ $usuario = array(
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item text-danger " href="#">Sair</a></li>
+                    <li><a class="dropdown-item text-danger " href="?logout">Sair</a></li>
                 </ul>
             </div>
         </header>
