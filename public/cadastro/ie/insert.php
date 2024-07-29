@@ -206,7 +206,7 @@ if (
             throw new variavelNaoExiste("senha ERRO\n");
             $erros++;
         }
-        if (!validar($endereco, 'textObrigatorio', 1, 255)) {
+        if (!validar($endereco, 'comprimento', 1, 255)) {
             throw new variavelNaoExiste("Endereço ERRO\n");
             $erros++;
         }

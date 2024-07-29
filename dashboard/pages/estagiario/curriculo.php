@@ -22,7 +22,7 @@
 
     <div class="divBlocos row d-flex flex-wrap">
         <div class="blocos col arquivo visually-hidden">
-            <iframe id="iframeArquivo"frameborder="0">
+            <iframe id="iframeArquivo" frameborder="0">
             </iframe>
         </div>
         <div class="blocos col formulario">
@@ -38,9 +38,24 @@
                     <textarea class="form-control form-control-sm" id="observacoes" name="observacoes" type="text" maxlength="500"></textarea>
                 </div>
                 <input type="submit" class="btn btn-primary sm" value="Salvar">
+                <button type="button" id="btnExcluir" class="btn btn-danger sm" data-bs-toggle="modal" data-bs-target="#modalExcluir">Excluir</button>
 
             </form>
         </div>
 
+    </div>
+    <!-- Modal Exluir-->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluir" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja excluir o currículo atual?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger">Excluir</button>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

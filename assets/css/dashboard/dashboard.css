@@ -12,9 +12,11 @@ body {
         padding-top: 20px;
         background-color: var(--color-custom-1) !important;
         transition: width 0.4s;
+        
+
 
         & .btnLogo {
-            height: 20%;
+            height: min-content;
             padding: 0;
 
             & #divLogoNav {
@@ -39,9 +41,9 @@ body {
             height: 80%;
             display: flex;
             align-items: center;
-            justify-content: start;
+            justify-content: space-evenly;
             flex-direction: column;
-            gap: 1em;
+
 
             & .itemNav {
                 width: 100%;

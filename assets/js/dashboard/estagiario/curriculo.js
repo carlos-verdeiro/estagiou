@@ -2,6 +2,9 @@ $(document).ready(function () {
 
     const divArquivo = $('.arquivo');
     const iframeArquivo = $('#iframeArquivo');
+    const btnExcluir = $('#btnExcluir');
+    const curriculo = $('#curriculo');
+    const observacoes = $('#observacoes');
 
     function puxarArquivo() {
         $.ajax({
@@ -14,9 +17,13 @@ $(document).ready(function () {
                     divArquivo.removeClass('visually-hidden');
                     let caminho = '../server/curriculos/' + response.file;
                     iframeArquivo.attr('src', caminho);
+                    btnExcluir.removeClass('disabled');
+                    observacoes.val(response.observacoes);
                 } else if (response.status === 'notFound') {
                     if (!divArquivo.hasClass('visually-hidden')) {
-                        divArquivo.addClass('visually-hidden');                    }
+                        divArquivo.addClass('visually-hidden');
+                        btnExcluir.addClass('disabled');
+                    }
                 } else {
                     alert('Erro ao gerar o PDF.');
                 }
