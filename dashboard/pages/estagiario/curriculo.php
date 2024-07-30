@@ -20,28 +20,54 @@
 
     ?>
 
-    <div class="divBlocos row d-flex flex-wrap">
-        <div class="blocos col arquivo visually-hidden">
+    <div class="divBlocos row row-cols-2">
+        <div class="blocos col-md arquivo visually-hidden mt-2">
             <iframe id="iframeArquivo" frameborder="0">
             </iframe>
         </div>
-        <div class="blocos col formulario">
+        <div class="col-md mt-2 w-100">
 
-            <form id="formUploadArquivo" class="p-3" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="curriculo" class="form-label">Faça upload de seu currículo aqui:</label>
-                    <input class="form-control form-control" id="curriculo" name="curriculo" type="file" accept="application/pdf">
+            <div class=" row formulario visually-hidden" id="divInformacoes">
 
+                <div class="p-3" enctype="multipart/form-data">
+                    <h4 class="form-label">Informações:</h4>
+                    <div class="mb-1">
+                        <div class="row">
+                            <h6 class="form-label col">Nome do arquivo:</h6>
+                            <p id="resNomeArquivo" class="col"></p>
+                        </div>
+                        <div class="row">
+                            <h6 class="form-label col">Data de submissão:</h6>
+                            <p id="resSubmissao" class="col"></p>
+                        </div>
+
+                        <div class="row">
+                            <h6 class="form-label col">Observações:</h6>
+                            <p id="resObservacoes"></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="observacoes" class="form-label">Observação:</label>
-                    <textarea class="form-control form-control-sm" id="observacoes" name="observacoes" type="text" maxlength="500"></textarea>
-                </div>
-                <input type="submit" class="btn btn-primary sm" value="Salvar">
-                <button type="button" id="btnExcluir" class="btn btn-danger sm" data-bs-toggle="modal" data-bs-target="#modalExcluir">Excluir</button>
+            </div>
 
-            </form>
+            <div class="mt-2 row formulario w-100">
+
+                <form id="formUploadArquivo" class="p-3" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="curriculo" class="form-label">Faça upload de seu currículo aqui:</label>
+                        <input class="form-control form-control" id="curriculo" name="curriculo" type="file" accept="application/pdf" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="observacoes" class="form-label">Observações:</label>
+                        <textarea class="form-control form-control-sm" id="observacoes" name="observacoes" type="text" maxlength="500"></textarea>
+                    </div>
+                    <input type="submit" class="btn btn-primary sm" value="Salvar">
+                    <button type="button" class="btn btn-danger sm"  id="btnExcluir" data-bs-toggle="modal" data-bs-target="#modalExcluir">Excluir</button>
+
+                </form>
+            </div>
         </div>
+
 
     </div>
     <!-- Modal Exluir-->
@@ -53,7 +79,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Excluir</button>
+                    <button type="button" id="btnModalExcluir" data-bs-dismiss="modal" class="btn btn-danger">Excluir</button>
                 </div>
             </div>
         </div>

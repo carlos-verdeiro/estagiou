@@ -17,6 +17,12 @@
     & .formulario {
         width: 400px;
 
+        div{
+            background-color: var(--color-custom-4);
+            border-radius: 10px;
+            width: 100%;
+        }
+
         & #formUploadArquivo {
             background-color: var(--color-custom-4);
             border-radius: 10px;
