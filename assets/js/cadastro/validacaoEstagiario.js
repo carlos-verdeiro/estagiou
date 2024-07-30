@@ -91,7 +91,7 @@ $(document).ready(function () {
         var Soma;
         var Resto;
         Soma = 0;
-        if (strCPF == "00000000000") return false;
+        if (strCPF == "00000000000" ||strCPF == "11111111111" ||strCPF == "22222222222" ||strCPF == "33333333333" ||strCPF == "44444444444" ||strCPF == "55555555555" ||strCPF == "66666666666" ||strCPF == "77777777777" ||strCPF == "88888888888" ||strCPF == "99999999999") return false;
 
         for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
         Resto = (Soma * 10) % 11;
@@ -145,13 +145,12 @@ $(document).ready(function () {
                         }
                     },
                     error: function (xhr) {
-                        // Trate o erro de acordo com a resposta do servidor
                         let response;
                         try {
                             response = JSON.parse(xhr.responseText);
                         } catch (e) {
                             console.error('Erro ao parsear a resposta JSON:', e);
-                            alert('Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.');
+                            alert('Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.1');
                             reject('Erro inesperado');
                         }
 
@@ -161,11 +160,11 @@ $(document).ready(function () {
                             $(cpf).addClass('is-invalid');
                             reject('Preencha corretamente');
                         } else if (response && response.code == 2) {
-                            alert('Ocorreu um erro, por favor tente novamente mais tarde.');
+                            alert('Ocorreu um erro, por favor tente novamente mais tarde.2');
                             console.log('Erro de conexão com o banco de dados');
                             reject('Erro de conexão com o banco de dados');
                         } else {
-                            alert('Ocorreu um erro não identificado. Por favor, tente novamente mais tarde.');
+                            alert('Ocorreu um erro não identificado. Por favor, tente novamente mais tarde.3');
                             console.log('Erro desconhecido:', response);
                             reject('Erro desconhecido');
                         }

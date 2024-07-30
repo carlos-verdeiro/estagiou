@@ -37,8 +37,8 @@ try {
 
         // Conectar ao banco de dados usando PDO
         $dsn = 'mysql:host=localhost;dbname=estagiou;charset=utf8mb4';
-        $username = 'loginAll';
-        $password = '123';
+        $username = 'root';
+        $password = '';
 
         $conn = new PDO($dsn, $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

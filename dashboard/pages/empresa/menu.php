@@ -10,7 +10,7 @@
             // Conectar com usuário e senha específicos para atualização
             $dsn = 'mysql:host=localhost;dbname=estagiou;charset=utf8mb4';
             $updateUser = 'ultimoLoginUpdate';
-            $updatePassword = '123';
+            $updatePassword = '';
 
             $connUpdate = new PDO($dsn, $updateUser, $updatePassword);
             $connUpdate->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -36,7 +36,7 @@
 
                 // Atualiza o timestamp de último login
                 $updateUser = 'ultimoLoginUpdate';
-                $updatePassword = '123';
+                $updatePassword = '';
 
                 $connUpdate = new PDO($dsn, $updateUser, $updatePassword);
                 $connUpdate->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

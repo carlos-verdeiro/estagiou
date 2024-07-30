@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Conecta ao banco de dados para delete
-        $mysqli = new mysqli('localhost', 'curriculoInsertEstagiario', '123', 'estagiou');
+        $mysqli = new mysqli('localhost', 'root', '', 'estagiou');
         if ($mysqli->connect_error) {
             throw new Exception("Conexão falhou: " . $mysqli->connect_error);
         }

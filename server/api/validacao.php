@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $cpf = $_POST['cpf'];
 
-        $mysqli = new mysqli("localhost", "estagiarioSelect", "123", "estagiou");
+        $mysqli = new mysqli("localhost", "root", "", "estagiou");
 
         if ($mysqli->connect_error) {
             http_response_code(500);
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $rg = $_POST['rg'];
 
-        $mysqli = new mysqli("localhost", "estagiarioSelect", "123", "estagiou");
+        $mysqli = new mysqli("localhost", "root", "", "estagiou");
 
         if ($mysqli->connect_error) {
             http_response_code(500);
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $cnpj = $_POST['cnpj'];
 
-        $mysqli = new mysqli("localhost", "cnpjSelect", "123", "estagiou");
+        $mysqli = new mysqli("localhost", "root", "", "estagiou");
 
         if ($mysqli->connect_error) {
             http_response_code(500);
@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->close();
             $mysqli->close();
 
-            $mysqli = new mysqli("localhost", "cnpjSelect", "123", "estagiou");
+            $mysqli = new mysqli("localhost", "root", "", "estagiou");
 
             if ($mysqli->connect_error) {
                 http_response_code(500);

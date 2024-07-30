@@ -4,8 +4,8 @@ session_start();
 try {
     // Conectar com usuário e senha específicos para atualização
     $dsn = 'mysql:host=localhost;dbname=estagiou;charset=utf8mb4';
-    $selectUser = 'curriculoSelectEstagiario';
-    $selectPassword = '123';
+    $selectUser = 'root';
+    $selectPassword = '';
 
     $conn = new PDO($dsn, $selectUser, $selectPassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($tipo == 'application/pdf') {
             try {
                 // Conecta ao banco de dados para verificação
-                $mysqliSelect = new mysqli('localhost', 'curriculoSelectEstagiario', '123', 'estagiou');
+                $mysqliSelect = new mysqli('localhost', 'root', '', 'estagiou');
                 if ($mysqliSelect->connect_error) {
                     throw new Exception("Conexão falhou: " . $mysqliSelect->connect_error);
                 }
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $uploadResposta = move_uploaded_file($arquivo['tmp_name'], $path);
 
                 // Conecta ao banco de dados para inserção
-                $mysqli = new mysqli('localhost', 'curriculoInsertEstagiario', '123', 'estagiou');
+                $mysqli = new mysqli('localhost', 'root', '', 'estagiou');
                 if ($mysqli->connect_error) {
                     throw new Exception("Conexão falhou: " . $mysqli->connect_error);
                 }

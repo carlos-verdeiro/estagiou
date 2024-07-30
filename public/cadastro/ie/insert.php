@@ -322,8 +322,8 @@ if (
 
         // Dados de conexão ao banco de dados
         $db_name = 'estagiou';
-        $username = 'escolaInsert';
-        $password = '123';
+        $username = 'root';
+        $password = '';
         $table = 'escola';
 
         $database = new Database($db_name, $username, $password);
