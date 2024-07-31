@@ -19,6 +19,11 @@
     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 
     ?>
+<div class="text-center" id="overlay">
+  <div class="spinner-border text-light" id="loading" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 
     <div class="divBlocos row row-cols-2">
         <div class="blocos col-md arquivo visually-hidden mt-2">

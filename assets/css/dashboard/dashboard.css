@@ -1,6 +1,23 @@
 @import url(../custom.css);
 
 
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#loading {
+    margin-inline: 50%;
+    margin-top: 25%;
+}
+
 body {
     display: flex;
     flex-direction: row;
@@ -12,7 +29,7 @@ body {
         padding-top: 20px;
         background-color: var(--color-custom-1) !important;
         transition: width 0.4s;
-        
+
 
 
         & .btnLogo {

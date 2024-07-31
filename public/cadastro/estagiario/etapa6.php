@@ -236,10 +236,10 @@ if (
 
                 <div class="form-floating m-1 row"><!--GENERO-->
                     <select disabled id="genero" class="form-select w-100" placeholder="Gênero" aria-label="Gênero" name="genero" value="<?php echo $genero; ?>" required>
-                        <option <?php echo ($estadoEmissor == 'NA') ? 'selected' : ''; ?> hidden disabled value="NA">Selecione</option>
-                        <option <?php echo ($estadoEmissor == 'M') ? 'selected' : ''; ?> value="M">Masculino</option>
-                        <option <?php echo ($estadoEmissor == 'F') ? 'selected' : ''; ?> value="F">Feminino</option>
-                        <option <?php echo ($estadoEmissor == 'O') ? 'selected' : ''; ?> value="O">Outros</option>
+                        <option <?php echo ($genero == 'NA') ? 'selected' : ''; ?> hidden disabled value="NA">Selecione</option>
+                        <option <?php echo ($genero == 'M') ? 'selected' : ''; ?> value="M">Masculino</option>
+                        <option <?php echo ($genero == 'F') ? 'selected' : ''; ?> value="F">Feminino</option>
+                        <option <?php echo ($genero == 'O') ? 'selected' : ''; ?> value="O">Outros</option>
 
                     </select>
                     <label for="genero">Gênero *</label>
@@ -361,7 +361,7 @@ if (
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input disabled class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = ($cnh === NULL) ? 'checked' : ''; ?>>
+                                    <input disabled class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (in_array("N", str_split($cnh))) ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>

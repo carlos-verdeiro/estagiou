@@ -78,6 +78,10 @@ $(document).ready(function () {
             cache: false,
             contentType: false,
             processData: false,
+            beforeSend: function() {
+                // Mostra o indicador de carregamento
+                $("#overlay").show();
+            },
             success: function (response) {
                 puxarArquivo();
                 curriculo.val('');
@@ -85,6 +89,10 @@ $(document).ready(function () {
             },
             error: function () {
                 alert('Erro ao enviar arquivo.');
+            },
+            complete: function() {
+                // Esconde o indicador de carregamento
+                $("#overlay").hide();
             }
         });
 
