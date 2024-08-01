@@ -35,7 +35,7 @@
                 ';
 
                 // Atualiza o timestamp de último login
-                $updateUser = 'ultimoLoginUpdate';
+                $updateUser = 'root';
                 $updatePassword = '';
 
                 $connUpdate = new PDO($dsn, $updateUser, $updatePassword);
