@@ -1,0 +1,30 @@
+#sectionSuporte{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    
+
+}
+.logo-instagram {
+    display: inline-block; /* Permite que o link se comporte como um bloco, mas sem forçar uma quebra de linha */
+    border: none; /* Remove a borda do link */
+}
+.logo-instagram img {
+    display: block; /* Remove o espaço abaixo da imagem */
+    width: 100%; /* Ajusta a imagem para ocupar o tamanho do link */
+}
+.logo-linkdin {
+    display: inline-block; /* Permite que o link se comporte como um bloco, mas sem forçar uma quebra de linha */
+    border: none; /* Remove a borda do link */
+}
+.logo-linkdin img {
+    display: block; /* Remove o espaço abaixo da imagem */
+    width: 100%; /* Ajusta a imagem para ocupar o tamanho do link */
+}
+.contatos{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
