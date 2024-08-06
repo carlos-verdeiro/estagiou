@@ -6,7 +6,6 @@ $(document).ready(function () {
     const curriculo = $('#curriculo');
     const observacoes = $('#observacoes');
 
-
     const btnModalExcluir = $('#btnModalExcluir');
 
 

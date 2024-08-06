@@ -21,7 +21,7 @@
     ?>
 <div class="text-center" id="overlay">
   <div class="spinner-border text-light" id="loading" role="status">
-    <span class="visually-hidden">Loading...</span>
+    <span class="visually-hidden">Carregando...</span>
   </div>
 </div>
 

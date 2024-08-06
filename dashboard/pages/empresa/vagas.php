@@ -23,7 +23,7 @@
     ?>
     <div class="text-center" id="overlay">
         <div class="spinner-border text-light" id="loading" role="status">
-            <span class="visually-hidden">Loading...</span>
+            <span class="visually-hidden">Carregando...</span>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" id="btnModalExcluir" data-bs-dismiss="modal" class="btn btn-danger">Criar</button>
+                    <button type="button" id="btnModalExcluir" data-bs-dismiss="modal" class="btn btn-danger">Excluir</button>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Criar nova vaga</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post">
+                <form method="post" id="formCadastroVaga">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="tituloVaga" class="form-label">Título</label>
