@@ -1,44 +1,65 @@
 <?php
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verifica se o estagiário está autenticado
-    if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin'])) {
-        die("Erro: Usuário não autenticado.");
-    }
-
-    // Obtém dados do formulário
-    $empresa_id = $_SESSION['idUsuarioLogin'];
-    $titulo = $_POST['tituloVaga'];
-    $descricao = isset($_POST['descricaoVaga']) ? $_POST['descricaoVaga'] : '';
-    $requisitos = isset($_POST['requisitosVaga']) ? $_POST['requisitosVaga'] : '';
-    $data_encerramento = isset($_POST['dataEncerramentoVaga']) ? $_POST['dataEncerramentoVaga'] : null;
-
-    try {
-
-        // Conecta ao banco de dados para verificação
-        $mysqli = new mysqli('localhost', 'root', '', 'estagiou');
-        if ($mysqli->connect_error) {
-            throw new Exception("Conexão falhou: " . $mysqliSelect->connect_error);
-        }
-
-        // Verifica se já existe um currículo para o estagiário
-        $stmt = $mysqli->prepare("INSERT INTO vaga(empresa_id,titulo,descricao,requisitos,data_encerramento) VALUES(?,?,?,?,?)");
-        if (!$stmt) {
-            throw new Exception("Erro na preparação da consulta para verificação: " . $mysqliSelect->error);
-        }
-
-        $stmt->bind_param('issss', $empresa_id, $titulo, $descricao, $requisitos, $data_encerramento);
-        $stmt->execute();
-        $stmt->close();
-
-        echo "Currículo enviado com sucesso!";
-    } catch (Exception $e) {
-        echo "Erro ao enviar currículo: " . $e->getMessage();
-    } finally {
-        // Fechar as conexões
-        if (isset($mysqli)) $mysqli->close();
-    }
-} else {
-    echo "Método de requisição inválido.";
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    die("Método de requisição inválido.");
 }
+
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = explode('/', $uri);
+
+switch ($uri[4]) {
+    case 'empresaVagas':
+        if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'empresa') {
+            echo json_encode(array("mensagem" => "Usuário não autenticado"));
+            exit;
+        }
+
+        $idEmpresa = $_SESSION['idUsuarioLogin'];
+
+        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        if ($mysqli->connect_error) {
+            http_response_code(500);
+            echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
+            exit;
+        }
+
+        $stmt = $mysqli->prepare("SELECT * FROM vaga WHERE empresa_id = ?");
+        $stmt->bind_param("i", $idEmpresa);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            echo json_encode(['mensagem' => 'Erro ao executar a consulta.', 'code' => 3]);
+            exit;
+        }
+
+        $result = $stmt->get_result();
+        $vagas = array();
+
+        if ($result->num_rows > 0) {
+            // Converte cada linha de resultado em um array associativo
+            while ($row = $result->fetch_assoc()) {
+                $vagas[] = $row;
+            }
+        }
+
+        // Converte o array em JSON
+        $json_data = json_encode($vagas);
+
+        // Define o cabeçalho para JSON
+        header('Content-Type: application/json');
+
+        // Imprime o JSON
+        echo $json_data;
+
+        $stmt->close();
+        $mysqli->close();
+        break;
+
+    default:
+        http_response_code(405); // Method Not Allowed
+        echo json_encode(array("mensagem" => "Method not allowed"));
+        break;
+}
+
+exit;

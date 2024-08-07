@@ -11,28 +11,7 @@
         </div>
     </div>
 
-    <div class="divBlocos row row-cols-2 gap-4 w-100 d-flex justify-content-center">
-
-        <div class="card px-0" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Título da vaga bem graaaaande</h5>
-                <hr>
-                <h6>Descrição:</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <h6>Requisitos:</h6>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed corrupti repellendus rerum numquam nam illo expedita maiores ipsam iure molestiae repudiandae earum commodi, facilis at atque quaerat fuga, blanditiis tenetur.</p>
-                <h6>Encerra:</h6>
-                <p>07/08/2024 22:45</p>
-
-                <button type="button" class="btn btn-primary sm btnVizualizar" data-bs-toggle="modal" data-bs-target="#modalVizualizar">Vizualizar</button>
-                <button type="button" class="btn btn-warning sm btnEditar" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
-                <button type="button" class="btn btn-danger sm btnEncerrar" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
-            </div>
-            <div class="card-footer">
-                Publicado: 06/08/2024
-            </div>
-        </div>
-
+    <div class="divBlocos row row-cols-2 gap-4 w-100 d-flex justify-content-center blocosVagas">
     </div>
 
 
@@ -49,20 +28,20 @@
                 <form method="post" id="formCadastroVaga">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="tituloVaga" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="tituloVaga" maxlength="255" name="tituloVaga">
+                            <label for="tituloVaga" class="form-label">Título *</label>
+                            <input type="text" class="form-control" id="tituloVaga" maxlength="255" name="tituloVaga" required>
                         </div>
                         <div class="mb-3">
-                            <label for="descricaoVaga" class="form-label">Descrição</label>
-                            <textarea class="form-control" id="descricaoVaga" rows="4" name="descricaoVaga" maxlength="10000"></textarea>
+                            <label for="descricaoVaga" class="form-label">Descrição *</label>
+                            <textarea class="form-control" id="descricaoVaga" rows="4" name="descricaoVaga" maxlength="10000" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="requisitosVaga" class="form-label">Requisitos</label>
-                            <textarea class="form-control" id="requisitosVaga" rows="5" name="requisitosVaga" maxlength="10000"></textarea>
+                            <label for="requisitosVaga" class="form-label">Requisitos *</label>
+                            <textarea class="form-control" id="requisitosVaga" rows="5" name="requisitosVaga" maxlength="10000" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="dataEncerramentoVaga" class="form-label">Encerramento das inscrições</label>
-                            <input type="datetime-local" class="form-control" id="dataEncerramentoVaga" name="dataEncerramentoVaga" min="<?php echo $now; ?>">
+                            <input type="datetime-local" class="form-control" id="dataEncerramentoVaga" name="dataEncerramentoVaga" min="<?php echo $now; ?>" required>
 
                             <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="encerraCheckVaga" name="encerraCheckVaga">
