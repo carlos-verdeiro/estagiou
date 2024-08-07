@@ -1,3 +1,16 @@
+<link rel="stylesheet" href="../assets/css/cadastro/action.css">
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando</title>
+</head>
+
+<body>
+    <div>
+
 <?php
 
 class BancoDadosException extends Exception
@@ -81,25 +94,9 @@ try {
         }
 
         echo '
-<link rel="stylesheet" href="../assets/css/cadastro/action.css">
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carregando</title>
-</head>
-
-<body>
-    <div>
-        <h3>Email ou senha incorretos</h3>
+        <h3>'.$mensagem.'</h3>
         <a href="../index.php?entrar">Voltar</a>
-    </div>
-</body>
-
-</html>';
-        exit;
+    ';
     } else {
         throw new ParametrosException("Não foram passados os parâmetros de forma correta.");
     }
@@ -112,3 +109,9 @@ try {
 } catch (Exception $e) {
     echo 'Erro capturado: ' . $e->getMessage() . "\n";
 }
+?>
+</div>
+</body>
+</html>
+
+<?php exit;?>
