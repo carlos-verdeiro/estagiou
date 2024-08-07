@@ -47,17 +47,4 @@ $(document).ready(function () {
         return false;
     });
 
-    btnModalExcluir.on('click', () => {
-        $.ajax({
-            url: '../server/api/excluirCurriculo.php',
-            type: 'POST',
-            success: function (response) {
-                puxarArquivo();
-            },
-            error: function () {
-                alert('Erro ao enviar arquivo.');
-            }
-        });
-
-    });
 });
