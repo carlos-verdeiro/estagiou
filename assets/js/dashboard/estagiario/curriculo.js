@@ -23,7 +23,7 @@ $(document).ready(function () {
     function puxarArquivo() {
         
         $.ajax({
-            url: '../server/api/downloadCurriculo.php',
+            url: '../server/api/curriculos/downloadCurriculo.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
@@ -70,7 +70,7 @@ $(document).ready(function () {
         var formData = new FormData($(this)[0]);
 
         $.ajax({
-            url: '../server/api/uploadCurriculo.php',
+            url: '../server/api/curriculos/uploadCurriculo.php',
             type: 'POST',
             data: formData,
             async: false,
@@ -100,7 +100,7 @@ $(document).ready(function () {
 
     btnModalExcluir.on('click', ()=>{
         $.ajax({
-            url: '../server/api/excluirCurriculo.php',
+            url: '../server/api/curriculos/excluirCurriculo.php',
             type: 'POST',
             success: function (response) {
                 puxarArquivo();
