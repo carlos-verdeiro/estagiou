@@ -49,11 +49,11 @@
             <div class="toast-body">
                 <form class="form-floating" method="post" action="public/login.php">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuário ou e-mail" name="email">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuário ou e-mail" name="email" required>
                         <label for="floatingInput">E-mail</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="senha">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="senha" required>
                         <label for="floatingPassword">Senha</label>
                     </div>
                     <div>
