@@ -1,165 +1,121 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    include_once "../conexao.php"; // Inclua a conexão uma vez no início
+
+    //------CPF------
     if (isset($_POST['cpf'])) {
-        if (!is_numeric($_POST['cpf']) || strlen($_POST['cpf']) != 11) {
+        $cpf = $_POST['cpf'];
+
+        // Validar o formato do CPF
+        if (!is_numeric($cpf) || strlen($cpf) != 11) {
             http_response_code(400);
             echo json_encode(['mensagem' => 'Parâmetros inválidos.', 'code' => 1]);
             exit;
         }
-        
-        $cpf = $_POST['cpf'];
-
-        include_once "../conexao.php";
 
         $stmt = $conn->prepare("SELECT COUNT(*) FROM estagiario WHERE cpf = ?");
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
-
-        if ($count > 0) {
-            $mensagem = false; //CPF indisponível
-        } else {
-            $mensagem = true; //CPF disponível
-        }
-
         $stmt->close();
-        $conn->close();
-
+        
+        // Verifica se o CPF está disponível
+        $mensagem = ($count == 0);
         echo json_encode(['mensagem' => $mensagem]);
         exit;
     }
+
     //------RG------
     if (isset($_POST['rg'])) {
-
-        if (!isset($_POST['rg']) && !is_numeric($_POST['rg'])) {
-            http_response_code(400);
-            echo json_encode(['mensagem' => 'Parametros invalidos. TYPE', 'code' => 0]);
-            exit;
-        }
-        if (strlen($_POST['rg']) != 9) {
-            http_response_code(400);
-            echo json_encode(['mensagem' => 'Parametros invalidos. NUM', 'code' => 1]);
-            exit;
-        }
         $rg = $_POST['rg'];
 
-        include_once "../conexao.php";
+        // Validar o formato do RG
+        if (!is_numeric($rg) || strlen($rg) != 9) {
+            http_response_code(400);
+            echo json_encode(['mensagem' => 'Parâmetros inválidos.', 'code' => 1]);
+            exit;
+        }
 
         $stmt = $conn->prepare("SELECT COUNT(*) FROM estagiario WHERE rg = ?");
         $stmt->bind_param("s", $rg);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
-
-        if ($count > 0) {
-            $mensagem = false; //RG indisponível
-        } else {
-            $mensagem = true; //RG disponível
-        }
-
         $stmt->close();
-        $conn->close();
 
+        // Verifica se o RG está disponível
+        $mensagem = ($count == 0);
         echo json_encode(['mensagem' => $mensagem]);
         exit;
     }
+
     //------EMAIL------
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
 
+        // Validar o comprimento do email
         if (strlen($email) > 100 || strlen($email) < 1) {
             http_response_code(400);
             echo json_encode(['mensagem' => 'Parâmetro inválido.', 'code' => 1]);
             exit;
         }
 
-        include_once "../conexao.php";
+        // Verificar em várias tabelas
+        $tables = ['estagiario', 'empresa', 'escola'];
+        $mensagem = true; // Assumir disponível inicialmente
 
-
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM estagiario WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->bind_result($count);
-        $stmt->fetch();
-
-        if ($count > 0) {
-            $mensagem = false; //EMAIL indisponível
-        } else {
-
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM empresa WHERE email = ?");
+        foreach ($tables as $table) {
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM $table WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $stmt->bind_result($count);
             $stmt->fetch();
+            $stmt->close();
 
             if ($count > 0) {
-                $mensagem = false; //EMAIL indisponível
-            } else {
-
-                $stmt = $conn->prepare("SELECT COUNT(*) FROM escola WHERE email = ?");
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $stmt->bind_result($count);
-                $stmt->fetch();
-
-                if ($count > 0) {
-                    $mensagem = false; //EMAIL indisponível
-                } else {
-                    $mensagem = true; //EMAIL disponível
-                }
+                $mensagem = false; // EMAIL indisponível
+                break;
             }
         }
 
-        $stmt->close();
         $conn->close();
-
         echo json_encode(['mensagem' => $mensagem]);
         exit;
     }
+
     //------CNPJ------
     if (isset($_POST['cnpj'])) {
-        if (!isset($_POST['cnpj']) && !is_numeric($_POST['cnpj'])) {
-            http_response_code(400);
-            echo json_encode(['mensagem' => 'Parametros invalidos. TYPE', 'code' => 0]);
-            exit;
-        }
-        if (strlen($_POST['cnpj']) != 14) {
-            http_response_code(400);
-            echo json_encode(['mensagem' => 'Parametros invalidos. NUM', 'code' => 1]);
-            exit;
-        }
         $cnpj = $_POST['cnpj'];
 
-        include_once "../conexao.php";
+        // Validar o formato do CNPJ
+        if (!is_numeric($cnpj) || strlen($cnpj) != 14) {
+            http_response_code(400);
+            echo json_encode(['mensagem' => 'CNPJ inválido.', 'code' => 0]);
+            exit;
+        }
 
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM empresa WHERE cnpj = ?");
-        $stmt->bind_param("s", $cnpj);
-        $stmt->execute();
-        $stmt->bind_result($count);
-        $stmt->fetch();
+        // Verificar em várias tabelas
+        $tables = ['empresa', 'escola'];
+        $mensagem = true; // Assumir disponível inicialmente
 
-        if ($count > 0) {
-            $mensagem = false; //CNPJ indisponível
-        } else {
-
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM escola WHERE cnpj = ?");
+        foreach ($tables as $table) {
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM $table WHERE cnpj = ?");
             $stmt->bind_param("s", $cnpj);
             $stmt->execute();
             $stmt->bind_result($count);
             $stmt->fetch();
+            $stmt->close();
 
             if ($count > 0) {
-                $mensagem = false; //CNPJ indisponível
-            } else {
-                $mensagem = true; //CNPJ disponível
+                $mensagem = false; // CNPJ indisponível
+                break;
             }
         }
 
-        $stmt->close();
         $conn->close();
-
         echo json_encode(['mensagem' => $mensagem]);
         exit;
     }
 }
+?>

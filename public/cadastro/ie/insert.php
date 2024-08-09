@@ -283,54 +283,7 @@ if (
 
         require_once '../../../server/conexao.php';
 
-        class Escola
-        {
-            private $conn;
-            private $table;
-
-            public function __construct($db, $table)
-            {
-                $this->conn = $db;
-                $this->table = $table;
-            }
-
-            public function inserirEscola($dados)
-            {
-                $sql = "INSERT INTO " . $this->table . " (
-            cnpj, nome, telefone, email, nome_responsavel, cargo_responsavel, telefone_responsavel, email_responsavel,
-            endereco, bairro, numero, complemento, cidade, estado, cep, pais, niveis_ensino, descricao, website, linkedin,
-            instagram, facebook, senha, status
-        ) VALUES (
-            :cnpj, :nome, :telefone, :email, :nomeResponsavel, :cargoResponsavel, :telefoneResponsavel, :emailResponsavel,
-            :endereco, :bairro, :numero, :complemento, :cidade, :estado, :cep, :pais, :niveisEnsino, :descricao, :website, :linkedin,
-            :instagram, :facebook, :senha, :status
-        )";
-
-                $stmt = $this->conn->prepare($sql);
-
-                // Bind dos parâmetros
-                foreach ($dados as $chave => $valor) {
-                    $stmt->bindValue(':' . $chave, htmlspecialchars(strip_tags($valor)));
-                }
-
-                if ($stmt->execute()) {
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        // Dados de conexão ao banco de dados
-        $db_name = 'estagiou';
-        $username = 'root';
-        $password = '';
-        $table = 'escola';
-
-        $database = new Database($db_name, $username, $password);
-        $db = $database->connect();
-
-        $escola = new Escola($db, $table);
-
+        // Dados a serem inseridos
         $dados = [
             'cnpj' => $cnpj,
             'nome' => $nome,
@@ -354,17 +307,42 @@ if (
             'linkedin' => $linkedin,
             'instagram' => $instagram,
             'facebook' => $facebook,
-            'senha' => password_hash($senha, PASSWORD_DEFAULT), // Hash da senha
-            'status' => 1
+            'senha' => password_hash($senha, PASSWORD_DEFAULT) // Hash da senha
         ];
 
-        if ($escola->inserirEscola($dados)) {
+        // Montagem da query SQL
+        $sql = "INSERT INTO escola (
+    cnpj, nome, telefone, email, nome_responsavel, cargo_responsavel, telefone_responsavel, email_responsavel,
+    endereco, bairro, numero, complemento, cidade, estado, cep, pais, niveis_ensino, descricao, website, linkedin,
+    instagram, facebook, senha
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Preparando a consulta
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("Erro ao preparar a consulta: " . $conn->error);
+        }
+
+        // Associando os parâmetros com o tipo 's' (string) para todos os valores
+        $param_types = str_repeat('s', count($dados));
+        $param_values = array_values($dados);
+
+        $stmt->bind_param($param_types, ...$param_values);
+
+        // Executando a consulta
+        if ($stmt->execute()) {
             session_unset();
             session_destroy();
-            header("location: ../sucesso.php");
+            header("Location: ../sucesso.php");
+            exit();
         } else {
-            echo "Erro ao inserir escola.";
+            echo "Erro ao inserir escola: " . $stmt->error;
         }
+
+        // Fechar a consulta e a conexão
+        $stmt->close();
+        $conn->close();
     } catch (variavelNaoExiste $e) {
         echo 'Erro capturado: ',  $e->getMessage(), "\n";
         $_SESSION['statusCadastroEscola'] = "andamento";

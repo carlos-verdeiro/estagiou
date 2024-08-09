@@ -5,113 +5,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carregando</title>
+    <title>Login</title>
 </head>
 
 <body>
-    <div>
-
+<div>
 <?php
 
-class BancoDadosException extends Exception
-{
-}
-class ParametrosException extends Exception
-{
-}
+class BancoDadosException extends Exception {}
+class ParametrosException extends Exception {}
 
 try {
     // Verifica se os parâmetros foram passados via POST
-    if (isset($_POST['email'], $_POST['senha'])) {
+    if (empty($_POST['email']) || empty($_POST['senha'])) {
+        throw new ParametrosException("Parâmetros ausentes.");
+    }
 
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-        // Conectar ao banco de dados usando PDO
-        $dsn = 'mysql:host=localhost;dbname=estagiou;charset=utf8mb4';
-        $username = 'root';
-        $password = '';
+    // Inclui o arquivo de conexão
+    include_once '../server/conexao.php';
 
-        $conn = new PDO($dsn, $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Função para verificar o login em diferentes tabelas
+    function verificarLogin($conn, $email, $senha, $table) {
+        $stmt = $conn->prepare("SELECT senha, id FROM $table WHERE email = ?");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
-        // Consulta preparada para estagiário
-        $stmt_estagiario = $conn->prepare("SELECT senha, id FROM estagiario WHERE email = :email");
-        $stmt_estagiario->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmt_estagiario->execute();
-        $row_estagiario = $stmt_estagiario->fetch(PDO::FETCH_ASSOC);
+        if ($row && password_verify($senha, $row['senha'])) {
+            return $row['id'];
+        }
+        return false;
+    }
 
-        // Verificação de senha para estagiário
-        if ($row_estagiario && password_verify($senha, $row_estagiario['senha'])) {
-            $mensagem = "Login bem-sucedido como estagiário!";
-            session_start();
-            session_unset();
-            $_SESSION['tipoUsuarioLogin'] = 'estagiario';
-            $_SESSION['statusLogin'] = 'autenticado';
-            $_SESSION['idUsuarioLogin'] = $row_estagiario['id'];
-            header('location: ../dashboard/index.php');
-            exit;
+    // Tenta autenticar o usuário em diferentes tabelas
+    $id = verificarLogin($conn, $email, $senha, 'estagiario');
+    if ($id !== false) {
+        $tipoUsuario = 'estagiario';
+    } else {
+        $id = verificarLogin($conn, $email, $senha, 'escola');
+        if ($id !== false) {
+            $tipoUsuario = 'escola';
         } else {
-            // Consulta preparada para escola
-            $stmt_escola = $conn->prepare("SELECT senha, id FROM escola WHERE email = :email");
-            $stmt_escola->bindValue(':email', $email, PDO::PARAM_STR);
-            $stmt_escola->execute();
-            $row_escola = $stmt_escola->fetch(PDO::FETCH_ASSOC);
-
-            // Verificação de senha para escola
-            if ($row_escola && password_verify($senha, $row_escola['senha'])) {
-                $mensagem = "Login bem-sucedido como escola!";
-
-                session_start();
-                session_unset();
-                $_SESSION['tipoUsuarioLogin'] = 'escola';
-                $_SESSION['statusLogin'] = 'autenticado';
-                $_SESSION['idUsuarioLogin'] = $row_escola['id'];
-                header('location: ../dashboard/index.php');
-                exit;
+            $id = verificarLogin($conn, $email, $senha, 'empresa');
+            if ($id !== false) {
+                $tipoUsuario = 'empresa';
             } else {
-                // Consulta preparada para empresa
-                $stmt_empresa = $conn->prepare("SELECT senha, id FROM empresa WHERE email = :email");
-                $stmt_empresa->bindValue(':email', $email, PDO::PARAM_STR);
-                $stmt_empresa->execute();
-                $row_empresa = $stmt_empresa->fetch(PDO::FETCH_ASSOC);
-
-                // Verificação de senha para empresa
-                if ($row_empresa && password_verify($senha, $row_empresa['senha'])) {
-                    $mensagem = "Login bem-sucedido como empresa!";
-
-                    session_start();
-                    session_unset();
-                    $_SESSION['tipoUsuarioLogin'] = 'empresa';
-                    $_SESSION['statusLogin'] = 'autenticado';
-                    $_SESSION['idUsuarioLogin'] = $row_empresa['id'];
-                    header('location: ../dashboard/index.php');
-                    exit;
-                } else {
-                    $mensagem = "E-mail ou senha incorretos.";
-                }
+                throw new Exception("E-mail ou senha incorretos.");
             }
         }
-
-        echo '
-        <h3>'.$mensagem.'</h3>
-        <a href="../index.php?entrar">Voltar</a>
-    ';
-    } else {
-        throw new ParametrosException("Não foram passados os parâmetros de forma correta.");
     }
-} catch (PDOException $e) {
-    echo 'Erro capturado: ' . $e->getMessage() . "\n";
-} catch (BancoDadosException $e) {
-    echo 'Erro capturado: ' . $e->getMessage() . "\n";
+
+    // Inicializa a sessão
+    session_start();
+    session_unset();
+    $_SESSION['tipoUsuarioLogin'] = $tipoUsuario;
+    $_SESSION['statusLogin'] = 'autenticado';
+    $_SESSION['idUsuarioLogin'] = $id;
+
+    // Redireciona para o dashboard
+    header('location: ../dashboard/index.php');
+    exit;
+
 } catch (ParametrosException $e) {
-    echo 'Erro capturado: ' . $e->getMessage() . "\n";
+    echo '<h3>Erro: ' . $e->getMessage() . '</h3>';
 } catch (Exception $e) {
-    echo 'Erro capturado: ' . $e->getMessage() . "\n";
+    echo '<h3>Erro: ' . $e->getMessage() . '</h3>';
 }
 ?>
+<a href="../index.php?entrar">Voltar</a>
 </div>
 </body>
 </html>
-
-<?php exit;?>

@@ -391,75 +391,24 @@ if (
 
         require_once '../../../server/conexao.php';
 
-        class Usuario
-        {
-            private $conn;
-            private $table;
-
-            public function __construct($db, $table)
-            {
-                $this->conn = $db;
-                $this->table = $table;
-            }
-
-            public function inserirUsuario($dados)
-            {
-                $sql = "INSERT INTO " . $this->table . " (
-                    cpf, nome, sobrenome, email, rg, rg_org_emissor, rg_estado_emissor, genero, nome_social, estado_civil, data_nascimento,
-                    nacionalidade, celular, telefone, cnh, dependentes, endereco, bairro, numero, complemento, cidade, estado,
-                    cep, pais, senha, status
-                ) VALUES (
-                    :cpf, :nome, :sobrenome, :email, :rg, :orgaoEmissor, :estadoEmissor, :genero, :nomeSocial, :estadoCivil, :dataNascimento,
-                    :nacionalidade, :celular, :telefone, :cnh, :dependentes, :endereco, :bairro, :numero, :complemento, :cidade, :estado,
-                    :cep, :pais, :senha, :status
-                )";
-
-                $stmt = $this->conn->prepare($sql);
-
-                // Bind dos parâmetros
-                foreach ($dados as $chave => $valor) {
-                    $stmt->bindValue(':' . $chave, htmlspecialchars(strip_tags($valor)));
-                }
-
-                if ($stmt->execute()) {
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        // Dados de conexão ao banco de dados
-        $db_name = 'estagiou';
-        $username = 'root';
-        $password = '';
-        $table = 'estagiario';
-
-        $database = new Database($db_name, $username, $password);
-        $db = $database->connect();
-
-        $usuario = new Usuario($db, $table);
-
-        // Dados do usuário tratados previamente
-        $dependentes = preg_replace('/[^0-9]/', '', $dependentes);
-
-
+        // Dados a serem inseridos
         $dados = [
             'cpf' => $cpf,
             'nome' => $nome,
             'sobrenome' => $sobrenome,
             'email' => $email,
             'rg' => $rg,
-            'orgaoEmissor' => $orgaoEmissor,
-            'estadoEmissor' => $estadoEmissor,
+            'rg_org_emissor' => $orgaoEmissor,
+            'rg_estado_emissor' => $estadoEmissor,
             'genero' => $genero,
-            'nomeSocial' => $nomeSocial,
-            'estadoCivil' => $estadoCivil,
-            'dataNascimento' => $dataNascimento,
+            'nome_social' => $nomeSocial,
+            'estado_civil' => $estadoCivil,
+            'data_nascimento' => $dataNascimento,
             'nacionalidade' => $nacionalidade,
             'celular' => $celular,
             'telefone' => $telefone,
             'cnh' => $cnh,
-            'dependentes' => $dependentes,
+            'dependentes' => preg_replace('/[^0-9]/', '', $dependentes),
             'endereco' => $endereco,
             'bairro' => $bairro,
             'numero' => $numero,
@@ -468,19 +417,42 @@ if (
             'estado' => $estado,
             'cep' => $cep,
             'pais' => $pais,
-            'senha' => password_hash($senha, PASSWORD_DEFAULT), // Hash da senha
-            'status' => 1
-
+            'senha' => password_hash($senha, PASSWORD_DEFAULT) // Hash da senha
         ];
-        
 
-        if ($usuario->inserirUsuario($dados)) {
+        // Montagem da query SQL
+        $sql = "INSERT INTO estagiario (
+    cpf, nome, sobrenome, email, rg, rg_org_emissor, rg_estado_emissor, genero, nome_social, estado_civil, data_nascimento,
+    nacionalidade, celular, telefone, cnh, dependentes, endereco, bairro, numero, complemento, cidade, estado,
+    cep, pais, senha
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Preparando a consulta
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("Erro ao preparar a consulta: " . $conn->error);
+        }
+
+        // Associando os parâmetros com os tipos corretos
+        $param_types = str_repeat('s', count($dados));
+        $param_values = array_values($dados);
+
+        $stmt->bind_param($param_types, ...$param_values);
+
+        // Executando a consulta
+        if ($stmt->execute()) {
             session_unset();
             session_destroy();
-            header("location: ../sucesso.php");
+            header("Location: ../sucesso.php");
+            exit();
         } else {
-            echo "Erro ao inserir usuário.";
+            echo "Erro ao inserir usuário: " . $stmt->error;
         }
+
+        // Fechar a consulta e a conexão
+        $stmt->close();
+        $conn->close();
     } catch (variavelNaoExiste $e) {
         echo 'Erro capturado: ',  $e->getMessage(), "\n";
     } catch (validacaoVariaveis $e) {

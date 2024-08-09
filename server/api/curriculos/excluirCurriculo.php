@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($count > 0) {
             // Remove o arquivo antigo
-            $caminho_arquivo_antigo = "../curriculos/" . $caminho_arquivo;
+            $caminho_arquivo_antigo = "../../curriculos/" . $caminho_arquivo;
             if (file_exists($caminho_arquivo_antigo)) {
                 unlink($caminho_arquivo_antigo);
             }
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($conn)) {
             $conn->rollback();
         }
-        echo "Erro ao enviar currículo: " . $e->getMessage();
+        echo "Erro ao excluir: " . $e->getMessage();
     } finally {
         // Fechar a conexão
         if (isset($conn)) $conn->close();
