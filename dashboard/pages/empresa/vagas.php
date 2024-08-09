@@ -1,9 +1,9 @@
-<section class="sectionPages sectionPagesEstagiario" id="sectionPageCurriculo">
+<section class="sectionPages sectionPagesEstagiario" id="sectionPageVagas">
     <link rel="stylesheet" href="../assets/css/dashboard/empresa/vagas.css">
     <script src="../assets/js/dashboard/empresa/vagas.js"></script>
 
-    <h1 class="tituloPage mb-5">VAGAS</h1>
-    <button type="button" class="btn btn-primary sm" id="btnCriarVaga" data-bs-toggle="modal" data-bs-target="#modalCriarVaga">Criar nova vaga</button>
+    <h1 class="tituloPage mb-2">VAGAS</h1>
+    <button type="button" class="btn btn-primary mb-2" id="btnCriarVaga" data-bs-toggle="modal" data-bs-target="#modalCriarVaga">Criar nova vaga</button>
 
     <div class="text-center" id="overlay">
         <div class="spinner-border text-light" id="loading" role="status">
@@ -96,6 +96,33 @@
                     </div>
                     <input type="hidden" name="idVagaEditar" id="idVagaEditar">
                 </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Exluir-->
+    <div class="modal fade" id="modalEncerrar" tabindex="-1" aria-labelledby="modalEncerrar" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja finalizar as candidaturas?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnModalEncerrar" data-bs-dismiss="modal" class="btn btn-danger">Finalizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--TOAST INFORMÇÃO-->
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastInformacao" class="toast" role="information" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Estagiou</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="corpoToastInformacao">
+                Text
             </div>
         </div>
     </div>

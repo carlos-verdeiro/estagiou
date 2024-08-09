@@ -21,6 +21,13 @@ $(document).ready(function () {
     const checkEncerramentoEditarModal = $('#encerraCheckEditarVaga');
     const idVagaEditar = $('#idVagaEditar');
 
+    //MODAL ENCERRAR
+    const btnModalEncerrar = $('#btnModalEncerrar');
+
+    //TOAST
+    const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
+    const corpoToastInformacao = $('#corpoToastInformacao');
+
     function formatarData(data) {
         // Dividir a data em partes
         var partes = data.split(' ');
@@ -56,26 +63,30 @@ $(document).ready(function () {
                     data_encerramento = formatarData(vaga.data_encerramento);
                 }
 
-                blocosVagas.append(`<div class="card px-0" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">${vaga.titulo}</h5>
-                <hr>
-                <h6>Descrição:</h6>
-                <p class="card-text">${vaga.descricao}</p>
-                <h6>Requisitos:</h6>
-                <p class="card-text">${vaga.requisitos}</p>
-                <h6>Encerra:</h6>
-                <p>${data_encerramento}</p>
-
-                <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
-                <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}">Encerrar</button>
-            </div>
-            <div class="card-footer">
-                Publicado: ${formatarData(vaga.data_publicacao)}</div>
+                blocosVagas.append(`
+            <div class="card px-0" style="width: 18rem;">
+                <div class="card-header">
+                    <h5 class="card-title m-0">${vaga.titulo}</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Descrição:</h6>
+                    <p class="card-text">${vaga.descricao}</p>
+                    <h6>Requisitos:</h6>
+                    <p class="card-text">${vaga.requisitos}</p>
+                    <h6>Encerra:</h6>
+                    <p class="card-text">${data_encerramento}</p>
+                    <h6>Publicado:</h6>
+                    <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
+                    <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
+                    <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}"  data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
+                </div>
             </div>`);
 
             });
+
         }).fail(function (jqXHR, textStatus, errorThrown) {
             alert('Erro ao obter os dados: ' + textStatus, errorThrown);
         });
@@ -101,24 +112,6 @@ $(document).ready(function () {
 
     puxarVagas();//Puxa as vagas quando inicia a página
 
-    checkEncerramentoModal.on('click', () => {
-
-        if (encerramentoModal.prop('disabled')) {
-            encerramentoModal.prop('disabled', false);
-        } else {
-            encerramentoModal.prop('disabled', true);
-            encerramentoModal.val('');
-        }
-    });
-    checkEncerramentoEditarModal.on('click', () => {
-
-        if (encerramentoEditarModal.prop('disabled')) {
-            encerramentoEditarModal.prop('disabled', false);
-        } else {
-            encerramentoEditarModal.prop('disabled', true);
-            encerramentoEditarModal.val('');
-        }
-    });
 
     $('#formCadastroVaga').submit(function (event) {
         event.preventDefault(); // Evita o envio padrão do formulário
@@ -141,10 +134,12 @@ $(document).ready(function () {
                 puxarVagas();
                 $('#modalCriarVaga').modal('hide');
                 limparModalNovaVaga();
-
+                corpoToastInformacao.text('Vaga criada com sucesso');
+                toastInformacao.show();
             },
             error: function () {
-                alert('Erro ao enviar arquivo.');
+                corpoToastInformacao.text('Falha ao criar vaga');
+                toastInformacao.show();
             },
             complete: function () {
                 // Esconde o indicador de carregamento
@@ -176,10 +171,12 @@ $(document).ready(function () {
                 puxarVagas();
                 $('#modalEditarVaga').modal('hide');
                 limparModalEditarVaga();
-
+                corpoToastInformacao.text('Vaga editada com sucesso');
+                toastInformacao.show();
             },
             error: function () {
-                alert('Falha ao enviar arquivo, tente novamente mais tarde.');
+                corpoToastInformacao.text('Falaha ao editar a vaga');
+                toastInformacao.show();
             },
             complete: function () {
                 // Esconde o indicador de carregamento
@@ -190,9 +187,30 @@ $(document).ready(function () {
         return false;
     });
 
+
     $('#btnModalCancelarVaga').on('click', limparModalNovaVaga);
 
-    blocosVagas.on('click', '.btnEditar', function () { //adiciona o enventos a todos os .btnEditar do elemento pai sempre existente
+    checkEncerramentoModal.on('click', () => {
+
+        if (encerramentoModal.prop('disabled')) {
+            encerramentoModal.prop('disabled', false);
+        } else {
+            encerramentoModal.prop('disabled', true);
+            encerramentoModal.val('');
+        }
+    });
+
+    checkEncerramentoEditarModal.on('click', () => {
+
+        if (encerramentoEditarModal.prop('disabled')) {
+            encerramentoEditarModal.prop('disabled', false);
+        } else {
+            encerramentoEditarModal.prop('disabled', true);
+            encerramentoEditarModal.val('');
+        }
+    });
+
+    blocosVagas.on('click', '.btnEditar', function () { //adiciona o eventos a todos os .btnEditar do elemento pai sempre existente
         let vagaEditar = vagasJson[$(this).val()];
         limparModalEditarVaga();
         tituloEditarModal.val(vagaEditar.titulo);
@@ -211,6 +229,38 @@ $(document).ready(function () {
 
 
         $("#modalEditarVaga").modal('show');
+    });
+
+    blocosVagas.on('click', '.btnEncerrar', function () { //adiciona o eventos a todos os .btnEncerrar do elemento pai sempre existente
+        let vagaEncerrar = $(this).val();
+
+        btnModalEncerrar.val(vagaEncerrar)
+
+    });
+
+    btnModalEncerrar.on('click', () => {
+        let vagaEncerrar = vagasJson[btnModalEncerrar.val()];
+
+        $.ajax({
+            url: "../server/api/vagas/deletarVaga.php/" + vagaEncerrar.id,
+            type: "GET",
+            dataType: "text", // Especifica que a resposta será texto
+            success: function (data, textStatus, jqXHR) {
+                puxarVagas();
+                if (data === 'Deletado') {
+                    corpoToastInformacao.text('Vaga deletada com sucesso');
+                    toastInformacao.show();
+                }else{
+                    corpoToastInformacao.text('Erro ao deletar a vaga');
+                    toastInformacao.show();
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('N foi: ');
+                puxarVagas();
+            }
+        });
     });
 
 

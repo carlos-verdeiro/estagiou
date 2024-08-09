@@ -26,14 +26,15 @@ try {
         $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
-            $caminho = '../curriculos/' . $row['caminho_arquivo'];
+            $caminho = '../../curriculos/' . $row['caminho_arquivo'];
+            $caminhoCliente = '../curriculos/' . $row['caminho_arquivo'];
             $nome = $row['nome_arquivo'];
             $observacoes = $row['observacoes'];
             $data_submissao = $row['data_submissao'];
 
             // Verifica se o arquivo existe
             if (file_exists($caminho)) {
-                echo json_encode(['status' => 'success', 'file' => $caminho, 'nome' => $nome, 'observacoes' => $observacoes, 'data_submissao' => $data_submissao]);
+                echo json_encode(['status' => 'success', 'file' => $caminhoCliente, 'nome' => $nome, 'observacoes' => $observacoes, 'data_submissao' => $data_submissao]);
             } else {
                 echo json_encode(['status' => 'notFound', 'message' => 'Arquivo PDF não encontrado.']);
             }

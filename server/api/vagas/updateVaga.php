@@ -2,7 +2,8 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verifica se o estagiário está autenticado
+    
+    // Verifica se a empresa está autenticado
     if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin'])) {
         http_response_code(401);
         die("Erro: Usuário não autenticado.");

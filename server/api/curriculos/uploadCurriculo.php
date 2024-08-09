@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verifica se o arquivo foi enviado sem erros
     if (isset($_FILES['curriculo']) && $_FILES['curriculo']['error'] == UPLOAD_ERR_OK) {
         $arquivo = $_FILES['curriculo'];
-        $pasta = "../curriculos/";
+        $pasta = "../../curriculos/";
         $nome = $arquivo['name'];
         $tamanho = $arquivo['size'];
         $tipo = $arquivo['type'];
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 if ($count > 0) {
                     // Remove o arquivo antigo
-                    $caminho_arquivo_antigo = "../curriculos/" . $caminho_arquivo;
+                    $caminho_arquivo_antigo = "../../curriculos/" . $caminho_arquivo;
                     if (file_exists($caminho_arquivo_antigo)) {
                         unlink($caminho_arquivo_antigo);
                     }
