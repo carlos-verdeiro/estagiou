@@ -1,29 +1,14 @@
 <?php
-class Database
-{
-    private $host = 'localhost';
-    private $db_name;
-    private $username;
-    private $password;
-    private $conn;
+$host = "localhost"; // Servidor onde o banco de dados está hospedado
+$user = "root"; // Usuário do banco de dados
+$password = ""; // Senha do banco de dados
+$database = "estagiou"; // Nome do banco de dados
 
-    public function __construct($db_name, $username, $password)
-    {
-        $this->db_name = $db_name;
-        $this->username = $username;
-        $this->password = $password;
-    }
+// Criação da conexão
+$conn = new mysqli($host, $user, $password, $database);
 
-    public function connect()
-    {
-        $this->conn = null;
-        try {
-            $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo 'Erro de Conexão: ' . $e->getMessage();
-        }
-        return $this->conn;
-    }
+// Verificação da conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
 }
 ?>

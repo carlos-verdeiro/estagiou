@@ -1,29 +1,25 @@
 <?php
 session_start();
 
+include_once '../../conexao.php';
+
 try {
-    // Conectar com usuário e senha específicos para atualização
-    $dsn = 'mysql:host=localhost;dbname=estagiou;charset=utf8mb4';
-    $selectUser = 'root';
-    $selectPassword = '';
-
-    $conn = new PDO($dsn, $selectUser, $selectPassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Verificação no banco de dados para encontrar o currículo do estagiário
-    $select_stmt = $conn->prepare("SELECT curriculo_id FROM estagiario WHERE id = :id");
-    $select_stmt->bindValue(':id', $_SESSION['idUsuarioLogin'], PDO::PARAM_INT);
+    $select_stmt = $conn->prepare("SELECT curriculo_id FROM estagiario WHERE id = ?");
+    $select_stmt->bind_param('i', $_SESSION['idUsuarioLogin']);
     $select_stmt->execute();
-    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $select_stmt->get_result();
+    $row = $result->fetch_assoc();
 
     if (!$row['curriculo_id']) {
         echo json_encode(['status' => 'notFound', 'message' => 'Você não possui nenhum currículo salvo.']);
     } else {
         // Verificação no banco de dados para encontrar os detalhes do currículo
-        $select_stmt = $conn->prepare("SELECT * FROM curriculo WHERE estagiario_id = :id");
-        $select_stmt->bindValue(':id', $_SESSION['idUsuarioLogin'], PDO::PARAM_INT);
+        $select_stmt = $conn->prepare("SELECT * FROM curriculo WHERE estagiario_id = ?");
+        $select_stmt->bind_param('i', $_SESSION['idUsuarioLogin']);
         $select_stmt->execute();
-        $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $select_stmt->get_result();
+        $row = $result->fetch_assoc();
 
         if ($row) {
             $caminho = '../../curriculos/' . $row['caminho_arquivo'];
@@ -42,6 +38,7 @@ try {
             echo json_encode(['status' => 'error', 'message' => 'Nenhum registro encontrado.']);
         }
     }
-} catch (PDOException $e) {
+} catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => 'Erro na conexão: ' . $e->getMessage()]);
 }
+?>

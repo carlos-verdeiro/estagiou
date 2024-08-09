@@ -2,7 +2,7 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verifica se a empresa está autenticado
+    // Verifica se a empresa está autenticada
     if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin'])) {
         die("Erro: Usuário não autenticado.");
     }
@@ -15,30 +15,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_encerramento = isset($_POST['dataEncerramentoVaga']) ? $_POST['dataEncerramentoVaga'] : null;
 
     try {
+        // Inclui o arquivo de conexão
+        include_once '../../conexao.php';
 
-        // Conecta ao banco de dados para verificação
-        $mysqli = new mysqli('localhost', 'root', '', 'estagiou');
-        if ($mysqli->connect_error) {
-            throw new Exception("Conexão falhou: " . $mysqliSelect->connect_error);
-        }
-
-        // Verifica se já existe um currículo para o estagiário
-        $stmt = $mysqli->prepare("INSERT INTO vaga(empresa_id,titulo,descricao,requisitos,data_encerramento) VALUES(?,?,?,?,?)");
+        // Conecta ao banco de dados para inserção
+        $stmt = $conn->prepare("INSERT INTO vaga (empresa_id, titulo, descricao, requisitos, data_encerramento) VALUES (?, ?, ?, ?, ?)");
         if (!$stmt) {
-            throw new Exception("Erro na preparação da consulta para verificação: " . $mysqliSelect->error);
+            throw new Exception("Erro na preparação da consulta: " . $conn->error);
         }
 
         $stmt->bind_param('issss', $empresa_id, $titulo, $descricao, $requisitos, $data_encerramento);
         $stmt->execute();
         $stmt->close();
 
-        echo "Criado com sucesso!";
+        echo "Vaga criada com sucesso!";
     } catch (Exception $e) {
         echo "Erro ao criar vaga: " . $e->getMessage();
     } finally {
-        // Fechar as conexões
-        if (isset($mysqli)) $mysqli->close();
+        // Fechar a conexão
+        if (isset($conn)) $conn->close();
     }
 } else {
     echo "Método de requisição inválido.";
 }
+exit;
+?>

@@ -1,47 +1,51 @@
 <?php
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
-    // Verifica se a empresa está autenticado
-    if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin'])) {
-        http_response_code(401);
-        die("Erro: Usuário não autenticado.");
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(400); // Bad Request
+    echo json_encode(['mensagem' => 'Método de requisição inválido.', 'code' => 1]);
+    exit;
+}
+
+// Verifica se a empresa está autenticada
+if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'empresa') {
+    http_response_code(401); // Unauthorized
+    echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
+    exit;
+}
+
+// Obtém dados do formulário
+$empresa_id = $_SESSION['idUsuarioLogin'];
+$titulo = $_POST['tituloEditarVaga'];
+$descricao = isset($_POST['descricaoEditarVaga']) ? $_POST['descricaoEditarVaga'] : '';
+$requisitos = isset($_POST['requisitosEditarVaga']) ? $_POST['requisitosEditarVaga'] : '';
+$data_encerramento = isset($_POST['dataEncerramentoEditarVaga']) ? $_POST['dataEncerramentoEditarVaga'] : null;
+$idVagaEditar = $_POST['idVagaEditar'];
+
+try {
+    // Inclui o arquivo de conexão
+    include_once '../../conexao.php';
+
+    // Prepara a consulta para atualizar a vaga
+    $stmt = $conn->prepare("UPDATE vaga SET titulo=?, descricao=?, requisitos=?, data_encerramento=? WHERE id = ? AND empresa_id = ?");
+    if (!$stmt) {
+        throw new Exception("Erro na preparação da consulta: " . $conn->error);
     }
 
-    // Obtém dados do formulário
-    $empresa_id = $_SESSION['idUsuarioLogin'];
-    $titulo = $_POST['tituloEditarVaga'];
-    $descricao = isset($_POST['descricaoEditarVaga']) ? $_POST['descricaoEditarVaga'] : '';
-    $requisitos = isset($_POST['requisitosEditarVaga']) ? $_POST['requisitosEditarVaga'] : '';
-    $data_encerramento = isset($_POST['dataEncerramentoEditarVaga']) ? $_POST['dataEncerramentoEditarVaga'] : null;
-    $idVagaEditar = $_POST['idVagaEditar'];
+    // Faz o binding dos parâmetros e executa a consulta
+    $stmt->bind_param('ssssii', $titulo, $descricao, $requisitos, $data_encerramento, $idVagaEditar, $empresa_id);
+    $stmt->execute();
 
-    try {
-
-        // Conecta ao banco de dados para verificação
-        $mysqli = new mysqli('localhost', 'root', '', 'estagiou');
-        if ($mysqli->connect_error) {
-            throw new Exception("Conexão falhou: " . $mysqli->connect_error);
-        }
-
-        // Verifica se já existe um currículo para o estagiário
-        $stmt = $mysqli->prepare("UPDATE vaga SET titulo=?, descricao=?, requisitos=?, data_encerramento=? WHERE id = ?");
-        if (!$stmt) {
-            throw new Exception("Erro na preparação da consulta para verificação: " . $mysqliSelect->error);
-        }
-
-        $stmt->bind_param('ssssi', $titulo, $descricao, $requisitos, $data_encerramento, $idVagaEditar);
-        $stmt->execute();
-        $stmt->close();
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo "Falha Interna, favor entrar em contato com o suporte";
-    } finally {
-        // Fechar as conexões
-        if (isset($mysqli)) $mysqli->close();
+    if ($stmt->affected_rows === 0) {
+        throw new Exception("Nenhuma vaga foi atualizada. Verifique se a vaga e a empresa estão corretos.");
     }
-} else {
-    http_response_code(400);
-    echo "Método de requisição inválido.";
+
+    $stmt->close();
+    echo json_encode(['mensagem' => 'Vaga atualizada com sucesso.']);
+} catch (Exception $e) {
+    http_response_code(500); // Internal Server Error
+    echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
+} finally {
+    // Fecha a conexão
+    if (isset($conn)) $conn->close();
 }

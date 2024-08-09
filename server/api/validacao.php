@@ -1,27 +1,17 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['cpf'])) {
-        if (!isset($_POST['cpf']) && !is_numeric($_POST['cpf'])) {
+        if (!is_numeric($_POST['cpf']) || strlen($_POST['cpf']) != 11) {
             http_response_code(400);
-            echo json_encode(['mensagem' => 'Parametros invalidos. TYPE', 'code' => 0]);
+            echo json_encode(['mensagem' => 'Parâmetros inválidos.', 'code' => 1]);
             exit;
         }
-        if (strlen($_POST['cpf']) != 11) {
-            http_response_code(400);
-            echo json_encode(['mensagem' => 'Parametros invalidos. NUM', 'code' => 1]);
-            exit;
-        }
+        
         $cpf = $_POST['cpf'];
 
-        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        include_once "../conexao.php";
 
-        if ($mysqli->connect_error) {
-            http_response_code(500);
-            echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-            exit;
-        }
-
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM estagiario WHERE cpf = ?");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM estagiario WHERE cpf = ?");
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->bind_result($count);
@@ -34,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $stmt->close();
-        $mysqli->close();
+        $conn->close();
 
         echo json_encode(['mensagem' => $mensagem]);
         exit;
@@ -54,15 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $rg = $_POST['rg'];
 
-        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        include_once "../conexao.php";
 
-        if ($mysqli->connect_error) {
-            http_response_code(500);
-            echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-            exit;
-        }
-
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM estagiario WHERE rg = ?");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM estagiario WHERE rg = ?");
         $stmt->bind_param("s", $rg);
         $stmt->execute();
         $stmt->bind_result($count);
@@ -75,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $stmt->close();
-        $mysqli->close();
+        $conn->close();
 
         echo json_encode(['mensagem' => $mensagem]);
         exit;
@@ -90,77 +74,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        include_once "../conexao.php";
 
-        if ($mysqli->connect_error) {
-            http_response_code(500);
-            echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-            exit;
-        }
 
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM estagiario WHERE email = ?");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM estagiario WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
 
         if ($count > 0) {
-            $stmt->close();
-            $mysqli->close();
             $mensagem = false; //EMAIL indisponível
         } else {
-            $stmt->close();
-            $mysqli->close();
 
-            $mysqli = new mysqli("localhost", "root", "", "estagiou");
-
-            if ($mysqli->connect_error) {
-                http_response_code(500);
-                echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-                exit;
-            }
-
-            $stmt = $mysqli->prepare("SELECT COUNT(*) FROM empresa WHERE email = ?");
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM empresa WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $stmt->bind_result($count);
             $stmt->fetch();
 
             if ($count > 0) {
-                $stmt->close();
-                $mysqli->close();
                 $mensagem = false; //EMAIL indisponível
             } else {
-                $stmt->close();
-                $mysqli->close();
 
-                $mysqli = new mysqli("localhost", "root", "", "estagiou");
-
-                if ($mysqli->connect_error) {
-                    http_response_code(500);
-                    echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-                    exit;
-                }
-
-                $stmt = $mysqli->prepare("SELECT COUNT(*) FROM escola WHERE email = ?");
+                $stmt = $conn->prepare("SELECT COUNT(*) FROM escola WHERE email = ?");
                 $stmt->bind_param("s", $email);
                 $stmt->execute();
                 $stmt->bind_result($count);
                 $stmt->fetch();
 
                 if ($count > 0) {
-                    $stmt->close();
-                    $mysqli->close();
                     $mensagem = false; //EMAIL indisponível
                 } else {
-                    $stmt->close();
-                    $mysqli->close();
                     $mensagem = true; //EMAIL disponível
                 }
             }
         }
 
-
+        $stmt->close();
+        $conn->close();
 
         echo json_encode(['mensagem' => $mensagem]);
         exit;
@@ -179,54 +131,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $cnpj = $_POST['cnpj'];
 
-        $mysqli = new mysqli("localhost", "root", "", "estagiou");
+        include_once "../conexao.php";
 
-        if ($mysqli->connect_error) {
-            http_response_code(500);
-            echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-            exit;
-        }
-
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM empresa WHERE cnpj = ?");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM empresa WHERE cnpj = ?");
         $stmt->bind_param("s", $cnpj);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
 
         if ($count > 0) {
-            $stmt->close();
-            $mysqli->close();
             $mensagem = false; //CNPJ indisponível
         } else {
-            $stmt->close();
-            $mysqli->close();
 
-            $mysqli = new mysqli("localhost", "root", "", "estagiou");
-
-            if ($mysqli->connect_error) {
-                http_response_code(500);
-                echo json_encode(['mensagem' => 'Erro ao conectar ao banco de dados.', 'code' => 2]);
-                exit;
-            }
-
-            $stmt = $mysqli->prepare("SELECT COUNT(*) FROM escola WHERE cnpj = ?");
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM escola WHERE cnpj = ?");
             $stmt->bind_param("s", $cnpj);
             $stmt->execute();
             $stmt->bind_result($count);
             $stmt->fetch();
 
             if ($count > 0) {
-                $stmt->close();
-                $mysqli->close();
                 $mensagem = false; //CNPJ indisponível
             } else {
-                $stmt->close();
-                $mysqli->close();
                 $mensagem = true; //CNPJ disponível
             }
         }
 
-
+        $stmt->close();
+        $conn->close();
 
         echo json_encode(['mensagem' => $mensagem]);
         exit;

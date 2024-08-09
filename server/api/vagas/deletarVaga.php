@@ -2,47 +2,47 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405); // Método não permitido
     die("Método de requisição inválido.");
 }
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
-// Verifica se a empresa está autenticado
+// Verifica se a empresa está autenticada
 if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'empresa') {
-    http_response_code(401);
+    http_response_code(401); // Não autorizado
     die("Erro: Usuário não autenticado.");
 }
 
 if (!isset($uri[5]) || !is_numeric($uri[5])) {
-    http_response_code(422);
+    http_response_code(422); // Entidade não processável
     die("Erro: Parâmetros inválidos.");
 }
 
-$idVaga = $uri[5];
+$idVaga = (int)$uri[5]; // Garante que o idVaga seja um inteiro
 
 try {
+    // Inclui o arquivo de conexão
+    include_once '../../conexao.php';
 
     // Conecta ao banco de dados para verificação
-    $mysqli = new mysqli('localhost', 'root', '', 'estagiou');
-    if ($mysqli->connect_error) {
-        throw new Exception("Conexão falhou: " . $mysqli->connect_error);
-    }
-
-    // Verifica se já existe um currículo para o estagiário
-    $stmt = $mysqli->prepare("DELETE FROM vaga  WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM vaga WHERE id = ?");
     if (!$stmt) {
-        throw new Exception("Erro na preparação da consulta para verificação: " . $mysqliSelect->error);
+        throw new Exception("Erro na preparação da consulta para verificação: " . $conn->error);
     }
 
     $stmt->bind_param('i', $idVaga);
     $stmt->execute();
     $stmt->close();
-    echo "Deletado";
+    
+    echo "Vaga deletada com sucesso!";
 } catch (Exception $e) {
-    http_response_code(500);
-    echo "Falha Interna, favor entrar em contato com o suporte";
+    http_response_code(500); // Erro interno do servidor
+    echo "Falha Interna, favor entrar em contato com o suporte.";
 } finally {
-    // Fechar as conexões
-    if (isset($mysqli)) $mysqli->close();
+    // Fechar a conexão
+    if (isset($conn)) $conn->close();
 }
+exit;
+?>

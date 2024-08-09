@@ -1,19 +1,18 @@
 $(document).ready(function () {
 
-    var vagasJson = null;
-
+    let vagasJson = null;
     const blocosVagas = $('.blocosVagas');
+    const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
+    const corpoToastInformacao = $('#corpoToastInformacao');
 
-    let data_encerramento = null;
-
-    //MODAL
+    // MODAL
     const tituloModal = $('#tituloVaga');
     const descricaoModal = $('#descricaoVaga');
     const requisitosModal = $('#requisitosVaga');
     const encerramentoModal = $('#dataEncerramentoVaga');
     const checkEncerramentoModal = $('#encerraCheckVaga');
 
-    //MODAL EDITAR
+    // MODAL EDITAR
     const tituloEditarModal = $('#tituloEditarVaga');
     const descricaoEditarModal = $('#descricaoEditarVaga');
     const requisitosEditarModal = $('#requisitosEditarVaga');
@@ -21,75 +20,61 @@ $(document).ready(function () {
     const checkEncerramentoEditarModal = $('#encerraCheckEditarVaga');
     const idVagaEditar = $('#idVagaEditar');
 
-    //MODAL EXCLUIR
+    // MODAL EXCLUIR
     const btnModalExcluir = $('#btnModalExcluir');
 
-    //TOAST
-    const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
-    const corpoToastInformacao = $('#corpoToastInformacao');
-
     function formatarData(data) {
-        // Dividir a data em partes
-        var partes = data.split(' ');
-        var dataParte = partes[0];
-        var horaParte = partes[1];
+        // Verifica se a data é válida
+        if (!data) return 'Não programado';
 
-        // Dividir a data em ano, mês e dia
-        var dataArray = dataParte.split('-');
-        var ano = dataArray[0];
-        var mes = dataArray[1];
-        var dia = dataArray[2];
+        // Dividir a data e hora
+        const partes = data.split(' ');
+        const [ano, mes, dia] = partes[0].split('-');
+        const hora = partes[1].substring(0, 5);
 
         // Formatar a data como DD/MM/AAAA
-        var dataFormatada = dia + '/' + mes + '/' + ano;
-
-        // Retornar a data formatada com a hora
-        return dataFormatada + ' ' + horaParte.substring(0, 5); // Pega somente HH:MM
+        return `${dia}/${mes}/${ano} ${hora}`;
     }
 
     function puxarVagas() {
-        $.getJSON('../../server/api/vagas/mostrarVaga.php/empresaVagas', function (data) {
-            vagasJson = data;
-            console.log(vagasJson);
-            blocosVagas.empty();
-            if (data.length == 0) {
-                blocosVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
-            }
-            $.each(data, function (index, vaga) {
-
-                if (vaga.data_encerramento == null || vaga.data_encerramento == '') {
-                    data_encerramento = 'Não programado';
+        $.getJSON('../../server/api/vagas/mostrarVaga.php/empresaVagas')
+            .done(function (data) {
+                vagasJson = data;
+                console.log(vagasJson);
+                blocosVagas.empty();
+                if (data.length === 0) {
+                    blocosVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
                 } else {
-                    data_encerramento = formatarData(vaga.data_encerramento);
+                    data.forEach((vaga, index) => {
+                        const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
+                        blocosVagas.append(`
+                            <div class="card px-0" style="width: 18rem;">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0">${vaga.titulo}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Descrição:</h6>
+                                    <p class="card-text">${vaga.descricao}</p>
+                                    <h6>Requisitos:</h6>
+                                    <p class="card-text">${vaga.requisitos}</p>
+                                    <h6>Encerra:</h6>
+                                    <p class="card-text">${dataEncerramento}</p>
+                                    <h6>Publicado:</h6>
+                                    <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
+                                    <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
+                                    <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
+                                </div>
+                            </div>`);
+                    });
                 }
-
-                blocosVagas.append(`
-            <div class="card px-0" style="width: 18rem;">
-                <div class="card-header">
-                    <h5 class="card-title m-0">${vaga.titulo}</h5>
-                </div>
-                <div class="card-body">
-                    <h6>Descrição:</h6>
-                    <p class="card-text">${vaga.descricao}</p>
-                    <h6>Requisitos:</h6>
-                    <p class="card-text">${vaga.requisitos}</p>
-                    <h6>Encerra:</h6>
-                    <p class="card-text">${data_encerramento}</p>
-                    <h6>Publicado:</h6>
-                    <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
-                </div>
-                <div class="card-footer">
-                    <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
-                    <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                    <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}"  data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
-                </div>
-            </div>`);
-
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
             });
-
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert('Erro ao obter os dados: ' + textStatus, errorThrown);
-        });
     }
 
     function limparModalNovaVaga() {
@@ -110,27 +95,24 @@ $(document).ready(function () {
         checkEncerramentoEditarModal.prop('checked', false);
     }
 
-    puxarVagas();//Puxa as vagas quando inicia a página
-
+    // Inicializa as vagas
+    puxarVagas();
 
     $('#formCadastroVaga').submit(function (event) {
         event.preventDefault(); // Evita o envio padrão do formulário
 
-        var formData = new FormData($(this)[0]);
+        const formData = new FormData(this);
 
         $.ajax({
             url: '../server/api/vagas/criarVaga.php',
             type: 'POST',
             data: formData,
-            async: false,
-            cache: false,
             contentType: false,
             processData: false,
             beforeSend: function () {
-                // Mostra o indicador de carregamento
                 $("#overlay").show();
             },
-            success: function (response) {
+            success: function () {
                 puxarVagas();
                 $('#modalCriarVaga').modal('hide');
                 limparModalNovaVaga();
@@ -142,32 +124,26 @@ $(document).ready(function () {
                 toastInformacao.show();
             },
             complete: function () {
-                // Esconde o indicador de carregamento
                 $("#overlay").hide();
             }
         });
-
-        return false;
     });
 
     $('#formAtualizarVaga').submit(function (event) {
         event.preventDefault(); // Evita o envio padrão do formulário
 
-        var formData = new FormData($(this)[0]);
+        const formData = new FormData(this);
 
         $.ajax({
             url: '../server/api/vagas/updateVaga.php',
             type: 'POST',
             data: formData,
-            async: false,
-            cache: false,
             contentType: false,
             processData: false,
             beforeSend: function () {
-                // Mostra o indicador de carregamento
                 $("#overlay").show();
             },
-            success: function (response) {
+            success: function () {
                 puxarVagas();
                 $('#modalEditarVaga').modal('hide');
                 limparModalEditarVaga();
@@ -175,23 +151,18 @@ $(document).ready(function () {
                 toastInformacao.show();
             },
             error: function () {
-                corpoToastInformacao.text('Falha ao editar a vaga');
+                corpoToastInformacao.text('Falha ao editar vaga');
                 toastInformacao.show();
             },
             complete: function () {
-                // Esconde o indicador de carregamento
                 $("#overlay").hide();
             }
         });
-
-        return false;
     });
-
 
     $('#btnModalCancelarVaga').on('click', limparModalNovaVaga);
 
     checkEncerramentoModal.on('click', () => {
-
         if (encerramentoModal.prop('disabled')) {
             encerramentoModal.prop('disabled', false);
         } else {
@@ -201,7 +172,6 @@ $(document).ready(function () {
     });
 
     checkEncerramentoEditarModal.on('click', () => {
-
         if (encerramentoEditarModal.prop('disabled')) {
             encerramentoEditarModal.prop('disabled', false);
         } else {
@@ -210,8 +180,8 @@ $(document).ready(function () {
         }
     });
 
-    blocosVagas.on('click', '.btnEditar', function () { //adiciona o eventos a todos os .btnEditar do elemento pai sempre existente
-        let vagaEditar = vagasJson[$(this).val()];
+    blocosVagas.on('click', '.btnEditar', function () {
+        const vagaEditar = vagasJson[$(this).val()];
         limparModalEditarVaga();
         tituloEditarModal.val(vagaEditar.titulo);
         descricaoEditarModal.val(vagaEditar.descricao);
@@ -227,35 +197,26 @@ $(document).ready(function () {
         }
         idVagaEditar.val(vagaEditar.id);
 
-
         $("#modalEditarVaga").modal('show');
     });
 
     btnModalExcluir.on('click', () => {
-        let vagaEncerrar = idVagaEditar.val();
+        const vagaEncerrar = idVagaEditar.val();
 
         $.ajax({
-            url: "../server/api/vagas/deletarVaga.php/" + vagaEncerrar,
-            type: "GET",
-            dataType: "text", // Especifica que a resposta será texto
-            success: function (data, textStatus, jqXHR) {
+            url: `../server/api/vagas/deletarVaga.php/${vagaEncerrar}`,
+            type: 'GET',
+            success: function (data) {
                 puxarVagas();
-                if (data === 'Deletado') {
-                    corpoToastInformacao.text('Vaga deletada com sucesso');
-                    toastInformacao.show();
-                }else{
-                    corpoToastInformacao.text('Erro ao deletar a vaga ERRO:0');
-                    toastInformacao.show();
-                }
-
+                corpoToastInformacao.text(data === 'Deletado' ? 'Vaga deletada com sucesso' : 'Erro ao deletar a vaga');
+                toastInformacao.show();
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                corpoToastInformacao.text('Erro ao deletar a vaga ERRO:1');
-                    toastInformacao.show();
+            error: function () {
+                corpoToastInformacao.text('Erro ao deletar a vaga');
+                toastInformacao.show();
                 puxarVagas();
             }
         });
     });
-
 
 });
