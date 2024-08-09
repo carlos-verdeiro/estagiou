@@ -21,8 +21,8 @@ $(document).ready(function () {
     const checkEncerramentoEditarModal = $('#encerraCheckEditarVaga');
     const idVagaEditar = $('#idVagaEditar');
 
-    //MODAL ENCERRAR
-    const btnModalEncerrar = $('#btnModalEncerrar');
+    //MODAL EXCLUIR
+    const btnModalExcluir = $('#btnModalExcluir');
 
     //TOAST
     const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
@@ -175,7 +175,7 @@ $(document).ready(function () {
                 toastInformacao.show();
             },
             error: function () {
-                corpoToastInformacao.text('Falaha ao editar a vaga');
+                corpoToastInformacao.text('Falha ao editar a vaga');
                 toastInformacao.show();
             },
             complete: function () {
@@ -231,18 +231,11 @@ $(document).ready(function () {
         $("#modalEditarVaga").modal('show');
     });
 
-    blocosVagas.on('click', '.btnEncerrar', function () { //adiciona o eventos a todos os .btnEncerrar do elemento pai sempre existente
-        let vagaEncerrar = $(this).val();
-
-        btnModalEncerrar.val(vagaEncerrar)
-
-    });
-
-    btnModalEncerrar.on('click', () => {
-        let vagaEncerrar = vagasJson[btnModalEncerrar.val()];
+    btnModalExcluir.on('click', () => {
+        let vagaEncerrar = idVagaEditar.val();
 
         $.ajax({
-            url: "../server/api/vagas/deletarVaga.php/" + vagaEncerrar.id,
+            url: "../server/api/vagas/deletarVaga.php/" + vagaEncerrar,
             type: "GET",
             dataType: "text", // Especifica que a resposta será texto
             success: function (data, textStatus, jqXHR) {
@@ -251,13 +244,14 @@ $(document).ready(function () {
                     corpoToastInformacao.text('Vaga deletada com sucesso');
                     toastInformacao.show();
                 }else{
-                    corpoToastInformacao.text('Erro ao deletar a vaga');
+                    corpoToastInformacao.text('Erro ao deletar a vaga ERRO:0');
                     toastInformacao.show();
                 }
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert('N foi: ');
+                corpoToastInformacao.text('Erro ao deletar a vaga ERRO:1');
+                    toastInformacao.show();
                 puxarVagas();
             }
         });

@@ -91,6 +91,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-danger sm btnEncerrar" data-bs-toggle="modal" data-bs-target="#modalExcluir">Excluir</button>
                         <button type="button" id="btnModalCancelarVagaEditar" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Salvar</button>
                     </div>
@@ -100,15 +101,29 @@
         </div>
     </div>
     <!-- Modal Exluir-->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluir" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja excluir a vaga?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnModalExcluir" data-bs-dismiss="modal" class="btn btn-danger">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Encerrar-->
     <div class="modal fade" id="modalEncerrar" tabindex="-1" aria-labelledby="modalEncerrar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja finalizar as candidaturas?</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja finalizar a candidatura?</h1>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" id="btnModalEncerrar" data-bs-dismiss="modal" class="btn btn-danger">Finalizar</button>
+                    <button type="button" id="btnModalEncerrar" data-bs-dismiss="modal" class="btn btn-danger">finalizar</button>
                 </div>
             </div>
         </div>
