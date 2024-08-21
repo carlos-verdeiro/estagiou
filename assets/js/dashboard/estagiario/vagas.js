@@ -54,8 +54,9 @@ $(document).ready(function () {
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                corpoToastInformacao.text(`Erro ao obter os dados: ${jqXHR}`);
                 toastInformacao.show();
+                console.log(errorThrown);
             });
     }
 
@@ -63,24 +64,6 @@ $(document).ready(function () {
     puxarVagas();
 
 
-    blocosVagas.on('click', '.btnEditar', function () {
-        const vagaEditar = vagasJson[$(this).val()];
-        limparModalEditarVaga();
-        tituloEditarModal.val(vagaEditar.titulo);
-        descricaoEditarModal.val(vagaEditar.descricao);
-        requisitosEditarModal.val(vagaEditar.requisitos);
-        if (vagaEditar.data_encerramento === null) {
-            encerramentoEditarModal.val('');
-            encerramentoEditarModal.prop('disabled', true);
-            checkEncerramentoEditarModal.prop('checked', true);
-        } else {
-            encerramentoEditarModal.val(vagaEditar.data_encerramento);
-            encerramentoEditarModal.prop('disabled', false);
-            checkEncerramentoEditarModal.prop('checked', false);
-        }
-        idVagaEditar.val(vagaEditar.id);
-
-        $("#modalEditarVaga").modal('show');
-    });
+    
 
 });

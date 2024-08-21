@@ -66,6 +66,7 @@ switch ($uri[5]) {
     break;
 
     case 'estagiarioVagas':
+
         if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'estagiario') {
             http_response_code(401); // Não autorizado
             echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
@@ -80,18 +81,29 @@ switch ($uri[5]) {
             $limiteBusca = 20;
         }
 
+        if (isset($uri[7]) && is_numeric($uri[7])) {
+            $partida = $uri[7];
+        }else{
+            $partida = 0;
+        }
+
         try {
             // Inclui o arquivo de conexão
             include_once '../../conexao.php';
 
             // Prepara a consulta para buscar as vagas da empresa
-            $stmt = $conn->prepare("SELECT * FROM vaga LIMIT ? WHERE status == 1");
+            $stmt = $conn->prepare("SELECT * 
+            FROM vaga 
+            WHERE status = ? 
+            ORDER BY titulo 
+            LIMIT ? OFFSET ?;
+            ");
             
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
             }
-
-            $stmt->bind_param("i", $limite);
+            $statusVaga = 1;
+            $stmt->bind_param("iii", $statusVaga,  $limiteBusca, $partida);
 
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar a consulta: " . $stmt->error);
