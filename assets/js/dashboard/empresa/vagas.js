@@ -77,6 +77,8 @@ $(document).ready(function () {
             });
     }
 
+    
+
     function limparModalNovaVaga() {
         tituloModal.val('');
         descricaoModal.val('');

@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     let vagasJson = null;
     const listaVagas = $('#listaVagas');
+    const blocoVagas = $('.blocoVagas');
     const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
     const corpoToastInformacao = $('#corpoToastInformacao');
 
@@ -30,7 +31,7 @@ $(document).ready(function () {
                     data.forEach((vaga, index) => {
                         const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
                         listaVagas.append(`
-                            <button class="list-group-item list-group-item-action p-3" value="${index}">
+                            <button class="list-group-item btnVaga list-group-item-action p-3" value="${index}">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">${vaga.titulo}</h5>
                                     <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
@@ -51,7 +52,11 @@ $(document).ready(function () {
     puxarVagas();
 
 
-    
+    blocoVagas.on('click', '.btnVaga', function () {
+        const vagaVizualizar = vagasJson[$(this).val()];
+        console.log(vagaVizualizar);
+
+    });
 
 
 
