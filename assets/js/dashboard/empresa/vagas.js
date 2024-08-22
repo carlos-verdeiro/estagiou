@@ -208,7 +208,7 @@ $(document).ready(function () {
             type: 'GET',
             success: function (data) {
                 puxarVagas();
-                corpoToastInformacao.text(data === 'Deletado' ? 'Vaga deletada com sucesso' : 'Erro ao deletar a vaga');
+                corpoToastInformacao.text(data);
                 toastInformacao.show();
             },
             error: function () {

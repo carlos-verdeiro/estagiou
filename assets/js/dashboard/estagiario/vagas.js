@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     let vagasJson = null;
-    const blocosVagas = $('.blocosVagas');
+    const listaVagas = $('#listaVagas');
     const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
     const corpoToastInformacao = $('#corpoToastInformacao');
 
@@ -12,10 +12,10 @@ $(document).ready(function () {
         // Dividir a data e hora
         const partes = data.split(' ');
         const [ano, mes, dia] = partes[0].split('-');
-        const hora = partes[1].substring(0, 5);
+        //const hora = partes[1].substring(0, 5);
 
         // Formatar a data como DD/MM/AAAA
-        return `${dia}/${mes}/${ano} ${hora}`;
+        return `${dia}/${mes}/${ano}`;
     }
 
     function puxarVagas() {
@@ -23,33 +23,20 @@ $(document).ready(function () {
             .done(function (data) {
                 vagasJson = data;
                 console.log(vagasJson);
-                blocosVagas.empty();
+                listaVagas.empty();
                 if (data.length === 0) {
-                    blocosVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
+                    listaVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
                 } else {
                     data.forEach((vaga, index) => {
                         const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
-                        blocosVagas.append(`
-                            <div class="card px-0" style="width: 18rem;">
-                                <div class="card-header">
-                                    <h5 class="card-title m-0">${vaga.titulo}</h5>
+                        listaVagas.append(`
+                            <button class="list-group-item list-group-item-action p-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${vaga.titulo}</h5>
+                                    <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
                                 </div>
-                                <div class="card-body">
-                                    <h6>Descrição:</h6>
-                                    <p class="card-text">${vaga.descricao}</p>
-                                    <h6>Requisitos:</h6>
-                                    <p class="card-text">${vaga.requisitos}</p>
-                                    <h6>Encerra:</h6>
-                                    <p class="card-text">${dataEncerramento}</p>
-                                    <h6>Publicado:</h6>
-                                    <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
-                                    <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                                    <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
-                                </div>
-                            </div>`);
+                                <p class="mt-1 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore asperiores maxime nemo blanditiis ad temporibus earum, alias aspernatur voluptates suscipit incidunt at ipsa et. Culpa molestias iure atque error fugit!</p>
+                            </button>`);
                     });
                 }
             })
@@ -64,6 +51,6 @@ $(document).ready(function () {
     puxarVagas();
 
 
-    
+
 
 });

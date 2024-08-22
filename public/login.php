@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="../assets/css/cadastro/action.css">
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="../assets/css/cadastro/action.css">
 </head>
 
 <body>
@@ -67,7 +67,7 @@ try {
     $_SESSION['idUsuarioLogin'] = $id;
 
     // Redireciona para o dashboard
-    header('location: ../dashboard/index.php');
+    header('Location: ../dashboard/index.php');
     exit;
 
 } catch (ParametrosException $e) {
