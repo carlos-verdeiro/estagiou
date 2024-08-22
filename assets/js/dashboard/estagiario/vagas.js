@@ -30,12 +30,12 @@ $(document).ready(function () {
                     data.forEach((vaga, index) => {
                         const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
                         listaVagas.append(`
-                            <button class="list-group-item list-group-item-action p-3">
+                            <button class="list-group-item list-group-item-action p-3" value="${index}">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">${vaga.titulo}</h5>
                                     <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
                                 </div>
-                                <p class="mt-1 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore asperiores maxime nemo blanditiis ad temporibus earum, alias aspernatur voluptates suscipit incidunt at ipsa et. Culpa molestias iure atque error fugit!</p>
+                                <p class="mt-1 mb-1">${vaga.descricao}</p>
                             </button>`);
                     });
                 }
@@ -49,6 +49,9 @@ $(document).ready(function () {
 
     // Inicializa as vagas
     puxarVagas();
+
+
+    
 
 
 
