@@ -63,10 +63,9 @@ switch ($uri[5]) {
             // Fechar a conexão
             if (isset($conn)) $conn->close();
         }
-    break;
+        break;
 
     case 'estagiarioVagas':
-
         if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'estagiario') {
             http_response_code(401); // Não autorizado
             echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
@@ -76,34 +75,28 @@ switch ($uri[5]) {
         $idEstagiario = $_SESSION['idUsuarioLogin'];
 
         if (isset($uri[6]) && is_numeric($uri[6])) {
-            $limiteBusca = $uri[6];
-        }else{
-            $limiteBusca = 20;
+            $partida = $uri[6];
+        } else {
+            $partida = 0;
         }
 
         if (isset($uri[7]) && is_numeric($uri[7])) {
-            $partida = $uri[7];
-        }else{
-            $partida = 0;
+            $limiteBusca = $uri[7];
+        } else {
+            $limiteBusca = 30;
         }
 
         try {
             // Inclui o arquivo de conexão
             include_once '../../conexao.php';
 
-            // Prepara a consulta para buscar as vagas da empresa
-            $stmt = $conn->prepare("SELECT * 
-            FROM vaga 
-            WHERE status = ? 
-            ORDER BY titulo 
-            LIMIT ? OFFSET ?;
-            ");
-            
+            // Consulta para buscar os dados paginados
+            $stmt = $conn->prepare("SELECT * FROM vaga WHERE status = ? ORDER BY titulo LIMIT ? OFFSET ?");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
             }
             $statusVaga = 1;
-            $stmt->bind_param("iii", $statusVaga,  $limiteBusca, $partida);
+            $stmt->bind_param("iii", $statusVaga, $limiteBusca, $partida);
 
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar a consulta: " . $stmt->error);
@@ -119,8 +112,25 @@ switch ($uri[5]) {
                 }
             }
 
-            // Converte o array em JSON
-            $json_data = json_encode($vagas);
+            // Consulta para contar o total de registros
+            $stmt_total = $conn->prepare("SELECT COUNT(*) AS total_registros FROM vaga WHERE status = ?");
+            if (!$stmt_total) {
+                throw new Exception("Erro na preparação da consulta de contagem: " . $conn->error);
+            }
+            $stmt_total->bind_param("i", $statusVaga);
+
+            if (!$stmt_total->execute()) {
+                throw new Exception("Erro ao executar a consulta de contagem: " . $stmt_total->error);
+            }
+
+            $total_result = $stmt_total->get_result();
+            $total_registros = $total_result->fetch_assoc()['total_registros'];
+
+            // Converte o array em JSON, incluindo o total de registros
+            $json_data = json_encode([
+                'total_registros' => $total_registros,
+                'vagas' => $vagas
+            ]);
 
             // Define o cabeçalho para JSON
             header('Content-Type: application/json');
@@ -128,7 +138,9 @@ switch ($uri[5]) {
             // Imprime o JSON
             echo $json_data;
 
+            // Fecha as consultas
             $stmt->close();
+            $stmt_total->close();
         } catch (Exception $e) {
             http_response_code(500); // Erro interno do servidor
             echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
@@ -137,7 +149,8 @@ switch ($uri[5]) {
             if (isset($conn)) $conn->close();
         }
         break;
-        default:
+
+    default:
         http_response_code(404); // Não encontrado
         echo json_encode(['mensagem' => 'Recurso não encontrado.', 'code' => 4]);
         break;

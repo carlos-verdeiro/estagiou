@@ -30,16 +30,15 @@
                 <div class="list-group mt-1 overflow-y-auto blocoVagas" id="listaVagas">
                     <!--vagas aparecem aqui-->
                 </div>
-                <nav aria-label="Page navigation example" class="mt-3 mb-0">
+                <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link">Voltar</a>
+                        <li class="page-item pgVoltar">
+                            <button class="page-link">Voltar</button>
                         </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Avançar</a>
+                        <div class="page-item pgNumeros pagination d-flex flex-row">
+                        </div>
+                        <li class="page-item pgAvancar">
+                            <button class="page-link">Avançar</button>
                         </li>
                     </ul>
                 </nav>
