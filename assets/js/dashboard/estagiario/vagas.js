@@ -1,72 +1,64 @@
 $(document).ready(function () {
-
     const listaVagas = $('#listaVagas');
     const blocoVagas = $('.blocoVagas');
-    const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
+    const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
     const corpoToastInformacao = $('#corpoToastInformacao');
 
-
-    //global
-    let vagasJson;
-    let totalRegistros;
-    let pagAtual;
+    // Variáveis globais
+    let vagasJson = [];
+    let totalRegistros = 0;
+    let paginaAtual = 1;
 
     function formatarData(data) {
-        // Verifica se a data é válida
         if (!data) return 'Não programado';
-
-        // Dividir a data e hora
-        const partes = data.split(' ');
-        const [ano, mes, dia] = partes[0].split('-');
-        //const hora = partes[1].substring(0, 5);
-
-        // Formatar a data como DD/MM/AAAA
+        const [ano, mes, dia] = data.split(' ')[0].split('-');
         return `${dia}/${mes}/${ano}`;
     }
 
     function paginacao(totalRegistros) {
-        //controle de paginacao
-        if (totalRegistros / 30 > 1) {
+        const paginas = Math.ceil(totalRegistros / 30);
+        if (paginas > 1) {
             $('.pgNumeros').empty();
-            let paginas = Math.ceil(totalRegistros / 30);
             for (let i = 1; i <= paginas; i++) {
-                if (i == 1) {
-                    $('.pgNumeros').append(`<li class=" pgNum" value="${i}"><button class="page-link pgNumBTN" id="pgNumPrimeiro" value="${i}">${i}</button></li>`);
-                } else if (i == paginas) {
-                    $('.pgNumeros').append(`<li class=" pgNum" value="${i}"><button class="page-link pgNumBTN" id="pgNumUltimo" value="${i}">${i}</button></li>`);
-                } else {
-                    $('.pgNumeros').append(`<li class=" pgNum" value="${i}"><button class="page-link pgNumBTN" value="${i}">${i}</button></li>`);
-                }
+                const activeClass = i === 1 ? 'active' : '';
+                $('.pgNumeros').append(
+                    `<li class="pgNum" value="${i}">
+                        <button class="page-link pgNumBTN ${activeClass}" id="pgNum${i}" value="${i}">${i}</button>
+                    </li>`
+                );
             }
-            $('#pgNumPrimeiro').addClass('active');
-            if (!$('.pgVoltar').hasClass('disabled')) {
-                $('.pgVoltar').addClass('disabled');
-            }
-            paginaAtual = 1;
+            $('.pgVoltar').toggleClass('disabled', true);
         } else {
-            if (!$('.navPaginacao').hasClass('invisible')) {
-                $('.navPaginacao').addClass('invisible');
-            }
+            $('.navPaginacao').addClass('invisible');
         }
+    }
+
+    function ativaBtnAvanco(pagina) {
+        $('.pgVoltar, .pgAvancar').removeClass('disabled');
+        if (pagina === 1) {
+            $('.pgVoltar').addClass('disabled');
+        }
+        if (pagina === Math.ceil(totalRegistros / 30)) {
+            $('.pgAvancar').addClass('disabled');
+        }
+
+        // Atualiza o estado do botão "active"
+        $('.pgNumBTN').removeClass('active');
+        $(`#pgNum${pagina}`).addClass('active');
     }
 
     function puxarVagas(inicio) {
         $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagas/${inicio}`)
             .done(function (data) {
-                // Assumindo que o JSON retornado tem 'total_registros' e 'vagas'
-                vagasJson = data.vagas;
-                totalRegistros = data.total_registros;
+                vagasJson = data.vagas || [];
+                totalRegistros = data.total_registros || 0;
+                console.log(`Total de registros: ${totalRegistros}`, vagasJson);
 
-                console.log(`Total de registros: ${totalRegistros}`);
-                console.log(vagasJson);
-
-                if (inicio == 0) {
+                if (inicio === 0) {
                     paginacao(totalRegistros);
                 }
 
-                // Limpa a lista de vagas antes de adicionar novos itens
                 listaVagas.empty();
-                // adicionar vagas
                 if (vagasJson.length === 0) {
                     listaVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
                 } else {
@@ -80,49 +72,52 @@ $(document).ready(function () {
                                 </div>
                                 <p class="mt-1 mb-1">${vaga.descricao}</p>
                                 <small>Encerramento: ${dataEncerramento}</small>
-                            </button>`);
+                            </button>
+                        `);
                     });
                 }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                // Mostrar mensagem de erro
+            .fail(function (jqXHR, textStatus) {
                 corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
                 toastInformacao.show();
-                console.log(errorThrown);
+                console.error('Erro ao obter os dados:', textStatus);
             });
     }
 
-
     // Inicializa as vagas
     puxarVagas(0);
-    pagAtual = 1;
-
 
     $('.pgNumeros').on('click', '.pgNumBTN', function () {
         if (!$(this).hasClass('active')) {
-            $('.pgNumBTN').removeClass('active');
-            $('.page-item').removeClass('disabled');
-            $(this).addClass('active');
-            puxarVagas(30 * ($(this).val() - 1));
-            if ($(this).val() == 1) {
-                $('.pgVoltar').addClass('disabled');
-            } else if ($(this).val() == Math.ceil(totalRegistros / 30)) {
-                $('.pgAvancar').addClass('disabled');
-            }
-            pagAtual = $(this).val();
+            const novaPagina = parseInt($(this).val(), 10);
+            ativaBtnAvanco(novaPagina);
+            paginaAtual = novaPagina;
+            puxarVagas(30 * (paginaAtual - 1));
+            $('#listaVagas').scrollTop(0);
         }
     });
 
-
     $('.pgVoltar').click(function () {
-        //voltarBTN
+        if (paginaAtual > 1) {
+            paginaAtual--;
+            ativaBtnAvanco(paginaAtual);
+            puxarVagas(30 * (paginaAtual - 1));
+            $('#listaVagas').scrollTop(0);
+        }
+    });
+
+    $('.pgAvancar').click(function () {
+        if (paginaAtual < Math.ceil(totalRegistros / 30)) {
+            paginaAtual++;
+            ativaBtnAvanco(paginaAtual);
+            puxarVagas(30 * (paginaAtual - 1));
+            $('#listaVagas').scrollTop(0);
+        }
     });
 
     blocoVagas.on('click', '.btnVaga', function () {
         const vagaVizualizar = vagasJson[$(this).val()];
         console.log(vagaVizualizar);
-
+        // Adicione lógica para exibir detalhes da vaga, se necessário
     });
-
-
 });

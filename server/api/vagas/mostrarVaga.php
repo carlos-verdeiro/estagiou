@@ -1,18 +1,39 @@
 <?php
 session_start();
 
+// Verificação se a sessão foi iniciada corretamente
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    http_response_code(500); // Erro interno do servidor
+    echo json_encode(['mensagem' => 'Erro ao iniciar a sessão.', 'code' => 3]);
+    exit;
+}
+
+// Verificação do método de requisição
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405); // Método não permitido
     echo json_encode(['mensagem' => 'Método de requisição inválido.', 'code' => 1]);
     exit;
 }
 
+// Sanitização e processamento da URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
+// Validação do segmento da URI
+if (!isset($uri[5]) || empty($uri[5])) {
+    http_response_code(404); // Não encontrado
+    echo json_encode(['mensagem' => 'Recurso não especificado.', 'code' => 4]);
+    exit;
+}
+
 switch ($uri[5]) {
     case 'empresaVagas':
-        if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'empresa') {
+        // Verificação de autenticação e tipo de usuário
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'empresa'
+        ) {
             http_response_code(401); // Não autorizado
             echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
             exit;
@@ -37,10 +58,9 @@ switch ($uri[5]) {
             }
 
             $result = $stmt->get_result();
-            $vagas = array();
+            $vagas = [];
 
             if ($result->num_rows > 0) {
-                // Converte cada linha de resultado em um array associativo
                 while ($row = $result->fetch_assoc()) {
                     $vagas[] = $row;
                 }
@@ -51,8 +71,6 @@ switch ($uri[5]) {
 
             // Define o cabeçalho para JSON
             header('Content-Type: application/json');
-
-            // Imprime o JSON
             echo $json_data;
 
             $stmt->close();
@@ -60,31 +78,25 @@ switch ($uri[5]) {
             http_response_code(500); // Erro interno do servidor
             echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
         } finally {
-            // Fechar a conexão
             if (isset($conn)) $conn->close();
         }
         break;
 
     case 'estagiarioVagas':
-        if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] !== 'estagiario') {
+        // Verificação de autenticação e tipo de usuário
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'estagiario'
+        ) {
             http_response_code(401); // Não autorizado
             echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
             exit;
         }
 
         $idEstagiario = $_SESSION['idUsuarioLogin'];
-
-        if (isset($uri[6]) && is_numeric($uri[6])) {
-            $partida = $uri[6];
-        } else {
-            $partida = 0;
-        }
-
-        if (isset($uri[7]) && is_numeric($uri[7])) {
-            $limiteBusca = $uri[7];
-        } else {
-            $limiteBusca = 30;
-        }
+        $partida = isset($uri[6]) && is_numeric($uri[6]) ? (int)$uri[6] : 0;
+        $limiteBusca = isset($uri[7]) && is_numeric($uri[7]) ? (int)$uri[7] : 30;
 
         try {
             // Inclui o arquivo de conexão
@@ -95,6 +107,7 @@ switch ($uri[5]) {
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
             }
+
             $statusVaga = 1;
             $stmt->bind_param("iii", $statusVaga, $limiteBusca, $partida);
 
@@ -103,10 +116,9 @@ switch ($uri[5]) {
             }
 
             $result = $stmt->get_result();
-            $vagas = array();
+            $vagas = [];
 
             if ($result->num_rows > 0) {
-                // Converte cada linha de resultado em um array associativo
                 while ($row = $result->fetch_assoc()) {
                     $vagas[] = $row;
                 }
@@ -117,6 +129,7 @@ switch ($uri[5]) {
             if (!$stmt_total) {
                 throw new Exception("Erro na preparação da consulta de contagem: " . $conn->error);
             }
+
             $stmt_total->bind_param("i", $statusVaga);
 
             if (!$stmt_total->execute()) {
@@ -134,8 +147,6 @@ switch ($uri[5]) {
 
             // Define o cabeçalho para JSON
             header('Content-Type: application/json');
-
-            // Imprime o JSON
             echo $json_data;
 
             // Fecha as consultas
@@ -145,7 +156,6 @@ switch ($uri[5]) {
             http_response_code(500); // Erro interno do servidor
             echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
         } finally {
-            // Fechar a conexão
             if (isset($conn)) $conn->close();
         }
         break;
@@ -157,4 +167,3 @@ switch ($uri[5]) {
 }
 
 exit;
-?>

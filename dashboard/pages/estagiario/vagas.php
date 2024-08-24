@@ -45,25 +45,25 @@
             </div>
         </div>
         <div class="card px-0" style="width: 18rem;">
-                                <div class="card-header">
-                                    <h5 class="card-title m-0">${vaga.titulo}</h5>
-                                </div>
-                                <div class="card-body">
-                                    <h6>Descrição:</h6>
-                                    <p class="card-text">${vaga.descricao}</p>
-                                    <h6>Requisitos:</h6>
-                                    <p class="card-text">${vaga.requisitos}</p>
-                                    <h6>Encerra:</h6>
-                                    <p class="card-text">${dataEncerramento}</p>
-                                    <h6>Publicado:</h6>
-                                    <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
-                                    <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                                    <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
-                                </div>
-                            </div>
+            <div class="card-header">
+                <h5 class="card-title m-0">${vaga.titulo}</h5>
+            </div>
+            <div class="card-body">
+                <h6>Descrição:</h6>
+                <p class="card-text">${vaga.descricao}</p>
+                <h6>Requisitos:</h6>
+                <p class="card-text">${vaga.requisitos}</p>
+                <h6>Encerra:</h6>
+                <p class="card-text">${dataEncerramento}</p>
+                <h6>Publicado:</h6>
+                <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
+                <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
+                <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
+            </div>
+        </div>
     </div>
 
 
@@ -80,4 +80,5 @@
             </div>
         </div>
     </div>
+
 </section>
