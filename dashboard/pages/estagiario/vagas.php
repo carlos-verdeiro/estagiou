@@ -60,10 +60,7 @@
                 <p class="card-text" id="blocoPublicacaoVaga">Publicação</p>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
-                <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal"
-                    data-bs-target="#modalEncerrar">Encerrar</button>
+                <button type="button" class="btn btn-primary sm btnVizualizarVaga">Vizualizar</button>
             </div>
         </div>
     </div>
