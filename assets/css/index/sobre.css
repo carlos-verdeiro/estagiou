@@ -26,7 +26,11 @@
 .equipe{
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
     align-items: center;
+    margin-left: 60px;
+    margin-bottom: 40px;
+    margin: 0;
 }
 .carlos{
     display: flex;
@@ -39,13 +43,13 @@
   width: 7em;
   aspect-ratio: 1/0.25;
   color: white;
-  background: #6f42c1;
+  background: #171717;
   background-size: cover;
   background-blend-mode: overlay;
   border-radius: 0.5em;
-  outline: 0.1em solid #6610f2;
+  outline: 0.1em solid #171717;
   border: 0;
-  box-shadow: solid #6610f2;
+  box-shadow: solid #171717;
   transition: all 0.3s ease-in-out;
   position: relative;
 
@@ -54,36 +58,81 @@
 .carlos:hover {
     transform: scale(1.1);
     box-shadow: 0 0 1em 0.45em rgba(0, 0, 0, 0.1);
-    background: linear-gradient(45deg, #6610f2, #6610f2);
-    background: radial-gradient(
-      circle at bottom,
-      rgba(50, 100, 180, 0.5) 10%,
-      #6610f2 70%
-    );
+    background: linear-gradient(45deg, #171717, #171717);
+    background: radial-gradient(circle at bottom, rgba(50, 100, 180, 0.5) 10%, #171717 70%);
     outline: 0;
 }
 
 .henrique{
-    background-color: blueviolet;
-    margin: 20px;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 19vw;
+    cursor: pointer;
+  padding: 1em;
+  font-size: medium;
+  width: 7em;
+  aspect-ratio: 1/0.25;
+  color: white;
+  background: #171717;
+  background-size: cover;
+  background-blend-mode: overlay;
+  border-radius: 0.5em;
+  outline: 0.1em solid #171717;
+  border: 0;
+  box-shadow: solid #171717;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+.henrique:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 1em 0.45em rgba(0, 0, 0, 0.1);
+    background: linear-gradient(45deg, #171717, #171717);
+    background: radial-gradient(circle at bottom, rgba(50, 100, 180, 0.5) 10%, #171717 70%);
+    outline: 0;
 }
 .wellington{
-    background-color: rgb(226, 43, 43);
-    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 19vw;
+    cursor: pointer;
+  padding: 1em;
+  font-size: medium;
+  width: 7em;
+  aspect-ratio: 1/0.25;
+  color: white;
+  background: #171717;
+  background-size: cover;
+  background-blend-mode: overlay;
+  border-radius: 0.5em;
+  outline: 0.1em solid #171717;
+  border: 0;
+  box-shadow: solid #171717;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+.wellington:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 1em 0.45em rgba(0, 0, 0, 0.1);
+    background: linear-gradient(45deg, #171717, #171717);
+    background: radial-gradient(circle at bottom, rgba(50, 100, 180, 0.5) 10%, #171717 70%);
+    outline: 0;
 }
 .teste .hoverTarget, .textChange {
     margin: 20px;
     padding: 20px;
-    border: 1px solid #000;
+    border: 1px solid #ffffff;
     display: inline-block;
+    color: white;
+    text-decoration: white;
 }
 .teste .hoverTarget{
     background-color: blue;
 
 }
 .teste .textChange{
-    background-color: #6610f2;
+    background-color: #ffffff;
     color: white;
 }
 .teste{
@@ -91,22 +140,124 @@
     display: flex;
     flex-direction: row;
     align-items: right;
+    height: 300px;
 }
-.rodape{
-    background-color: #6f42c1;
-    height: 100%;
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 160px;
+}
+
+.footer-content > div {
+  flex: 1;
+  margin: 10px;
+}
+
+.contact-info, .useful-links, .social-media {
+  color: #fff;
+}
+
+.contact-info h3, .useful-links h3, .social-media h3 {
+  margin-bottom: 10px;
+}
+
+.useful-links ul {
+  list-style: none;
+}
+
+.useful-links ul li {
+  margin-bottom: 5px;
+}
+
+.useful-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.useful-links a:hover {
+  text-decoration: underline;
+}
+
+.social-media .social-icon {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.social-media img {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid #444;
+  padding-top: 10px;
+  height: 20px;
+}
+.card {
+    width: 17em;
+    height: 22.5em;
+    background: #171717;
+    transition: 1s ease-in-out;
+    clip-path: polygon(30px 0%, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0% 30px);
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+  }
+  
+  .card span {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    display: block;
+    font-size: 1em;
+  }
+  
+  .card .info {
+    font-weight: 400;
+    color: white;
+    display: block;
+    text-align: center;
+    font-size: 0.72em;
+    margin: 1em;
+  }
+  
+  .card .img {
+    width: 4.8em;
+    height: 4.8em;
+    background: white;
+    border-radius: 15px;
+    margin: auto;
+  }
+  
+  .card .share {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+  }
+  
+  .card a {
+    color: white;
+    transition: .4s ease-in-out;
+  }
+  .card .textChange{
+    color: white;
+    text-decoration: white;
+  }
+  .parte2{
     flex-direction: row;
     display: flex;
     justify-content: center;
-    color: #6f42c1;
-    margin: 0;
-}
-.apoiar{
-    text-align: left;
-}
-.opcao1{
-    text-align: center;
-}
-.opcao2{
-    text-align: right;
-}
+    margin-bottom: 30px;
+  }
