@@ -103,7 +103,14 @@ switch ($uri[5]) {
             include_once '../../conexao.php';
 
             // Consulta para buscar os dados paginados
-            $stmt = $conn->prepare("SELECT * FROM vaga WHERE status = ? ORDER BY titulo LIMIT ? OFFSET ?");
+        $stmt = $conn->prepare("SELECT vaga.*, empresa.nome AS empresa_nome 
+                FROM vaga
+                INNER JOIN empresa ON vaga.empresa_id = empresa.id
+                WHERE vaga.status = ?
+                ORDER BY vaga.titulo
+                LIMIT ?
+                OFFSET ?;
+                ");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
             }

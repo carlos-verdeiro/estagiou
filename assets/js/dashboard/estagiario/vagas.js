@@ -66,12 +66,16 @@ $(document).ready(function () {
                         const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
                         listaVagas.append(`
                             <button class="list-group-item btnVaga list-group-item-action p-3" value="${index}">
-                                <div class="d-flex w-100 justify-content-between">
+                                <div class="d-flex w-100 justify-content-around">
+                                    <h5 class="mb-1">${vaga.empresa_nome}</h5>
                                     <h5 class="mb-1">${vaga.titulo}</h5>
-                                    <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
                                 </div>
                                 <p class="mt-1 mb-1">${vaga.descricao}</p>
-                                <small>Encerramento: ${dataEncerramento}</small>
+
+                                <div class="d-flex w-100 justify-content-around">
+                                    <small>Encerramento: ${dataEncerramento}</small>
+                                    <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
+                                </div>
                             </button>
                         `);
                     });
@@ -86,6 +90,30 @@ $(document).ready(function () {
 
     // Inicializa as vagas
     puxarVagas(0);
+
+    function vagaBlocoDetalhe(status, vaga) {
+        let cardGeral = $('#cardGeralVaga');
+        switch (status) {
+            case 1://ativa
+
+                $('#blocoTituloVaga').text(vaga.titulo);
+                $('#blocoDescricaoVaga').text(vaga.descricao);
+                $('#blocoRequisitosVaga').text(vaga.requisitos);
+                $('#blocoencerramentoVaga').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
+                $('#blocoPublicacaoVaga').text(vaga.data_publicacao);
+
+                if (cardGeral.hasClass('d-none')) {
+                    cardGeral.removeClass('d-none');
+                }
+                break;
+                
+            default://desativa
+                if (!cardGeral.hasClass('d-none')) {
+                    cardGeral.addClass('d-none');
+                }
+                break;
+        }
+    }
 
     $('.pgNumeros').on('click', '.pgNumBTN', function () {
         if (!$(this).hasClass('active')) {
@@ -118,6 +146,6 @@ $(document).ready(function () {
     blocoVagas.on('click', '.btnVaga', function () {
         const vagaVizualizar = vagasJson[$(this).val()];
         console.log(vagaVizualizar);
-        // Adicione lógica para exibir detalhes da vaga, se necessário
+        vagaBlocoDetalhe(1, vagaVizualizar);
     });
 });

@@ -22,7 +22,8 @@
                     </li>
                     <li class="ms-auto">
                         <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Titulo, Cidade..." aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Titulo, Cidade..."
+                                aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Pesquisar</button>
                         </form>
                     </li>
@@ -44,24 +45,25 @@
                 </nav>
             </div>
         </div>
-        <div class="card px-0" style="width: 18rem;">
+        <div class="card px-0 d-none" id="cardGeralVaga" style="width: 18rem;">
             <div class="card-header">
-                <h5 class="card-title m-0">${vaga.titulo}</h5>
+                <h5 class="card-title m-0" id="blocoTituloVaga">Titulo</h5>
             </div>
             <div class="card-body">
                 <h6>Descrição:</h6>
-                <p class="card-text">${vaga.descricao}</p>
+                <p class="card-text" id="blocoDescricaoVaga">Descrição</p>
                 <h6>Requisitos:</h6>
-                <p class="card-text">${vaga.requisitos}</p>
+                <p class="card-text" id="blocoRequisitosVaga">Requisitos</p>
                 <h6>Encerra:</h6>
-                <p class="card-text">${dataEncerramento}</p>
+                <p class="card-text" id="blocoencerramentoVaga">Encerramento</p>
                 <h6>Publicado:</h6>
-                <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
+                <p class="card-text" id="blocoPublicacaoVaga">Publicação</p>
             </div>
             <div class="card-footer">
                 <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
                 <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
+                <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal"
+                    data-bs-target="#modalEncerrar">Encerrar</button>
             </div>
         </div>
     </div>
