@@ -104,6 +104,7 @@ $(document).ready(function () {
                 $('#blocoencerramentoVaga').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
                 $('#blocoPublicacaoVaga').text(formatarData(vaga.data_publicacao));
                 $('.btnVizualizarVaga').val(index);
+                $('.inscreverVaga').val(vaga.id);
 
                 if (cardGeral.hasClass('d-none')) {
                     cardGeral.removeClass('d-none');
@@ -118,14 +119,14 @@ $(document).ready(function () {
         }
     }
 
-    function vagaModalDetalhe(vaga, index) {
+    function vagaModalDetalhe(vaga) {
 
         $('#tituloVagaModal').text(vaga.titulo);
         $('#descricaoVagaModal').text(vaga.descricao);
         $('#requisitosVagaModal').text(vaga.requisitos);
         $('#dataEncerramentoVagaModal').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
         $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
-        $('.btnVizualizarVaga').val(index);
+        $('.inscreverVaga').val(vaga.id);
         modalVaga.modal('show');
 
     }
@@ -169,6 +170,26 @@ $(document).ready(function () {
 
     $('#btnVizualizarVaga').click(function () {
         const vagaVizualizar = vagasJson[$(this).val()];
-        vagaModalDetalhe(vagaVizualizar, $(this).val());
+        vagaModalDetalhe(vagaVizualizar);
     });
+
+    $('#inscreverVagaModal').click(function () {
+        const vaga = $(this).val();
+
+        const data = { idVaga: vaga };
+
+        $.post(
+            "../../server/api/vagas/candVaga.php",
+            data,
+            function (response, textStatus, jqXHR) {
+                corpoToastInformacao.text(response);
+                toastInformacao.show();
+            }
+        ).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error('Erro:', textStatus, errorThrown);
+            corpoToastInformacao.text(`Erro ao candidatar-se`);
+            toastInformacao.show();
+        });
+    });
+
 });

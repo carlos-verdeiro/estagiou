@@ -93,7 +93,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnModalCancelarVaga" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Inscrever-se</button>
+                    <button type="button" class="btn btn-primary inscreverVaga" id="inscreverVagaModal">Inscrever-se</button>
                 </div>
             </div>
         </div>
