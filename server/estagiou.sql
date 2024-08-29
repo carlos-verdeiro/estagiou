@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/08/2024 às 06:54
+-- Tempo de geração: 29/08/2024 às 03:36
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -24,6 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `candidatura`
+--
+
+CREATE TABLE `candidatura` (
+  `id` int(11) NOT NULL,
+  `id_estagiario` int(11) NOT NULL,
+  `id_vaga` int(11) NOT NULL,
+  `data_candidatura` timestamp NOT NULL DEFAULT current_timestamp(),
+  `obsercacao` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `curriculo`
 --
 
@@ -37,6 +51,13 @@ CREATE TABLE `curriculo` (
   `observacoes` text NOT NULL,
   `estagiario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `curriculo`
+--
+
+INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
+(79, '2024-08-09', 'Digitalização – 2024-07-19 10_49_41.pdf', 'application/pdf', 5548678, '66b5a55702ff9.pdf', '', 41);
 
 -- --------------------------------------------------------
 
@@ -78,7 +99,7 @@ CREATE TABLE `empresa` (
 --
 
 INSERT INTO `empresa` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `area_atuacao`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(1, 'Estagiou', '4499156772', 'tccestagiou@gmail.com', '$2y$10$Eh4uTxJwIGXWiUciRf4jFuc4MMjRDjO42acW.z6fjUJGAcIh2tKW.', '06977198000144', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Desenvolvedor', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Website', 'Empresa de sistema de estagio', 'estagiou.com', '', '', '', 1, '2024-07-20 20:15:02');
+(3, 'Estagiou', '4499156772', 'tccestagiou@gmail.com', '$2y$10$Eh4uTxJwIGXWiUciRf4jFuc4MMjRDjO42acW.z6fjUJGAcIh2tKW.', '06977198000144', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Desenvolvedor', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Website', 'Empresa de sistema de estagio', 'estagiou.com', '', '', '', 1, '2024-07-20 20:15:02');
 
 -- --------------------------------------------------------
 
@@ -87,7 +108,7 @@ INSERT INTO `empresa` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `ende
 --
 
 CREATE TABLE `escola` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -120,7 +141,7 @@ CREATE TABLE `escola` (
 --
 
 INSERT INTO `escola` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `niveis_ensino`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(1, 'Arruda Mello', '4499156772', 'arrudamello@gmail.com', '$2y$10$FpPPpytBX/FcQjgYI3.6XuhS6ebT.pN67V75maPZ0NDOe7gkZ2x5W', '03569351000106', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Estudante', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Médio, Técnico', 'Escola de ensino médio e técnico', 'etecarrudamello.cps.sp.gov.br', '', '', '', 1, '2024-07-20 20:13:58');
+(5, 'Arruda Mello', '4499156772', 'arrudamello@gmail.com', '$2y$10$FpPPpytBX/FcQjgYI3.6XuhS6ebT.pN67V75maPZ0NDOe7gkZ2x5W', '03569351000106', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Estudante', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Médio, Técnico', 'Escola de ensino médio e técnico', 'etecarrudamello.cps.sp.gov.br', '', '', '', 1, '2024-07-20 20:13:58');
 
 -- --------------------------------------------------------
 
@@ -166,7 +187,7 @@ CREATE TABLE `estagiario` (
 --
 
 INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`) VALUES
-(1, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-08-09 04:51:47', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL);
+(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-08-09 05:12:55', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 79);
 
 -- --------------------------------------------------------
 
@@ -175,7 +196,7 @@ INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_c
 --
 
 CREATE TABLE `vaga` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) NOT NULL,
   `empresa_id` int(10) UNSIGNED NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
@@ -190,11 +211,20 @@ CREATE TABLE `vaga` (
 --
 
 INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `status`) VALUES
-(1, 1, 'fd', 'fsdfasd', 'sdfdsad', '2024-08-09 03:10:40', NULL, 1);
+(195, 3, 'dasd', 'ddsad', 'dasd', '2024-08-24 12:15:53', NULL, 1),
+(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24 12:16:12', '2024-08-22 12:15:00', 1);
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `candidatura`
+--
+ALTER TABLE `candidatura`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estrangeiro_estagiario` (`id_estagiario`),
+  ADD KEY `estrangeiro_vaga` (`id_vaga`);
 
 --
 -- Índices de tabela `curriculo`
@@ -242,38 +272,51 @@ ALTER TABLE `vaga`
 --
 
 --
+-- AUTO_INCREMENT de tabela `candidatura`
+--
+ALTER TABLE `candidatura`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `escola`
 --
 ALTER TABLE `escola`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `estagiario`
 --
 ALTER TABLE `estagiario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
 --
 ALTER TABLE `vaga`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `candidatura`
+--
+ALTER TABLE `candidatura`
+  ADD CONSTRAINT `estrangeiro_estagiario` FOREIGN KEY (`id_estagiario`) REFERENCES `estagiario` (`id`),
+  ADD CONSTRAINT `estrangeiro_vaga` FOREIGN KEY (`id_vaga`) REFERENCES `vaga` (`id`);
 
 --
 -- Restrições para tabelas `curriculo`
