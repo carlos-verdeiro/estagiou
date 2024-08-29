@@ -66,7 +66,7 @@
     </div>
 
     <!-- Modal Vaga-->
-    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1"  aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -75,19 +75,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="descricaoVagaModal" class="form-label">Descrição:</label>
+                        <h6 for="descricaoVagaModal" class="form-label">Descrição:</h6>
                         <p id="descricaoVagaModal">Descrição</p>
                     </div>
                     <div class="mb-3">
-                        <label for="requisitosVagaModal" class="form-label">Requisitos:</label>
+                        <h6 for="requisitosVagaModal" class="form-label">Requisitos:</h6>
                         <p id="requisitosVagaModal">Requisitos</p>
                     </div>
                     <div class="mb-3">
-                        <label for="dataEncerramentoVagaModal" class="form-label">Encerramento das inscrições:</label>
+                        <h6 for="dataEncerramentoVagaModal" class="form-label">Encerramento das inscrições:</h6>
                         <p id="dataEncerramentoVagaModal">00/00/0000</p>
                     </div>
                     <div class="mb-3">
-                        <label for="dataPublicacaoVagaModal" class="form-label">Data de Publicação:</label>
+                        <h6 for="dataPublicacaoVagaModal" class="form-label">Data de Publicação:</h6>
                         <p id="dataPublicacaoVagaModal">00/00/0000</p>
                     </div>
                 </div>

@@ -175,13 +175,13 @@ $(document).ready(function () {
 
     $('#inscreverVagaModal').click(function () {
         const vaga = $(this).val();
-
         const data = { idVaga: vaga };
 
         $.post(
             "../../server/api/vagas/candVaga.php",
             data,
             function (response, textStatus, jqXHR) {
+                modalVaga.modal('hide');
                 corpoToastInformacao.text(response);
                 toastInformacao.show();
             }
