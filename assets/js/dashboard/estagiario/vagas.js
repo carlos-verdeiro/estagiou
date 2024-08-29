@@ -8,6 +8,8 @@ $(document).ready(function () {
     let vagasJson = [];
     let totalRegistros = 0;
     let paginaAtual = 1;
+    //Modal vaga
+    let modalVaga = $('#modalVaga');
 
     function formatarData(data) {
         if (!data) return 'Não programado';
@@ -91,7 +93,7 @@ $(document).ready(function () {
     // Inicializa as vagas
     puxarVagas(0);
 
-    function vagaBlocoDetalhe(status, vaga) {
+    function vagaBlocoDetalhe(status, vaga, index) {
         let cardGeral = $('#cardGeralVaga');
         switch (status) {
             case 1://ativa
@@ -101,13 +103,13 @@ $(document).ready(function () {
                 $('#blocoRequisitosVaga').text(vaga.requisitos);
                 $('#blocoencerramentoVaga').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
                 $('#blocoPublicacaoVaga').text(formatarData(vaga.data_publicacao));
-                $('.btnVizualizarVaga').val(vaga.id);
+                $('.btnVizualizarVaga').val(index);
 
                 if (cardGeral.hasClass('d-none')) {
                     cardGeral.removeClass('d-none');
                 }
                 break;
-                
+
             default://desativa
                 if (!cardGeral.hasClass('d-none')) {
                     cardGeral.addClass('d-none');
@@ -115,6 +117,19 @@ $(document).ready(function () {
                 break;
         }
     }
+
+    function vagaModalDetalhe(vaga, index) {
+
+        $('#tituloVagaModal').text(vaga.titulo);
+        $('#descricaoVagaModal').text(vaga.descricao);
+        $('#requisitosVagaModal').text(vaga.requisitos);
+        $('#dataEncerramentoVagaModal').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
+        $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
+        $('.btnVizualizarVaga').val(index);
+        modalVaga.modal('show');
+
+    }
+
 
     $('.pgNumeros').on('click', '.pgNumBTN', function () {
         if (!$(this).hasClass('active')) {
@@ -144,10 +159,16 @@ $(document).ready(function () {
         }
     });
 
+
     blocoVagas.on('click', '.btnVaga', function () {
         const vagaVizualizar = vagasJson[$(this).val()];
-        vagaBlocoDetalhe(1, vagaVizualizar);
+        vagaBlocoDetalhe(1, vagaVizualizar, $(this).val());
         $('.btnVaga').removeClass('active');
         $(this).addClass('active');
+    });
+
+    $('#btnVizualizarVaga').click(function () {
+        const vagaVizualizar = vagasJson[$(this).val()];
+        vagaModalDetalhe(vagaVizualizar, $(this).val());
     });
 });

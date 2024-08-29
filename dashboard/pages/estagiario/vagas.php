@@ -60,12 +60,44 @@
                 <p class="card-text" id="blocoPublicacaoVaga">Publicação</p>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-primary sm btnVizualizarVaga">Vizualizar</button>
+                <button type="button" class="btn btn-primary sm btnVizualizarVaga" id="btnVizualizarVaga">Vizualizar</button>
             </div>
         </div>
     </div>
 
-
+    <!-- Modal Vaga-->
+    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="tituloVagaModal">Título</h1>
+                    <button type="button" id="btnFecharModalVaga" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="descricaoVagaModal" class="form-label">Descrição:</label>
+                        <p id="descricaoVagaModal">Descrição</p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="requisitosVagaModal" class="form-label">Requisitos:</label>
+                        <p id="requisitosVagaModal">Requisitos</p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dataEncerramentoVagaModal" class="form-label">Encerramento das inscrições:</label>
+                        <p id="dataEncerramentoVagaModal">00/00/0000</p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dataPublicacaoVagaModal" class="form-label">Data de Publicação:</label>
+                        <p id="dataPublicacaoVagaModal">00/00/0000</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnModalCancelarVaga" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Inscrever-se</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--TOAST INFORMAÇÃO-->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
