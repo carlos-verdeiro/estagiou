@@ -15,10 +15,10 @@
             <div class="container-sm bg-light p-3 rounded">
                 <ul class="nav nav-tabs d-flex flex-wrap-reverse">
                     <li class="nav-item">
-                        <a class="nav-link active " aria-current="page" href="#">Todas</a>
+                        <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Todas</button>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Minhas</a>
+                        <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Minhas</button>
                     </li>
                     <li class="ms-auto">
                         <form class="d-flex" role="search">

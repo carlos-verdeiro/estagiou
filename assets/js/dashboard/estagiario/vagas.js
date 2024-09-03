@@ -54,7 +54,8 @@ $(document).ready(function () {
             .done(function (data) {
                 vagasJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
-                console.log(`Total de registros: ${totalRegistros}`, vagasJson);
+                candidaturas = data.candidatura || null;
+                console.log(`Total de registros: ${totalRegistros}`, candidaturas, vagasJson);
 
                 if (inicio === 0) {
                     paginacao(totalRegistros);
@@ -63,6 +64,48 @@ $(document).ready(function () {
                 listaVagas.empty();
                 if (vagasJson.length === 0) {
                     listaVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
+                } else {
+                    vagasJson.forEach((vaga, index) => {
+                        const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
+                        listaVagas.append(`
+                            <button class="list-group-item btnVaga list-group-item-action p-3 activate" value="${index}">
+                                <div class="d-flex w-100 justify-content-around">
+                                    <h5 class="mb-1">${vaga.empresa_nome}</h5>
+                                    <h5 class="mb-1">${vaga.titulo}</h5>
+                                </div>
+                                <p class="mt-1 mb-1">${vaga.descricao}</p>
+
+                                <div class="d-flex w-100 justify-content-around">
+                                    <small>Encerramento: ${dataEncerramento}</small>
+                                    <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
+                                </div>
+                            </button>
+                        `);
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', textStatus);
+            });
+    }
+
+    function puxarMinhasVagas(inicio) {
+        $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagasCandidato/${inicio}`)
+            .done(function (data) {
+                vagasJson = data.vagas || [];
+                totalRegistros = data.total_registros || 0;
+                candidaturas = data.candidatura || null;
+                console.log(`Minhas vagas => Total de registros: ${totalRegistros}`, candidaturas, vagasJson);
+
+                if (inicio === 0) {
+                    paginacao(totalRegistros);
+                }
+
+                listaVagas.empty();
+                if (vagasJson.length === 0) {
+                    listaVagas.append('<h3 class="text-center">Não há vagas candidatadas</h3>');
                 } else {
                     vagasJson.forEach((vaga, index) => {
                         const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
@@ -131,7 +174,7 @@ $(document).ready(function () {
 
     }
 
-
+    //paginação
     $('.pgNumeros').on('click', '.pgNumBTN', function () {
         if (!$(this).hasClass('active')) {
             const novaPagina = parseInt($(this).val(), 10);
@@ -159,6 +202,24 @@ $(document).ready(function () {
             $('#listaVagas').scrollTop(0);
         }
     });
+    //paginação
+
+    //navVagas
+    $('.navPage').click(function () {
+        if(!$(this).hasClass('active')){
+            vagaBlocoDetalhe();//desaparece datalhes
+            if ($(this).attr('id')=='navPageTodas') {
+                $('.navPage').removeClass('active');
+                $('#navPageTodas').addClass('active');
+                puxarVagas(0);//carrega TODAS as vagas
+            }else if ($(this).attr('id')=='navPageMinhas') {
+                $('.navPage').removeClass('active');
+                $('#navPageMinhas').addClass('active');
+                puxarMinhasVagas(0);//carrega SOMENTE CANDIDATADAS
+            }
+        }
+    });
+    //navVagas
 
 
     blocoVagas.on('click', '.btnVaga', function () {
@@ -167,6 +228,7 @@ $(document).ready(function () {
         $('.btnVaga').removeClass('active');
         $(this).addClass('active');
     });
+
 
     $('#btnVizualizarVaga').click(function () {
         const vagaVizualizar = vagasJson[$(this).val()];
