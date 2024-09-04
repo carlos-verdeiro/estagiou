@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="container text-center row d-flex align-items-center justify-content-center">
+    <div class="container text-center row d-flex align-items-start justify-content-center">
         <div class="col m-1">
             <div class="container-sm bg-light p-3 rounded">
                 <ul class="nav nav-tabs d-flex flex-wrap-reverse">

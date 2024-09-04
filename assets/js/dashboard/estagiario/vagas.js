@@ -63,11 +63,12 @@ $(document).ready(function () {
 
                 listaVagas.empty();
                 if (vagasJson.length === 0) {
-                    listaVagas.append('<h3 class="text-center">Não há vagas cadastradas</h3>');
+                    listaVagas.html('<h3 class="text-center">Não há vagas cadastradas</h3>');
                 } else {
                     vagasJson.forEach((vaga, index) => {
-                        const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
-                        listaVagas.append(`
+                        if (!vaga.candidatou) {
+                            const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
+                            listaVagas.append(`
                             <button class="list-group-item btnVaga list-group-item-action p-3 activate" value="${index}">
                                 <div class="d-flex w-100 justify-content-around">
                                     <h5 class="mb-1">${vaga.empresa_nome}</h5>
@@ -81,7 +82,11 @@ $(document).ready(function () {
                                 </div>
                             </button>
                         `);
+                        }
                     });
+                    if (listaVagas.children().length === 0) {
+                        listaVagas.html('<h3 class="text-center">Não há vagas</h3>');
+                    }
                 }
             })
             .fail(function (jqXHR, textStatus) {
@@ -147,7 +152,7 @@ $(document).ready(function () {
                 $('#blocoencerramentoVaga').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
                 $('#blocoPublicacaoVaga').text(formatarData(vaga.data_publicacao));
                 $('.btnVizualizarVaga').val(index);
-                $('.inscreverVaga').val(vaga.id);
+                $('.inscreverVaga').val(index);
 
                 if (cardGeral.hasClass('d-none')) {
                     cardGeral.removeClass('d-none');
@@ -162,14 +167,25 @@ $(document).ready(function () {
         }
     }
 
-    function vagaModalDetalhe(vaga) {
+    function vagaModalDetalhe(vaga, index) {
 
         $('#tituloVagaModal').text(vaga.titulo);
         $('#descricaoVagaModal').text(vaga.descricao);
         $('#requisitosVagaModal').text(vaga.requisitos);
         $('#dataEncerramentoVagaModal').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
         $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
-        $('.inscreverVaga').val(vaga.id);
+        $('.inscreverVaga').val(index);
+        if (vaga.candidatou == 0) {
+            $('.inscreverVaga').text('Inscrever-se');
+            $('.inscreverVaga').removeClass('btn-primary');
+            $('.inscreverVaga').removeClass('btn-danger');
+            $('.inscreverVaga').addClass('btn-primary');
+        } else {
+            $('.inscreverVaga').text('Cancelar inscrição');
+            $('.inscreverVaga').removeClass('btn-primary');
+            $('.inscreverVaga').removeClass('btn-danger');
+            $('.inscreverVaga').addClass('btn-danger');
+        }
         modalVaga.modal('show');
 
     }
@@ -206,13 +222,13 @@ $(document).ready(function () {
 
     //navVagas
     $('.navPage').click(function () {
-        if(!$(this).hasClass('active')){
+        if (!$(this).hasClass('active')) {
             vagaBlocoDetalhe();//desaparece datalhes
-            if ($(this).attr('id')=='navPageTodas') {
+            if ($(this).attr('id') == 'navPageTodas') {
                 $('.navPage').removeClass('active');
                 $('#navPageTodas').addClass('active');
                 puxarVagas(0);//carrega TODAS as vagas
-            }else if ($(this).attr('id')=='navPageMinhas') {
+            } else if ($(this).attr('id') == 'navPageMinhas') {
                 $('.navPage').removeClass('active');
                 $('#navPageMinhas').addClass('active');
                 puxarMinhasVagas(0);//carrega SOMENTE CANDIDATADAS
@@ -232,12 +248,13 @@ $(document).ready(function () {
 
     $('#btnVizualizarVaga').click(function () {
         const vagaVizualizar = vagasJson[$(this).val()];
-        vagaModalDetalhe(vagaVizualizar);
+        vagaModalDetalhe(vagaVizualizar, $(this).val());
     });
 
     $('#inscreverVagaModal').click(function () {
-        const vaga = $(this).val();
-        const data = { idVaga: vaga };
+        const idV = $(this).val()
+        const vaga = vagasJson[idV];
+        const data = { idVaga: vaga.id};
 
         $.post(
             "../../server/api/vagas/candVaga.php",
@@ -246,6 +263,18 @@ $(document).ready(function () {
                 modalVaga.modal('hide');
                 corpoToastInformacao.text(response);
                 toastInformacao.show();
+                if (response == "Inscrição realizada!") {
+                    vagasJson[idV].candidatou = 1;
+                } else if (response == "Inscrição excluída!") {
+                
+                    vagasJson[idV].candidatou = 0;
+                }
+                console.log(vagasJson);
+                if ($('#navPageTodas').hasClass('active')) {
+                    puxarVagas(0);
+                } else {
+                    puxarMinhasVagas(0);
+                }
             }
         ).fail(function (jqXHR, textStatus, errorThrown) {
             console.error('Erro:', textStatus, errorThrown);

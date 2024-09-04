@@ -118,6 +118,8 @@ switch ($uri[5]) {
             }
 
             $statusVaga = 1;
+            $candidatado = 0;
+
             $stmt->bind_param("iiii", $idEstagiario, $statusVaga, $limiteBusca, $partida);
 
             if (!$stmt->execute()) {
