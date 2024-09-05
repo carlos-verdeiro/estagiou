@@ -72,7 +72,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Talentos</h5>
                         <p class="card-text">Veja o banco de talentos.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" value="talentos">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Vagas</h5>
                         <p class="card-text">Veja e publique suas vagas de estágio.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" value="vagas">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Seus Estagiários</h5>
                         <p class="card-text">Aqui você pode ver seus estagiarios contratados.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" value="estagiarios">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Notificações</h5>
                         <p class="card-text">Aqui você pode ver suas notificações.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" value="notificacoes">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -108,10 +108,11 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Mensagens</h5>
                         <p class="card-text">Converse com empresas.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" value="mensagens">Ver mais</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../assets/js/dashboard/empresa/menu.js"></script>
 </section>

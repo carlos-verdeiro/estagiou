@@ -69,7 +69,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Currículo</h5>
                         <p class="card-text">Publique seu currículo para que os contratantes possam ver.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" id="btnVerCurriculo" value="curriculo">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Vagas</h5>
                         <p class="card-text">Veja as vagas disponíveis para você.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" id="btnVerVagas" value="vagas">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Notificações</h5>
                         <p class="card-text">Aqui você pode ver suas notificações.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" id="btnVerNotificoes" value="notificacoes">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -96,10 +96,11 @@ try {
                     <div class="card-body">
                         <h5 class="card-title">Mensagens</h5>
                         <p class="card-text">Converse com empresas.</p>
-                        <button class="btn btn-primary">Ver mais</button>
+                        <button class="btn btn-primary btnMenus" id="btnVerMensagens" value="mensagens">Ver mais</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../assets/js/dashboard/estagiario/menu.js"></script>
 </section>
