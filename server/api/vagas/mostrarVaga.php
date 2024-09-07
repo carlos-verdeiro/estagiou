@@ -45,8 +45,18 @@ switch ($uri[5]) {
             // Inclui o arquivo de conexão
             include_once '../../conexao.php';
 
-            // Prepara a consulta para buscar as vagas da empresa
-            $stmt = $conn->prepare("SELECT * FROM vaga WHERE empresa_id = ?");
+            // Prepara a consulta para buscar as vagas da empresa com a contagem de candidatos
+            $stmt = $conn->prepare("
+                SELECT vaga.*, 
+                       IFNULL(candidaturas.total_candidatos, 0) AS total_candidatos
+                FROM vaga
+                LEFT JOIN (
+                    SELECT id_vaga, COUNT(*) AS total_candidatos
+                    FROM candidatura
+                    GROUP BY id_vaga
+                ) AS candidaturas ON vaga.id = candidaturas.id_vaga
+                WHERE vaga.empresa_id = ?
+            ");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
             }
@@ -81,6 +91,7 @@ switch ($uri[5]) {
             if (isset($conn)) $conn->close();
         }
         break;
+
 
     case 'estagiarioVagas':
         // Verificação de autenticação e tipo de usuário

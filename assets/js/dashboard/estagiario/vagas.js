@@ -8,6 +8,7 @@ $(document).ready(function () {
     let vagasJson = [];
     let totalRegistros = 0;
     let paginaAtual = 1;
+
     //Modal vaga
     let modalVaga = $('#modalVaga');
 
@@ -254,7 +255,7 @@ $(document).ready(function () {
     $('#inscreverVagaModal').click(function () {
         const idV = $(this).val()
         const vaga = vagasJson[idV];
-        const data = { idVaga: vaga.id};
+        const data = { idVaga: vaga.id };
 
         $.post(
             "../../server/api/vagas/candVaga.php",
@@ -266,7 +267,7 @@ $(document).ready(function () {
                 if (response == "Inscrição realizada!") {
                     vagasJson[idV].candidatou = 1;
                 } else if (response == "Inscrição excluída!") {
-                
+
                     vagasJson[idV].candidatou = 0;
                 }
                 console.log(vagasJson);

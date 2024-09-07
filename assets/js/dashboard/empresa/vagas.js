@@ -23,6 +23,9 @@ $(document).ready(function () {
     // MODAL EXCLUIR
     const btnModalExcluir = $('#btnModalExcluir');
 
+    // MODAL VAGA
+    let modalVaga = $('#modalVaga');
+
     function formatarData(data) {
         // Verifica se a data é válida
         if (!data) return 'Não programado';
@@ -61,6 +64,8 @@ $(document).ready(function () {
                                     <p class="card-text">${dataEncerramento}</p>
                                     <h6>Publicado:</h6>
                                     <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
+                                    <h6>Candidatos:</h6>
+                                    <p class="card-text">${vaga.total_candidatos}</p>
                                 </div>
                                 <div class="card-footer">
                                     <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
@@ -77,7 +82,68 @@ $(document).ready(function () {
             });
     }
 
-    
+    function paginacao(totalRegistros) {
+        const paginas = Math.ceil(totalRegistros / 30);
+        if (paginas > 1) {
+            $('.pgNumeros').empty();
+            for (let i = 1; i <= paginas; i++) {
+                const activeClass = i === 1 ? 'active' : '';
+                $('.pgNumeros').append(
+                    `<li class="pgNum" value="${i}">
+                        <button class="page-link pgNumBTN ${activeClass}" id="pgNum${i}" value="${i}">${i}</button>
+                    </li>`
+                );
+            }
+            $('.pgVoltar').toggleClass('disabled', true);
+        } else {
+            $('.navPaginacao').addClass('invisible');
+        }
+    }
+
+    function puxarCandidatos(vaga, index, inicio) {
+        $.getJSON(`../../server/api/vagas/candMostrar.php/${vaga.id}/${inicio}`)
+            .done(function (data) {
+                candidatosJson = data.vagas || [];
+                totalRegistros = data.total_registros || 0;
+                vaga = data.id || null;
+                console.log(`Total de registros: ${totalRegistros}`, vaga, candidatosJson);
+                listaCandidatos = $('#listaCandidatos');
+                if (inicio === 0) {
+                    paginacao(totalRegistros);
+                }
+
+                listaCandidatos.empty();
+                if (candidatosJson.length === 0) {
+                    listaCandidatos.html('<h5 class="text-center">Não há candidatos</h5>');
+                } else {
+                    candidatosJson.forEach((candidato, index) => {
+                        listaCandidatos.append(`
+                            <button class="list-group-item btnVaga list-group-item-action p-3 activate" value="${candidato.id}">
+                                <div class="d-flex w-100 justify-content-around">
+                                    <h5 class="mb-1">${candidato.nome} ${candidato.sobrenome}</h5>
+                                </div>
+                            </button>
+                        `);
+
+                    });
+                    if (listaCandidatos.children().length === 0) {
+                        listaCandidatos.html('<h5 class="text-center">Não há candidatos</h5>');
+                    }
+                }
+            })
+            .fail(function (jqXHR, textStatus) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', textStatus);
+            });
+    }
+
+    function vagaModalVizualizar(vaga, index) {
+        puxarCandidatos(vaga, index, 0)
+        $('#tituloVagaModal').text(vaga.titulo);
+
+        modalVaga.modal('show');
+    }
 
     function limparModalNovaVaga() {
         tituloModal.val('');
@@ -96,6 +162,8 @@ $(document).ready(function () {
         encerramentoEditarModal.prop('disabled', false);
         checkEncerramentoEditarModal.prop('checked', false);
     }
+
+
 
     // Inicializa as vagas
     puxarVagas();
@@ -219,6 +287,11 @@ $(document).ready(function () {
                 puxarVagas();
             }
         });
+    });
+
+    $('.blocosVagas').on('click', '.btnVizualizar', function () {
+        const vagaVizualizar = vagasJson[$(this).val()];
+        vagaModalVizualizar(vagaVizualizar, $(this).val());
     });
 
 });
