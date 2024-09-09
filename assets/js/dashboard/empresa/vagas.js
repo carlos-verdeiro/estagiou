@@ -1,6 +1,10 @@
 $(document).ready(function () {
 
     let vagasJson = null;
+    let limiteCand = 50;
+    let vagaAtual = null;
+    let paginaAtual = 1;
+
     const blocosVagas = $('.blocosVagas');
     const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
     const corpoToastInformacao = $('#corpoToastInformacao');
@@ -83,7 +87,7 @@ $(document).ready(function () {
     }
 
     function paginacao(totalRegistros) {
-        const paginas = Math.ceil(totalRegistros / 30);
+        const paginas = Math.ceil(totalRegistros / limiteCand);
         if (paginas > 1) {
             $('.pgNumeros').empty();
             for (let i = 1; i <= paginas; i++) {
@@ -98,6 +102,20 @@ $(document).ready(function () {
         } else {
             $('.navPaginacao').addClass('invisible');
         }
+    }
+
+    function ativaBtnAvanco(pagina) {
+        $('.pgVoltar, .pgAvancar').removeClass('disabled');
+        if (pagina === 1) {
+            $('.pgVoltar').addClass('disabled');
+        }
+        if (pagina === Math.ceil(totalRegistros / limiteCand)) {
+            $('.pgAvancar').addClass('disabled');
+        }
+
+        // Atualiza o estado do botão "active"
+        $('.pgNumBTN').removeClass('active');
+        $(`#pgNum${pagina}`).addClass('active');
     }
 
     function puxarCandidatos(vaga, index, inicio) {
@@ -118,7 +136,7 @@ $(document).ready(function () {
                 } else {
                     candidatosJson.forEach((candidato, index) => {
                         listaCandidatos.append(`
-                            <button class="list-group-item btnVaga list-group-item-action p-3 activate" value="${candidato.id}">
+                            <button class="list-group-item btnVaga list-group-item-action p-3"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id}">
                                 <div class="d-flex w-100 justify-content-around">
                                     <h5 class="mb-1">${candidato.nome} ${candidato.sobrenome}</h5>
                                 </div>
@@ -141,7 +159,8 @@ $(document).ready(function () {
     function vagaModalVizualizar(vaga, index) {
         puxarCandidatos(vaga, index, 0)
         $('#tituloVagaModal').text(vaga.titulo);
-
+        vagaAtual = vaga;
+        paginaAtual = 1;
         modalVaga.modal('show');
     }
 
@@ -230,7 +249,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#btnModalCancelarVaga').on('click', limparModalNovaVaga);
 
     checkEncerramentoModal.on('click', () => {
         if (encerramentoModal.prop('disabled')) {
@@ -289,9 +307,52 @@ $(document).ready(function () {
         });
     });
 
+    $('#teste').on('click', ()=>{
+        modalVaga.modal('hide');
+        $('#modalCandidato').modal('show');
+    });
+
     $('.blocosVagas').on('click', '.btnVizualizar', function () {
         const vagaVizualizar = vagasJson[$(this).val()];
         vagaModalVizualizar(vagaVizualizar, $(this).val());
     });
+    
+    $('.listaCandidatos').on('click', '.btnVaga', function () {
+        modalVaga.show('hide');
+        $('#modalCandidato').modal('show');
+
+    });
+
+    $('#btnModalCancelarVaga').on('click', limparModalNovaVaga);
+
+    //paginação
+    $('.pgNumeros').on('click', '.pgNumBTN', function () {
+        if (!$(this).hasClass('active')) {
+            const novaPagina = parseInt($(this).val(), 10);
+            ativaBtnAvanco(novaPagina);
+            paginaAtual = novaPagina;
+            puxarCandidatos(vagaAtual, 0, limiteCand * (paginaAtual - 1));
+            $('#modalVaga').scrollTop(0);
+        }
+    });
+
+    $('.pgVoltar').click(function () {
+        if (paginaAtual > 1) {
+            paginaAtual--;
+            ativaBtnAvanco(paginaAtual);
+            puxarCandidatos(vagaAtual, 0, limiteCand * (paginaAtual - 1));
+            $('#modalVaga').scrollTop(0);
+        }
+    });
+
+    $('.pgAvancar').click(function () {
+        if (paginaAtual < Math.ceil(totalRegistros / limiteCand)) {
+            paginaAtual++;
+            ativaBtnAvanco(paginaAtual);
+            puxarCandidatos(vagaAtual, 0, limiteCand * (paginaAtual - 1));
+            $('#modalVaga').scrollTop(0);
+        }
+    });
+    //paginação
 
 });

@@ -103,7 +103,7 @@
     </div>
 
     <!-- Modal Vaga Vizualizar-->
-    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade pgNumBTN" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,18 +113,40 @@
                 <div class="modal-body">
                     <h6>Candidatos:</h6>
                     <div class="list-group" id="listaCandidatos">
-                        <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
-                            The current button
-                        </button>
-                        <button type="button" class="list-group-item list-group-item-action">A second button item</button>
-                        <button type="button" class="list-group-item list-group-item-action">A third button item</button>
-                        <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
-                        <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button item</button>
+                        <!--Candidatos aqui-->
                     </div>
-
+                    <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item pgVoltar">
+                                <button class="page-link">Voltar</button>
+                            </li>
+                            <div class="page-item pgNumeros pagination d-flex flex-row">
+                            </div>
+                            <li class="page-item pgAvancar">
+                                <button class="page-link">Avançar</button>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnModalCancelarVaga" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal candidato-->
+    <div class="modal fade" id="modalCandidato" aria-hidden="true" aria-labelledby="modalCandidato" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalCandidatoTitulo">Modal 2</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#modalVaga" data-bs-toggle="modal">Voltar</button>
                 </div>
             </div>
         </div>

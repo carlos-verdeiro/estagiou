@@ -49,14 +49,14 @@ try {
         curriculo.caminho_arquivo
         FROM candidatura
         INNER JOIN estagiario ON candidatura.id_estagiario = estagiario.id
-        INNER JOIN curriculo ON estagiario.curriculo_id = curriculo.id
+        LEFT JOIN curriculo ON estagiario.curriculo_id = curriculo.id
         INNER JOIN vaga ON candidatura.id_vaga = vaga.id
         WHERE candidatura.id_vaga = ?
         AND vaga.empresa_id = ?
         AND candidatura.status != ?
         LIMIT ?
         OFFSET ?;
-        ");
+        ");//LEFT JOIN retorna todos independente se tem currículo
     if (!$stmt) {
         throw new Exception("Erro na preparação da consulta: " . $conn->error);
     }
