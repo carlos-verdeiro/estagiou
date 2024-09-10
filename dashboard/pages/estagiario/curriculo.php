@@ -59,19 +59,68 @@ try {
                     <div class="accordion-body">
                         <form class="p-4">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                <h5 for="experiencias" class="form-label">Escolaridade:</h5>
+                                <div class="row">
+                                    <div class="col">
+
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="fundIncom" class="form-check-input">
+                                            <label class="form-check-label" for="fundIncom">
+                                                Fundamental Incompleto
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="fundCom" class="form-check-input">
+                                            <label class="form-check-label" for="fundCom">
+                                                Fundamental Completo
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="medioIncom" class="form-check-input">
+                                            <label class="form-check-label" for="medioIncom">
+                                                Médio Incompleto
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="medioCom" class="form-check-input">
+                                            <label class="form-check-label" for="medioCom">
+                                                Médio Completo
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="supIncom" class="form-check-input">
+                                            <label class="form-check-label" for="supIncom">
+                                                Superior Incompleto
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="supCom" class="form-check-input">
+                                            <label class="form-check-label" for="supCom">
+                                                Superior Completo
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="posIncom" class="form-check-input">
+                                            <label class="form-check-label" for="posIncom">
+                                                Pós-Graduação Incompleto
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="escolaridade" id="posCom" class="form-check-input">
+                                            <label class="form-check-label" for="posCom">
+                                                Pós-Graduação Completo
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
+                                <label for="formacao" class="form-label">Coloque aqui suas experiências:</label>
+                                <textarea class="form-control" id="formacao" aria-describedby="formacao" style="height: 150px"></textarea>
                             </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
                         </form>
                     </div>
                 </div>
@@ -87,19 +136,10 @@ try {
                     <div class="accordion-body">
                         <form class="p-4">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                <label for="experiencias" class="form-label">Coloque aqui suas experiências:</label>
+                                <textarea class="form-control" id="experiencias" aria-describedby="experiencias" style="height: 150px"></textarea>
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
-                            </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
                         </form>
                     </div>
                 </div>
@@ -113,7 +153,6 @@ try {
         <div class="blocos col-md arquivo visually-hidden mt-2">
             <iframe id="iframeArquivo" frameborder="0" class="rounded"></iframe>
         </div>
-
 
         <div class="col-md mt-2 w-100">
             <div class="row formulario visually-hidden bg-light rounded" id="divInformacoes">
