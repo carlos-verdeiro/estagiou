@@ -29,71 +29,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             try {
                 // Verifica se já existe um currículo para o estagiário
-                $stmt0 = $conn->prepare("SELECT COUNT(*), caminho_arquivo FROM curriculo WHERE estagiario_id = ?");
+                $stmt0 = $conn->prepare("SELECT id, caminho_arquivo FROM curriculo WHERE estagiario_id = ?");
                 if (!$stmt0) {
                     throw new Exception("Erro na preparação da consulta para verificação: " . $conn->error);
                 }
 
                 $stmt0->bind_param('i', $estagiario_id);
                 $stmt0->execute();
-                $stmt0->bind_result($count, $caminho_arquivo);
+                $stmt0->bind_result($curriculo_id, $caminho_arquivo);
                 $stmt0->fetch();
                 $stmt0->close();
 
-                if ($count > 0) {
+                // Se já existir currículo, faça a atualização, caso contrário insira um novo
+                if (!empty($curriculo_id)) {
                     // Remove o arquivo antigo
                     $caminho_arquivo_antigo = "../../curriculos/" . $caminho_arquivo;
                     if (file_exists($caminho_arquivo_antigo)) {
                         unlink($caminho_arquivo_antigo);
                     }
-                }
 
-                // Faz o upload do novo arquivo
-                $uploadResposta = move_uploaded_file($arquivo['tmp_name'], $path);
-
-                // Inicia uma transação
-                $conn->begin_transaction();
-
-                if ($count > 0) {
-                    // Remove currículos antigos do banco de dados
-                    $stmt1 = $conn->prepare("DELETE FROM curriculo WHERE estagiario_id = ?");
-                    if (!$stmt1) {
-                        throw new Exception("Erro na preparação da consulta para remoção: " . $conn->error);
+                    // Faz o upload do novo arquivo
+                    if (!move_uploaded_file($arquivo['tmp_name'], $path)) {
+                        throw new Exception("Erro ao enviar o arquivo");
                     }
 
-                    $stmt1->bind_param('i', $estagiario_id);
-                    $stmt1->execute();
-                    $stmt1->close();
+                    // Atualiza o currículo existente no banco de dados
+                    $stmt2 = $conn->prepare("UPDATE curriculo SET data_submissao = ?, nome_arquivo = ?, tipo_arquivo = ?, tamanho_arquivo = ?, caminho_arquivo = ?, observacoes = ? WHERE id = ?");
+                    if (!$stmt2) {
+                        throw new Exception("Erro na preparação da consulta para atualização: " . $conn->error);
+                    }
+
+                    $stmt2->bind_param('sssissi', $data_submissao, $nome, $tipo, $tamanho, $novoNome, $observacoes, $curriculo_id);
+                    $stmt2->execute();
+                    $stmt2->close();
+                } else {
+                    // Faz o upload do novo arquivo
+                    if (!move_uploaded_file($arquivo['tmp_name'], $path)) {
+                        throw new Exception("Erro ao enviar o arquivo");
+                    }
+
+                    // Insere o novo currículo
+                    $stmt2 = $conn->prepare("INSERT INTO curriculo (estagiario_id, data_submissao, nome_arquivo, tipo_arquivo, tamanho_arquivo, caminho_arquivo, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    if (!$stmt2) {
+                        throw new Exception("Erro na preparação da consulta para inserção: " . $conn->error);
+                    }
+
+                    $stmt2->bind_param('isssiss', $estagiario_id, $data_submissao, $nome, $tipo, $tamanho, $novoNome, $observacoes);
+                    $stmt2->execute();
+                    $curriculo_id = $stmt2->insert_id;
+                    $stmt2->close();
+
+                    // Atualiza a tabela estagiario com o ID do novo currículo
+                    $stmt3 = $conn->prepare("UPDATE estagiario SET curriculo_id = ? WHERE id = ?");
+                    if (!$stmt3) {
+                        throw new Exception("Erro na preparação da consulta para atualização: " . $conn->error);
+                    }
+
+                    $stmt3->bind_param('ii', $curriculo_id, $estagiario_id);
+                    $stmt3->execute();
+                    $stmt3->close();
                 }
 
-                // Insere o novo currículo
-                $stmt2 = $conn->prepare("INSERT INTO curriculo (estagiario_id, data_submissao, nome_arquivo, tipo_arquivo, tamanho_arquivo, caminho_arquivo, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                if (!$stmt2) {
-                    throw new Exception("Erro na preparação da consulta para inserção: " . $conn->error);
-                }
-
-                $stmt2->bind_param('isssiss', $estagiario_id, $data_submissao, $nome, $tipo, $tamanho, $novoNome, $observacoes);
-                $stmt2->execute();
-
-                // Atualiza a tabela estagiario com o ID do novo currículo
-                $curriculo_id = $stmt2->insert_id;
-                $stmt2->close();
-
-                $stmt3 = $conn->prepare("UPDATE estagiario SET curriculo_id = ? WHERE id = ?");
-                if (!$stmt3) {
-                    throw new Exception("Erro na preparação da consulta para atualização: " . $conn->error);
-                }
-
-                if (!$uploadResposta) {
-                    throw new Exception("Erro ao enviar o arquivo");
-                }
-
-                $stmt3->bind_param('ii', $curriculo_id, $estagiario_id);
-                $stmt3->execute();
-                $stmt3->close();
-
-                // Commit da transação
-                $conn->commit();
                 echo "Currículo enviado com sucesso!";
             } catch (Exception $e) {
                 // Rollback em caso de exceção

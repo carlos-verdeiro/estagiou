@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/09/2024 às 13:56
+-- Tempo de geração: 10/09/2024 às 13:32
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -41,8 +41,72 @@ CREATE TABLE `candidatura` (
 --
 
 INSERT INTO `candidatura` (`id`, `id_estagiario`, `id_vaga`, `data_candidatura`, `observacao`, `status`) VALUES
-(22, 41, 195, '2024-08-29 23:22:19', NULL, 1),
-(23, 41, 196, '2024-09-03 11:53:54', NULL, 1);
+(47, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(48, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(50, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(51, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(53, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(54, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(56, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(57, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(59, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(60, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(62, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(63, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(65, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(66, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(68, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(69, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(71, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(72, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(74, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(75, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(77, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(78, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(80, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(81, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(83, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(84, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(86, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(87, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(89, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(90, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(92, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(93, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(95, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(96, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(98, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(99, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(101, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(102, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(104, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(105, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(107, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(108, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(110, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(111, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(113, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(114, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(116, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(117, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(120, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(121, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(123, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(124, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(126, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(127, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(129, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(130, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(132, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(133, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(135, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(136, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(138, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(139, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(141, 43, 195, '2024-09-08 14:02:22', NULL, 1),
+(142, 43, 196, '2024-09-08 14:02:24', NULL, 1),
+(144, 41, 195, '2024-09-10 00:19:05', NULL, 1),
+(145, 41, 196, '2024-09-10 00:54:36', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -66,7 +130,7 @@ CREATE TABLE `curriculo` (
 --
 
 INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
-(79, '2024-08-09', 'Digitalização – 2024-07-19 10_49_41.pdf', 'application/pdf', 5548678, '66b5a55702ff9.pdf', '', 41);
+(82, '2024-09-10', 'Curriculo_Carlos.pdf', 'application/pdf', 52520, '66df95b53e706.pdf', '', 41);
 
 -- --------------------------------------------------------
 
@@ -196,7 +260,8 @@ CREATE TABLE `estagiario` (
 --
 
 INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`) VALUES
-(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-08-09 05:12:55', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 79);
+(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos Daniel', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-09-10 00:41:25', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 82),
+(43, 'carlosgvd0410@gmail.com', '$2y$10$stffttMNHaNvujK/HMeZo.hMm1R7dFO7UwGrdPMbkrYaa.x3jYiEC', 'Carlos', 'Verdeiro', 'solteiro', '01234567890', '511484848', 'SSP', '2007-02-09', '', '44991567723', '2024-09-08 14:01:51', '2024-09-08 14:01:51', 1, 'PR', 'Brasileira', 0, 'N', 'M', NULL, 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL);
 
 -- --------------------------------------------------------
 
@@ -220,7 +285,7 @@ CREATE TABLE `vaga` (
 --
 
 INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `status`) VALUES
-(195, 3, 'dasd', 'ddsad', 'dasd', '2024-08-24 12:15:53', NULL, 1),
+(195, 3, 'cvfffff', 'ddsad', 'dasd', '2024-08-24 12:15:53', NULL, 1),
 (196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24 12:16:12', '2024-08-22 12:15:00', 1);
 
 --
@@ -284,13 +349,13 @@ ALTER TABLE `vaga`
 -- AUTO_INCREMENT de tabela `candidatura`
 --
 ALTER TABLE `candidatura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -308,7 +373,7 @@ ALTER TABLE `escola`
 -- AUTO_INCREMENT de tabela `estagiario`
 --
 ALTER TABLE `estagiario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
@@ -332,6 +397,13 @@ ALTER TABLE `candidatura`
 --
 ALTER TABLE `curriculo`
   ADD CONSTRAINT `id_curriculo` FOREIGN KEY (`estagiario_id`) REFERENCES `estagiario` (`id`);
+
+--
+-- Restrições para tabelas `estagiario`
+--
+ALTER TABLE `estagiario`
+  ADD CONSTRAINT `curriculo` FOREIGN KEY (`curriculo_id`) REFERENCES `curriculo` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_curriculo` FOREIGN KEY (`curriculo_id`) REFERENCES `curriculo` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `vaga`

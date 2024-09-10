@@ -14,6 +14,9 @@ $(document).ready(function () {
     const resSubmissao = $('#resSubmissao');
     const resObservacoes = $('#resObservacoes');
 
+    const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
+    const corpoToastInformacao = $('#corpoToastInformacao');
+
     function converterData(data) {
         var partes = data.split('-');
         return partes[2] + '/' + partes[1] + '/' + partes[0];
@@ -42,7 +45,6 @@ $(document).ready(function () {
                     resSubmissao.text(converterData(response.data_submissao));
                     resObservacoes.text(response.observacoes);
 
-
                 } else if (response.status === 'notFound') {
                     if (!divArquivo.hasClass('visually-hidden')) {
                         divArquivo.addClass('visually-hidden');
@@ -53,7 +55,8 @@ $(document).ready(function () {
                     btnExcluir.addClass('disabled');
 
                 } else {
-                    alert('Erro ao gerar o PDF.');
+                    corpoToastInformacao.text(`Erro ao gerar o PDF.`);
+                    toastInformacao.show();
                 }
             },
             error: function (xhr, status, error) {
@@ -66,7 +69,6 @@ $(document).ready(function () {
 
     $('#formUploadArquivo').submit(function (event) {
         event.preventDefault(); // Evita o envio padrão do formulário
-
         var formData = new FormData($(this)[0]);
 
         $.ajax({
@@ -85,9 +87,12 @@ $(document).ready(function () {
                 puxarArquivo();
                 curriculo.val('');
                 observacoes.val('');
+                corpoToastInformacao.text(response);
+                toastInformacao.show();
             },
             error: function () {
-                alert('Erro ao enviar arquivo.');
+                corpoToastInformacao.text(`Erro ao enviar arquivo.`);
+                toastInformacao.show();
             },
             complete: function() {
                 // Esconde o indicador de carregamento
@@ -104,9 +109,12 @@ $(document).ready(function () {
             type: 'POST',
             success: function (response) {
                 puxarArquivo();
+                corpoToastInformacao.text('Excluido com sucesso.');
+                toastInformacao.show();
             },
             error: function () {
-                alert('Erro ao enviar arquivo.');
+                corpoToastInformacao.text(`Erro ao excluir arquivo`);
+                toastInformacao.show();
             }
         });
 

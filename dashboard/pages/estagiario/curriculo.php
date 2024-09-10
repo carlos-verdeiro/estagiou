@@ -47,12 +47,76 @@ try {
         </div>
     </div>
 
-    <div class="divBlocos row row-cols-2">
-        <div class="blocos col-md arquivo visually-hidden mt-2">
-            <iframe id="iframeArquivo" frameborder="0"></iframe>
+    <div class="w-75 bg-light rounded">
+        <div class="accordion" id="acordeao">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoPrimeiro" aria-controls="acordeaoPrimeiro">
+                        Formação
+                    </button>
+                </h2>
+                <div id="acordeaoPrimeiro" class="accordion-collapse collapse" data-bs-parent="#acordeao">
+                    <div class="accordion-body">
+                        <form class="p-4">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoSegundo" aria-controls="acordeaoSegundo">
+                        Experiências
+                    </button>
+                </h2>
+                <div id="acordeaoSegundo" class="accordion-collapse collapse" data-bs-parent="#acordeao">
+                    <div class="accordion-body">
+                        <form class="p-4">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+
+    </div>
+
+    <div class="divBlocos row row-cols-2">
+
+        <div class="blocos col-md arquivo visually-hidden mt-2">
+            <iframe id="iframeArquivo" frameborder="0" class="rounded"></iframe>
+        </div>
+
+
         <div class="col-md mt-2 w-100">
-            <div class="row formulario visually-hidden" id="divInformacoes">
+            <div class="row formulario visually-hidden bg-light rounded" id="divInformacoes">
                 <div class="p-3" enctype="multipart/form-data">
                     <h4 class="form-label">Informações:</h4>
                     <div class="mb-1">
@@ -72,7 +136,7 @@ try {
                 </div>
             </div>
 
-            <div class="mt-2 row formulario w-100">
+            <div class="mt-2 row formulario w-100 bg-light rounded">
                 <form id="formUploadArquivo" class="p-3" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="curriculo" class="form-label">Faça upload de seu currículo aqui:</label>
@@ -87,6 +151,7 @@ try {
                 </form>
             </div>
         </div>
+
     </div>
 
     <!-- Modal Excluir -->
@@ -100,6 +165,19 @@ try {
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" id="btnModalExcluir" data-bs-dismiss="modal" class="btn btn-danger">Excluir</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!--TOAST INFORMAÇÃO-->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastInformacao" class="toast" role="information" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Estagiou</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="corpoToastInformacao">
+                Text
             </div>
         </div>
     </div>

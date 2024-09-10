@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Erro: Usuário não autenticado.");
     }
 
-    // Obtém dados do formulário
+    // Obtém o ID do estagiário
     $id = $_SESSION['idUsuarioLogin'];
 
     // Inclui o arquivo de conexão
@@ -38,38 +38,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conn->begin_transaction();
 
         if ($count > 0) {
-            // Remove currículos antigos do banco de dados
-            $stmt1 = $conn->prepare("DELETE FROM curriculo WHERE estagiario_id = ?");
-
+            // Atualiza a tabela estagiario removendo a referência ao currículo
+            $stmt1 = $conn->prepare("UPDATE estagiario SET curriculo_id = NULL WHERE id = ?");
             if (!$stmt1) {
-                throw new Exception("Erro na preparação da consulta para remoção: " . $conn->error);
+                throw new Exception("Erro na preparação da consulta para remoção do ID do currículo: " . $conn->error);
             }
-
             $stmt1->bind_param('i', $id);
             $stmt1->execute();
             $stmt1->close();
 
-            // Remove currículos antigos da coluna do estagiario
-            $stmt1 = $conn->prepare("UPDATE estagiario SET curriculo_id = null WHERE id = ?");
-
-            if (!$stmt1) {
-                throw new Exception("Erro na preparação da consulta para remoção: " . $conn->error);
+            // Remove o currículo da tabela curriculo
+            $stmt2 = $conn->prepare("DELETE FROM curriculo WHERE estagiario_id = ?");
+            if (!$stmt2) {
+                throw new Exception("Erro na preparação da consulta para remoção do currículo: " . $conn->error);
             }
-
-            $stmt1->bind_param('i', $id);
-            $stmt1->execute();
-            $stmt1->close();
+            $stmt2->bind_param('i', $id);
+            $stmt2->execute();
+            $stmt2->close();
         }
 
         // Commit da transação
         $conn->commit();
-
+        echo "Currículo excluído com sucesso!";
     } catch (Exception $e) {
         // Rollback em caso de exceção
         if (isset($conn)) {
             $conn->rollback();
         }
-        echo "Erro ao excluir: " . $e->getMessage();
+        echo "Erro ao excluir currículo: " . $e->getMessage();
     } finally {
         // Fechar a conexão
         if (isset($conn)) $conn->close();
