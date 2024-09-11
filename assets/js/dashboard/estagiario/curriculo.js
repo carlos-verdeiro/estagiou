@@ -1,61 +1,46 @@
 $(document).ready(function () {
-
+    // Elementos do DOM
     const divArquivo = $('.arquivo');
     const iframeArquivo = $('#iframeArquivo');
     const btnExcluir = $('#btnExcluir');
     const curriculo = $('#curriculo');
     const observacoes = $('#observacoes');
-
     const btnModalExcluir = $('#btnModalExcluir');
-
-
     const divInformacoes = $('#divInformacoes');
     const resNomeArquivo = $('#resNomeArquivo');
     const resSubmissao = $('#resSubmissao');
     const resObservacoes = $('#resObservacoes');
-
     const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
     const corpoToastInformacao = $('#corpoToastInformacao');
 
+    // Função para converter data
     function converterData(data) {
         var partes = data.split('-');
         return partes[2] + '/' + partes[1] + '/' + partes[0];
     }
 
-
+    // Função para puxar arquivo
     function puxarArquivo() {
-        
         $.ajax({
             url: '../server/api/curriculos/downloadCurriculo.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
+                console.log(response);
                 if (response.status === 'success') {
-
                     divArquivo.removeClass('visually-hidden');
-                    divInformacoes.removeClass('visually-hidden');
-                    divInformacoes.addClass('w-100');
-
-                    let caminho = '../server/curriculos/' + response.file;
-                    iframeArquivo.attr('src', caminho);
+                    divInformacoes.removeClass('visually-hidden').addClass('w-100');
+                    iframeArquivo.attr('src', '../server/curriculos/' + response.file);
                     btnExcluir.removeClass('disabled');
-
-
                     resNomeArquivo.text(response.nome);
                     resSubmissao.text(converterData(response.data_submissao));
                     resObservacoes.text(response.observacoes);
-
                 } else if (response.status === 'notFound') {
-                    if (!divArquivo.hasClass('visually-hidden')) {
-                        divArquivo.addClass('visually-hidden');
-
-                        divInformacoes.removeClass('w-100');    
-                        divInformacoes.addClass('visually-hidden');
-                    }
+                    divArquivo.addClass('visually-hidden');
+                    divInformacoes.removeClass('w-100').addClass('visually-hidden');
                     btnExcluir.addClass('disabled');
-
                 } else {
-                    corpoToastInformacao.text(`Erro ao gerar o PDF.`);
+                    corpoToastInformacao.text('Erro ao gerar o PDF.');
                     toastInformacao.show();
                 }
             },
@@ -65,10 +50,9 @@ $(document).ready(function () {
         });
     }
 
-    puxarArquivo();
-
+    // Função de upload de arquivo
     $('#formUploadArquivo').submit(function (event) {
-        event.preventDefault(); // Evita o envio padrão do formulário
+        event.preventDefault();
         var formData = new FormData($(this)[0]);
 
         $.ajax({
@@ -80,7 +64,6 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             beforeSend: function() {
-                // Mostra o indicador de carregamento
                 $("#overlay").show();
             },
             success: function (response) {
@@ -91,11 +74,10 @@ $(document).ready(function () {
                 toastInformacao.show();
             },
             error: function () {
-                corpoToastInformacao.text(`Erro ao enviar arquivo.`);
+                corpoToastInformacao.text('Erro ao enviar arquivo.');
                 toastInformacao.show();
             },
             complete: function() {
-                // Esconde o indicador de carregamento
                 $("#overlay").hide();
             }
         });
@@ -103,20 +85,23 @@ $(document).ready(function () {
         return false;
     });
 
-    btnModalExcluir.on('click', ()=>{
+    // Função de exclusão de arquivo
+    btnModalExcluir.on('click', function () {
         $.ajax({
             url: '../server/api/curriculos/excluirCurriculo.php',
             type: 'POST',
             success: function (response) {
                 puxarArquivo();
-                corpoToastInformacao.text('Excluido com sucesso.');
+                corpoToastInformacao.text('Excluído com sucesso.');
                 toastInformacao.show();
             },
             error: function () {
-                corpoToastInformacao.text(`Erro ao excluir arquivo`);
+                corpoToastInformacao.text('Erro ao excluir arquivo');
                 toastInformacao.show();
             }
         });
-
     });
+
+    // Inicializar
+    puxarArquivo();
 });
