@@ -109,38 +109,38 @@ try {
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="1" required id="fundIncom" class="form-check-input">
-                                            <label class="form-check-label" for="fundIncom">Fundamental Incompleto</label>
+                                            <input type="radio" name="escolaridade" value="1" required id="escolaridade1" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade1">Fundamental Incompleto</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="2" required id="fundCom" class="form-check-input">
-                                            <label class="form-check-label" for="fundCom">Fundamental Completo</label>
+                                            <input type="radio" name="escolaridade" value="2" required id="escolaridade2" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade2">Fundamental Completo</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="3" required id="medioIncom" class="form-check-input">
-                                            <label class="form-check-label" for="medioIncom">Médio Incompleto</label>
+                                            <input type="radio" name="escolaridade" value="3" required id="escolaridade3" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade3">Médio Incompleto</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="4" required id="medioCom" class="form-check-input">
-                                            <label class="form-check-label" for="medioCom">Médio Completo</label>
+                                            <input type="radio" name="escolaridade" value="4" required id="escolaridade4" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade4">Médio Completo</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="5" required id="supIncom" class="form-check-input">
-                                            <label class="form-check-label" for="supIncom">Superior Incompleto</label>
+                                            <input type="radio" name="escolaridade" value="5" required id="escolaridade5" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade5">Superior Incompleto</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="6" required id="supCom" class="form-check-input">
-                                            <label class="form-check-label" for="supCom">Superior Completo</label>
+                                            <input type="radio" name="escolaridade" value="6" required id="escolaridade6" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade6">Superior Completo</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="7" required id="posIncom" class="form-check-input">
-                                            <label class="form-check-label" for="posIncom">Pós-Graduação Incompleto</label>
+                                            <input type="radio" name="escolaridade" value="7" required id="escolaridade7" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade7">Pós-Graduação Incompleto</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="escolaridade" value="8" required id="posCom" class="form-check-input">
-                                            <label class="form-check-label" for="posCom">Pós-Graduação Completo</label>
+                                            <input type="radio" name="escolaridade" value="8" required id="escolaridade8" class="form-check-input">
+                                            <label class="form-check-label" for="escolaridade8">Pós-Graduação Completo</label>
                                         </div>
                                     </div>
                                 </div>
@@ -203,20 +203,20 @@ try {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select" aria-label="Nível de Inglês" name="nivelIngles">
-                                            <option selected value="0">Nível de Inglês</option>
+                                        <select class="form-select selectNivel " disabled aria-label="Nível de Inglês" name="nivelIngles" id="nivelIngles"name="nivelIngles"">
+                                            <option selected value="0" disabled>Nível de Inglês</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
                                         </select>
-                                        <select class="form-select mt-2" aria-label="Nível de Espanhol" name="nivelEspanhol">
-                                            <option selected value="0">Nível de Espanhol</option>
+                                        <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Espanhol" name="nivelEspanhol" id="nivelEspanhol"name="nivelEspanhol"">
+                                            <option selected value="0" disabled>Nível de Espanhol</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
                                         </select>
-                                        <select class="form-select mt-2" aria-label="Nível de Francês" name="nivelFrances">
-                                            <option selected value="0">Nível de Francês</option>
+                                        <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Francês" name="nivelFrances" id="nivelFrances"name="nivelFrances"">
+                                            <option selected value="0" disabled>Nível de Francês</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>

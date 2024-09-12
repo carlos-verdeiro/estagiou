@@ -9,7 +9,7 @@ $response = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verifica se a empresa está autenticada
+    // Verifica se o estagiario está autenticado
     if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin']) || $_SESSION['tipoUsuarioLogin'] != 'estagiario' || !isset($_SESSION['idUsuarioLogin'])) {
         http_response_code(401); // Código de resposta para não autorizado
         $response['message'] = "Erro: Usuário não autenticado.";
@@ -116,6 +116,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             break;
         case 'idiomas':
+            $proIngles = isset($_POST['idiomaIngles']) && $_POST['nivelIngles'] != 0 && is_numeric($_POST['nivelIngles']) ? $_POST['nivelIngles'] : null;
+            $proEspanhol = isset($_POST['idiomaEspanhol']) && $_POST['nivelEspanhol'] != 0 && is_numeric($_POST['nivelEspanhol']) ? $_POST['nivelEspanhol'] : null;
+            $proFrances = isset($_POST['idiomaFrances']) && $_POST['nivelFrances'] != 0 && is_numeric($_POST['nivelFrances']) ? $_POST['nivelFrances'] : null;
+
+            try {
+                // Inclui o arquivo de conexão
+                include_once '../../conexao.php';
+
+                // Conecta ao banco de dados para inserção
+                $stmt = $conn->prepare("UPDATE estagiario SET proIngles = ?, proEspanhol = ?, proFrances = ? WHERE id = ?");
+                if (!$stmt) {
+                    throw new Exception("Erro na preparação da consulta: " . $conn->error);
+                }
+
+                // Supondo que $estagiario_id seja definido em algum lugar no código
+                $stmt->bind_param('iiii', $proIngles, $proEspanhol, $proFrances, $estagiario_id);
+                $stmt->execute();
+
+                if ($stmt->affected_rows > 0) {
+                    $response['success'] = true;
+                    $response['message'] = "Atualizado com sucesso!";
+                } else {
+                    $response['message'] = "Nenhuma alteração realizada.";
+                }
+
+                $stmt->close();
+            } catch (Exception $e) {
+                http_response_code(500); // Código de resposta para erro interno do servidor
+                $response['message'] = "Erro ao atualizar informações: " . $e->getMessage();
+            } finally {
+                // Fechar a conexão
+                if (isset($conn)) $conn->close();
+            }
+            break;
 
         case 'certificacoes':
 
@@ -207,9 +241,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['presencial'])) {
                 $result[] = 'presencial';
             }
-            
+
             $disponibilidade = !empty($result) ? implode('/', $result) : '';
-            
+
 
             try {
                 // Inclui o arquivo de conexão
@@ -227,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $response['success'] = true;
                     $response['message'] = "Atualizado com sucesso!";
                 } else {
-                    $response['message'] = "Nenhuma alteração realizada." ;
+                    $response['message'] = "Nenhuma alteração realizada.";
                 }
                 $stmt->close();
             } catch (Exception $e) {
