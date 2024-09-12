@@ -26,7 +26,6 @@ $(document).ready(function () {
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if (response.status === 'success') {
                     divArquivo.removeClass('visually-hidden');
                     divInformacoes.removeClass('visually-hidden').addClass('w-100');
@@ -50,6 +49,26 @@ $(document).ready(function () {
         });
     }
 
+    // Função para guardar informacoes
+    function salvarInfo(parametro, dados) {
+        $.ajax({
+            url: `../server/api/curriculos/salvarInfo.php/${parametro}`,
+            type: 'POST',
+            data: dados,
+            dataType: 'json',
+            success: function (response) {
+                corpoToastInformacao.text(response.message || 'Informações salvas com sucesso.');
+                toastInformacao.show();
+            },
+            error: function (xhr, status, error, response) {
+                corpoToastInformacao.text('Erro na requisição: ' + error);
+                toastInformacao.show();
+                console.error('Erro na requisição:', error);
+            }
+        });
+    }
+
+
     // Função de upload de arquivo
     $('#formUploadArquivo').submit(function (event) {
         event.preventDefault();
@@ -63,7 +82,7 @@ $(document).ready(function () {
             cache: false,
             contentType: false,
             processData: false,
-            beforeSend: function() {
+            beforeSend: function () {
                 $("#overlay").show();
             },
             success: function (response) {
@@ -77,7 +96,7 @@ $(document).ready(function () {
                 corpoToastInformacao.text('Erro ao enviar arquivo.');
                 toastInformacao.show();
             },
-            complete: function() {
+            complete: function () {
                 $("#overlay").hide();
             }
         });
@@ -101,6 +120,17 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.formAcord').on('submit', function (event) {
+        event.preventDefault(); // Evita o comportamento padrão do submit
+
+        let tipo = $(this).data('id');
+
+        let formData = $(this).serializeArray();
+
+        salvarInfo(tipo, formData);
+    });
+
 
     // Inicializar
     puxarArquivo();
