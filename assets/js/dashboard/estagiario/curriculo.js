@@ -21,6 +21,94 @@ $(document).ready(function () {
         return partes[2] + '/' + partes[1] + '/' + partes[0];
     }
 
+    function verificarMudancas() {
+        if (!jsonInfo) return;
+
+        $('input, select, textarea').each(function () {
+            switch ($(this).attr('name')) {
+                case 'escolaridade':
+                case 'formacao':
+                    if ($('input[name="escolaridade"]:checked').val() != jsonInfo.escolaridade || $('#formacao').val() != jsonInfo.formacoes) {
+                        $('#btnAcorFormacao').addClass('bg-warning-subtle');
+                    } else {
+                        $('#btnAcorFormacao').removeClass('bg-warning-subtle');
+                    }
+                    break;
+
+                case 'experiencias':
+                    if ($('#experiencias').val() != jsonInfo.experiencias) {
+                        $('#btnAcorExperiencias').addClass('bg-warning-subtle');
+                    } else {
+                        $('#btnAcorExperiencias').removeClass('bg-warning-subtle');
+                    }
+                    break;
+
+                case 'idiomaIngles':
+                case 'idiomaEspanhol':
+                case 'idiomaFrances':
+                case 'nivelIngles':
+                case 'nivelEspanhol':
+                case 'nivelFrances':
+
+                    // Verificação dos níveis de idioma e se os idiomas estão selecionados ou não
+                    const isInglesSelected = $('#idiomaIngles').is(':checked');
+                    const isEspanholSelected = $('#idiomaEspanhol').is(':checked');
+                    const isFrancesSelected = $('#idiomaFrances').is(':checked');
+
+                    // Se o idioma não está selecionado, consideramos o nível como 0
+                    const nivelIngles = isInglesSelected ? $('#nivelIngles').val() : 0;
+                    const nivelEspanhol = isEspanholSelected ? $('#nivelEspanhol').val() : 0;
+                    const nivelFrances = isFrancesSelected ? $('#nivelFrances').val() : 0;
+
+                    // Verificação das condições para alteração do botão
+                    if ((nivelIngles != jsonInfo.proIngles) ||
+                        (nivelEspanhol != jsonInfo.proEspanhol) ||
+                        (nivelFrances != jsonInfo.proFrances)) {
+
+                        $('#btnAcorIdiomas').addClass('bg-warning-subtle');
+                    } else {
+                        $('#btnAcorIdiomas').removeClass('bg-warning-subtle');
+                    }
+
+                    break;
+
+                case 'certificacoes':
+                    if ($('#certificacoes').val() != jsonInfo.certificacoes) {
+                        $('#btnAcorCertificacoes').addClass('bg-warning-subtle');
+                    } else {
+                        $('#btnAcorCertificacoes').removeClass('bg-warning-subtle');
+                    }
+                    break;
+
+                case 'habilidades':
+                    if ($('#habilidades').val() != jsonInfo.habilidades) {
+                        $('#btnAcorHabilidades').addClass('bg-warning-subtle');
+                    } else {
+                        $('#btnAcorHabilidades').removeClass('bg-warning-subtle');
+                    }
+                    break;
+
+                case 'integral':
+                case 'meio':
+                case 'remoto':
+                case 'presencial':
+                    const selecionados = ['integral', 'meio', 'remoto', 'presencial']
+                        .filter(tipo => $(`#${tipo}`).is(':checked'));
+
+                    const valoresSelecionados = selecionados.join('/');
+                    if (valoresSelecionados != jsonInfo.disponibilidade) {
+                        $('#btnAcorDisponibilidade').addClass('bg-warning-subtle');
+                    } else {
+                        $('#btnAcorDisponibilidade').removeClass('bg-warning-subtle');
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        });
+    }
+
     // Função para puxar arquivo
     function puxarArquivo() {
         $.ajax({
@@ -51,33 +139,15 @@ $(document).ready(function () {
         });
     }
 
-    // Função para guardar informacoes
-    function salvarInfo(parametro, dados) {
-        $.ajax({
-            url: `../server/api/curriculos/salvarInfo.php/${parametro}`,
-            type: 'POST',
-            data: dados,
-            dataType: 'json',
-            success: function (response) {
-                corpoToastInformacao.text(response.message || 'Informações salvas com sucesso.');
-                toastInformacao.show();
-                puxarInfo();
-            },
-            error: function (xhr, status, error) {
-                corpoToastInformacao.text('Erro na requisição');
-                toastInformacao.show();
-                console.error('Erro na requisição:', status);
-            }
-        });
-    }
-
-    // Função para guardar informacoes
+    // Função para puxar informações
     function puxarInfo() {
         $.ajax({
             url: `../server/api/curriculos/puxarInfo.php`,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
+                jsonInfo = response.data;
+                console.table(response.data);
                 //1
                 $(`#escolaridade${response.data.escolaridade}`).prop('checked', true);
                 $(`#formacao`).text(response.data.formacoes);
@@ -86,7 +156,7 @@ $(document).ready(function () {
                 $(`#experiencias`).text(response.data.experiencias);
 
                 //3
-                if (response.data.proIngles != null && response.data.proIngles != 0) {//ingles
+                if (response.data.proIngles != null && response.data.proIngles != 0) { // inglês
                     $(`#idiomaIngles`).prop('checked', true);
                     $(`#nivelIngles`).val(response.data.proIngles);
                     $(`#nivelIngles`).prop('disabled', false);
@@ -96,7 +166,7 @@ $(document).ready(function () {
                     $(`#nivelIngles`).prop('disabled', true);
                 }
 
-                if (response.data.proEspanhol != null && response.data.proEspanhol != 0) {//espanhol
+                if (response.data.proEspanhol != null && response.data.proEspanhol != 0) { // espanhol
                     $(`#idiomaEspanhol`).prop('checked', true);
                     $(`#nivelEspanhol`).val(response.data.proEspanhol);
                     $(`#nivelEspanhol`).prop('disabled', false);
@@ -106,7 +176,7 @@ $(document).ready(function () {
                     $(`#nivelEspanhol`).prop('disabled', true);
                 }
 
-                if (response.data.proFrances != null && response.data.proFrances != 0) {//frances
+                if (response.data.proFrances != null && response.data.proFrances != 0) { // francês
                     $(`#idiomaFrances`).prop('checked', true);
                     $(`#nivelFrances`).val(response.data.proFrances);
                     $(`#nivelFrances`).prop('disabled', false);
@@ -128,6 +198,9 @@ $(document).ready(function () {
                 valores.forEach(element => {
                     $(`#${element}`).prop('checked', true);
                 });
+
+                // Verificar mudanças após carregar as informações
+                verificarMudancas();
             },
             error: function (xhr, status, error, response) {
                 corpoToastInformacao.text('Erro na requisição: ' + error);
@@ -137,6 +210,26 @@ $(document).ready(function () {
         });
     }
 
+    // Função para salvar informações
+    function salvarInfo(parametro, dados, callback) {
+        $.ajax({
+            url: `../server/api/curriculos/salvarInfo.php/${parametro}`,
+            type: 'POST',
+            data: dados,
+            dataType: 'json',
+            success: function (response) {
+                corpoToastInformacao.text(response.message || 'Informações salvas com sucesso.');
+                toastInformacao.show();
+                puxarInfo(); // Atualiza jsonInfo após salvar
+                if (callback) callback(); // Executa o callback, se fornecido
+            },
+            error: function (xhr, status, error) {
+                corpoToastInformacao.text('Erro na requisição');
+                toastInformacao.show();
+                console.error('Erro na requisição:', status);
+            }
+        });
+    }
 
     // Função de upload de arquivo
     $('#formUploadArquivo').submit(function (event) {
@@ -190,6 +283,7 @@ $(document).ready(function () {
         });
     });
 
+    // Salvando informações e verificando alterações
     $('.formAcord').on('submit', function (event) {
         event.preventDefault(); // Evita o comportamento padrão do submit
 
@@ -197,7 +291,9 @@ $(document).ready(function () {
 
         let formData = $(this).serializeArray();
 
-        salvarInfo(tipo, formData);
+        salvarInfo(tipo, formData, function() {
+            verificarMudancas(); // Verifica mudanças após salvar
+        });
     });
 
     $('#idiomaIngles').click(function () {
@@ -224,9 +320,10 @@ $(document).ready(function () {
         }
     });
 
-
-
     // Inicializar
     puxarArquivo();
     puxarInfo();
+
+    // Verificar alterações ao digitar
+    $('input, select, textarea').on('input', verificarMudancas);
 });

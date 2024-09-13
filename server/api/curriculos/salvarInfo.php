@@ -116,9 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             break;
         case 'idiomas':
-            $proIngles = isset($_POST['idiomaIngles']) && $_POST['nivelIngles'] != 0 && is_numeric($_POST['nivelIngles']) ? $_POST['nivelIngles'] : null;
-            $proEspanhol = isset($_POST['idiomaEspanhol']) && $_POST['nivelEspanhol'] != 0 && is_numeric($_POST['nivelEspanhol']) ? $_POST['nivelEspanhol'] : null;
-            $proFrances = isset($_POST['idiomaFrances']) && $_POST['nivelFrances'] != 0 && is_numeric($_POST['nivelFrances']) ? $_POST['nivelFrances'] : null;
+            $proIngles = isset($_POST['idiomaIngles']) && $_POST['nivelIngles'] != 0 && is_numeric($_POST['nivelIngles']) ? $_POST['nivelIngles'] : 0;
+            $proEspanhol = isset($_POST['idiomaEspanhol']) && $_POST['nivelEspanhol'] != 0 && is_numeric($_POST['nivelEspanhol']) ? $_POST['nivelEspanhol'] : 0;
+            $proFrances = isset($_POST['idiomaFrances']) && $_POST['nivelFrances'] != 0 && is_numeric($_POST['nivelFrances']) ? $_POST['nivelFrances'] : 0;
 
             try {
                 // Inclui o arquivo de conexão

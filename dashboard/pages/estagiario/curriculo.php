@@ -47,12 +47,12 @@ try {
         </div>
     </div>
 
-    <div class="w-75  rounded mt-4">
+    <div class="w-75  rounded">
         <div class="accordion" id="acordeao">
             <!-- Formação -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoFormacao" aria-controls="acordeaoFormacao">
+                    <button class="accordion-button collapsed" id="btnAcorFormacao" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoFormacao" aria-controls="acordeaoFormacao">
                         Formação
                     </button>
                 </h2>
@@ -113,7 +113,7 @@ try {
             <!-- Experiências -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoExperiencias" aria-controls="acordeaoExperiencias">
+                    <button class="accordion-button collapsed"  id="btnAcorExperiencias"  type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoExperiencias" aria-controls="acordeaoExperiencias">
                         Experiências
                     </button>
                 </h2>
@@ -133,7 +133,7 @@ try {
             <!-- Idiomas -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoIdiomas" aria-controls="acordeaoIdiomas">
+                    <button class="accordion-button collapsed" id="btnAcorIdiomas" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoIdiomas" aria-controls="acordeaoIdiomas">
                         Idiomas
                     </button>
                 </h2>
@@ -188,7 +188,7 @@ try {
             <!-- Certificações e Cursos -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoCertificacoes" aria-controls="acordeaoCertificacoes">
+                    <button class="accordion-button collapsed"  id="btnAcorCertificacoes"  type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoCertificacoes" aria-controls="acordeaoCertificacoes">
                         Certificações e Cursos
                     </button>
                 </h2>
@@ -208,7 +208,7 @@ try {
             <!-- Habilidades Técnicas -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoHabilidades" aria-controls="acordeaoHabilidades">
+                    <button class="accordion-button collapsed" id="btnAcorHabilidades" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoHabilidades" aria-controls="acordeaoHabilidades">
                         Habilidades Técnicas
                     </button>
                 </h2>
@@ -228,7 +228,7 @@ try {
             <!-- Disponibilidade -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoDisponibilidade" aria-controls="acordeaoDisponibilidade">
+                    <button class="accordion-button collapsed" id="btnAcorDisponibilidade" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoDisponibilidade" aria-controls="acordeaoDisponibilidade">
                         Disponibilidade
                     </button>
                 </h2>

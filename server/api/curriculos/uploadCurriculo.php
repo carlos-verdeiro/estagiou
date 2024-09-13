@@ -23,11 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $novoNome = uniqid() . '.' . $extensao;
         $path = $pasta . $novoNome;
 
+        // Verifica se o diretório existe e o cria se necessário
+        if (!is_dir($pasta)) {
+            if (!mkdir($pasta, 0755, true)) {
+                die("Erro ao criar o diretório de upload.");
+            }
+        }
+
         // Verifica se é um arquivo PDF
         if ($tipo == 'application/pdf') {
             include_once '../../conexao.php'; // Inclui o arquivo de conexão
 
             try {
+                // Inicia a transação
+                $conn->begin_transaction();
+
                 // Verifica se já existe um currículo para o estagiário
                 $stmt0 = $conn->prepare("SELECT id, caminho_arquivo FROM curriculo WHERE estagiario_id = ?");
                 if (!$stmt0) {
@@ -89,6 +99,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt3->execute();
                     $stmt3->close();
                 }
+
+                // Commit da transação
+                $conn->commit();
 
                 echo "Currículo enviado com sucesso!";
             } catch (Exception $e) {
