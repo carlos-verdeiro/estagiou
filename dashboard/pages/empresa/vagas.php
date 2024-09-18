@@ -134,16 +134,25 @@
             </div>
         </div>
     </div>
-    <!--modal candidato-->
+    <!-- Modal Candidato -->
     <div class="modal fade" id="modalCandidato" aria-hidden="true" aria-labelledby="modalCandidato" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalCandidatoTitulo">Modal 2</h1>
+                    <h1 class="modal-title fs-5" id="modalCandidatoTitulo">Nome</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Hide this modal and show the first with the button below.
+                    <div>
+                        <h6 id="modalCandidatoNome">Nome completo: </h6>
+                        <p id="modalCandidatoCelular">Celular: </p>
+                        <p id="modalCandidatoEmail">Email: </p>
+                        <p id="modalCandidatoTelefone">Telefone: </p>
+                        <p id="modalCandidatoProIngles">Proficiencia em Inglês: </p>
+                        <p id="modalCandidatoProEspanhol">Proficiencia em Espanhol: </p>
+                        <p id="modalCandidatoProFrances">Proficiencia em Francês: </p>
+                    </div>
+                    <iframe class="w-100" src="../server/curriculos/66ea17feef1ae.pdf" frameborder="0" style="height: 80vh; max-height: 600px; width: 100%;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" data-bs-target="#modalVaga" data-bs-toggle="modal">Voltar</button>
@@ -151,6 +160,10 @@
             </div>
         </div>
     </div>
+
+
+
+
 
     <!-- Modal Exluir-->
     <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluir" aria-hidden="true">

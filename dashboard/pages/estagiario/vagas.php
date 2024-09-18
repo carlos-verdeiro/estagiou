@@ -84,11 +84,11 @@
                     </div>
                     <div class="mb-3">
                         <h6 for="dataEncerramentoVagaModal" class="form-label">Encerramento das inscrições:</h6>
-                        <p id="dataEncerramentoVagaModal">00/00/0000</p>
+                        <p id="dataEncerramentoVagaModal">--/--/----</p>
                     </div>
                     <div class="mb-3">
                         <h6 for="dataPublicacaoVagaModal" class="form-label">Data de Publicação:</h6>
-                        <p id="dataPublicacaoVagaModal">00/00/0000</p>
+                        <p id="dataPublicacaoVagaModal">--/--/----</p>
                     </div>
                 </div>
                 <div class="modal-footer">

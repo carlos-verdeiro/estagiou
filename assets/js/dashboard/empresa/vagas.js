@@ -119,12 +119,12 @@ $(document).ready(function () {
     }
 
     function puxarCandidatos(vaga, index, inicio) {
-        $.getJSON(`../../server/api/vagas/candMostrar.php/${vaga.id}/${inicio}`)
+        $.getJSON(`../../server/api/vagas/candMostrar.php/vaga/${vaga.id}/${inicio}`)
             .done(function (data) {
                 candidatosJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
                 vaga = data.id || null;
-                console.log(`Total de registros: ${totalRegistros}`, vaga, candidatosJson);
+                //console.log(`Total de registros: ${totalRegistros}`, vaga, candidatosJson);
                 listaCandidatos = $('#listaCandidatos');
                 if (inicio === 0) {
                     paginacao(totalRegistros);
@@ -136,7 +136,7 @@ $(document).ready(function () {
                 } else {
                     candidatosJson.forEach((candidato, index) => {
                         listaCandidatos.append(`
-                            <button class="list-group-item btnVaga list-group-item-action p-3"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id}">
+                            <button class="list-group-item btnVaga list-group-item-action p-3"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id_candidatura}">
                                 <div class="d-flex w-100 justify-content-around">
                                     <h5 class="mb-1">${candidato.nome} ${candidato.sobrenome}</h5>
                                 </div>
@@ -307,7 +307,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#teste').on('click', ()=>{
+    $('#teste').on('click', () => {
         modalVaga.modal('hide');
         $('#modalCandidato').modal('show');
     });
@@ -316,11 +316,21 @@ $(document).ready(function () {
         const vagaVizualizar = vagasJson[$(this).val()];
         vagaModalVizualizar(vagaVizualizar, $(this).val());
     });
-    
-    $('.listaCandidatos').on('click', '.btnVaga', function () {
+
+    $('#listaCandidatos').on('click', '.btnVaga', function () {
+        $.getJSON(`../../server/api/vagas/candMostrar.php/candidato/${$(this).val()}`)
+            .done(function (data) {
+                console.log(data);
+                
+            })
+            .fail(function (jqXHR, textStatus) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', textStatus);
+            });
+
         modalVaga.show('hide');
         $('#modalCandidato').modal('show');
-
     });
 
     $('#btnModalCancelarVaga').on('click', limparModalNovaVaga);

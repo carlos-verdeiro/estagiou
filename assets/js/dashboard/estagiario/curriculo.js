@@ -23,78 +23,86 @@ $(document).ready(function () {
 
     function verificarMudancas() {
         if (!jsonInfo) return;
-
+    
+        function normalizarTexto(texto) {
+            if (typeof texto === 'string') {
+                return texto.trim().replace(/\s+/g, ' ');
+            } else if (texto != null) {
+                // Convert non-string input to a string
+                return String(texto).trim().replace(/\s+/g, ' ');
+            } else {
+                // Handle cases where texto is null or undefined
+                return '';
+            }
+        }
+        
+    
         $('input, select, textarea').each(function () {
             switch ($(this).attr('name')) {
                 case 'escolaridade':
                 case 'formacao':
-                    if ($('input[name="escolaridade"]:checked').val() != jsonInfo.escolaridade || $('#formacao').val() != jsonInfo.formacoes) {
+                    if (normalizarTexto($('input[name="escolaridade"]:checked').val()) != normalizarTexto(jsonInfo.escolaridade) || 
+                        normalizarTexto($('#formacao').val()) != normalizarTexto(jsonInfo.formacoes)) {
                         $('#btnAcorFormacao').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorFormacao').removeClass('bg-warning-subtle');
                     }
                     break;
-
+    
                 case 'experiencias':
-                    if ($('#experiencias').val() != jsonInfo.experiencias) {
+                    if (normalizarTexto($('#experiencias').val()) != normalizarTexto(jsonInfo.experiencias)) {
                         $('#btnAcorExperiencias').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorExperiencias').removeClass('bg-warning-subtle');
                     }
                     break;
-
+    
                 case 'idiomaIngles':
                 case 'idiomaEspanhol':
                 case 'idiomaFrances':
                 case 'nivelIngles':
                 case 'nivelEspanhol':
                 case 'nivelFrances':
-
-                    // Verificação dos níveis de idioma e se os idiomas estão selecionados ou não
                     const isInglesSelected = $('#idiomaIngles').is(':checked');
                     const isEspanholSelected = $('#idiomaEspanhol').is(':checked');
                     const isFrancesSelected = $('#idiomaFrances').is(':checked');
-
-                    // Se o idioma não está selecionado, consideramos o nível como 0
+    
                     const nivelIngles = isInglesSelected ? $('#nivelIngles').val() : 0;
                     const nivelEspanhol = isEspanholSelected ? $('#nivelEspanhol').val() : 0;
                     const nivelFrances = isFrancesSelected ? $('#nivelFrances').val() : 0;
-
-                    // Verificação das condições para alteração do botão
+    
                     if ((nivelIngles != jsonInfo.proIngles) ||
                         (nivelEspanhol != jsonInfo.proEspanhol) ||
                         (nivelFrances != jsonInfo.proFrances)) {
-
                         $('#btnAcorIdiomas').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorIdiomas').removeClass('bg-warning-subtle');
                     }
-
                     break;
-
+    
                 case 'certificacoes':
-                    if ($('#certificacoes').val() != jsonInfo.certificacoes) {
+                    if (normalizarTexto($('#certificacoes').val()) != normalizarTexto(jsonInfo.certificacoes)) {
                         $('#btnAcorCertificacoes').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorCertificacoes').removeClass('bg-warning-subtle');
                     }
                     break;
-
+    
                 case 'habilidades':
-                    if ($('#habilidades').val() != jsonInfo.habilidades) {
+                    if (normalizarTexto($('#habilidades').val()) != normalizarTexto(jsonInfo.habilidades)) {
                         $('#btnAcorHabilidades').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorHabilidades').removeClass('bg-warning-subtle');
                     }
                     break;
-
+    
                 case 'integral':
                 case 'meio':
                 case 'remoto':
                 case 'presencial':
                     const selecionados = ['integral', 'meio', 'remoto', 'presencial']
                         .filter(tipo => $(`#${tipo}`).is(':checked'));
-
+    
                     const valoresSelecionados = selecionados.join('/');
                     if (valoresSelecionados != jsonInfo.disponibilidade) {
                         $('#btnAcorDisponibilidade').addClass('bg-warning-subtle');
@@ -102,12 +110,13 @@ $(document).ready(function () {
                         $('#btnAcorDisponibilidade').removeClass('bg-warning-subtle');
                     }
                     break;
-
+    
                 default:
                     break;
             }
         });
     }
+    
 
     // Função para puxar arquivo
     function puxarArquivo() {

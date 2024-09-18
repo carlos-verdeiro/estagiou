@@ -269,7 +269,7 @@ try {
         </div>
 
         <div class="col-md mt-2 w-100 ">
-            <div class="row formulario visually-hidden bg-light rounded" id="divInformacoes">
+            <div class="row formulario visually-hidden bg-light-subtle rounded" id="divInformacoes">
                 <div class="p-3" enctype="multipart/form-data">
                     <h4 class="form-label">Informações:</h4>
                     <div class="mb-1">
@@ -289,7 +289,7 @@ try {
                 </div>
             </div>
 
-            <div class="mt-2 row formulario w-100 bg-light rounded">
+            <div class="mt-2 row formulario w-100 bg-light-subtle rounded">
                 <form method="post" id="formUploadArquivo" class="p-3" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="curriculo" class="form-label">Faça upload de seu currículo aqui:</label>
