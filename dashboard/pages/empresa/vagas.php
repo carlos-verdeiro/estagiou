@@ -134,32 +134,114 @@
             </div>
         </div>
     </div>
+
     <!-- Modal Candidato -->
     <div class="modal fade" id="modalCandidato" aria-hidden="true" aria-labelledby="modalCandidato" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalCandidatoTitulo">Nome</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h2 class="modal-title fs-4 fw-bold user-select-all placeholder" id="modalCandidatoTitulo">nome</h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <h6 id="modalCandidatoNome">Nome completo: </h6>
-                        <p id="modalCandidatoCelular">Celular: </p>
-                        <p id="modalCandidatoEmail">Email: </p>
-                        <p id="modalCandidatoTelefone">Telefone: </p>
-                        <p id="modalCandidatoProIngles">Proficiencia em Inglês: </p>
-                        <p id="modalCandidatoProEspanhol">Proficiencia em Espanhol: </p>
-                        <p id="modalCandidatoProFrances">Proficiencia em Francês: </p>
+                    <div class="container-fluid">
+                        <!-- Nome e Sobrenome -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Nome:</h5>
+                                <p id="modalCandidatoNome" class=" user-select-all placeholder">nome completo</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Celular:</h5>
+                                <p id="modalCandidatoCelular" class=" user-select-all placeholder">celular</p>
+                            </div>
+                        </div>
+
+                        <!-- Email e Telefone -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Email:</h5>
+                                <p id="modalCandidatoEmail" class=" user-select-all placeholder">email</p>
+                            </div>
+                            <div class="col-md-6" id="modalCandidatoDivTelefone">
+                                <h5 class="fw-bold">Telefone:</h5>
+                                <p id="modalCandidatoTelefone" class=" user-select-all placeholder">telefone</p>
+                            </div>
+                        </div>
+
+                        <!-- Proficiência em Idiomas -->
+                        <div class="row mb-3">
+                            <div class="col-md-4" id="modalCandidatoProInglesNivel">
+                                <h5 class="fw-bold">Inglês:</h5>
+                                <p id="modalCandidatoProIngles" class=" placeholder">nivel</p>
+                            </div>
+                            <div class="col-md-4" id="modalCandidatoProEspanholNivel">
+                                <h5 class="fw-bold">Espanhol:</h5>
+                                <p id="modalCandidatoProEspanhol" class=" placeholder">nivel</p>
+                            </div>
+                            <div class="col-md-4" id="modalCandidatoProFrancesNivel">
+                                <h5 class="fw-bold">Francês:</h5>
+                                <p id="modalCandidatoProFrances" class=" placeholder">nivel</p>
+                            </div>
+                        </div>
+
+                        <!-- Formações -->
+                        <div class="row mb-3" id="modalCandidatoFormacoesGeral">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Formações:</h5>
+                                <p id="modalCandidatoFormacoes" class=" placeholder">formacoes</p>
+                            </div>
+                        </div>
+
+                        <!-- Experiências -->
+                        <div class="row mb-3" id="modalCandidatoExperienciasGeral">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Experiências:</h5>
+                                <p id="modalCandidatoExperiencias" class=" placeholder">{{experiencias}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Certificações -->
+                        <div class="row mb-3" id="modalCandidatoCertificacoesGeral">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Certificações:</h5>
+                                <p id="modalCandidatoCertificacoes" class=" placeholder">{{certificacoes}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Habilidades -->
+                        <div class="row mb-3" id="modalCandidatoHabilidadesGeral">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Habilidades:</h5>
+                                <p id="modalCandidatoHabilidades" class=" placeholder">{{habilidades.split('\r\n').join('<br>')}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Disponibilidade -->
+                        <div class="row mb-3" id="modalCandidatoDisponibilidadeGeral">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Disponibilidade:</h5>
+                                <p id="modalCandidatoDisponibilidade" class=" placeholder">{{disponibilidade.split('/').join(' | ')}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Currículo -->
+                        <div class="row" id="modalCandidatoCurriculoGeral">
+                            <div class="col-12">
+                                <iframe id="modalCandidatoCurriculo" class="rounded border" frameborder="0" style="height: 80vh; max-height: 600px; width: 100%;"></iframe>
+                            </div>
+                        </div>
                     </div>
-                    <iframe class="w-100" src="../server/curriculos/66ea17feef1ae.pdf" frameborder="0" style="height: 80vh; max-height: 600px; width: 100%;"></iframe>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <button class="btn btn-primary" data-bs-target="#modalVaga" data-bs-toggle="modal">Voltar</button>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 
 
