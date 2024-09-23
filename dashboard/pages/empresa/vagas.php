@@ -136,12 +136,12 @@
     </div>
 
     <!-- Modal Candidato -->
-    <div class="modal fade" id="modalCandidato" aria-hidden="true" aria-labelledby="modalCandidato" tabindex="-1">
+    <div class="modal fade " id="modalCandidato" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="modalCandidato" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content shadow-lg border-0">
                 <div class="modal-header bg-primary text-white">
                     <h2 class="modal-title fs-4 fw-bold user-select-all placeholder" id="modalCandidatoTitulo">nome</h2>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-target="#modalVaga" data-bs-toggle="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -197,7 +197,7 @@
                         <div class="row mb-3" id="modalCandidatoExperienciasGeral">
                             <div class="col-12">
                                 <h5 class="fw-bold">Experiências:</h5>
-                                <p id="modalCandidatoExperiencias" class=" placeholder">{{experiencias}}</p>
+                                <p id="modalCandidatoExperiencias" class=" placeholder">experiencias</p>
                             </div>
                         </div>
 
@@ -205,7 +205,7 @@
                         <div class="row mb-3" id="modalCandidatoCertificacoesGeral">
                             <div class="col-12">
                                 <h5 class="fw-bold">Certificações:</h5>
-                                <p id="modalCandidatoCertificacoes" class=" placeholder">{{certificacoes}}</p>
+                                <p id="modalCandidatoCertificacoes" class=" placeholder">certificacoes</p>
                             </div>
                         </div>
 
@@ -213,7 +213,7 @@
                         <div class="row mb-3" id="modalCandidatoHabilidadesGeral">
                             <div class="col-12">
                                 <h5 class="fw-bold">Habilidades:</h5>
-                                <p id="modalCandidatoHabilidades" class=" placeholder">{{habilidades.split('\r\n').join('<br>')}}</p>
+                                <p id="modalCandidatoHabilidades" class=" placeholder">habilidades</p>
                             </div>
                         </div>
 
@@ -221,7 +221,7 @@
                         <div class="row mb-3" id="modalCandidatoDisponibilidadeGeral">
                             <div class="col-12">
                                 <h5 class="fw-bold">Disponibilidade:</h5>
-                                <p id="modalCandidatoDisponibilidade" class=" placeholder">{{disponibilidade.split('/').join(' | ')}}</p>
+                                <p id="modalCandidatoDisponibilidade" class=" placeholder">disponibilidade</p>
                             </div>
                         </div>
 
