@@ -1,0 +1,30 @@
+& .containerBlocosMenu {
+    height: 100%;
+    width: 100%;
+
+    & .divBlocosMenu {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+
+        & .blocosMenu{
+            width: min-content;
+            height: min-content;
+
+            & .card{
+
+                & .card-body{
+                    min-width: 100px;
+                    min-height: 200px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+            }
+        }
+    } 
+}

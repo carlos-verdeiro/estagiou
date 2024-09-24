@@ -1,84 +1,27 @@
+
 #sectionObjetivo{
     flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20%;
-    width: 400px;
-    margin: 0 auto;
-    height: 100%;
+    margin-top: 20px;
     text-align: center;
    
 }
-.div1{
+#objetivo{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+}
+#justificativa{
     flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.div2{
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-  }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    height: 160px;
-  }
-  
-  .footer-content > div {
-    flex: 1;
-    margin: 10px;
-  }
-  
-  .contact-info, .useful-links, .social-media {
-    color: #fff;
-  }
-  
-  .contact-info h3, .useful-links h3, .social-media h3 {
-    margin-bottom: 10px;
-  }
-  
-  .useful-links ul {
-    list-style: none;
-  }
-  
-  .useful-links ul li {
-    margin-bottom: 5px;
-  }
-  
-  .useful-links a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .useful-links a:hover {
-    text-decoration: underline;
-  }
-  
-  .social-media .social-icon {
-    display: inline-block;
-    margin: 0 5px;
-  }
-  
-  .social-media img {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-    border-top: 1px solid #444;
-    padding-top: 10px;
-    height: 20px;
+  p{
+    font-size: larger;
   }

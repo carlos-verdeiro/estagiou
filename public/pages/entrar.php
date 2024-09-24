@@ -5,18 +5,18 @@
             bagui do google
         </div>
         <hr>
-        <form>
+        <form method="post" action="public/login.php">
             <div class="mb-3">
-                <label for="userLogin" class="form-label">Usuário ou e-mail</label>
-                <input type="text" class="form-control" id="userLogin" aria-describedby="User" name="userPass" required>
-                <div id="userHelp" class="form-text">Não compartilhe sua conta com ninguém!</div>
+                <label for="email" class="form-label">E-mail</label>
+                <input type="text" class="form-control" id="email" aria-describedby="email" name="email" required>
+                <div id="emailHelp" class="form-text">Não compartilhe sua conta com ninguém!</div>
             </div>
             <div class="mb-3">
-                <label for="validationCustomPass" class="form-label">Senha</label>
-                <div class="input-group has-validation">
-                    <input type="password" class="form-control" id="validationCustomPass" aria-describedby="inputGroupPrepend" required>
+                <label for="senha" class="form-label">Senha</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="senha" aria-describedby="senha" name="senha" required>
                     <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btn-check-outlined"><img id="checkPassLabelImg" src="assets/img/eyeSlash.svg" alt="olho de senha"></label>
+                    <label class="btn btn-outline-info" for="btn-check-outlined"><img id="checkPassLabelImg" src="assets/img/icons/eyeSlash.svg" alt="olho de senha"></label>
                 </div>
             </div>
             <div class="mb-3">

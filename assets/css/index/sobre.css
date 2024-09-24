@@ -14,6 +14,7 @@
     justify-content: center;
     display: flex;
     align-items: center;
+    margin-top: 40px;
 }
 .div2{
     height: 100%;
@@ -221,6 +222,7 @@ footer {
     text-align: center;
     display: block;
     font-size: 1em;
+    margin-top: 40px;
   }
   
   .card .info {
@@ -235,7 +237,6 @@ footer {
   .card .img {
     width: 4.8em;
     height: 4.8em;
-    background: white;
     border-radius: 15px;
     margin: auto;
   }
