@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     function verificarMudancas() {
         if (!jsonInfo) return;
-    
+
         function normalizarTexto(texto) {
             if (typeof texto === 'string') {
                 return texto.trim().replace(/\s+/g, ' ');
@@ -35,20 +35,20 @@ $(document).ready(function () {
                 return '';
             }
         }
-        
-    
+
+
         $('input, select, textarea').each(function () {
             switch ($(this).attr('name')) {
                 case 'escolaridade':
                 case 'formacao':
-                    if (normalizarTexto($('input[name="escolaridade"]:checked').val()) != normalizarTexto(jsonInfo.escolaridade) || 
+                    if (normalizarTexto($('input[name="escolaridade"]:checked').val()) != normalizarTexto(jsonInfo.escolaridade) ||
                         normalizarTexto($('#formacao').val()) != normalizarTexto(jsonInfo.formacoes)) {
                         $('#btnAcorFormacao').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorFormacao').removeClass('bg-warning-subtle');
                     }
                     break;
-    
+
                 case 'experiencias':
                     if (normalizarTexto($('#experiencias').val()) != normalizarTexto(jsonInfo.experiencias)) {
                         $('#btnAcorExperiencias').addClass('bg-warning-subtle');
@@ -56,7 +56,7 @@ $(document).ready(function () {
                         $('#btnAcorExperiencias').removeClass('bg-warning-subtle');
                     }
                     break;
-    
+
                 case 'idiomaIngles':
                 case 'idiomaEspanhol':
                 case 'idiomaFrances':
@@ -66,11 +66,11 @@ $(document).ready(function () {
                     const isInglesSelected = $('#idiomaIngles').is(':checked');
                     const isEspanholSelected = $('#idiomaEspanhol').is(':checked');
                     const isFrancesSelected = $('#idiomaFrances').is(':checked');
-    
+
                     const nivelIngles = isInglesSelected ? $('#nivelIngles').val() : 0;
                     const nivelEspanhol = isEspanholSelected ? $('#nivelEspanhol').val() : 0;
                     const nivelFrances = isFrancesSelected ? $('#nivelFrances').val() : 0;
-    
+
                     if ((nivelIngles != jsonInfo.proIngles) ||
                         (nivelEspanhol != jsonInfo.proEspanhol) ||
                         (nivelFrances != jsonInfo.proFrances)) {
@@ -79,7 +79,7 @@ $(document).ready(function () {
                         $('#btnAcorIdiomas').removeClass('bg-warning-subtle');
                     }
                     break;
-    
+
                 case 'certificacoes':
                     if (normalizarTexto($('#certificacoes').val()) != normalizarTexto(jsonInfo.certificacoes)) {
                         $('#btnAcorCertificacoes').addClass('bg-warning-subtle');
@@ -87,7 +87,7 @@ $(document).ready(function () {
                         $('#btnAcorCertificacoes').removeClass('bg-warning-subtle');
                     }
                     break;
-    
+
                 case 'habilidades':
                     if (normalizarTexto($('#habilidades').val()) != normalizarTexto(jsonInfo.habilidades)) {
                         $('#btnAcorHabilidades').addClass('bg-warning-subtle');
@@ -95,14 +95,14 @@ $(document).ready(function () {
                         $('#btnAcorHabilidades').removeClass('bg-warning-subtle');
                     }
                     break;
-    
+
                 case 'integral':
                 case 'meio':
                 case 'remoto':
                 case 'presencial':
                     const selecionados = ['integral', 'meio', 'remoto', 'presencial']
                         .filter(tipo => $(`#${tipo}`).is(':checked'));
-    
+
                     const valoresSelecionados = selecionados.join('/');
                     if (valoresSelecionados != jsonInfo.disponibilidade) {
                         $('#btnAcorDisponibilidade').addClass('bg-warning-subtle');
@@ -110,13 +110,12 @@ $(document).ready(function () {
                         $('#btnAcorDisponibilidade').removeClass('bg-warning-subtle');
                     }
                     break;
-    
                 default:
                     break;
             }
         });
     }
-    
+
 
     // Função para puxar arquivo
     function puxarArquivo() {
@@ -202,11 +201,13 @@ $(document).ready(function () {
                 $(`#habilidades`).text(response.data.habilidades);
 
                 //6
-                let valores = response.data.disponibilidade.split('/');
+                if (response.data.disponibilidade) {
+                    let valores = response.data.disponibilidade.split('/');
 
-                valores.forEach(element => {
-                    $(`#${element}`).prop('checked', true);
-                });
+                    valores.forEach(element => {
+                        $(`#${element}`).prop('checked', true);
+                    });
+                }
 
                 // Verificar mudanças após carregar as informações
                 verificarMudancas();
@@ -300,7 +301,7 @@ $(document).ready(function () {
 
         let formData = $(this).serializeArray();
 
-        salvarInfo(tipo, formData, function() {
+        salvarInfo(tipo, formData, function () {
             verificarMudancas(); // Verifica mudanças após salvar
         });
     });
