@@ -119,7 +119,7 @@ $(document).ready(function () {
     }
 
     function puxarCandidatos(vaga, index, inicio) {
-        $.getJSON(`../../server/api/vagas/candMostrar.php/vaga/${vaga.id}/${inicio}`)
+        $.getJSON(`../../server/api/candidatos/candMostrar.php/vaga/${vaga.id}/${inicio}`)
             .done(function (data) {
                 candidatosJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
@@ -318,7 +318,7 @@ $(document).ready(function () {
     });
 
     $('#listaCandidatos').on('click', '.btnVaga', function () {
-        $.getJSON(`../../server/api/vagas/candMostrar.php/candidato/${$(this).val()}`)
+        $.getJSON(`../../server/api/candidatos/candMostrar.php/candidato/${$(this).val()}`)
             .done(function (data) {
                 console.log(data);
                 function modCand(type, campo, val) {
@@ -380,7 +380,9 @@ $(document).ready(function () {
                             }
                             break;
 
-
+                        case 6://id
+                            $(campo).val(val);
+                            break;
                         default:
                             $(campo).addClass('placeholder');
                             $(campo).text('');
@@ -413,10 +415,7 @@ $(document).ready(function () {
                 modCand(3, '#modalCandidatoHabilidades', data.habilidades);
                 modCand(4, '#modalCandidatoDisponibilidade', data.disponibilidade);
                 modCand(5, '#modalCandidatoCurriculo', data.caminho_arquivo);
-
-
-
-
+                modCand(6, '#btnSelecionarCand', data.id);
             })
             .fail(function (jqXHR, textStatus) {
                 corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
@@ -459,5 +458,15 @@ $(document).ready(function () {
         }
     });
     //paginação
+
+    $('#btnSelecionarCand').click(function () {
+        alert($(this).val());
+        $.post(`../../server/api/candidatos/candMostrar.php/candidato`, {id:`${$(this).val()}`},
+            function (data, textStatus, jqXHR) {
+                
+            },
+            "text"
+        );
+    })
 
 });

@@ -98,7 +98,7 @@ $(document).ready(function () {
     }
 
     function puxarMinhasVagas(inicio) {
-        $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagasCandidato/${inicio}`)
+        $.getJSON(`../../server/api/candidatos/mostrarVaga.php/estagiarioVagasCandidato/${inicio}`)
             .done(function (data) {
                 vagasJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;

@@ -99,11 +99,11 @@ if (isset($_GET['logout'])) {
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">
-                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaBancoTalentos"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Talentos</p></button>
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">
-                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaCandidatos"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Candidatos</p></button>
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">

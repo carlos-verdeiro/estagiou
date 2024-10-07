@@ -1,4 +1,4 @@
-<section class="sectionPages sectionPagesEstagiario" id="sectionPageVagas">
+<section class="sectionPages sectionPagesEmpresa" id="sectionPageVagas">
     <link rel="stylesheet" href="../assets/css/dashboard/empresa/vagas.css">
     <script src="../assets/js/dashboard/empresa/vagas.js"></script>
 
@@ -235,7 +235,10 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button class="btn btn-primary" data-bs-target="#modalVaga" data-bs-toggle="modal">Voltar</button>
+                    <div>
+                        <button class="btn btn-primary" data-bs-target="#modalVaga" data-bs-toggle="modal">Voltar</button>
+                        <button type="button" class="btn btn-success" id="btnSelecionarCand">Agendar</button>
+                    </div>
                 </div>
             </div>
         </div>

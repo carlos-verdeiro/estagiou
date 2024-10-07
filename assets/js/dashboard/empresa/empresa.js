@@ -2,7 +2,7 @@ $(document).ready(function () {
     //---NAV---
     // Botões de navegação
     const btnNavMenu = $('#btnNavEmpresaMenu');
-    const btnNavBancoTalentos = $('#btnNavEmpresaBancoTalentos');
+    const btnNavBancoCandidatos = $('#btnNavEmpresaCandidatos');
     const btnNavVagas = $('#btnNavEmpresaVagas');
     const btnNavSeusEstagiarios = $('#btnNavEmpresaSeusEstagiarios');
     const btnNavNotificacoes = $('#btnNavEmpresaNotificacoes');
@@ -17,7 +17,7 @@ $(document).ready(function () {
     // Função para verificar os parâmetros da URL
     function parametroExistente() {
         const parametros = new URLSearchParams(window.location.search);
-        if (parametros.has('talentos')) return 'talentos';
+        if (parametros.has('candidatos')) return 'candidatos';
         if (parametros.has('vagas')) return 'vagas';
         if (parametros.has('estagiarios')) return 'estagiarios';
         if (parametros.has('notificacoes')) return 'notificacoes';
@@ -47,8 +47,8 @@ $(document).ready(function () {
 
     // Verifica o parâmetro existente na URL e carrega a página correspondente
     switch (parametroExistente()) {
-        case 'curriculo':
-            trocaPage(btnNavBancoTalentos, 'talentos');
+        case 'candidatos':
+            trocaPage(btnNavBancoCandidatos, 'candidatos');
             break;
         case 'vagas':
             trocaPage(btnNavVagas, 'vagas');
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
     // Adiciona eventos de clique a todos os botões de navegação
     adicionarEventoClique(btnNavMenu, 'menu');
-    adicionarEventoClique(btnNavBancoTalentos, 'talentos');
+    adicionarEventoClique(btnNavBancoCandidatos, 'candidatos');
     adicionarEventoClique(btnNavVagas, 'vagas');
     adicionarEventoClique(btnNavSeusEstagiarios, 'estagiarios');
     adicionarEventoClique(btnNavNotificacoes, 'notificacoes');
