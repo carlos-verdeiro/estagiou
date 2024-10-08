@@ -6,8 +6,7 @@ $(document).ready(function () {
     let paginaAtual = 1;
 
     const blocosVagas = $('.blocosVagas');
-    const toastInformacao = bootstrap.Toast.getOrCreateInstance($('#toastInformacao'));
-    const corpoToastInformacao = $('#corpoToastInformacao');
+
 
     // MODAL
     const tituloModal = $('#tituloVaga');

@@ -124,64 +124,92 @@ switch ($busca) {
 
         break;
 
-        header('Content-Type: application/json'); // Adicione logo após o session_start para garantir o cabeçalho JSON
+        header('Content-Type: application/json');
 
-        // Parte corrigida para o case 'candidato'
     case 'candidato':
-        $idcand = isset($uri[6]) && is_numeric($uri[6]) ? (int)$uri[6] : null;
+    case 'selecionados':
 
-        if (is_null($idcand)) {
-            http_response_code(400);
-            echo json_encode(['mensagem' => 'Parâmetros obrigatórios ausentes.', 'code' => 4]);
+        include_once('../../conexao.php');
+
+        $response = [];
+
+        try {
+            // Inicia a transação
+            $conn->begin_transaction();
+
+            // Prepara a query para buscar as vagas da empresa
+            $queryVagas = $conn->prepare("SELECT id, titulo FROM vaga WHERE status = 1 AND empresa_id = ?");
+            $queryVagas->bind_param('i', $idEmpresa); // Assumindo que $idEmpresa foi previamente definido
+            $queryVagas->execute(); // Executa a query
+            $resultVagas = $queryVagas->get_result(); // Obtém o resultado
+
+            if ($resultVagas === false) {
+                throw new Exception("Erro ao buscar as vagas: " . $conn->error);
+            }
+
+            // Verifica se há vagas disponíveis
+            if ($resultVagas->num_rows > 0) {
+                // Para cada vaga, buscar os candidatos selecionados
+                while ($vaga = $resultVagas->fetch_assoc()) {
+                    $vagaId = $vaga['id'];
+                    $tituloVaga = $vaga['titulo'];
+
+                    // Query para buscar os candidatos selecionados para essa vaga
+                    $queryCandidatos = $conn->prepare("
+                            SELECT c.id, c.nome, c.formacoes, c.email, c.celular 
+                            FROM estagiario AS c
+                            INNER JOIN candidatura AS ca ON c.id = ca.id_estagiario
+                            WHERE ca.id_vaga = ? AND ca.status = 2
+                        ");
+                    $queryCandidatos->bind_param('i', $vagaId);
+                    $queryCandidatos->execute();
+                    $resultCandidatos = $queryCandidatos->get_result();
+
+                    if ($resultCandidatos === false) {
+                        throw new Exception("Erro ao buscar os candidatos para a vaga $vagaId: " . $conn->error);
+                    }
+
+                    // Lista de candidatos
+                    $candidatos = [];
+                    if ($resultCandidatos->num_rows > 0) {
+                        while ($candidato = $resultCandidatos->fetch_assoc()) {
+                            $candidatos[] = [
+                                'nome' => $candidato['nome'],
+                                'formacao' => $candidato['formacao'],
+                                'email' => $candidato['email'],
+                                'celular' => $candidato['celular']
+                            ];
+                        }
+                    }
+
+                    // Adiciona a vaga e seus candidatos à resposta
+                    $response[] = [
+                        'titulo' => $tituloVaga,
+                        'candidatos' => $candidatos
+                    ];
+                }
+            }
+
+            // Commit a transação se tudo estiver ok
+            $conn->commit();
+        } catch (Exception $e) {
+            // Rollback da transação em caso de erro
+            $conn->rollback();
+
+            // Retorna o erro como JSON
+            http_response_code(500);
+            echo json_encode([
+                'error' => $e->getMessage()
+            ]);
             exit;
         }
 
-        try {
-            include_once '../../conexao.php';
+        // Retorna os dados em formato JSON, caso não haja erro
+        header('Content-Type: application/json');
+        echo json_encode($response);
 
-            $stmt = $conn->prepare("
-                    SELECT e.id, e.nome, e.sobrenome, e.email, e.celular, e.telefone, 
-                        e.escolaridade, e.formacoes, e.experiencias, e.proIngles, 
-                        e.proEspanhol, e.proFrances, e.certificacoes, e.habilidades, 
-                        e.disponibilidade, e.curriculo_id, c.caminho_arquivo
-                    FROM estagiario e
-                    LEFT JOIN curriculo c ON e.curriculo_id = c.id
-                    INNER JOIN candidatura ca ON ca.id_estagiario = e.id
-                    INNER JOIN vaga v ON ca.id_vaga = v.id
-                    WHERE ca.id = ?
-                    AND v.empresa_id = ?;
-
-
-                ");
-
-            if (!$stmt) {
-                throw new Exception("Erro na preparação da consulta: " . $conn->error);
-            }
-
-            $stmt->bind_param("ii", $idcand, $idEmpresa);
-
-            if (!$stmt->execute()) {
-                throw new Exception("Erro ao executar a consulta: " . $stmt->error);
-            }
-
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                $vagas = $result->fetch_assoc();
-                echo json_encode($vagas); // Corrigido para garantir resposta JSON
-            } else {
-                echo json_encode(['mensagem' => 'Candidato não encontrado.', 'code' => 4.1]);
-            }
-
-            $stmt->close();
-        } catch (Exception $e) {
-            http_response_code(500);
-            error_log('Erro interno: ' . $e->getMessage());
-            echo json_encode(['mensagem' => 'Erro interno do servidor.', 'code' => 3]);
-        } finally {
-            if (isset($conn)) $conn->close();
-        }
         break;
+
 
 
     default:
