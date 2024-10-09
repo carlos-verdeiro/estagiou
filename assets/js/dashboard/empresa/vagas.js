@@ -5,6 +5,9 @@ $(document).ready(function () {
     let vagaAtual = null;
     let paginaAtual = 1;
 
+
+    let vagaAcessada = null;
+
     const blocosVagas = $('.blocosVagas');
 
 
@@ -123,6 +126,8 @@ $(document).ready(function () {
                 candidatosJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
                 vaga = data.id || null;
+                vagaAcessada = vaga.id;
+                alert(vagaAcessada);
                 //console.log(`Total de registros: ${totalRegistros}`, vaga, candidatosJson);
                 listaCandidatos = $('#listaCandidatos');
                 if (inicio === 0) {
@@ -134,11 +139,12 @@ $(document).ready(function () {
                     listaCandidatos.html('<h5 class="text-center">Não há candidatos</h5>');
                 } else {
                     candidatosJson.forEach((candidato, index) => {
+                        let selecionado = candidato.status_candidatura == 2 ? 'statusSelecionado' : '';
                         listaCandidatos.append(`
-                            <button class="list-group-item btnVaga list-group-item-action p-3"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id_candidatura}">
+                            <button class="list-group-item btnVaga list-group-item-action p-3 ${selecionado}"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id_candidatura}">
                                 <div class="d-flex w-100 justify-content-around">
                                     <h5 class="mb-1">${candidato.nome} ${candidato.sobrenome}</h5>
-                                </div>
+                                </div>  
                             </button>
                         `);
 
@@ -382,6 +388,7 @@ $(document).ready(function () {
                         case 6://id
                             $(campo).val(val);
                             break;
+
                         default:
                             $(campo).addClass('placeholder');
                             $(campo).text('');
@@ -459,13 +466,17 @@ $(document).ready(function () {
     //paginação
 
     $('#btnSelecionarCand').click(function () {
-        alert($(this).val());
-        $.post(`../../server/api/candidatos/candMostrar.php/candidato`, {id:`${$(this).val()}`},
+        let candidatoId = $(this).val(); // Obtém o valor do botão (ID do candidato)
+        let vagaId = vagaAcessada;
+
+        // Envia o ID para o PHP via requisição POST
+        $.post('../../server/api/candidatos/statusCandidato.php/selecionar', { idCand: candidatoId, idVaga: vagaId },
             function (data, textStatus, jqXHR) {
-                
+                // Lida com a resposta aqui
+                console.log(data); // Exibe a resposta do PHP
             },
             "text"
         );
-    })
+    });
 
 });

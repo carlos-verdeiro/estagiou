@@ -45,21 +45,24 @@ switch ($busca) {
 
             // Consulta para buscar as vagas e verificar candidaturas
             $stmt = $conn->prepare("
-            SELECT candidatura.id AS id_candidatura,
-            estagiario.id, 
-            estagiario.nome, 
-            estagiario.sobrenome, 
-            estagiario.curriculo_id, 
-            curriculo.caminho_arquivo
-            FROM candidatura
-            INNER JOIN estagiario ON candidatura.id_estagiario = estagiario.id
-            LEFT JOIN curriculo ON estagiario.curriculo_id = curriculo.id
-            INNER JOIN vaga ON candidatura.id_vaga = vaga.id
-            WHERE candidatura.id_vaga = ?
-            AND vaga.empresa_id = ?
-            AND candidatura.status != ?
+            SELECT c.id AS id_candidatura,
+                c.status AS status_candidatura,
+                e.id AS id_estagiario,
+                e.nome,
+                e.sobrenome,
+                e.curriculo_id,
+                cu.caminho_arquivo
+            FROM candidatura c
+            INNER JOIN estagiario e ON c.id_estagiario = e.id
+            LEFT JOIN curriculo cu ON e.curriculo_id = cu.id
+            INNER JOIN vaga v ON c.id_vaga = v.id
+            WHERE c.id_vaga = ?
+            AND v.empresa_id = ?
+            AND c.status != ?
+            ORDER BY c.status ASC
             LIMIT ?
             OFFSET ?;
+
             "); //LEFT JOIN retorna todos independente se tem currículo
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
@@ -126,7 +129,6 @@ switch ($busca) {
 
         header('Content-Type: application/json');
 
-    case 'candidato':
     case 'candidato':
         $idcand = isset($uri[6]) && is_numeric($uri[6]) ? (int)$uri[6] : null;
 
