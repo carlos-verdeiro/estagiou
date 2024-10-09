@@ -4,6 +4,10 @@
 
     <h2 class="text-center mb-4">Candidatos Selecionados</h2>
 
+    <div id="divVagas">
+
+    </div>
+
 
 </section>
 

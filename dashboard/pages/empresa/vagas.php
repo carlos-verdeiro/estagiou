@@ -237,7 +237,7 @@
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <div>
                         <button class="btn btn-primary" data-bs-target="#modalVaga" data-bs-toggle="modal">Voltar</button>
-                        <button type="button" class="btn btn-success" id="btnSelecionarCand">Agendar</button>
+                        <button type="button" class="btn btn-success" id="btnSelecionarCand">Selecionar</button>
                     </div>
                 </div>
             </div>
