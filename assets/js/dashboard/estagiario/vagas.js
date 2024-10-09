@@ -98,7 +98,7 @@ $(document).ready(function () {
     }
 
     function puxarMinhasVagas(inicio) {
-        $.getJSON(`../../server/api/candidatos/mostrarVaga.php/estagiarioVagasCandidato/${inicio}`)
+        $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagasCandidato/${inicio}`)
             .done(function (data) {
                 vagasJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
@@ -258,7 +258,7 @@ $(document).ready(function () {
         const data = { idVaga: vaga.id };
 
         $.post(
-            "../../server/api/vagas/candVaga.php",
+            "../../server/api/candidatos/candVaga.php",
             data,
             function (response, textStatus, jqXHR) {
                 modalVaga.modal('hide');

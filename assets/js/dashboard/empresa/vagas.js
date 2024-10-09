@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
+    const corpoToastInformacao = $('#corpoToastInformacao');
+
     let vagasJson = null;
     let limiteCand = 50;
     let vagaAtual = null;
@@ -126,8 +129,7 @@ $(document).ready(function () {
                 candidatosJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
                 vaga = data.id || null;
-                vagaAcessada = vaga.id;
-                alert(vagaAcessada);
+                vagaAcessada = vagasJson[index].id;
                 //console.log(`Total de registros: ${totalRegistros}`, vaga, candidatosJson);
                 listaCandidatos = $('#listaCandidatos');
                 if (inicio === 0) {
@@ -141,7 +143,7 @@ $(document).ready(function () {
                     candidatosJson.forEach((candidato, index) => {
                         let selecionado = candidato.status_candidatura == 2 ? 'statusSelecionado' : '';
                         listaCandidatos.append(`
-                            <button class="list-group-item btnVaga list-group-item-action p-3 ${selecionado}"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id_candidatura}">
+                            <button class="list-group-item btnVaga list-group-item-action p-3 ${selecionado}" id="btnCandidatura${candidato.id_candidatura}"  data-bs-target="#modalCandidato" data-bs-toggle="modal" value="${candidato.id_candidatura}">
                                 <div class="d-flex w-100 justify-content-around">
                                     <h5 class="mb-1">${candidato.nome} ${candidato.sobrenome}</h5>
                                 </div>  
@@ -323,6 +325,7 @@ $(document).ready(function () {
     });
 
     $('#listaCandidatos').on('click', '.btnVaga', function () {
+        let valor = $(this).val();
         $.getJSON(`../../server/api/candidatos/candMostrar.php/candidato/${$(this).val()}`)
             .done(function (data) {
                 console.log(data);
@@ -421,7 +424,7 @@ $(document).ready(function () {
                 modCand(3, '#modalCandidatoHabilidades', data.habilidades);
                 modCand(4, '#modalCandidatoDisponibilidade', data.disponibilidade);
                 modCand(5, '#modalCandidatoCurriculo', data.caminho_arquivo);
-                modCand(6, '#btnSelecionarCand', data.id);
+                modCand(6, '#btnSelecionarCand', valor);
             })
             .fail(function (jqXHR, textStatus) {
                 corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
@@ -465,18 +468,28 @@ $(document).ready(function () {
     });
     //paginação
 
-    $('#btnSelecionarCand').click(function () {
-        let candidatoId = $(this).val(); // Obtém o valor do botão (ID do candidato)
-        let vagaId = vagaAcessada;
-
+    $(document).on('click', '#btnSelecionarCand', function () {
+        let candidaturaId = $(this).val(); // Obtém o valor do botão (ID do candidato)
+    
         // Envia o ID para o PHP via requisição POST
-        $.post('../../server/api/candidatos/statusCandidato.php/selecionar', { idCand: candidatoId, idVaga: vagaId },
+        $.post('../../server/api/candidatos/statusCandidato.php/selecionar', 
+            { idCand: candidaturaId }, // Correção aqui: use um objeto
             function (data, textStatus, jqXHR) {
-                // Lida com a resposta aqui
-                console.log(data); // Exibe a resposta do PHP
+    
+                if (data.code == 1) {
+                    $(`#btnCandidatura${candidaturaId}`).removeClass('statusSelecionado');
+                } else {
+                    $(`#btnCandidatura${candidaturaId}`).addClass('statusSelecionado');
+                }
+    
+                // Exibe o toast com a mensagem de resposta
+                corpoToastInformacao.text(data.message);
+                toastInformacao.show();
             },
-            "text"
+            "json"
         );
     });
+    
+    
 
 });
