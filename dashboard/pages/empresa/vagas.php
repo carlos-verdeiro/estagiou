@@ -245,11 +245,6 @@
     </div>
 
 
-
-
-
-
-
     <!-- Modal Exluir-->
     <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluir" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -279,7 +274,7 @@
         </div>
     </div>
 
-    <!--TOAST INFORMÇÃO-->
+    <!--TOAST INFORMAÇÃO-->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="toastInformacao" class="toast" role="information" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">

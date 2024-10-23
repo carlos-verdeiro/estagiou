@@ -170,7 +170,7 @@ switch ($busca) {
 
             if ($result->num_rows > 0) {
                 $vagas = $result->fetch_assoc();
-                echo json_encode($vagas); // Corrigido para garantir resposta JSON
+                echo json_encode($vagas);
             } else {
                 echo json_encode(['mensagem' => 'Candidato não encontrado.', 'code' => 4.1]);
             }
@@ -185,20 +185,24 @@ switch ($busca) {
         }
         break;
     case 'selecionados':
-
         include_once('../../conexao.php');
 
         $response = [];
 
         try {
+            // Verifica a conexão
+            if ($conn->connect_error) {
+                throw new Exception("Conexão falhou: " . $conn->connect_error);
+            }
+
             // Inicia a transação
             $conn->begin_transaction();
 
             // Prepara a query para buscar as vagas da empresa
             $queryVagas = $conn->prepare("SELECT id, titulo FROM vaga WHERE status = 1 AND empresa_id = ?");
-            $queryVagas->bind_param('i', $idEmpresa); // Assumindo que $idEmpresa foi previamente definido
-            $queryVagas->execute(); // Executa a query
-            $resultVagas = $queryVagas->get_result(); // Obtém o resultado
+            $queryVagas->bind_param('i', $idEmpresa);
+            $queryVagas->execute();
+            $resultVagas = $queryVagas->get_result();
 
             if ($resultVagas === false) {
                 throw new Exception("Erro ao buscar as vagas: " . $conn->error);
@@ -213,7 +217,7 @@ switch ($busca) {
 
                     // Query para buscar os candidatos selecionados para essa vaga
                     $queryCandidatos = $conn->prepare("
-                            SELECT c.id, c.nome, c.sobrenome, c.formacoes, c.email, c.celular 
+                            SELECT c.id, ca.id AS id_candidatura, c.nome, c.sobrenome, c.formacoes, c.email, c.celular 
                             FROM estagiario AS c
                             INNER JOIN candidatura AS ca ON c.id = ca.id_estagiario
                             WHERE ca.id_vaga = ? AND ca.status = 2
@@ -232,6 +236,7 @@ switch ($busca) {
                         while ($candidato = $resultCandidatos->fetch_assoc()) {
                             $candidatos[] = [
                                 'id' => $candidato['id'],
+                                'id_candidatura' => $candidato['id_candidatura'],
                                 'nome' => $candidato['nome'],
                                 'sobrenome' => $candidato['sobrenome'],
                                 'formacoes' => $candidato['formacoes'],
@@ -265,9 +270,10 @@ switch ($busca) {
 
         // Retorna os dados em formato JSON, caso não haja erro
         header('Content-Type: application/json');
-        echo json_encode($response);
+        echo json_encode($response, JSON_PRETTY_PRINT); // Formatação opcional
 
         break;
+
 
 
 

@@ -25,6 +25,8 @@ $(document).ready(function () {
                             `;
 
                             vaga.candidatos.forEach((candidato) => {
+                                console.log(candidato)
+
                                 vagaHtml += `
                                     <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                                         <div class="card h-100">
@@ -39,12 +41,12 @@ $(document).ready(function () {
                                                                 Opções
                                                             </button>
                                                             <ul class="dropdown-menu w-100">
-                                                                <li><button class="dropdown-item" type="button">Contratar</button></li>
+                                                                <li><button class="dropdown-item" type="button" value="${candidato.id_candidatura}">Contratar</button></li>
                                                                 <li><hr class="dropdown-divider"></li>
-                                                                <li><button class="dropdown-item" type="button">Ver Currículo</button></li>
-                                                                <li><button class="dropdown-item" type="button">Enviar Mensagem</button></li>
+                                                                <li><button class="dropdown-item btnCurriculoCand" type="button" value="${candidato.id_candidatura}">Ver Currículo</button></li>
+                                                                <li><button class="dropdown-item" type="button" value="${candidato.id_candidatura}">Enviar Mensagem</button></li>
                                                                 <li><hr class="dropdown-divider"></li>
-                                                                <li><button class="dropdown-item" type="button">Remover</button></li>
+                                                                <li><button class="dropdown-item btnRemoveCand" type="button" value="${candidato.id_candidatura}">Remover</button></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -77,6 +79,149 @@ $(document).ready(function () {
                 toastInformacao.show();
             });
     }
+
+
+    $('#sectionPageVagas').on('click', '.btnCurriculoCand', function () {
+        let valor = $(this).val();
+        $.getJSON(`../../server/api/candidatos/candMostrar.php/candidato/${$(this).val()}`)
+            .done(function (data) {
+                console.log(data);
+                function modCand(type, campo, val) {
+                    $(campo).removeClass('placeholder');
+                    $(campo).removeClass('visually-hidden');
+
+                    switch (type) {
+                        case 1:
+                            $(campo).text(val);
+                            break;
+                        case 2://niveis proeficiencia
+                            if (val == 1) {
+                                $(campo + 'Nivel').removeClass('visually-hidden');
+                                $(campo).text('Básico');
+                            } else if (val == 2) {
+                                $(campo + 'Nivel').removeClass('visually-hidden');
+                                $(campo).text('Intermediário');
+                            } else if (val == 3) {
+                                $(campo + 'Nivel').removeClass('visually-hidden');
+                                $(campo).text('Avançado');
+                            } else {
+                                $(campo + 'Nivel').addClass('visually-hidden');
+                                $(campo).text('');
+                            }
+                            break;
+                        case 3://opcionais
+                            if (val != null && val != '') {
+                                $(campo + 'Geral').removeClass('visually-hidden');
+                                // Substitui quebras de linha por <br>
+                                $(campo).html(val.replace(/\n/g, '<br>'));
+                            } else {
+                                $(campo + 'Geral').addClass('visually-hidden');
+                                $(campo).html('');
+                            }
+                            break;
+                        case 4://disponibilidade
+                            if (val != null && val != '') {
+                                $(campo + 'Geral').removeClass('visually-hidden');
+
+                                // Substitui "Meio" por "Meio Período" e as barras por quebras de linha <br>, capitalizando a primeira letra de cada segmento
+                                const formatado = val.split('/').map(function (linha) {
+                                    linha = linha.toLowerCase() === 'meio' ? 'Meio Período' : linha;
+                                    return linha.charAt(0).toUpperCase() + linha.slice(1);
+                                }).join('<br>');
+
+                                $(campo).html(formatado);
+                            } else {
+                                $(campo + 'Geral').addClass('visually-hidden');
+                                $(campo).html('');
+                            }
+                            break;
+
+                        case 5://curriculo
+                            if (val != null && val != '') {
+                                $(campo + 'Geral').removeClass('visually-hidden');
+                                $(campo).attr('src', `../server/curriculos/${val}`);
+                            } else {
+                                $(campo + 'Geral').addClass('visually-hidden');
+                            }
+                            break;
+
+                        case 6://id
+                            $(campo).val(val);
+                            break;
+
+                        default:
+                            $(campo).addClass('placeholder');
+                            $(campo).text('');
+                            break;
+                    }
+                }
+
+                modCand(1, '#modalCandidatoTitulo', data.nome);
+                modCand(1, '#modalCandidatoNome', data.nome + ' ' + data.sobrenome);
+                let celular = data.celular.replace(/(\d{2})(\d{1})(\d{4})(\d{4})/, '($1) $2 $3-$4'); // Aplica a máscara
+                modCand(1, '#modalCandidatoCelular', celular);
+
+                modCand(1, '#modalCandidatoEmail', data.email);
+
+                modCand(2, '#modalCandidatoProIngles', data.proIngles);
+                modCand(2, '#modalCandidatoProEspanhol', data.proEspanhol);
+                modCand(2, '#modalCandidatoProFrances', data.proFrances);
+
+                if (data.telefone === null || data.telefone === '') {
+                    $('#modalCandidatoDivTelefone').addClass('visually-hidden');
+                } else {
+                    $('#modalCandidatoDivTelefone').removeClass('visually-hidden');
+                    let telefone = data.telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3'); // Aplica a máscara
+                    modCand(1, '#modalCandidatoTelefone', telefone);
+                }
+
+                modCand(3, '#modalCandidatoFormacoes', data.formacoes);
+                modCand(3, '#modalCandidatoExperiencias', data.experiencias);
+                modCand(3, '#modalCandidatoCertificacoes', data.certificacoes);
+                modCand(3, '#modalCandidatoHabilidades', data.habilidades);
+                modCand(4, '#modalCandidatoDisponibilidade', data.disponibilidade);
+                modCand(5, '#modalCandidatoCurriculo', data.caminho_arquivo);
+                modCand(6, '#btnSelecionarCand', valor);
+
+                if ($(`#btnCandidatura${valor}`).hasClass('statusSelecionado')) {
+                    $(`#btnSelecionarCand`).removeClass('btn-success');
+                    $(`#btnSelecionarCand`).addClass('btn-danger');
+                    $(`#btnSelecionarCand`).text('Desselecionar');
+                } else {
+                    $(`#btnSelecionarCand`).removeClass('btn-danger');
+                    $(`#btnSelecionarCand`).addClass('btn-success');
+                    $(`#btnSelecionarCand`).text('Selecionar');
+                }
+                $('#modalCandidato').modal('show');
+            })
+            .fail(function (jqXHR, textStatus) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', textStatus);
+            });
+
+    });
+
+    $('#sectionPageVagas').on('click', '.btnRemoveCand', function () {
+        $("#btnModalExcluir").val($(this).val());
+        $("#modalExcluir").modal('show');
+    });
+
+    $("#btnModalExcluir").on('click', function () {
+        let candidaturaId = $(this).val(); // Obtém o valor do botão (ID do candidato)
+        $.post('../../server/api/candidatos/statusCandidato.php/selecionar',
+            { idCand: candidaturaId },
+            function (data, textStatus, jqXHR) {
+                puxarCandidatos();
+                console.log(data)
+                // Exibe o toast com a mensagem de resposta
+                corpoToastInformacao.text(data.message);
+                toastInformacao.show();
+            },
+            "json"
+        );
+    });
+
 
     puxarCandidatos();
 });
