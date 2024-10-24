@@ -41,7 +41,7 @@ $(document).ready(function () {
                                                                 Opções
                                                             </button>
                                                             <ul class="dropdown-menu w-100">
-                                                                <li><button class="dropdown-item" type="button" value="${candidato.id_candidatura}">Contratar</button></li>
+                                                                <li><button class="dropdown-item btnContratarCand" type="button" value="${candidato.id_candidatura}">Contratar</button></li>
                                                                 <li><hr class="dropdown-divider"></li>
                                                                 <li><button class="dropdown-item btnCurriculoCand" type="button" value="${candidato.id_candidatura}">Ver Currículo</button></li>
                                                                 <li><button class="dropdown-item" type="button" value="${candidato.id_candidatura}">Enviar Mensagem</button></li>
@@ -211,6 +211,21 @@ $(document).ready(function () {
         let candidaturaId = $(this).val(); // Obtém o valor do botão (ID do candidato)
         $.post('../../server/api/candidatos/statusCandidato.php/selecionar',
             { idCand: candidaturaId },
+            function (data, textStatus, jqXHR) {
+                puxarCandidatos();
+                console.log(data)
+                // Exibe o toast com a mensagem de resposta
+                corpoToastInformacao.text(data.message);
+                toastInformacao.show();
+            },
+            "json"
+        );
+    });
+
+    $("#btnContratarCand").on('click', function () {
+        let candidaturaId = $(this).val(); // Obtém o valor do botão (ID do candidato)
+        $.post('../../server/api/candidatos/contratarCandidato.php',
+            {idCand: candidaturaId},
             function (data, textStatus, jqXHR) {
                 puxarCandidatos();
                 console.log(data)

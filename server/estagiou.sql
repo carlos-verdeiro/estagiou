@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11/09/2024 às 14:41
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 24/10/2024 às 22:24
+-- Versão do servidor: 10.4.28-MariaDB
+-- Versão do PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -111,6 +111,24 @@ INSERT INTO `candidatura` (`id`, `id_estagiario`, `id_vaga`, `data_candidatura`,
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `contratos`
+--
+
+CREATE TABLE `contratos` (
+  `id` int(11) NOT NULL,
+  `id_estagiario` int(11) NOT NULL,
+  `id_empresa` int(11) NOT NULL,
+  `id_vaga` int(11) NOT NULL,
+  `data_contratacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `caminho_anexo` varchar(500) NOT NULL,
+  `nome_anexo` varchar(200) NOT NULL,
+  `observacoes` varchar(1000) NOT NULL,
+  `data_termino` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `curriculo`
 --
 
@@ -139,7 +157,7 @@ INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`,
 --
 
 CREATE TABLE `empresa` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -280,7 +298,7 @@ INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_c
 
 CREATE TABLE `vaga` (
   `id` int(10) NOT NULL,
-  `empresa_id` int(10) UNSIGNED NOT NULL,
+  `empresa_id` int(10) NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
   `requisitos` text NOT NULL,
@@ -308,6 +326,15 @@ ALTER TABLE `candidatura`
   ADD PRIMARY KEY (`id`),
   ADD KEY `estrangeiro_estagiario` (`id_estagiario`),
   ADD KEY `estrangeiro_vaga` (`id_vaga`);
+
+--
+-- Índices de tabela `contratos`
+--
+ALTER TABLE `contratos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estagiario` (`id_estagiario`),
+  ADD KEY `id_vaga` (`id_vaga`),
+  ADD KEY `id_empresa` (`id_empresa`);
 
 --
 -- Índices de tabela `curriculo`
@@ -361,6 +388,12 @@ ALTER TABLE `candidatura`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
+-- AUTO_INCREMENT de tabela `contratos`
+--
+ALTER TABLE `contratos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
@@ -370,7 +403,7 @@ ALTER TABLE `curriculo`
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `escola`
@@ -400,6 +433,14 @@ ALTER TABLE `vaga`
 ALTER TABLE `candidatura`
   ADD CONSTRAINT `estrangeiro_estagiario` FOREIGN KEY (`id_estagiario`) REFERENCES `estagiario` (`id`),
   ADD CONSTRAINT `estrangeiro_vaga` FOREIGN KEY (`id_vaga`) REFERENCES `vaga` (`id`);
+
+--
+-- Restrições para tabelas `contratos`
+--
+ALTER TABLE `contratos`
+  ADD CONSTRAINT `id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`),
+  ADD CONSTRAINT `id_estagiario` FOREIGN KEY (`id_estagiario`) REFERENCES `estagiario` (`id`),
+  ADD CONSTRAINT `id_vaga` FOREIGN KEY (`id_vaga`) REFERENCES `vaga` (`id`);
 
 --
 -- Restrições para tabelas `curriculo`
