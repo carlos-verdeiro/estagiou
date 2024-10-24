@@ -222,7 +222,7 @@ $(document).ready(function () {
         );
     });
 
-    $("#btnContratarCand").on('click', function () {
+    $("#sectionPageVagas").on('click', '.btnContratarCand', function () {
         let candidaturaId = $(this).val(); // Obtém o valor do botão (ID do candidato)
         $.post('../../server/api/candidatos/contratarCandidato.php',
             {idCand: candidaturaId},
@@ -230,10 +230,10 @@ $(document).ready(function () {
                 puxarCandidatos();
                 console.log(data)
                 // Exibe o toast com a mensagem de resposta
-                corpoToastInformacao.text(data.message);
+                corpoToastInformacao.text(data);
                 toastInformacao.show();
             },
-            "json"
+            "text"
         );
     });
 
