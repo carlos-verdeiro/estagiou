@@ -71,14 +71,15 @@ $(document).ready(function () {
                     const nivelEspanhol = isEspanholSelected ? $('#nivelEspanhol').val() : 0;
                     const nivelFrances = isFrancesSelected ? $('#nivelFrances').val() : 0;
 
-                    if ((nivelIngles != jsonInfo.proIngles) ||
-                        (nivelEspanhol != jsonInfo.proEspanhol) ||
-                        (nivelFrances != jsonInfo.proFrances)) {
+                    if ((nivelIngles != (jsonInfo.proIngles || 0)) ||
+                        (nivelEspanhol != (jsonInfo.proEspanhol || 0)) ||
+                        (nivelFrances != (jsonInfo.proFrances || 0))) {
                         $('#btnAcorIdiomas').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorIdiomas').removeClass('bg-warning-subtle');
                     }
                     break;
+
 
                 case 'certificacoes':
                     if (normalizarTexto($('#certificacoes').val()) != normalizarTexto(jsonInfo.certificacoes)) {
@@ -104,12 +105,13 @@ $(document).ready(function () {
                         .filter(tipo => $(`#${tipo}`).is(':checked'));
 
                     const valoresSelecionados = selecionados.join('/');
-                    if (valoresSelecionados != jsonInfo.disponibilidade) {
+                    if (valoresSelecionados !== (jsonInfo.disponibilidade || '')) {
                         $('#btnAcorDisponibilidade').addClass('bg-warning-subtle');
                     } else {
                         $('#btnAcorDisponibilidade').removeClass('bg-warning-subtle');
                     }
                     break;
+
                 default:
                     break;
             }
