@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24/10/2024 às 22:24
--- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.0.28
+-- Tempo de geração: 01/11/2024 às 16:18
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,72 +41,7 @@ CREATE TABLE `candidatura` (
 --
 
 INSERT INTO `candidatura` (`id`, `id_estagiario`, `id_vaga`, `data_candidatura`, `observacao`, `status`) VALUES
-(47, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(48, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(50, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(51, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(53, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(54, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(56, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(57, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(59, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(60, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(62, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(63, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(65, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(66, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(68, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(69, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(71, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(72, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(74, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(75, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(77, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(78, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(80, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(81, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(83, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(84, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(86, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(87, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(89, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(90, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(92, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(93, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(95, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(96, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(98, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(99, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(101, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(102, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(104, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(105, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(107, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(108, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(110, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(111, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(113, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(114, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(116, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(117, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(120, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(121, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(123, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(124, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(126, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(127, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(129, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(130, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(132, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(133, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(135, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(136, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(138, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(139, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(141, 43, 195, '2024-09-08 14:02:22', NULL, 1),
-(142, 43, 196, '2024-09-08 14:02:24', NULL, 1),
-(144, 41, 195, '2024-09-10 00:19:05', NULL, 1),
-(145, 41, 196, '2024-09-10 00:54:36', NULL, 1);
+(153, 41, 195, '2024-10-31 17:20:19', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -125,6 +60,16 @@ CREATE TABLE `contratos` (
   `observacoes` varchar(1000) NOT NULL,
   `data_termino` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `contratos`
+--
+
+INSERT INTO `contratos` (`id`, `id_estagiario`, `id_empresa`, `id_vaga`, `data_contratacao`, `caminho_anexo`, `nome_anexo`, `observacoes`, `data_termino`) VALUES
+(1, 41, 3, 195, '2024-10-27 13:21:39', '', '', '', '0000-00-00'),
+(2, 43, 3, 195, '2024-10-27 13:21:41', '', '', '', '0000-00-00'),
+(3, 41, 3, 196, '2024-10-27 17:24:51', '', '', '', '0000-00-00'),
+(4, 43, 3, 196, '2024-10-31 16:03:46', '', '', '', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -148,7 +93,8 @@ CREATE TABLE `curriculo` (
 --
 
 INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
-(84, '2024-09-11', 'Curriculo_Carlos.pdf', 'application/pdf', 52520, '66e184403ff48.pdf', 'roi', 41);
+(85, '2024-10-25', 'Currículo_Carlos2.pdf', 'application/pdf', 69442, '671bf27e58033.pdf', '', 41),
+(86, '2024-10-27', 'CuCo.pdf', 'application/pdf', 619015, '671e3dd033c30.pdf', '', 43);
 
 -- --------------------------------------------------------
 
@@ -287,8 +233,8 @@ CREATE TABLE `estagiario` (
 --
 
 INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`, `escolaridade`, `formacoes`, `experiencias`, `proIngles`, `proEspanhol`, `proFrances`, `certificacoes`, `habilidades`, `disponibilidade`) VALUES
-(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos Daniel', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-09-11 11:51:20', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 84, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(43, 'carlosgvd0410@gmail.com', '$2y$10$stffttMNHaNvujK/HMeZo.hMm1R7dFO7UwGrdPMbkrYaa.x3jYiEC', 'Carlos', 'Verdeiro', 'solteiro', '01234567890', '511484848', 'SSP', '2007-02-09', '', '44991567723', '2024-09-08 14:01:51', '2024-09-08 14:01:51', 1, 'PR', 'Brasileira', 0, 'N', 'M', NULL, 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos Daniel', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-10-27 13:20:51', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 85, 2, 'opa', 'técnico', 1, 1, 0, 'Redes', NULL, 'meio/remoto'),
+(43, 'carlosgvd0410@gmail.com', '$2y$10$stffttMNHaNvujK/HMeZo.hMm1R7dFO7UwGrdPMbkrYaa.x3jYiEC', 'Carlos', 'Verdeiro', 'solteiro', '01234567890', '511484848', 'SSP', '2007-02-09', '', '44991567723', '2024-10-27 13:19:12', '2024-09-08 14:01:51', 1, 'PR', 'Brasileira', 0, 'N', 'M', NULL, 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 86, 1, '', 'd', NULL, NULL, NULL, 't', 'd', 'integral/meio/remoto/presencial');
 
 -- --------------------------------------------------------
 
@@ -302,8 +248,9 @@ CREATE TABLE `vaga` (
   `titulo` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
   `requisitos` text NOT NULL,
-  `data_publicacao` timestamp NOT NULL DEFAULT current_timestamp(),
-  `data_encerramento` timestamp NULL DEFAULT NULL,
+  `data_publicacao` date NOT NULL DEFAULT current_timestamp(),
+  `data_encerramento` date DEFAULT NULL,
+  `encerrado` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -311,9 +258,11 @@ CREATE TABLE `vaga` (
 -- Despejando dados para a tabela `vaga`
 --
 
-INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `status`) VALUES
-(195, 3, 'cvfffff', 'ddsad', 'dasd', '2024-08-24 12:15:53', NULL, 1),
-(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24 12:16:12', '2024-08-22 12:15:00', 1);
+INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `encerrado`, `status`) VALUES
+(195, 3, 'teste', 'd', 'dd', '2024-08-24', NULL, 1, 1),
+(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24', '0000-00-00', 1, 0),
+(197, 3, 'ds', 'das', 'dsa', '2024-10-31', '2024-11-02', 0, 1),
+(198, 3, 'g', 'gt', 'g', '2024-11-01', NULL, 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -385,19 +334,19 @@ ALTER TABLE `vaga`
 -- AUTO_INCREMENT de tabela `candidatura`
 --
 ALTER TABLE `candidatura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -421,7 +370,7 @@ ALTER TABLE `estagiario`
 -- AUTO_INCREMENT de tabela `vaga`
 --
 ALTER TABLE `vaga`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- Restrições para tabelas despejadas
@@ -460,6 +409,16 @@ ALTER TABLE `estagiario`
 --
 ALTER TABLE `vaga`
   ADD CONSTRAINT `vaga_ibfk_1` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`);
+
+DELIMITER $$
+--
+-- Eventos
+--
+CREATE DEFINER=`root`@`localhost` EVENT `encerramento` ON SCHEDULE EVERY 1 DAY STARTS '2024-11-01 23:59:59' ENDS '2034-11-30 23:59:59' ON COMPLETION PRESERVE ENABLE DO UPDATE vaga
+SET encerrado = 1, data_encerramento = NULL
+WHERE data_encerramento <= CURDATE()$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

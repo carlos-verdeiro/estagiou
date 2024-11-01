@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->close();
 
             if ($verificacao['total'] > 0) {
-                echo "Erro: Já existe um contrato para este estagiário nesta vaga.";
+                echo "Já existe um contrato para este estagiário nesta vaga.";
             } else {
                 // Inserir o novo contrato
                 $query = "INSERT INTO contratos (id_estagiario, id_empresa, id_vaga) VALUES (?, ?, ?)";

@@ -55,7 +55,7 @@ switch ($uri[5]) {
                     FROM candidatura
                     GROUP BY id_vaga
                 ) AS candidaturas ON vaga.id = candidaturas.id_vaga
-                WHERE vaga.empresa_id = ?
+                WHERE vaga.empresa_id = ? AND vaga.status = 1
             ");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
@@ -120,6 +120,7 @@ switch ($uri[5]) {
                 INNER JOIN empresa ON vaga.empresa_id = empresa.id
                 LEFT JOIN candidatura ON candidatura.id_vaga = vaga.id AND candidatura.id_estagiario = ?
                 WHERE vaga.status = ?
+                AND vaga.encerrado = ?
                 ORDER BY vaga.titulo
                 LIMIT ?
                 OFFSET ?
@@ -129,9 +130,10 @@ switch ($uri[5]) {
             }
 
             $statusVaga = 1;
+            $encerradoVaga = 0;
             $candidatado = 0;
 
-            $stmt->bind_param("iiii", $idEstagiario, $statusVaga, $limiteBusca, $partida);
+            $stmt->bind_param("iiiii", $idEstagiario, $statusVaga, $encerradoVaga, $limiteBusca, $partida);
 
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar a consulta: " . $stmt->error);
@@ -147,12 +149,12 @@ switch ($uri[5]) {
             }
 
             // Consulta para contar o total de registros
-            $stmt_total = $conn->prepare("SELECT COUNT(*) AS total_registros FROM vaga WHERE status = ?");
+            $stmt_total = $conn->prepare("SELECT COUNT(*) AS total_registros FROM vaga WHERE status = ? AND encerrado = ?");
             if (!$stmt_total) {
                 throw new Exception("Erro na preparação da consulta de contagem: " . $conn->error);
             }
 
-            $stmt_total->bind_param("i", $statusVaga);
+            $stmt_total->bind_param("ii", $statusVaga, $encerradoVaga);
 
             if (!$stmt_total->execute()) {
                 throw new Exception("Erro ao executar a consulta de contagem: " . $stmt_total->error);
@@ -161,7 +163,6 @@ switch ($uri[5]) {
             $total_result = $stmt_total->get_result();
             $total_registros = $total_result->fetch_assoc()['total_registros'];
 
-            // Converte o array em JSON, incluindo o total de registros
             $json_data = json_encode([
                 'total_registros' => $total_registros,
                 'vagas' => $vagas

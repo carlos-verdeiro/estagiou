@@ -1,3 +1,8 @@
+<?php
+$now = date('Y-m-d');
+
+?>
+
 <section class="sectionPages sectionPagesEmpresa" id="sectionPageVagas">
     <link rel="stylesheet" href="../assets/css/dashboard/empresa/vagas.css">
     <script src="../assets/js/dashboard/empresa/vagas.js"></script>
@@ -42,7 +47,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="dataEncerramentoVaga" class="form-label">Encerramento das inscrições</label>
-                            <input type="datetime-local" class="form-control" id="dataEncerramentoVaga" name="dataEncerramentoVaga" min="<?php echo $now; ?>" required>
+                            <input type="date" class="form-control" id="dataEncerramentoVaga" name="dataEncerramentoVaga" min="<?php echo $now; ?>" required>
 
                             <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="encerraCheckVaga" name="encerraCheckVaga">
@@ -83,7 +88,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="dataEncerramentoEditarVaga" class="form-label">Encerramento das inscrições</label>
-                            <input type="datetime-local" class="form-control" id="dataEncerramentoEditarVaga" name="dataEncerramentoEditarVaga" min="<?php echo $now; ?>" required>
+                            <input type="date" class="form-control" id="dataEncerramentoEditarVaga" name="dataEncerramentoEditarVaga" min="<?php echo $now; ?>" required>
 
                             <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="encerraCheckEditarVaga" name="encerraCheckEditarVaga">
@@ -259,16 +264,17 @@
             </div>
         </div>
     </div>
+
     <!-- Modal Encerrar-->
     <div class="modal fade" id="modalEncerrar" tabindex="-1" aria-labelledby="modalEncerrar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja finalizar a candidatura?</h1>
+                    <h1 class="modal-title fs-5" id="textModalEncerrar">Deseja encerrar o período de candidatura?</h1>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" id="btnModalEncerrar" data-bs-dismiss="modal" class="btn btn-danger">finalizar</button>
+                    <button type="button" id="btnModalEncerrar" data-bs-dismiss="modal" class="btn btn-danger">Encerrar</button>
                 </div>
             </div>
         </div>

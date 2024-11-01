@@ -1,0 +1,6 @@
+@import url(header.css);
+@import url(../custom.css);
+
+.wm-50{
+    width: 500px;
+}

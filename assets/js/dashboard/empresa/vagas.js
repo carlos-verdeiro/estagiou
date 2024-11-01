@@ -38,15 +38,15 @@ $(document).ready(function () {
     function formatarData(data) {
         // Verifica se a data é válida
         if (!data) return 'Não programado';
-
-        // Dividir a data e hora
-        const partes = data.split(' ');
-        const [ano, mes, dia] = partes[0].split('-');
-        const hora = partes[1].substring(0, 5);
-
+    
+        // Dividir a data
+        const partes = data.split(' ')[0]; // Pega somente a parte da data
+        const [ano, mes, dia] = partes.split('-');
+    
         // Formatar a data como DD/MM/AAAA
-        return `${dia}/${mes}/${ano} ${hora}`;
+        return `${dia}/${mes}/${ano}`;
     }
+    
 
     function puxarVagas() {
         $.getJSON('../../server/api/vagas/mostrarVaga.php/empresaVagas')
@@ -60,8 +60,8 @@ $(document).ready(function () {
                     data.forEach((vaga, index) => {
                         const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
                         blocosVagas.append(`
-                            <div class="card px-0" style="width: 18rem;">
-                                <div class="card-header">
+                            <div class="card px-0 ${(vaga.encerrado ? "border-danger-subtle" : "")}" style="width: 18rem;">
+                                <div class="card-header ${(vaga.encerrado ? "bg-danger-subtle border-danger-subtle" : "")}">
                                     <h5 class="card-title m-0">${vaga.titulo}</h5>
                                 </div>
                                 <div class="card-body">
@@ -70,16 +70,16 @@ $(document).ready(function () {
                                     <h6>Requisitos:</h6>
                                     <p class="card-text">${vaga.requisitos}</p>
                                     <h6>Encerra:</h6>
-                                    <p class="card-text">${dataEncerramento}</p>
+                                    <p class="card-text">${(vaga.encerrado ? "Inscrição Encerrada" : dataEncerramento)}</p>
                                     <h6>Publicado:</h6>
                                     <p class="card-text">${formatarData(vaga.data_publicacao)}</p>
                                     <h6>Candidatos:</h6>
                                     <p class="card-text">${vaga.total_candidatos}</p>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer ${(vaga.encerrado ? "border-danger-subtle" : "")}">
                                     <button type="button" class="btn btn-primary sm btnVizualizar" value="${index}">Vizualizar</button>
                                     <button type="button" class="btn btn-warning sm btnEditar" value="${index}">Editar</button>
-                                    <button type="button" class="btn btn-danger sm btnEncerrar" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">Encerrar</button>
+                                    <button type="button" class="btn  sm btnEncerrar ${(vaga.encerrado ? "btn-success" : "btn-danger")}" value="${index}" data-bs-toggle="modal" data-bs-target="#modalEncerrar">${(vaga.encerrado ? "Reabrir" : "Encerrar")}</button>
                                 </div>
                             </div>`);
                     });
@@ -231,7 +231,7 @@ $(document).ready(function () {
         const formData = new FormData(this);
 
         $.ajax({
-            url: '../server/api/vagas/updateVaga.php',
+            url: '../server/api/vagas/updateVaga.php/editar',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -293,6 +293,52 @@ $(document).ready(function () {
         idVagaEditar.val(vagaEditar.id);
 
         $("#modalEditarVaga").modal('show');
+    });
+
+
+    $('#btnModalEncerrar').on('click', function () {
+
+        const vagaEncerrar = vagasJson[$(this).val()];
+
+        $.ajax({
+            url: `../server/api/vagas/updateVaga.php/encerramento`,
+            type: 'POST',
+            data: { idVaga: vagaEncerrar.id },
+            success: function (data) {
+                puxarVagas();
+                console.log(data);
+                corpoToastInformacao.text(data.mensagem);
+                toastInformacao.show();
+            },
+            error: function (xhr, status, error) {
+                console.log(`Erro: ${xhr.responseText} | Status: ${status} | Detalhe: ${error}`);
+                corpoToastInformacao.text('Erro ao atualizar a vaga');
+                toastInformacao.show();
+                puxarVagas();
+            }
+        });
+    });
+
+
+    blocosVagas.on('click', '.btnEncerrar', function () {
+
+        const vagaEncerrar = vagasJson[$(this).val()];
+
+        if (vagaEncerrar.encerrado) {
+            $('#textModalEncerrar').text("Deseja reabrir o período de candidatura?")
+            $('#btnModalEncerrar').text("Reabrir");
+            $('#btnModalEncerrar').removeClass('btn-danger');
+            $('#btnModalEncerrar').addClass('btn-primary');
+        } else {
+            $('#textModalEncerrar').text("Deseja encerrar o período de candidatura?")
+            $('#btnModalEncerrar').text("Encerrar");
+            $('#btnModalEncerrar').removeClass('btn-primary');
+            $('#btnModalEncerrar').addClass('btn-primary');
+        }
+
+        $('#btnModalEncerrar').val($(this).val());
+        $("#modalEncerrar").modal('show');
+
     });
 
     btnModalExcluir.on('click', () => {

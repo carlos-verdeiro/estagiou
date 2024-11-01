@@ -27,7 +27,7 @@ try {
     include_once '../../conexao.php';
 
     // Conecta ao banco de dados para verificação
-    $stmt = $conn->prepare("DELETE FROM vaga WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE vaga SET status = 0 WHERE id = ?");
     if (!$stmt) {
         throw new Exception("Erro na preparação da consulta para verificação: " . $conn->error);
     }

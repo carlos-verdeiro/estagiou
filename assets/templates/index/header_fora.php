@@ -13,22 +13,22 @@
             <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link btn active" aria-current="page" id="btnIndex">Home</a>
+                        <a class="nav-link btn" aria-current="page" id="btnIndex" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn" id="btnSobre">Sobre nós</a>
+                        <a class="nav-link btn" id="btnSobre" href="index.php?sobre">Sobre nós</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn" id="btnObjetivos">Objetivos</a>
+                        <a class="nav-link btn" id="btnObjetivos" href="index.php?objetivos">Objetivos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn" id="btnSuporte">Suporte</a>
+                        <a class="nav-link btn" id="btnSuporte" href="index.php?suporte">Suporte</a>
                     </li>
                 </ul>
                 <!--BOTÕES CADASTRO E LOGIN-->
                 <ul class="navbar-nav mb-2 mb-lg-0 w-25 column-gap-3" id="loginEntrar">
                     <li class="nav-item" id="liEntrar">
-                        <button class="btn nav-link"id="toastLoginBtn">Entrar</button>
+                        <a class="btn nav-link"id="toastLoginBtn" href="index.php?entrar">Entrar</a>
                     </li>
                     <li class="nav-item center-h">
                         <a type="button" class="btn btn-success" aria-current="page" id="btnCadastro" href="public/cadastro/cadastro.php">Realizar Cadastro</a>
@@ -57,7 +57,7 @@
                         <label for="floatingPassword">Senha</label>
                     </div>
                     <div>
-                        <a href="esqueci_senha.php" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
+                        <a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
                     </div>
                     <button type="submit" class="btn btn-success w-100">Acessar</button>
                 </form>
