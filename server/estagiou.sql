@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01/11/2024 às 16:18
+-- Tempo de geração: 01/11/2024 às 19:16
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -239,6 +239,23 @@ INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_c
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `redefinicao_senha`
+--
+
+CREATE TABLE `redefinicao_senha` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `data_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_utilizacao` timestamp NULL DEFAULT NULL,
+  `utilizado` tinyint(1) NOT NULL DEFAULT 0,
+  `token` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `vaga`
 --
 
@@ -248,7 +265,7 @@ CREATE TABLE `vaga` (
   `titulo` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
   `requisitos` text NOT NULL,
-  `data_publicacao` date NOT NULL DEFAULT current_timestamp(),
+  `data_publicacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `data_encerramento` date DEFAULT NULL,
   `encerrado` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 1
@@ -259,10 +276,10 @@ CREATE TABLE `vaga` (
 --
 
 INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `encerrado`, `status`) VALUES
-(195, 3, 'teste', 'd', 'dd', '2024-08-24', NULL, 1, 1),
-(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24', '0000-00-00', 1, 0),
-(197, 3, 'ds', 'das', 'dsa', '2024-10-31', '2024-11-02', 0, 1),
-(198, 3, 'g', 'gt', 'g', '2024-11-01', NULL, 0, 1);
+(195, 3, 'teste', 'd', 'dd', '2024-08-24 03:00:00', NULL, 1, 1),
+(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24 03:00:00', '0000-00-00', 1, 0),
+(197, 3, 'ds', 'das', 'dsa', '2024-10-31 03:00:00', NULL, 0, 1),
+(198, 3, 'g', 'gt', 'g', '2024-11-01 03:00:00', NULL, 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -320,6 +337,12 @@ ALTER TABLE `estagiario`
   ADD UNIQUE KEY `curriculo_id` (`curriculo_id`);
 
 --
+-- Índices de tabela `redefinicao_senha`
+--
+ALTER TABLE `redefinicao_senha`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `vaga`
 --
 ALTER TABLE `vaga`
@@ -365,6 +388,12 @@ ALTER TABLE `escola`
 --
 ALTER TABLE `estagiario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT de tabela `redefinicao_senha`
+--
+ALTER TABLE `redefinicao_senha`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
