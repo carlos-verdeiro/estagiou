@@ -47,8 +47,7 @@ switch ($uri[5]) {
                                         titulo = ?, 
                                         descricao = ?, 
                                         requisitos = ?, 
-                                        data_encerramento = ?, 
-                                        encerrado = IF(data_encerramento IS NOT NULL, 0, 1)
+                                        data_encerramento = ?
                                     WHERE 
                                         id = ? AND 
                                         empresa_id = ?;

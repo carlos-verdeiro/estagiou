@@ -1,6 +1,6 @@
 <section class="sectionPages sectionPagesEstagiario" id="sectionPageVagas">
     <link rel="stylesheet" href="../assets/css/dashboard/perfil.css">
-    <script src="../assets/js/dashboard/empresa/perfil.js"></script>
+    <script src="../assets/js/dashboard/escola/perfil.js"></script>
 
     <!-- Cabeçalho Fixo -->
     <div class="header text-center py-3 mb-4">
@@ -12,7 +12,7 @@
         <!-- Card Dados Pessoais -->
         <form method="post" id="formDadosPessoais" class="card mb-3">
             <div class="card-header bg-secondary text-white m-0 row">
-                <h4 class="col">Dados Empresariais</h4>
+                <h4 class="col">Dados</h4>
                 <div class="col d-flex justify-content-end">
                     <button type="button" class="btn btn-light">Editar</button>
                 </div>
@@ -27,12 +27,12 @@
                     <input type="text" id="cnpj" name="cnpj" class="form-control" disabled required>
                 </div>
                 <div class="col-md-6">
-                    <label for="area_atuacao" class="form-label">Área de atuação*</label>
-                    <input type="text" id="area_atuacao" name="area_atuacao" class="form-control" disabled>
+                    <label for="niveis_ensino" class="form-label">Níveis de ensino*</label>
+                    <input type="text" id="niveis_ensino" name="niveis_ensino" class="form-control" required disabled>
                 </div>
                 <div class="col-md-6">
                     <label for="descricao" class="form-label">Descrição*</label>
-                    <input type="text" id="descricao" name="descricao" class="form-control" disabled>
+                    <input type="text" id="descricao" name="descricao" class="form-control" required disabled>
                 </div>
             </div>
         </form>

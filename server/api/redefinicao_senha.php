@@ -246,7 +246,7 @@ switch ($busca) {
                                         </div>
                                         <p>Olá <strong>$nome</strong>,</p>
                                         <p>Para redefinir sua senha, acesse o seguinte link:</p>
-                                        <a class='button' href='https://www.estagiou.com/esqueci_senha.php?token=<?php echo htmlspecialchars($token); ?>'>Redefinir Senha</a>
+                                        <a class='button' href='https://www.estagiou.com/esqueci_senha.php?token=" . htmlspecialchars($token) . "'>Redefinir Senha</a>
                                         <p>Se você não solicitou esta redefinição, ignore este e-mail.</p>
                                         <div class='footer'>
                                             <p>Atenciosamente,<br>Sua Equipe</p>
@@ -263,7 +263,7 @@ switch ($busca) {
                             throw new Exception("Erro ao enviar o e-mail.");
                         }
 
-                        $response['message'] = 'Confira a caixa de entrada do email: ' . $email;
+                        $response['message'] = 'Confira a caixa de entrada do email: ' . $email. ' . Expira em 30 minutos';
                     } else {
                         $response['status'] = 'error';
                         $response['message'] = 'Email já foi utilizado para redefinição de senha.';

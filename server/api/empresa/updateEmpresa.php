@@ -38,6 +38,10 @@ try {
             atualizarEndereco($conn, $id);
             break;
 
+        case '#formResponsavel':
+            atualizarResponsavel($conn, $id);
+            break;
+
         case '#formTrocaSenha':
             trocarSenha($conn, $id);
             break;
@@ -55,36 +59,38 @@ try {
 
 function atualizarDadosPessoais($conn, $id)
 {
-    if (empty($_POST['nome']) || empty($_POST['estado_civil']) || empty($_POST['genero']) || empty($_POST['nacionalidade'])) {
+    if (empty($_POST['nome']) || empty($_POST['area_atuacao']) || empty($_POST['descricao'])) {
         echo json_encode(['mensagem' => 'Dados obrigatórios ausentes.', 'code' => 4, 'post' => $_POST]);
         exit;
     }
 
     $nome = $_POST['nome'];
-    $sobrenome = $_POST['sobrenome'] ?? null;
-    $estado_civil = $_POST['estado_civil'];
-    $genero = $_POST['genero'];
-    $nacionalidade = $_POST['nacionalidade'];
+    $area_atuacao = $_POST['area_atuacao'];
+    $descricao = $_POST['descricao'];
 
-    $stmt = $conn->prepare("UPDATE estagiario SET nome = ?, sobrenome = ?, estado_civil = ?, genero = ?, nacionalidade = ? WHERE id = ?");
-    $stmt->bind_param('sssssi', $nome, $sobrenome, $estado_civil, $genero, $nacionalidade, $id);
+    $stmt = $conn->prepare("UPDATE empresa SET nome = ?, area_atuacao = ?, descricao = ? WHERE id = ?");
+    $stmt->bind_param('sssi', $nome, $area_atuacao, $descricao, $id);
     $stmt->execute();
 
-    echo json_encode(['mensagem' => 'Dados pessoais atualizados com sucesso.']);
+    echo json_encode(['mensagem' => 'Dados empresariais atualizados com sucesso.']);
 }
 
 function atualizarContato($conn, $id)
 {
-    if (empty($_POST['celular'])) {
+    if (empty($_POST['telefone'])) {
         echo json_encode(['mensagem' => 'Dados obrigatórios ausentes.', 'code' => 4, 'post' => $_POST]);
         exit;
     }
-    // Limpar caracteres especiais
-    $celular = limparNumero($_POST['celular']);
-    $telefone = limparNumero($_POST['telefone'] ?? null);
 
-    $stmt = $conn->prepare("UPDATE estagiario SET celular = ?, telefone = ? WHERE id = ?");
-    $stmt->bind_param('ssi', $celular, $telefone, $id);
+    $telefone = limparNumero($_POST['telefone']);
+    $website = $_POST['website'] ?? null;
+    $linkedin = $_POST['linkedin'] ?? null;
+    $instagram = $_POST['instagram'] ?? null;
+    $facebook = $_POST['facebook'] ?? null;
+
+
+    $stmt = $conn->prepare("UPDATE empresa SET  telefone = ?, website = ?, linkedin = ?, instagram = ?, facebook = ? WHERE id = ?");
+    $stmt->bind_param('sssssi', $telefone, $website, $linkedin, $instagram, $facebook, $id);
     $stmt->execute();
     echo json_encode(['mensagem' => 'Dados de contato atualizados com sucesso.']);
 }
@@ -105,10 +111,29 @@ function atualizarEndereco($conn, $id)
     $cep = $_POST['cep'];
     $pais = $_POST['pais'];
 
-    $stmt = $conn->prepare("UPDATE estagiario SET endereco = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cep = ?, pais = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE empresa SET endereco = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cep = ?, pais = ? WHERE id = ?");
     $stmt->bind_param('ssssssssi', $endereco, $numero, $complemento, $bairro, $cidade, $estado, $cep, $pais, $id);
     $stmt->execute();
     echo json_encode(['mensagem' => 'Dados de endereço atualizados com sucesso.']);
+}
+
+function atualizarResponsavel($conn, $id)
+{
+    if (empty($_POST['nome_responsavel']) || empty($_POST['email_responsavel']) || empty($_POST['telefone_responsavel']) || empty($_POST['cargo_responsavel'])) {
+        echo json_encode(['mensagem' => 'Dados obrigatórios ausentes.', 'code' => 4, 'post' => $_POST]);
+        exit;
+    }
+
+    $nome_responsavel = $_POST['nome_responsavel'];
+    $email_responsavel = $_POST['email_responsavel'];
+    $telefone_responsavel = $_POST['telefone_responsavel'];
+    $cargo_responsavel = $_POST['cargo_responsavel'];
+
+    $stmt = $conn->prepare("UPDATE empresa SET nome_responsavel = ?, email_responsavel = ?, telefone_responsavel = ?, cargo_responsavel = ? WHERE id = ?");
+    $stmt->bind_param('ssssi', $nome_responsavel, $email_responsavel, $telefone_responsavel, $cargo_responsavel, $id);
+    $stmt->execute();
+
+    echo json_encode(['mensagem' => 'Dados de responsavel atualizados com sucesso.']);
 }
 
 function trocarSenha($conn, $id)
@@ -117,7 +142,7 @@ function trocarSenha($conn, $id)
     $nova_senha = $_POST['nova_senha'];
 
     // Prepara a consulta para obter a senha atual
-    $stmt = $conn->prepare("SELECT senha FROM estagiario WHERE id = ?");
+    $stmt = $conn->prepare("SELECT senha FROM empresa WHERE id = ?");
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -130,7 +155,7 @@ function trocarSenha($conn, $id)
         // Verifica se a senha atual está correta
         if (password_verify($senha_atual, $senha_armazenada)) {
             $senhaCrip = password_hash($nova_senha, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("UPDATE estagiario SET senha = ? WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE empresa SET senha = ? WHERE id = ?");
             $stmt->bind_param('si', $senhaCrip, $id);
 
             // Tenta executar a atualização da senha
@@ -147,10 +172,8 @@ function trocarSenha($conn, $id)
     }
 }
 
-
 // Função para limpar caracteres especiais de números
 function limparNumero($numero)
 {
     return preg_replace('/[^0-9]/', '', $numero); // Remove tudo que não for número
 }
-exit;

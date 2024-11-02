@@ -15,10 +15,13 @@
             <div class="container-sm bg-light p-3 rounded">
                 <ul class="nav nav-tabs d-flex flex-wrap-reverse">
                     <li class="nav-item">
-                        <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Todas</button>
+                        <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Buscar</button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Minhas</button>
+                        <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Inscrito</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link navPage" aria-current="page" id="navPageContratado">Contratado</button>
                     </li>
                     <li class="ms-auto">
                         <form class="d-flex" role="search">
@@ -66,7 +69,7 @@
     </div>
 
     <!-- Modal Vaga-->
-    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1"  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

@@ -115,15 +115,18 @@ switch ($uri[5]) {
             // Consulta para buscar as vagas e verificar candidaturas
             $stmt = $conn->prepare("
                 SELECT vaga.*, empresa.nome AS empresa_nome, 
-                       CASE WHEN candidatura.id_vaga IS NOT NULL THEN true ELSE false END AS candidatou
+                CASE WHEN candidatura.id_vaga IS NOT NULL THEN true ELSE false END AS candidatou
                 FROM vaga
                 INNER JOIN empresa ON vaga.empresa_id = empresa.id
                 LEFT JOIN candidatura ON candidatura.id_vaga = vaga.id AND candidatura.id_estagiario = ?
+                LEFT JOIN contratos ON contratos.id_vaga = vaga.id AND contratos.id_estagiario = ?
                 WHERE vaga.status = ?
                 AND vaga.encerrado = ?
+                AND contratos.id_vaga IS NULL
                 ORDER BY vaga.titulo
                 LIMIT ?
                 OFFSET ?
+
             ");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
@@ -133,7 +136,7 @@ switch ($uri[5]) {
             $encerradoVaga = 0;
             $candidatado = 0;
 
-            $stmt->bind_param("iiiii", $idEstagiario, $statusVaga, $encerradoVaga, $limiteBusca, $partida);
+            $stmt->bind_param("iiiiii", $idEstagiario, $idEstagiario, $statusVaga, $encerradoVaga, $limiteBusca, $partida);
 
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar a consulta: " . $stmt->error);
@@ -244,6 +247,94 @@ switch ($uri[5]) {
                     WHERE candidatura.id_estagiario = ?
                     AND vaga.status = ?
                 ");
+            if (!$stmt_total) {
+                throw new Exception("Erro na preparação da consulta de contagem: " . $conn->error);
+            }
+
+            $stmt_total->bind_param("ii", $idEstagiario, $statusVaga);
+
+            if (!$stmt_total->execute()) {
+                throw new Exception("Erro ao executar a consulta de contagem: " . $stmt_total->error);
+            }
+
+            $total_result = $stmt_total->get_result();
+            $total_registros = $total_result->fetch_assoc()['total_registros'];
+
+            // Converte o array em JSON, incluindo o total de registros
+            $json_data = json_encode([
+                'total_registros' => $total_registros,
+                'vagas' => $vagas
+            ]);
+
+            // Define o cabeçalho para JSON
+            header('Content-Type: application/json');
+            echo $json_data;
+
+            // Fecha as consultas
+            $stmt->close();
+            $stmt_total->close();
+        } catch (Exception $e) {
+            http_response_code(500); // Erro interno do servidor
+            echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
+        } finally {
+            if (isset($conn)) $conn->close();
+        }
+        break;
+
+    case 'estagiarioVagaContratado':
+        // Verificação de autenticação e tipo de usuário
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'estagiario'
+        ) {
+            http_response_code(401); // Não autorizado
+            echo json_encode(['mensagem' => $_SESSION['tipoUsuarioLogin'], 'code' => 2]);
+            exit;
+        }
+
+        $idEstagiario = $_SESSION['idUsuarioLogin'];
+
+        try {
+            include_once '../../conexao.php';
+
+            // Consulta para buscar as vagas e verificar candidaturas
+            $stmt = $conn->prepare("
+                        SELECT c.id AS id_contrato
+                        FROM contratos AS c
+                        LEFT JOIN vaga AS v ON c.id_vaga = v.id
+                        LEFT JOIN empresa AS e ON c.id_empresa = e.id
+                        WHERE c.id_estagiario = ?
+                    ");
+
+            if (!$stmt) {
+                throw new Exception("Erro na preparação da consulta: " . $conn->error);
+            }
+
+            $statusVaga = 1; // Vagas ativas
+            $stmt->bind_param("i", $idEstagiario);
+
+            if (!$stmt->execute()) {
+                throw new Exception("Erro ao executar a consulta: " . $stmt->error);
+            }
+
+            $result = $stmt->get_result();
+            $vagas = [];
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $vagas[] = $row;
+                }
+            }
+
+            // Consulta para contar o total de registros com os mesmos critérios
+            $stmt_total = $conn->prepare("
+                        SELECT COUNT(*) AS total_registros 
+                        FROM candidatura
+                        INNER JOIN vaga ON candidatura.id_vaga = vaga.id
+                        WHERE candidatura.id_estagiario = ?
+                        AND vaga.status = ?
+                    ");
             if (!$stmt_total) {
                 throw new Exception("Erro na preparação da consulta de contagem: " . $conn->error);
             }

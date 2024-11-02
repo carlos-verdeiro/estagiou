@@ -12,6 +12,9 @@ $(document).ready(function () {
     //Modal vaga
     let modalVaga = $('#modalVaga');
 
+
+    let vagaContratado =[];
+
     function formatarData(data) {
         if (!data) return 'Não programado';
         const [ano, mes, dia] = data.split(' ')[0].split('-');
@@ -139,6 +142,29 @@ $(document).ready(function () {
             });
     }
 
+    function puxarVagaContratado() {
+        $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagaContratado`)
+            .done(function (data) {
+                vagaContratado = data.vaga || [];
+                console.log(vagaContratado);
+                blocoVagas.empty();
+                if (vagasJson.length === 0) {
+                    listaVagas.append('<h3 class="text-center">Não há vagas candidatadas</h3>');
+                } else {
+                    vagasJson.forEach((vaga, index) => {
+                        listaVagas.append(`
+                            foi
+                        `);
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', textStatus);
+            });
+    }
+
     // Inicializa as vagas
     puxarVagas(0);
 
@@ -233,6 +259,10 @@ $(document).ready(function () {
                 $('.navPage').removeClass('active');
                 $('#navPageMinhas').addClass('active');
                 puxarMinhasVagas(0);//carrega SOMENTE CANDIDATADAS
+            } else if ($(this).attr('id') == 'navPageContratado') {
+                $('.navPage').removeClass('active');
+                $('#navPageContratado').addClass('active');
+                puxarVagaContratado(0);//carrega SOMENTE CONTRATADO
             }
         }
     });
@@ -273,8 +303,10 @@ $(document).ready(function () {
                 console.log(vagasJson);
                 if ($('#navPageTodas').hasClass('active')) {
                     puxarVagas(0);
-                } else {
+                } else if ($('#navPageMinhas').hasClass('active')) {
                     puxarMinhasVagas(0);
+                } else if ($('#navPageContratado').hasClass('active')){
+                    puxarVagaContratado(0);
                 }
             }
         ).fail(function (jqXHR, textStatus, errorThrown) {

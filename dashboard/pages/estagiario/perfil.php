@@ -173,6 +173,37 @@
                 </div>
             </div>
         </form>
+
+        <!-- Card Troca de Senha -->
+        <form method="post" id="formTrocaSenha" class="card mb-3">
+            <div class="card-header bg-secondary text-white m-0 row">
+                <h4 class="col">Troca de Senha</h4>
+                <div class="col d-flex justify-content-end">
+                    <button type="submit" class="btn btn-light">Alterar Senha</button>
+                </div>
+            </div>
+            <div class="card-body row g-3">
+                <div class="col-md-6">
+                    <label for="senha_atual" class="form-label">Senha Atual*</label>
+                    <input type="password" id="senha_atual" name="senha_atual" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="nova_senha" class="form-label">Nova Senha*</label>
+                    <input type="password" id="nova_senha" name="nova_senha" class="form-control" required>
+                    <div class="invalid-feedback" id="feedback-senha">
+                        Preencha corretamente!
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="confirma_senha" class="form-label">Confirme a Nova Senha*</label>
+                    <input type="password" id="confirma_senha" name="confirma_senha" class="form-control" required>
+                    <div class="invalid-feedback" id="feedback-confirmacaoSenha">
+                        Preencha corretamente!
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
 
     <!-- Toast de Informação -->

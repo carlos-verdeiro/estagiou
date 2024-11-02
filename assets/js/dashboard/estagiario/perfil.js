@@ -3,6 +3,95 @@ $(document).ready(function () {
     const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
     const corpoToastInformacao = $('#corpoToastInformacao');
 
+
+    const senha = $("#nova_senha");
+    const confirmacaoSenha = $("#confirma_senha");
+
+    const feedbackSenha = $("#feedback-senha");
+    const feedbackConfirmacaoSenha = $("#feedback-confirmacaoSenha");
+
+    //Bloqueia colagem na senha
+    senha.bind('cut copy paste', function (e) {
+        e.preventDefault();
+    });
+
+    //Bloqueia colagem na confirmação de senha
+    confirmacaoSenha.bind('cut copy paste', function (e) {
+        e.preventDefault();
+    });
+
+
+    function validacaoSenha() {
+        let valor = senha.val();
+        if (valor.length < 8) {
+            feedbackSenha.text('Deve conter no mínimo 8 caracteres *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[A-Z]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos uma letra maiúscula *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[a-z]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos uma letra minúscula *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[0-9]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos um número *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(valor)) {
+            feedbackSenha.text('A senha deve conter pelo menos um caractere especial *');
+            senha.removeClass('is-valid');
+            senha.addClass('is-invalid');
+            return false;
+        }
+
+        senha.removeClass('is-invalid');
+        senha.addClass('is-valid');
+        return true;
+
+    }
+
+    function validacaoConfirmacaoSenha() {
+        if (!validacaoSenha()) {
+            feedbackConfirmacaoSenha.text('A senha não atende os requisitos *');
+            confirmacaoSenha.removeClass('is-valid');
+            confirmacaoSenha.addClass('is-invalid');
+            return false;
+        }
+
+        if (senha.val() === confirmacaoSenha.val()) {
+            confirmacaoSenha.addClass('is-valid');
+            confirmacaoSenha.removeClass('is-invalid');
+            return true;
+        } else {
+            feedbackConfirmacaoSenha.text('As senhas são divergentes *');
+            confirmacaoSenha.removeClass('is-valid');
+            confirmacaoSenha.addClass('is-invalid');
+            return false;
+        }
+    }
+
+    senha.on("blur change input", function () {
+        validacaoSenha();
+    });
+
+    confirmacaoSenha.on("blur change input", function () {
+        validacaoConfirmacaoSenha();
+    });
+
     function preencherCampos(data) {
         $.each(data, function (key, value) {
             $("#" + key).val(value);
@@ -64,7 +153,7 @@ $(document).ready(function () {
         });
     }
 
-    $("input, select").on("change input", function () {
+    $("input, select").not("#senha_atual").not("#nova_senha").not("#confirma_senha").on("change input", function () {
         const formulario = $(this).closest("form").attr("id");
         compararCampos("#" + formulario);
     });
@@ -112,5 +201,32 @@ $(document).ready(function () {
 
     $("#formEndereco .btn-light").click(function () {
         gerenciarCliqueBotao("#formEndereco", $(this));
+    });
+
+    $("#formTrocaSenha").on('submit', function (e) {
+        e.preventDefault();
+        const formulario = "#formTrocaSenha";
+        if (validacaoSenha() && validacaoConfirmacaoSenha()) {
+            const dados = $(formulario).serialize();
+            $.post("../server/api/estagiarios/updateEstagiario.php", dados + "&formulario_id=" + formulario)
+                .done(function (response) {
+                    $(formulario).get(0).reset();
+                    senha.removeClass('is-invalid');
+                    senha.removeClass('is-valid');
+                    confirmacaoSenha.removeClass('is-invalid');
+                    confirmacaoSenha.removeClass('is-valid');
+                    corpoToastInformacao.text(response.mensagem);
+                    toastInformacao.show();
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    console.error("Erro ao salvar dados: " + textStatus, errorThrown);
+                });
+
+        } else {
+            corpoToastInformacao.text("Campos não preenchidos corretamente");
+            toastInformacao.show();
+            console.log('Campos não preenchidos corretamente');
+        }
+
     });
 });
