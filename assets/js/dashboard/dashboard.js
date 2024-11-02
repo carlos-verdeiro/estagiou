@@ -4,6 +4,7 @@ $(document).ready(function () {
     const textLinkNav = $('.textLinkNav');
     const iconLinkNav = $('.iconLinkNav');
     var sidebarStatus = true;
+    const btnPerfil = $('#btnPerfil');
 
     // Função para fechar o offcanvas
     function closeOffcanvas() {

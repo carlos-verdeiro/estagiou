@@ -159,12 +159,11 @@ if (isset($_GET['logout'])) {
             <button class="btn d-sm-none botaoMenu text-white p-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list text-white fs-1"></i></button>
 
             <div class="dropdown text-white-50 ms-auto">
-                <button class="btn  dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn  dropdown-toggle text-white" id="btnMenuPerson" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle text-white fs-4 "></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Configurações</a></li>
+                    <li><button class="dropdown-item linkNavEstagiario linkNavEscola linkNavEmpresa" id="btnPerfil">Perfil</button></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
