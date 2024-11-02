@@ -7,11 +7,14 @@ $(document).ready(function () {
         $.each(data, function (key, value) {
             $("#" + key).val(value);
         });
-        $('#cpf').mask('000.000.000-00', { reverse: true });
-        $('#rg').mask('00.000.000.0', { reverse: true });
+        aplicarMascaras();
+    }
+
+    function aplicarMascaras() {
+        $('#cpf').mask('000.000.000-00', { reverse: false });
+        $('#rg').mask('00.000.000.0', { reverse: false });
         $('#celular').mask('(00) 00000-0000', { reverse: false });
         $('#telefone').mask('(00) 0000-0000', { reverse: false });
-
     }
 
     function puxarDados() {
@@ -20,7 +23,6 @@ $(document).ready(function () {
                 perfilData = data[0];
                 console.log(perfilData);
                 preencherCampos(perfilData);
-                // Atualiza a comparação dos campos após preencher
                 compararCampos("#formDadosPessoais");
                 compararCampos("#formContato");
                 compararCampos("#formEndereco");
@@ -37,7 +39,7 @@ $(document).ready(function () {
     }
 
     function desabilitarCampos(formulario) {
-        $(formulario).find("input, select").prop("disabled", true); // Exclui o campo CPF
+        $(formulario).find("input, select").prop("disabled", true);
     }
 
     function compararCampos(formulario) {
@@ -45,17 +47,15 @@ $(document).ready(function () {
             const campoId = $(this).attr('id');
             const valorOriginal = perfilData[campoId];
             const valorAtual = $(this).val();
-    
-            // Inicializa as variáveis de valores limpos
-            let valorOriginalLimpo = valorOriginal ? valorOriginal : ""; // Define como string vazia se nulo
-            let valorAtualLimpo = valorAtual ? valorAtual : ""; // Define como string vazia se nulo
-    
-            // Ignorar caracteres especiais no campo celular e telefone
+
+            let valorOriginalLimpo = valorOriginal ? valorOriginal : "";
+            let valorAtualLimpo = valorAtual ? valorAtual : "";
+
             if (campoId === 'celular' || campoId === 'telefone') {
-                valorOriginalLimpo = valorOriginalLimpo.replace(/\D/g, ''); // Remove caracteres não numéricos
-                valorAtualLimpo = valorAtualLimpo.replace(/\D/g, ''); // Remove caracteres não numéricos
+                valorOriginalLimpo = valorOriginalLimpo.replace(/\D/g, '');
+                valorAtualLimpo = valorAtualLimpo.replace(/\D/g, '');
             }
-    
+
             if (valorAtualLimpo !== valorOriginalLimpo) {
                 $(this).addClass('bg-warning-subtle');
             } else {
@@ -63,40 +63,45 @@ $(document).ready(function () {
             }
         });
     }
-    
-    
 
     $("input, select").on("change input", function () {
         const formulario = $(this).closest("form").attr("id");
         compararCampos("#" + formulario);
     });
 
+    function limparDados(dados) {
+        return dados.replace(/\D/g, '');
+    }
+
     function salvarDados(formulario) {
-        const dados = $(formulario).serialize(); // Coleta todos os dados do formulário
+        $('#cpf').val(limparDados($('#cpf').val()));
+        $('#rg').val(limparDados($('#rg').val()));
+        $('#celular').val(limparDados($('#celular').val()));
+        $('#telefone').val(limparDados($('#telefone').val()));
+
+        const dados = $(formulario).serialize();
         $.post("../server/api/estagiarios/updateEstagiario.php", dados + "&formulario_id=" + formulario)
             .done(function (response) {
                 corpoToastInformacao.text(response.mensagem);
                 toastInformacao.show();
-                puxarDados(); // Atualiza os dados do perfil
-                desabilitarCampos(formulario); // Desabilita os campos após salvar
+                puxarDados();
+                desabilitarCampos(formulario);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("Erro ao salvar dados: " + textStatus, errorThrown);
             });
     }
 
-    // Função para gerenciar o clique do botão "Salvar" de forma genérica
     function gerenciarCliqueBotao(formulario, editarBotao) {
         if (editarBotao.text() === "Salvar") {
-            salvarDados(formulario); // Chama a função para salvar os dados
-            editarBotao.text("Editar"); // Troca o texto do botão para "Editar"
+            salvarDados(formulario);
+            editarBotao.text("Editar");
         } else {
             habilitarCampos(formulario);
-            editarBotao.text("Salvar"); // Troca o texto do botão para "Salvar"
+            editarBotao.text("Salvar");
         }
     }
 
-    // Adiciona o evento de clique ao botão "Salvar" para todos os formulários
     $("#formDadosPessoais .btn-light").click(function () {
         gerenciarCliqueBotao("#formDadosPessoais", $(this));
     });
@@ -108,5 +113,4 @@ $(document).ready(function () {
     $("#formEndereco .btn-light").click(function () {
         gerenciarCliqueBotao("#formEndereco", $(this));
     });
-
 });

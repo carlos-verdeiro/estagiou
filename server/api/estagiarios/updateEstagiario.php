@@ -50,28 +50,29 @@ try {
 }
 
 function atualizarDadosPessoais($conn, $id) {
-    if (empty($_POST['nome']) || empty($_POST['data_nascimento']) || empty($_POST['estado_civil']) || empty($_POST['genero']) || empty($_POST['nacionalidade'])) {
+    if (empty($_POST['nome']) || empty($_POST['estado_civil']) || empty($_POST['genero']) || empty($_POST['nacionalidade'])) {
         echo json_encode(['mensagem' => 'Dados obrigatórios ausentes.', 'code' => 4, 'post' => $_POST]);
         exit;
     }
 
     $nome = $_POST['nome'];
     $sobrenome = $_POST['sobrenome'] ?? null;
-    $data_nascimento = $_POST['data_nascimento'];
     $estado_civil = $_POST['estado_civil'];
     $genero = $_POST['genero'];
     $nacionalidade = $_POST['nacionalidade'];
 
-    $stmt = $conn->prepare("UPDATE estagiario SET nome = ?, sobrenome = ?, data_nascimento = ?, estado_civil = ?, genero = ?, nacionalidade = ? WHERE id = ?");
-    $stmt->bind_param('ssssssi', $nome, $sobrenome, $data_nascimento, $estado_civil, $genero, $nacionalidade, $id);
+    $stmt = $conn->prepare("UPDATE estagiario SET nome = ?, sobrenome = ?, estado_civil = ?, genero = ?, nacionalidade = ? WHERE id = ?");
+    $stmt->bind_param('sssssi', $nome, $sobrenome, $estado_civil, $genero, $nacionalidade, $id);
     $stmt->execute();
 
     echo json_encode(['mensagem' => 'Dados pessoais atualizados com sucesso.']);
 }
 
 function atualizarContato($conn, $id) {
-    $celular = $_POST['celular'] ?? '';
-    $telefone = $_POST['telefone'] ?? null;
+    // Limpar caracteres especiais
+    $celular = limparNumero($_POST['celular'] ?? '');
+    $telefone = limparNumero($_POST['telefone'] ?? null);
+    
     $stmt = $conn->prepare("UPDATE estagiario SET celular = ?, telefone = ? WHERE id = ?");
     $stmt->bind_param('ssi', $celular, $telefone, $id);
     $stmt->execute();
@@ -92,4 +93,9 @@ function atualizarEndereco($conn, $id) {
     $stmt->bind_param('ssssssssi', $endereco, $numero, $complemento, $bairro, $cidade, $estado, $cep, $pais, $id);
     $stmt->execute();
     echo json_encode(['mensagem' => 'Dados de endereço atualizados com sucesso.']);
+}
+
+// Função para limpar caracteres especiais de números
+function limparNumero($numero) {
+    return preg_replace('/[^0-9]/', '', $numero); // Remove tudo que não for número
 }
