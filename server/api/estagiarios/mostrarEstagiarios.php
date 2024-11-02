@@ -3,15 +3,6 @@
 session_start();
 header('Content-Type: application/json');
 // Verificação de autenticação e tipo de usuário
-if (
-    !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
-    $_SESSION['statusLogin'] !== 'autenticado' ||
-    $_SESSION['tipoUsuarioLogin'] !== 'empresa'
-) {
-    http_response_code(401); // Não autorizado
-    echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
-    exit;
-}
 
 // Verificação do método de requisição
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
@@ -24,11 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
-$idEmpresa = $_SESSION['idUsuarioLogin'];
-
 $busca = isset($uri[5]) ? $uri[5] : null;
 switch ($busca) {
     case 'estagiarios':
+
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'empresa'
+        ) {
+            http_response_code(401); // Não autorizado
+            echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
+            exit;
+        }
+
+        $idEmpresa = $_SESSION['idUsuarioLogin'];
+
+
         // -----PAGINAÇÃO
         $partida = isset($uri[6]) && is_numeric($uri[6]) ? (int)$uri[6] : 0; //inicio
         $limiteBusca = isset($uri[7]) && is_numeric($uri[7]) ? (int)$uri[7] : 50; //limite
@@ -113,6 +116,45 @@ switch ($busca) {
         }
 
         break;
+
+    case 'estagiario':
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'estagiario'
+        ) {
+            http_response_code(401);
+            echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
+            exit;
+        }
+
+        $idEstagiario = $_SESSION['idUsuarioLogin'];
+
+        try {
+            include_once '../../conexao.php';
+
+            $stmt = $conn->prepare("SELECT nome,sobrenome,estado_civil,cpf,rg,data_nascimento,genero,nacionalidade,email,celular,telefone,endereco,numero,complemento,bairro,cidade,estado,cep,pais FROM estagiario WHERE id = ?;");
+            $stmt->bind_param("i", $idEstagiario);
+
+            if (!$stmt->execute()) {
+                throw new Exception("Erro ao executar a consulta: " . $stmt->error);
+            }
+
+            $result = $stmt->get_result();
+            $data = $result->fetch_all(MYSQLI_ASSOC); // Fetch data as associative array
+            echo json_encode($data);
+
+            $stmt->close();
+        } catch (Exception $e) {
+            http_response_code(500);
+            error_log('Erro interno: ' . $e->getMessage());
+            echo json_encode(['mensagem' => 'Erro interno do servidor: ' . $e->getMessage(), 'code' => 3]);
+        } finally {
+            if (isset($conn)) $conn->close();
+        }
+
+        break;
+
 
 
     default:

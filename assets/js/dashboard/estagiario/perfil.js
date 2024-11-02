@@ -1,84 +1,112 @@
-$(document).ready(function() {
-    // Exemplo de JSON recebido
-    const perfilData = {
-        nome: "Carlos",
-        sobrenome: "Silva",
-        estado_civil: "Solteiro",
-        cpf: "123.456.789-00",
-        rg: "12.345.678-9",
-        data_nascimento: "2000-01-01",
-        genero: "Masculino",
-        nacionalidade: "Brasileiro",
-        email: "carlos.silva@email.com",
-        celular: "(11) 91234-5678",
-        telefone: "(11) 3456-7890",
-        endereco: "Rua Exemplo",
-        numero: "123",
-        complemento: "Apto 101",
-        bairro: "Centro",
-        cidade: "São Paulo",
-        estado: "SP",
-        cep: "12345-678",
-        pais: "Brasil"
-    };
+$(document).ready(function () {
+    var perfilData;
+    const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
+    const corpoToastInformacao = $('#corpoToastInformacao');
 
-    // Função para preencher os campos com o JSON recebido
     function preencherCampos(data) {
-        $.each(data, function(key, value) {
+        $.each(data, function (key, value) {
             $("#" + key).val(value);
         });
+        $('#cpf').mask('000.000.000-00', { reverse: true });
+        $('#rg').mask('00.000.000.0', { reverse: true });
+        $('#celular').mask('(00) 00000-0000', { reverse: false });
+        $('#telefone').mask('(00) 0000-0000', { reverse: false });
+
     }
 
-    // Preenche os campos no carregamento da página
-    preencherCampos(perfilData);
+    function puxarDados() {
+        $.getJSON("../server/api/estagiarios/mostrarEstagiarios.php/estagiario")
+            .done(function (data) {
+                perfilData = data[0];
+                console.log(perfilData);
+                preencherCampos(perfilData);
+                // Atualiza a comparação dos campos após preencher
+                compararCampos("#formDadosPessoais");
+                compararCampos("#formContato");
+                compararCampos("#formEndereco");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("Error fetching data: " + textStatus, errorThrown);
+            });
+    }
 
-    // Função para alternar entre modo de edição e visualização
-    $(".card").each(function() {
-        const $card = $(this);
-        const $button = $card.find("button");
-        
-        // Armazena os valores originais
-        const originalValues = {};
-        $card.find("input").each(function() {
-            originalValues[$(this).attr('id')] = $(this).val();
-        });
+    puxarDados();
 
-        $button.on("click", function() {
-            if ($button.text() === "Editar") {
-                // Mudar para modo de edição
-                $button.text("Salvar");
-                $button.removeClass("btn-light");
-                $button.addClass("btn-primary");
-                $card.find("input").prop("disabled", false);
+    function habilitarCampos(formulario) {
+        $(formulario).find("input, select").not("#cpf").not("#rg").not("#data_nascimento").not("#email").prop("disabled", false);
+    }
 
-                // Detectar mudanças nos campos e aplicar estilo de alteração
-                $card.find("input").on("input", function() {
-                    const fieldId = $(this).attr('id');
-                    if ($(this).val() !== originalValues[fieldId]) {
-                        $(this).addClass("bg-warning-subtle");
-                    } else {
-                        $(this).removeClass("bg-warning-subtle");
-                    }
-                });
+    function desabilitarCampos(formulario) {
+        $(formulario).find("input, select").prop("disabled", true); // Exclui o campo CPF
+    }
+
+    function compararCampos(formulario) {
+        $(formulario).find("input, select").not("#cpf").not("#rg").not("#data_nascimento").each(function () {
+            const campoId = $(this).attr('id');
+            const valorOriginal = perfilData[campoId];
+            const valorAtual = $(this).val();
+    
+            // Inicializa as variáveis de valores limpos
+            let valorOriginalLimpo = valorOriginal ? valorOriginal : ""; // Define como string vazia se nulo
+            let valorAtualLimpo = valorAtual ? valorAtual : ""; // Define como string vazia se nulo
+    
+            // Ignorar caracteres especiais no campo celular e telefone
+            if (campoId === 'celular' || campoId === 'telefone') {
+                valorOriginalLimpo = valorOriginalLimpo.replace(/\D/g, ''); // Remove caracteres não numéricos
+                valorAtualLimpo = valorAtualLimpo.replace(/\D/g, ''); // Remove caracteres não numéricos
+            }
+    
+            if (valorAtualLimpo !== valorOriginalLimpo) {
+                $(this).addClass('bg-warning-subtle');
             } else {
-                // Salvar dados e restaurar configurações iniciais
-                $button.text("Editar");
-                $button.removeClass("btn-primary");
-                $button.addClass("btn-light");
-
-                $card.find("input").prop("disabled", true).removeClass("bg-warning-subtle");
-
-                // Atualiza os valores originais com os novos valores
-                $card.find("input").each(function() {
-                    const fieldId = $(this).attr('id');
-                    originalValues[fieldId] = $(this).val();
-                });
-
-                // Exibe um toast de confirmação
-                $("#corpoToastInformacao").text("Perfil atualizado com sucesso!");
-                const toast = new bootstrap.Toast($("#toastInformacao"));
-                toast.show();
+                $(this).removeClass('bg-warning-subtle');
             }
         });
+    }
+    
+    
+
+    $("input, select").on("change input", function () {
+        const formulario = $(this).closest("form").attr("id");
+        compararCampos("#" + formulario);
     });
+
+    function salvarDados(formulario) {
+        const dados = $(formulario).serialize(); // Coleta todos os dados do formulário
+        $.post("../server/api/estagiarios/updateEstagiario.php", dados + "&formulario_id=" + formulario)
+            .done(function (response) {
+                corpoToastInformacao.text(response.mensagem);
+                toastInformacao.show();
+                puxarDados(); // Atualiza os dados do perfil
+                desabilitarCampos(formulario); // Desabilita os campos após salvar
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("Erro ao salvar dados: " + textStatus, errorThrown);
+            });
+    }
+
+    // Função para gerenciar o clique do botão "Salvar" de forma genérica
+    function gerenciarCliqueBotao(formulario, editarBotao) {
+        if (editarBotao.text() === "Salvar") {
+            salvarDados(formulario); // Chama a função para salvar os dados
+            editarBotao.text("Editar"); // Troca o texto do botão para "Editar"
+        } else {
+            habilitarCampos(formulario);
+            editarBotao.text("Salvar"); // Troca o texto do botão para "Salvar"
+        }
+    }
+
+    // Adiciona o evento de clique ao botão "Salvar" para todos os formulários
+    $("#formDadosPessoais .btn-light").click(function () {
+        gerenciarCliqueBotao("#formDadosPessoais", $(this));
+    });
+
+    $("#formContato .btn-light").click(function () {
+        gerenciarCliqueBotao("#formContato", $(this));
+    });
+
+    $("#formEndereco .btn-light").click(function () {
+        gerenciarCliqueBotao("#formEndereco", $(this));
+    });
+
 });
