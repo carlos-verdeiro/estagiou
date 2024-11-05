@@ -2,12 +2,14 @@ $(document).ready(function () {
     //---NAV---
     // Botões de navegação
     const btnNavMenu = $('#btnNavEmpresaMenu');
-    const btnNavBancoTalentos = $('#btnNavEmpresaBancoTalentos');
+    const btnNavBancoCandidatos = $('#btnNavEmpresaCandidatos');
     const btnNavVagas = $('#btnNavEmpresaVagas');
     const btnNavSeusEstagiarios = $('#btnNavEmpresaSeusEstagiarios');
     const btnNavNotificacoes = $('#btnNavEmpresaNotificacoes');
     const btnNavMensagens = $('#btnNavEmpresaMensagens');
     const linksNav = $('.linkNavEmpresa');
+
+    const btnPerfil = $('#btnPerfil');
 
     //---MAIN---
     // Seção principal onde as páginas serão carregadas
@@ -17,11 +19,13 @@ $(document).ready(function () {
     // Função para verificar os parâmetros da URL
     function parametroExistente() {
         const parametros = new URLSearchParams(window.location.search);
-        if (parametros.has('talentos')) return 'talentos';
+        if (parametros.has('candidatos')) return 'candidatos';
         if (parametros.has('vagas')) return 'vagas';
         if (parametros.has('estagiarios')) return 'estagiarios';
         if (parametros.has('notificacoes')) return 'notificacoes';
         if (parametros.has('mensagens')) return 'mensagens';
+        if (parametros.has('perfil')) return 'perfil';
+
         return 'nenhum';
     }
 
@@ -47,8 +51,8 @@ $(document).ready(function () {
 
     // Verifica o parâmetro existente na URL e carrega a página correspondente
     switch (parametroExistente()) {
-        case 'curriculo':
-            trocaPage(btnNavBancoTalentos, 'talentos');
+        case 'candidatos':
+            trocaPage(btnNavBancoCandidatos, 'candidatos');
             break;
         case 'vagas':
             trocaPage(btnNavVagas, 'vagas');
@@ -62,6 +66,9 @@ $(document).ready(function () {
         case 'mensagens':
             trocaPage(btnNavMensagens, 'mensagens');
             break;
+        case 'perfil':
+            trocaPage(btnPerfil, 'perfil');
+            break;
         default:
             trocaPage(btnNavMenu, 'menu');
             break;
@@ -70,9 +77,10 @@ $(document).ready(function () {
 
     // Adiciona eventos de clique a todos os botões de navegação
     adicionarEventoClique(btnNavMenu, 'menu');
-    adicionarEventoClique(btnNavBancoTalentos, 'talentos');
+    adicionarEventoClique(btnNavBancoCandidatos, 'candidatos');
     adicionarEventoClique(btnNavVagas, 'vagas');
     adicionarEventoClique(btnNavSeusEstagiarios, 'estagiarios');
     adicionarEventoClique(btnNavNotificacoes, 'notificacoes');
     adicionarEventoClique(btnNavMensagens, 'mensagens');
+    adicionarEventoClique(btnPerfil, 'perfil');
 });

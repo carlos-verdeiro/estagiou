@@ -1,0 +1,27 @@
+#sectionPageVagas{
+    overflow-y: auto;
+    height: 100%;
+}
+
+.paiCard{
+    min-width: min-content;
+}
+
+.card{
+    min-width: min-content;
+}
+
+/*SCROLL EDIÇÃO*/
+#sectionPageVagas::-webkit-scrollbar {
+    width: 12px;
+}
+
+#sectionPageVagas::-webkit-scrollbar-track {
+    background: var(--color-custom-2);
+}
+
+#sectionPageVagas::-webkit-scrollbar-thumb {
+    background-color: var(--color-custom-1);
+    border-radius: 20px;
+    border: 3px solid var(--color-custom-2);
+}

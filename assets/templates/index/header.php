@@ -6,7 +6,7 @@
                     <img src="assets/img/logo/logo.svg" alt="Logo Estagiou">
                 </div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler text-light border-white" data-bs-theme="dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" >
                 <span class="navbar-toggler-icon"></span>
                 MENU
             </button>
@@ -57,7 +57,7 @@
                         <label for="floatingPassword">Senha</label>
                     </div>
                     <div>
-                        <a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
+                        <a href="esqueci_senha.php" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
                     </div>
                     <button type="submit" class="btn btn-success w-100">Acessar</button>
                 </form>

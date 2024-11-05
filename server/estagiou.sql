@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/09/2024 às 13:56
+-- Tempo de geração: 05/11/2024 às 13:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -36,13 +36,23 @@ CREATE TABLE `candidatura` (
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `candidatura`
+-- Estrutura para tabela `contratos`
 --
 
-INSERT INTO `candidatura` (`id`, `id_estagiario`, `id_vaga`, `data_candidatura`, `observacao`, `status`) VALUES
-(22, 41, 195, '2024-08-29 23:22:19', NULL, 1),
-(23, 41, 196, '2024-09-03 11:53:54', NULL, 1);
+CREATE TABLE `contratos` (
+  `id` int(11) NOT NULL,
+  `id_estagiario` int(11) NOT NULL,
+  `id_empresa` int(11) NOT NULL,
+  `id_vaga` int(11) NOT NULL,
+  `data_contratacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `caminho_anexo` varchar(500) DEFAULT NULL,
+  `nome_anexo` varchar(200) DEFAULT NULL,
+  `observacoes` varchar(1000) DEFAULT NULL,
+  `data_termino` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -61,13 +71,6 @@ CREATE TABLE `curriculo` (
   `estagiario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `curriculo`
---
-
-INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
-(79, '2024-08-09', 'Digitalização – 2024-07-19 10_49_41.pdf', 'application/pdf', 5548678, '66b5a55702ff9.pdf', '', 41);
-
 -- --------------------------------------------------------
 
 --
@@ -75,7 +78,7 @@ INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`,
 --
 
 CREATE TABLE `empresa` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -102,13 +105,6 @@ CREATE TABLE `empresa` (
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `ultimo_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `empresa`
---
-
-INSERT INTO `empresa` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `area_atuacao`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(3, 'Estagiou', '4499156772', 'tccestagiou@gmail.com', '$2y$10$Eh4uTxJwIGXWiUciRf4jFuc4MMjRDjO42acW.z6fjUJGAcIh2tKW.', '06977198000144', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Desenvolvedor', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Website', 'Empresa de sistema de estagio', 'estagiou.com', '', '', '', 1, '2024-07-20 20:15:02');
 
 -- --------------------------------------------------------
 
@@ -145,13 +141,6 @@ CREATE TABLE `escola` (
   `ultimo_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `escola`
---
-
-INSERT INTO `escola` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `niveis_ensino`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(5, 'Arruda Mello', '4499156772', 'arrudamello@gmail.com', '$2y$10$FpPPpytBX/FcQjgYI3.6XuhS6ebT.pN67V75maPZ0NDOe7gkZ2x5W', '03569351000106', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Estudante', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Médio, Técnico', 'Escola de ensino médio e técnico', 'etecarrudamello.cps.sp.gov.br', '', '', '', 1, '2024-07-20 20:13:58');
-
 -- --------------------------------------------------------
 
 --
@@ -171,7 +160,7 @@ CREATE TABLE `estagiario` (
   `data_nascimento` date NOT NULL,
   `telefone` varchar(20) DEFAULT NULL,
   `celular` varchar(20) NOT NULL,
-  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `ultimo_login` timestamp NULL DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `rg_estado_emissor` varchar(2) NOT NULL,
@@ -188,15 +177,34 @@ CREATE TABLE `estagiario` (
   `cep` varchar(10) DEFAULT NULL,
   `pais` varchar(100) NOT NULL,
   `bairro` varchar(100) DEFAULT NULL,
-  `curriculo_id` int(11) DEFAULT NULL
+  `curriculo_id` int(11) DEFAULT NULL,
+  `escolaridade` int(11) DEFAULT NULL,
+  `formacoes` varchar(1000) DEFAULT NULL,
+  `experiencias` varchar(1000) DEFAULT NULL,
+  `proIngles` int(11) DEFAULT NULL,
+  `proEspanhol` int(11) DEFAULT NULL,
+  `proFrances` int(11) DEFAULT NULL,
+  `certificacoes` varchar(1000) DEFAULT NULL,
+  `habilidades` varchar(1000) DEFAULT NULL,
+  `disponibilidade` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `estagiario`
+-- Estrutura para tabela `redefinicao_senha`
 --
 
-INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`) VALUES
-(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-08-09 05:12:55', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 79);
+CREATE TABLE `redefinicao_senha` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `data_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_utilizacao` timestamp NULL DEFAULT NULL,
+  `utilizado` tinyint(1) NOT NULL DEFAULT 0,
+  `token` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -206,22 +214,15 @@ INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_c
 
 CREATE TABLE `vaga` (
   `id` int(10) NOT NULL,
-  `empresa_id` int(10) UNSIGNED NOT NULL,
+  `empresa_id` int(10) NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
   `requisitos` text NOT NULL,
   `data_publicacao` timestamp NOT NULL DEFAULT current_timestamp(),
-  `data_encerramento` timestamp NULL DEFAULT NULL,
+  `data_encerramento` date DEFAULT NULL,
+  `encerrado` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `vaga`
---
-
-INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `status`) VALUES
-(195, 3, 'dasd', 'ddsad', 'dasd', '2024-08-24 12:15:53', NULL, 1),
-(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24 12:16:12', '2024-08-22 12:15:00', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -234,6 +235,15 @@ ALTER TABLE `candidatura`
   ADD PRIMARY KEY (`id`),
   ADD KEY `estrangeiro_estagiario` (`id_estagiario`),
   ADD KEY `estrangeiro_vaga` (`id_vaga`);
+
+--
+-- Índices de tabela `contratos`
+--
+ALTER TABLE `contratos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estagiario` (`id_estagiario`),
+  ADD KEY `id_vaga` (`id_vaga`),
+  ADD KEY `id_empresa` (`id_empresa`);
 
 --
 -- Índices de tabela `curriculo`
@@ -270,6 +280,12 @@ ALTER TABLE `estagiario`
   ADD UNIQUE KEY `curriculo_id` (`curriculo_id`);
 
 --
+-- Índices de tabela `redefinicao_senha`
+--
+ALTER TABLE `redefinicao_senha`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `vaga`
 --
 ALTER TABLE `vaga`
@@ -284,37 +300,49 @@ ALTER TABLE `vaga`
 -- AUTO_INCREMENT de tabela `candidatura`
 --
 ALTER TABLE `candidatura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `contratos`
+--
+ALTER TABLE `contratos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `escola`
 --
 ALTER TABLE `escola`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `estagiario`
 --
 ALTER TABLE `estagiario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `redefinicao_senha`
+--
+ALTER TABLE `redefinicao_senha`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
 --
 ALTER TABLE `vaga`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
@@ -328,10 +356,25 @@ ALTER TABLE `candidatura`
   ADD CONSTRAINT `estrangeiro_vaga` FOREIGN KEY (`id_vaga`) REFERENCES `vaga` (`id`);
 
 --
+-- Restrições para tabelas `contratos`
+--
+ALTER TABLE `contratos`
+  ADD CONSTRAINT `id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`),
+  ADD CONSTRAINT `id_estagiario` FOREIGN KEY (`id_estagiario`) REFERENCES `estagiario` (`id`),
+  ADD CONSTRAINT `id_vaga` FOREIGN KEY (`id_vaga`) REFERENCES `vaga` (`id`);
+
+--
 -- Restrições para tabelas `curriculo`
 --
 ALTER TABLE `curriculo`
   ADD CONSTRAINT `id_curriculo` FOREIGN KEY (`estagiario_id`) REFERENCES `estagiario` (`id`);
+
+--
+-- Restrições para tabelas `estagiario`
+--
+ALTER TABLE `estagiario`
+  ADD CONSTRAINT `curriculo` FOREIGN KEY (`curriculo_id`) REFERENCES `curriculo` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_curriculo` FOREIGN KEY (`curriculo_id`) REFERENCES `curriculo` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `vaga`

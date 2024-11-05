@@ -74,7 +74,7 @@ if (isset($_SESSION["status"]) && $_SESSION["status"] == "andamento") {
     ?>
     <section id="sectionCadastro">
         <div class="divCadastro" id="cadastro">
-            <form class="formComponent p-4">
+            <form class="formComponent p-4 container-md">
                 <?php
 
                 include_once("../../assets/templates/cadastro/selecao.php");

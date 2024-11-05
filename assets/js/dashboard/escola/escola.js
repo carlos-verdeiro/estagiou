@@ -9,6 +9,8 @@ $(document).ready(function () {
     const btnNavMensagens = $('#btnNavEscolaMensagens');
     const linksNav = $('.linkNavEscola');
 
+    const btnPerfil = $('#btnPerfil');
+
     //---MAIN---
     // Seção principal onde as páginas serão carregadas
     const sectionPrincipal = $('#sectionPrincipal');
@@ -22,6 +24,8 @@ $(document).ready(function () {
         if (parametros.has('empresas')) return 'empresas';
         if (parametros.has('notificacoes')) return 'notificacoes';
         if (parametros.has('mensagens')) return 'mensagens';
+        if (parametros.has('perfil')) return 'perfil';
+
         return 'nenhum';
     }
 
@@ -62,6 +66,9 @@ $(document).ready(function () {
         case 'mensagens':
             trocaPage(btnNavMensagens, 'mensagens');
             break;
+        case 'perfil':
+            trocaPage(btnPerfil, 'perfil');
+            break;
         default:
             trocaPage(btnNavMenu, 'menu');
             break;
@@ -75,4 +82,5 @@ $(document).ready(function () {
     adicionarEventoClique(btnNavEmpresas, 'empresas');
     adicionarEventoClique(btnNavNotificacoes, 'notificacoes');
     adicionarEventoClique(btnNavMensagens, 'mensagens');
+    adicionarEventoClique(btnPerfil, 'perfil');
 });

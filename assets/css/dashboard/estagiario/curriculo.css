@@ -1,33 +1,36 @@
+textarea{
+    max-height: 500px;
+}
+
 .divBlocos {
 
     width: 90%;
-    height: 80%;
 
-
+    
     & .arquivo {
         width: 100%;
         height: 100%;
 
         & iframe {
             width: 100%;
-            height: 100%;
+            min-height: 100%;
+            max-height: max-content;
         }
     }
+
 
     & .formulario {
         width: 400px;
 
         div{
-            background-color: var(--color-custom-4);
             border-radius: 10px;
             width: 100%;
         }
 
         & #formUploadArquivo {
-            background-color: var(--color-custom-4);
-            border-radius: 10px;
             width: 100%;
             & div {
+
                 width: 100%;
                 & input{
                     width: 100%;

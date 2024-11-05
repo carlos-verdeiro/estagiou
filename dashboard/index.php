@@ -81,14 +81,14 @@ if (isset($_GET['logout'])) {
                     <div class="offcanvas-body itemNav">
                         <button class="btn linkNav linkNavEstagiario" id="btnNavEstagiarioVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
                     </div>';
-                    echo '
+                    /*echo '
                     <div class="offcanvas-body itemNav">
                         <button class="btn linkNav linkNavEstagiario" id="btnNavEstagiarioNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>
                     </div>';
                     echo '
                     <div class="offcanvas-body itemNav">
                         <button class="btn linkNav linkNavEstagiario linkNavMensagens" id="btnNavEstagiarioMensagens"><i class="bi bi-chat iconLinkNav"></i><p class="textLinkNav">Mensagens</p></button>
-                    </div>';
+                    </div>';*/
                     break;
 
 
@@ -99,24 +99,24 @@ if (isset($_GET['logout'])) {
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">
-                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaBancoTalentos"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Talentos</p></button>
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">
-                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
+                            <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaCandidatos"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Candidatos</p></button>
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">
                             <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaSeusEstagiarios"><i class="bi bi-person-check iconLinkNav"></i></i><p class="textLinkNav">Seus Estagiários</p></button>
                         </div>';
-                    echo '
+                    /*echo '
                         <div class="offcanvas-body itemNav">
                             <button class="btn linkNav linkNavEmpresa" id="btnNavEmpresaNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>
                         </div>';
                     echo '
                         <div class="offcanvas-body itemNav">
                             <button class="btn linkNav linkNavEmpresa linkNavMensagens" id="btnNavEmpresaMensagens"><i class="bi bi-chat iconLinkNav"></i><p class="textLinkNav">Mensagens</p></button>
-                        </div>';
+                        </div>';*/
                     break;
 
 
@@ -137,14 +137,14 @@ if (isset($_GET['logout'])) {
                             <div class="offcanvas-body itemNav">
                                 <button class="btn linkNav linkNavEscola" id="btnNavEscolaEmpresas"><i class="bi bi-building iconLinkNav"></i></i><p class="textLinkNav">Empresas</p></button>
                             </div>';
-                    echo '
+                    /*echo '
                             <div class="offcanvas-body itemNav">
                                 <button class="btn linkNav linkNavEscola" id="btnNavEscolaNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>
                             </div>';
                     echo '
                             <div class="offcanvas-body itemNav">
                                 <button class="btn linkNav linkNavEscola linkNavMensagens" id="btnNavEscolaMensagens"><i class="bi bi-chat iconLinkNav"></i><p class="textLinkNav">Mensagens</p></button>
-                            </div>';
+                            </div>';*/
                     break;
                 default:
                     echo 'ERROR';
@@ -159,12 +159,11 @@ if (isset($_GET['logout'])) {
             <button class="btn d-sm-none botaoMenu text-white p-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"><i class="bi bi-list text-white fs-1"></i></button>
 
             <div class="dropdown text-white-50 ms-auto">
-                <button class="btn  dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn  dropdown-toggle text-white" id="btnMenuPerson" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle text-white fs-4 "></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Configurações</a></li>
+                    <li><button class="dropdown-item linkNavEstagiario linkNavEscola linkNavEmpresa" id="btnPerfil">Perfil</button></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

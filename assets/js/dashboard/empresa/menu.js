@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //---NAV---
     // Botões de navegação
-    const btnNavTalentos = $('#btnNavEmpresaBancoTalentos');
+    const btnNavCandidatos = $('#btnNavEmpresaCandidatos');
     const btnNavVagas = $('#btnNavEmpresaVagas');
     const btnNavEstagiarios = $('#btnNavEmpresaSeusEstagiarios');
     const btnNavNotificacoes = $('#btnNavEmpresaNotificacoes');
@@ -27,8 +27,8 @@ $(document).ready(function () {
 
     btnMenus.on('click', function () {
         switch ($(this).val()) {
-            case 'talentos':
-                trocaPage(btnNavTalentos, 'talentos');
+            case 'candidatos':
+                trocaPage(btnNavCandidatos, 'candidatos');
                 break;
             case 'vagas':
                 trocaPage(btnNavVagas, 'vagas');

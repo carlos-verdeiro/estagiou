@@ -70,9 +70,9 @@ try {
             <div class="col blocosMenu">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Talentos</h5>
-                        <p class="card-text">Veja o banco de talentos.</p>
-                        <button class="btn btn-primary btnMenus" value="talentos">Ver mais</button>
+                        <h5 class="card-title">Candidatos</h5>
+                        <p class="card-text">Veja os candidatos selecionados.</p>
+                        <button class="btn btn-primary btnMenus" value="candidatos">Ver mais</button>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@ try {
                     </div>
                 </div>
             </div>
-            <div class="col blocosMenu">
+            <!--<div class="col blocosMenu">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Notificações</h5>
@@ -111,7 +111,7 @@ try {
                         <button class="btn btn-primary btnMenus" value="mensagens">Ver mais</button>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
     <script src="../assets/js/dashboard/empresa/menu.js"></script>

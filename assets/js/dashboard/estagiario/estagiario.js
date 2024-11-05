@@ -8,10 +8,13 @@ $(document).ready(function () {
     const btnNavMensagens = $('#btnNavEstagiarioMensagens');
     const linksNav = $('.linkNavEstagiario');
 
+    const btnPerfil = $('#btnPerfil');
+
+
     //---MAIN---
     // Seção principal onde as páginas serão carregadas
     const sectionPrincipal = $('#sectionPrincipal');
-    
+
 
     // Função para verificar os parâmetros da URL
     function parametroExistente() {
@@ -20,6 +23,7 @@ $(document).ready(function () {
         if (parametros.has('vagas')) return 'vagas';
         if (parametros.has('notificacoes')) return 'notificacoes';
         if (parametros.has('mensagens')) return 'mensagens';
+        if (parametros.has('perfil')) return 'perfil';
         return 'nenhum';
     }
 
@@ -57,6 +61,9 @@ $(document).ready(function () {
         case 'mensagens':
             trocaPage(btnNavMensagens, 'mensagens');
             break;
+        case 'perfil':
+            trocaPage(btnPerfil, 'perfil');
+            break;
         default:
             trocaPage(btnNavMenu, 'menu');
             break;
@@ -69,4 +76,5 @@ $(document).ready(function () {
     adicionarEventoClique(btnNavVagas, 'vagas');
     adicionarEventoClique(btnNavNotificacoes, 'notificacoes');
     adicionarEventoClique(btnNavMensagens, 'mensagens');
+    adicionarEventoClique(btnPerfil, 'perfil');
 });

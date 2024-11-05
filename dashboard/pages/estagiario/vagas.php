@@ -15,10 +15,13 @@
             <div class="container-sm bg-light p-3 rounded">
                 <ul class="nav nav-tabs d-flex flex-wrap-reverse">
                     <li class="nav-item">
-                        <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Todas</button>
+                        <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Buscar</button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Minhas</button>
+                        <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Inscrito</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link navPage" aria-current="page" id="navPageContratado">Contratado</button>
                     </li>
                     <li class="ms-auto">
                         <form class="d-flex" role="search">
@@ -29,8 +32,9 @@
                     </li>
                 </ul>
                 <div class="list-group mt-1 overflow-y-auto blocoVagas" id="listaVagas">
-                    <!--vagas aparecem aqui-->
+                    
                 </div>
+
                 <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">
                     <ul class="pagination justify-content-center">
                         <li class="page-item pgVoltar">
@@ -66,7 +70,7 @@
     </div>
 
     <!-- Modal Vaga-->
-    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1"  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,11 +88,11 @@
                     </div>
                     <div class="mb-3">
                         <h6 for="dataEncerramentoVagaModal" class="form-label">Encerramento das inscrições:</h6>
-                        <p id="dataEncerramentoVagaModal">00/00/0000</p>
+                        <p id="dataEncerramentoVagaModal">--/--/----</p>
                     </div>
                     <div class="mb-3">
                         <h6 for="dataPublicacaoVagaModal" class="form-label">Data de Publicação:</h6>
-                        <p id="dataPublicacaoVagaModal">00/00/0000</p>
+                        <p id="dataPublicacaoVagaModal">--/--/----</p>
                     </div>
                 </div>
                 <div class="modal-footer">

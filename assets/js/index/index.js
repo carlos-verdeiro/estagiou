@@ -29,24 +29,27 @@ $(document).ready(function () {
         main.load("public/pages/entrar.php");
 
     }
+    if (parametroExiste('sobre')) {
+        $('.nav-link').removeClass('active');
+        btnEntrar.addClass('active');
+        main.empty();
+        main.load("public/pages/sobre.php");
 
-    function trocaPage(button, url) {
-        var self = $(button);
-    
-        if (!self.hasClass('active')) {
-            $('.nav-link').removeClass('active');
-            self.addClass('active');
-            banner.animate({ width: 'toggle' });
-            main.animate({ width: 'toggle' }, function () {
-                main.empty();
-                main.load(url, function () {
-                    main.animate({ width: 'toggle' });
-                });
-            });
-        }
     }
-    
-    
+    if (parametroExiste('objetivos')) {
+        $('.nav-link').removeClass('active');
+        btnEntrar.addClass('active');
+        main.empty();
+        main.load("public/pages/objetivos.php");
+
+    }
+    if (parametroExiste('suporte')) {
+        $('.nav-link').removeClass('active');
+        btnEntrar.addClass('active');
+        main.empty();
+        main.load("public/pages/suporte.php");
+
+    }
 
     if (toastLoginBtn.length && toastLogin.length && larguraPg > 1000) {
         toastLoginBtn.on("mouseenter", function () {
@@ -84,7 +87,7 @@ $(document).ready(function () {
 
     function trocaPage(button, url) {
         var self = $(button);
-    
+
         if (!self.hasClass('active')) {
             $('.nav-link').removeClass('active');
             self.addClass('active');
@@ -97,27 +100,27 @@ $(document).ready(function () {
             });
         }
     }
-    
-    btnIndex.on('click', function() {
+
+    btnIndex.on('click', function () {
         trocaPage(this, "assets/templates/index/initial.php");
     });
-    
-    btnSobre.on('click', function() {
+
+    btnSobre.on('click', function () {
         trocaPage(this, "public/pages/sobre.php");
     });
-    
-    btnObjetivos.on('click', function() {
+
+    btnObjetivos.on('click', function () {
         trocaPage(this, "public/pages/objetivos.php");
     });
-    
-    btnSuporte.on('click', function() {
+
+    btnSuporte.on('click', function () {
         trocaPage(this, "public/pages/suporte.php");
     });
-    
-    btnEntrar.on('click', function() {
+
+    btnEntrar.on('click', function () {
         trocaPage(this, "public/pages/entrar.php");
     });
-    
-    
+
+
 
 });
