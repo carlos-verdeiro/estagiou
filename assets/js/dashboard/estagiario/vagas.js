@@ -13,7 +13,7 @@ $(document).ready(function () {
     let modalVaga = $('#modalVaga');
 
 
-    let vagaContratado =[];
+    let vagaContratado = [];
 
     function formatarData(data) {
         if (!data) return 'Não programado';
@@ -145,15 +145,77 @@ $(document).ready(function () {
     function puxarVagaContratado() {
         $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagaContratado`)
             .done(function (data) {
-                vagaContratado = data.vaga || [];
+                let vagaContratado = data.vagas || [];
                 console.log(vagaContratado);
+
+                // Limpa a lista de vagas antes de adicionar novas
                 blocoVagas.empty();
-                if (vagasJson.length === 0) {
-                    listaVagas.append('<h3 class="text-center">Não há vagas candidatadas</h3>');
+
+                if (vagaContratado.length === 0) {
+                    blocoVagas.append('<h3 class="text-center">Não há vagas candidatadas</h3>');
                 } else {
-                    vagasJson.forEach((vaga, index) => {
-                        listaVagas.append(`
-                            foi
+                    vagaContratado.forEach((vaga) => {
+                        const {
+                            vaga_titulo, status, vaga_descricao, vaga_requisitos, vaga_publicacao,
+                            contratacao_data, contrato_fim, empresa_nome, empresa_area_atuacao,
+                            empresa_descricao, empresa_telefone, empresa_email, empresa_website,
+                            empresa_endereco, empresa_numero, empresa_complemento, empresa_bairro,
+                            empresa_cidade, empresa_estado, empresa_cep, empresa_pais,
+                            empresa_linkedin, empresa_instagram, empresa_facebook
+                        } = vaga;
+                        blocoVagas.append(`
+                            <div class="list-group-item p-4 bg-light rounded border shadow-sm">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="text-primary">Vaga Contratada: <strong>${vaga_titulo || 'Sem título'}</strong></h5>
+                                    <span class="badge bg-success text-white">${status || 'Ativo'}</span>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card p-3 h-100">
+                                            ${vaga_descricao ? `<p><strong>Descrição:</strong> ${vaga_descricao}</p>` : ''}
+                                            ${vaga_requisitos ? `<p><strong>Requisitos:</strong> ${vaga_requisitos}</p>` : ''}
+                                            ${vaga_publicacao ? `<p><strong>Data de Publicação:</strong> ${formatarData(vaga_publicacao)}</p>` : ''}
+                                            <hr>
+                                            ${contratacao_data ? `<p><strong>Data de Contratação:</strong> ${formatarData(contratacao_data)}</p>` : ''}
+                                            <p><strong>Data de Término:</strong> ${contrato_fim ? formatarData(contrato_fim) : 'Indefinido'}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card p-3 h-100">
+                                            ${empresa_nome ? `<p><strong>Nome:</strong> ${empresa_nome}</p>` : ''}
+                                            ${empresa_area_atuacao ? `<p><strong>Área de Atuação:</strong> ${empresa_area_atuacao}</p>` : ''}
+                                            ${empresa_descricao ? `<p><strong>Descrição:</strong> ${empresa_descricao}</p>` : ''}
+                                            ${empresa_telefone ? `<p><strong>Telefone:</strong> ${formatarTelefone(empresa_telefone)}</p>` : ''}
+                                            ${empresa_email ? `<p><strong>Email:</strong> ${empresa_email}</p>` : ''}
+                                            ${empresa_website ? `<p><strong>Website:</strong> <a href="${empresa_website}" target="_blank">${empresa_website}</a></p>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card p-3 mb-3">
+                                    ${empresa_endereco ? `<p><strong>Endereço:</strong> ${empresa_endereco}</p>` : ''}
+                                    ${empresa_numero ? `<p><strong>Número:</strong> ${empresa_numero}</p>` : ''}
+                                    ${empresa_complemento ? `<p><strong>Complemento:</strong> ${empresa_complemento}</p>` : ''}
+                                    ${empresa_bairro ? `<p><strong>Bairro:</strong> ${empresa_bairro}</p>` : ''}
+                                    ${empresa_cidade ? `<p><strong>Cidade:</strong> ${empresa_cidade}</p>` : ''}
+                                    ${empresa_estado ? `<p><strong>Estado:</strong> ${empresa_estado}</p>` : ''}
+                                    ${empresa_cep ? `<p><strong>CEP:</strong> ${formatarCEP(empresa_cep)}</p>` : ''}
+                                    ${empresa_pais ? `<p><strong>País:</strong> ${empresa_pais}</p>` : ''}
+                                    ${empresa_endereco && empresa_cidade && empresa_estado ?
+                                `<button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${empresa_endereco}, ${empresa_numero || ''}, ${empresa_cidade}, ${empresa_estado}`)}', '_blank')" class="btn btn-primary mt-2">Ver no Google Maps</button>` : ''
+                            }
+                                </div>
+                                ${(empresa_linkedin || empresa_instagram || empresa_facebook) ? `
+                                    <div class="card p-3">
+                                        ${empresa_linkedin ? `<p><strong>LinkedIn:</strong> <a href="${empresa_linkedin}" target="_blank">LinkedIn</a></p>` : ''}
+                                        ${empresa_instagram ? `<p><strong>Instagram:</strong> <a href="${empresa_instagram}" target="_blank">Instagram</a></p>` : ''}
+                                        ${empresa_facebook ? `<p><strong>Facebook:</strong> <a href="${empresa_facebook}" target="_blank">Facebook</a></p>` : ''}
+                                    </div>
+                                ` : ''}
+                                
+                            </div>
                         `);
                     });
                 }
@@ -164,6 +226,24 @@ $(document).ready(function () {
                 console.error('Erro ao obter os dados:', textStatus);
             });
     }
+
+    function formatarData(data) {
+        // Divide a string para pegar apenas a data (YYYY-MM-DD), ignorando o horário, se houver
+        const dataSemHora = data.split(' ')[0];
+        const [ano, mes, dia] = dataSemHora.split('-');
+        return `${dia}/${mes}/${ano}`;
+    }
+
+
+    function formatarTelefone(telefone) {
+        return telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    }
+
+    function formatarCEP(cep) {
+        return cep.replace(/(\d{5})(\d{3})/, '$1-$2');
+    }
+
+
 
     // Inicializa as vagas
     puxarVagas(0);
@@ -305,7 +385,7 @@ $(document).ready(function () {
                     puxarVagas(0);
                 } else if ($('#navPageMinhas').hasClass('active')) {
                     puxarMinhasVagas(0);
-                } else if ($('#navPageContratado').hasClass('active')){
+                } else if ($('#navPageContratado').hasClass('active')) {
                     puxarVagaContratado(0);
                 }
             }

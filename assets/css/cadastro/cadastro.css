@@ -6,7 +6,7 @@
     height: 85vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+        justify-content: center;
     background-color: var(--color-custom-2);
     display: flex;
 
@@ -18,8 +18,6 @@
 
     & .formComponent {
         background-color: var(--color-custom-5);
-        min-width: 50%;
-        max-width: 700px;
         min-height: 300px;
         border-radius: 50px;
         display: flex;

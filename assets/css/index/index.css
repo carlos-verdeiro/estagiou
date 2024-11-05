@@ -42,7 +42,7 @@
     & #cadastroSelecao{
         min-width: 70%;
         max-width: 100%;
-        min-height: 500px;
+        min-height: 400px;
         border-radius: 50px;
         background-color: var(--color-custom-5);
 

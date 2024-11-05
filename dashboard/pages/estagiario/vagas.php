@@ -32,8 +32,9 @@
                     </li>
                 </ul>
                 <div class="list-group mt-1 overflow-y-auto blocoVagas" id="listaVagas">
-                    <!--vagas aparecem aqui-->
+                    
                 </div>
+
                 <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">
                     <ul class="pagination justify-content-center">
                         <li class="page-item pgVoltar">

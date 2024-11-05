@@ -300,7 +300,37 @@ switch ($uri[5]) {
 
             // Consulta para buscar as vagas e verificar candidaturas
             $stmt = $conn->prepare("
-                        SELECT c.id AS id_contrato
+                        SELECT c.id AS contrato_id,
+                        c.data_contratacao AS contratacao_data,
+                        c.id_estagiario AS estagiario_id,
+                        c.id_vaga AS vaga_id,
+                        c.id_empresa AS empresa_id,
+                        c. data_termino AS contrato_fim,
+
+                        v.titulo AS vaga_titulo,
+                        v.descricao AS vaga_descricao,
+                        v.requisitos AS vaga_requisitos,
+                        v.data_publicacao AS vaga_publicacao,
+
+                        e.nome AS empresa_nome,
+                        e.telefone AS empresa_telefone,
+                        e.email AS empresa_email,
+                        e.cnpj AS empresa_cnpj,
+                        e.endereco AS empresa_endereco,
+                        e.numero AS empresa_numero,
+                        e.complemento AS empresa_complemento,
+                        e.estado AS empresa_estado,
+                        e.cep AS empresa_cep,
+                        e.pais AS empresa_pais,
+                        e.bairro AS empresa_bairro,
+                        e.cidade AS empresa_cidade,
+                        e.area_atuacao AS empresa_area_atuacao,
+                        e.descricao AS empresa_descricao,
+                        e.website AS empresa_website,
+                        e.linkedin AS empresa_linkedin,
+                        e.instagram AS empresa_instagram,
+                        e.facebook AS empresa_facebook
+
                         FROM contratos AS c
                         LEFT JOIN vaga AS v ON c.id_vaga = v.id
                         LEFT JOIN empresa AS e ON c.id_empresa = e.id
@@ -330,16 +360,14 @@ switch ($uri[5]) {
             // Consulta para contar o total de registros com os mesmos critérios
             $stmt_total = $conn->prepare("
                         SELECT COUNT(*) AS total_registros 
-                        FROM candidatura
-                        INNER JOIN vaga ON candidatura.id_vaga = vaga.id
-                        WHERE candidatura.id_estagiario = ?
-                        AND vaga.status = ?
+                        FROM contratos
+                        WHERE id_estagiario = ?
                     ");
             if (!$stmt_total) {
                 throw new Exception("Erro na preparação da consulta de contagem: " . $conn->error);
             }
 
-            $stmt_total->bind_param("ii", $idEstagiario, $statusVaga);
+            $stmt_total->bind_param("i", $idEstagiario);
 
             if (!$stmt_total->execute()) {
                 throw new Exception("Erro ao executar a consulta de contagem: " . $stmt_total->error);

@@ -18,14 +18,14 @@ $(document).ready(function () {
                     main.append('<h3 class="text-center">Não há estagiários contratados</h3>');
                 } else {
                     main.append(`
-                        <div class="row mb-4">
+                        <!--<div class="row mb-4">
                             <div class="col-md-8">
                                 <input type="text" class="form-control" id="searchInput" placeholder="Buscar estagiário por nome...">
                             </div>
                             <div class="col-md-4 text-right">
                                 <button class="btn btn-primary">Filtrar</button>
                             </div>
-                        </div>
+                        </div>-->
                         <div id="estagiariosContainer" class="row"></div>
                     `);
 

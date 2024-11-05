@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01/11/2024 às 19:16
+-- Tempo de geração: 05/11/2024 às 13:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -36,13 +36,6 @@ CREATE TABLE `candidatura` (
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `candidatura`
---
-
-INSERT INTO `candidatura` (`id`, `id_estagiario`, `id_vaga`, `data_candidatura`, `observacao`, `status`) VALUES
-(153, 41, 195, '2024-10-31 17:20:19', NULL, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -55,21 +48,11 @@ CREATE TABLE `contratos` (
   `id_empresa` int(11) NOT NULL,
   `id_vaga` int(11) NOT NULL,
   `data_contratacao` timestamp NOT NULL DEFAULT current_timestamp(),
-  `caminho_anexo` varchar(500) NOT NULL,
-  `nome_anexo` varchar(200) NOT NULL,
-  `observacoes` varchar(1000) NOT NULL,
-  `data_termino` date NOT NULL
+  `caminho_anexo` varchar(500) DEFAULT NULL,
+  `nome_anexo` varchar(200) DEFAULT NULL,
+  `observacoes` varchar(1000) DEFAULT NULL,
+  `data_termino` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `contratos`
---
-
-INSERT INTO `contratos` (`id`, `id_estagiario`, `id_empresa`, `id_vaga`, `data_contratacao`, `caminho_anexo`, `nome_anexo`, `observacoes`, `data_termino`) VALUES
-(1, 41, 3, 195, '2024-10-27 13:21:39', '', '', '', '0000-00-00'),
-(2, 43, 3, 195, '2024-10-27 13:21:41', '', '', '', '0000-00-00'),
-(3, 41, 3, 196, '2024-10-27 17:24:51', '', '', '', '0000-00-00'),
-(4, 43, 3, 196, '2024-10-31 16:03:46', '', '', '', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -87,14 +70,6 @@ CREATE TABLE `curriculo` (
   `observacoes` text NOT NULL,
   `estagiario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `curriculo`
---
-
-INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
-(85, '2024-10-25', 'Currículo_Carlos2.pdf', 'application/pdf', 69442, '671bf27e58033.pdf', '', 41),
-(86, '2024-10-27', 'CuCo.pdf', 'application/pdf', 619015, '671e3dd033c30.pdf', '', 43);
 
 -- --------------------------------------------------------
 
@@ -131,13 +106,6 @@ CREATE TABLE `empresa` (
   `ultimo_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `empresa`
---
-
-INSERT INTO `empresa` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `area_atuacao`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(3, 'Estagiou', '4499156772', 'tccestagiou@gmail.com', '$2y$10$Eh4uTxJwIGXWiUciRf4jFuc4MMjRDjO42acW.z6fjUJGAcIh2tKW.', '06977198000144', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Desenvolvedor', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Website', 'Empresa de sistema de estagio', 'estagiou.com', '', '', '', 1, '2024-07-20 20:15:02');
-
 -- --------------------------------------------------------
 
 --
@@ -173,13 +141,6 @@ CREATE TABLE `escola` (
   `ultimo_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `escola`
---
-
-INSERT INTO `escola` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `niveis_ensino`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(5, 'Arruda Mello', '4499156772', 'arrudamello@gmail.com', '$2y$10$FpPPpytBX/FcQjgYI3.6XuhS6ebT.pN67V75maPZ0NDOe7gkZ2x5W', '03569351000106', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Estudante', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Médio, Técnico', 'Escola de ensino médio e técnico', 'etecarrudamello.cps.sp.gov.br', '', '', '', 1, '2024-07-20 20:13:58');
-
 -- --------------------------------------------------------
 
 --
@@ -199,7 +160,7 @@ CREATE TABLE `estagiario` (
   `data_nascimento` date NOT NULL,
   `telefone` varchar(20) DEFAULT NULL,
   `celular` varchar(20) NOT NULL,
-  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `ultimo_login` timestamp NULL DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `rg_estado_emissor` varchar(2) NOT NULL,
@@ -228,14 +189,6 @@ CREATE TABLE `estagiario` (
   `disponibilidade` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `estagiario`
---
-
-INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`, `escolaridade`, `formacoes`, `experiencias`, `proIngles`, `proEspanhol`, `proFrances`, `certificacoes`, `habilidades`, `disponibilidade`) VALUES
-(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$mAR/f23eMlvRtmYhQfdOiuXN.rzkNX2Kwec0WwpoKMHKhtA42TjOS', 'Carlos Daniel', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-10-27 13:20:51', '2024-07-18 14:36:34', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', '', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 85, 2, 'opa', 'técnico', 1, 1, 0, 'Redes', NULL, 'meio/remoto'),
-(43, 'carlosgvd0410@gmail.com', '$2y$10$stffttMNHaNvujK/HMeZo.hMm1R7dFO7UwGrdPMbkrYaa.x3jYiEC', 'Carlos', 'Verdeiro', 'solteiro', '01234567890', '511484848', 'SSP', '2007-02-09', '', '44991567723', '2024-10-27 13:19:12', '2024-09-08 14:01:51', 1, 'PR', 'Brasileira', 0, 'N', 'M', NULL, 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 86, 1, '', 'd', NULL, NULL, NULL, 't', 'd', 'integral/meio/remoto/presencial');
-
 -- --------------------------------------------------------
 
 --
@@ -250,7 +203,7 @@ CREATE TABLE `redefinicao_senha` (
   `data_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
   `data_utilizacao` timestamp NULL DEFAULT NULL,
   `utilizado` tinyint(1) NOT NULL DEFAULT 0,
-  `token` varchar(32) NOT NULL
+  `token` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -270,16 +223,6 @@ CREATE TABLE `vaga` (
   `encerrado` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `vaga`
---
-
-INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `encerrado`, `status`) VALUES
-(195, 3, 'teste', 'd', 'dd', '2024-08-24 03:00:00', NULL, 1, 1),
-(196, 3, 'daas', 'dsa', 'saaasas', '2024-08-24 03:00:00', '0000-00-00', 1, 0),
-(197, 3, 'ds', 'das', 'dsa', '2024-10-31 03:00:00', NULL, 0, 1),
-(198, 3, 'g', 'gt', 'g', '2024-11-01 03:00:00', NULL, 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -357,49 +300,49 @@ ALTER TABLE `vaga`
 -- AUTO_INCREMENT de tabela `candidatura`
 --
 ALTER TABLE `candidatura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `escola`
 --
 ALTER TABLE `escola`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `estagiario`
 --
 ALTER TABLE `estagiario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `redefinicao_senha`
 --
 ALTER TABLE `redefinicao_senha`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
 --
 ALTER TABLE `vaga`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
@@ -438,16 +381,6 @@ ALTER TABLE `estagiario`
 --
 ALTER TABLE `vaga`
   ADD CONSTRAINT `vaga_ibfk_1` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`);
-
-DELIMITER $$
---
--- Eventos
---
-CREATE DEFINER=`root`@`localhost` EVENT `encerramento` ON SCHEDULE EVERY 1 DAY STARTS '2024-11-01 23:59:59' ENDS '2034-11-30 23:59:59' ON COMPLETION PRESERVE ENABLE DO UPDATE vaga
-SET encerrado = 1, data_encerramento = NULL
-WHERE data_encerramento <= CURDATE()$$
-
-DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
