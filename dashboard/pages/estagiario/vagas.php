@@ -23,13 +23,13 @@
                     <li class="nav-item">
                         <button class="nav-link navPage" aria-current="page" id="navPageContratado">Contratado</button>
                     </li>
-                    <li class="ms-auto">
+                    <!--<li class="ms-auto">
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Titulo, Cidade..."
                                 aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Pesquisar</button>
                         </form>
-                    </li>
+                    </li>-->
                 </ul>
                 <div class="list-group mt-1 overflow-y-auto blocoVagas" id="listaVagas">
                     
