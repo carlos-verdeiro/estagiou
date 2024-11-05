@@ -102,7 +102,7 @@ switch ($busca) {
                 $mail->Host       = 'email-ssl.com.br';                        // Define o servidor SMTP
                 $mail->SMTPAuth   = true;                                 // Habilita a autenticação SMTP
                 $mail->Username   = 'nao-responda@estagiou.com';              // Seu usuário de e-mail
-                $mail->Password   = 'Ac3ss0Est@g10u';                          // Sua senha de e-mail
+                $mail->Password   = 'senhaEstagiou';                          // Sua senha de e-mail
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Para usar com porta 465
                 $mail->Port       = 465;      // Porta TCP para se conectar
                 $mail->CharSet = 'UTF-8';
