@@ -108,8 +108,8 @@ if (
 
     <section id="cadastro">
         <form class="formComponent row" method="post" id="formEtapa3">
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 40%;">40%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 60%;">3/6</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
@@ -195,7 +195,7 @@ if (
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (isset($_SESSION['cnhEstagiario'])&&$_SESSION['cnhEstagiario'] === 'N') ? 'checked' : ''; ?>>
+                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (isset($_SESSION['cnhEstagiario']) && $_SESSION['cnhEstagiario'] === 'N') ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>

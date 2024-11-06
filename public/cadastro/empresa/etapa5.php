@@ -82,8 +82,8 @@ if (
     <section id="cadastro">
 
         <form class="formComponent row" method="post" id="formEtapa5" novalidate>
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 80%;">80%</div>
+        <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 95%;">5/6</div>
             </div>
             <h1 id='tituloCadastro'>CRIE UMA SENHA</h1>
             <div class="row divInputs ">

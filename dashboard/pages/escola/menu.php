@@ -15,49 +15,6 @@ if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticad
 
 $idEscola = $_SESSION['idUsuarioLogin'];
 
-try {
-    // Consulta para verificar o último login
-    $stmt = $conn->prepare("SELECT ultimo_login FROM escola WHERE id = ?");
-    if (!$stmt) {
-        throw new Exception("Erro na preparação da consulta: " . $conn->error);
-    }
-
-    $stmt->bind_param('i', $idEscola);
-    $stmt->execute();
-    $stmt->bind_result($ultimo_login);
-    $stmt->fetch();
-    $stmt->close();
-
-    if (!$ultimo_login) {
-        echo '
-        <div class="col blocosMenu">
-            <div class="card boasVindas" style="width: 18rem;">
-                <div class="col card-body">
-                    <h5 class="card-title">Bem-vindo!</h5>
-                    <p class="card-text">Seja bem vindo ao <strong>Estagiou</strong>, esperamos que goste da nossa plataforma😉</p>
-                    <button class="btn btn-secondary btnFecharBoasVindas">Fechar</button>
-                </div>
-            </div>
-        </div>
-        <script> $(".btnFecharBoasVindas").on("click", ()=>{ $(".boasVindas").remove();})</script>
-        ';
-
-        // Atualiza o timestamp de último login
-        $stmt = $conn->prepare("UPDATE escola SET ultimo_login = NOW() WHERE id = ?");
-        if (!$stmt) {
-            throw new Exception("Erro na preparação da consulta: " . $conn->error);
-        }
-
-        $stmt->bind_param('i', $idEscola);
-        $stmt->execute();
-        $stmt->close();
-    }
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
-} finally {
-    $conn->close();
-}
 ?>
 
 <section class="sectionPages sectionPagesEscola" id="sectionPageMenu">
@@ -67,6 +24,52 @@ try {
 
     <div class="container text-center containerBlocosMenu">
         <div class="row row-cols-2 divBlocosMenu">
+            <?php
+            try {
+                // Consulta para verificar o último login
+                $stmt = $conn->prepare("SELECT ultimo_login FROM estagiario WHERE id = ?");
+                if (!$stmt) {
+                    throw new Exception("Erro na preparação da consulta: " . $conn->error);
+                }
+
+                $stmt->bind_param('i', $idEstagiario);
+                $stmt->execute();
+                $stmt->bind_result($ultimo_login);
+                $stmt->fetch();
+                $stmt->close();
+
+                // Se não houver último login, exibe a mensagem de boas-vindas
+                if (!$ultimo_login) {
+                    echo '
+                    <div class="col blocosMenu">
+                        <div class="card boasVindas" style="width: 18rem;">
+                            <div class="col card-body">
+                                <h5 class="card-title">Bem-vindo!</h5>
+                                <p class="card-text">Seja bem-vindo ao <strong>Estagiou</strong>, esperamos que goste da nossa plataforma😉</p>
+                                <button class="btn btn-secondary btnFecharBoasVindas">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script> $(".btnFecharBoasVindas").on("click", ()=>{ $(".boasVindas").remove();})</script>
+                    ';
+                }
+                // Atualiza o timestamp de último login
+                $stmt = $conn->prepare("UPDATE estagiario SET ultimo_login = NOW() WHERE id = ?");
+                if (!$stmt) {
+                    throw new Exception("Erro na preparação da atualização: " . $conn->error);
+                }
+
+                $stmt->bind_param('i', $idEstagiario);
+                $stmt->execute();
+                $stmt->close();
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 2]);
+                exit;
+            } finally {
+                $conn->close();
+            }
+            ?>
             <div class="col blocosMenu">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">

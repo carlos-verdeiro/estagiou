@@ -104,13 +104,13 @@ if (
 
     <section id="cadastro">
         <form class="formComponent row" method="post" id="formEtapa3" novalidate>
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 50%;">50%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 60%;">3/6</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs">
                 <div class="form-floating m-1 row">
-                    <div  class="form-floating col p-0 me-1"><!--CEP-->
+                    <div class="form-floating col p-0 me-1"><!--CEP-->
                         <input autofocus type="text" id="cep" class="form-control w-100" placeholder="CEP" aria-label="CEP" name="cep" value="<?php echo $cep; ?>" required>
                         <label for="cep">CEP *</label>
                         <div class="invalid-feedback" id="feedback-cep">

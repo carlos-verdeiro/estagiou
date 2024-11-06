@@ -452,13 +452,13 @@ $(document).ready(function () {
 
     async function buscaCEP(valor) {
 
-        $.getJSON(`https://api.brasilaberto.com/v1/zipcode/${valor}`,
+        $.getJSON(`https://brasilapi.com.br/api/cep/v1/${valor}`,
             function (data, textStatus, jqXHR) {
                 console.log(textStatus);
-                cidade.val(data.result.city);
-                estado.val(data.result.stateShortname);
-                endereco.val(data.result.street);
-                bairro.val(data.result.district);
+                cidade.val(data.city);
+                estado.val(data.state);
+                endereco.val(data.street);
+                bairro.val(data.neighborhood);
                 pais.val('Brasil');
 
                 validacaoTamanho(cidade, feedbackCidade, 'minimo', 0);
@@ -569,6 +569,13 @@ $(document).ready(function () {
     confirmacaoSenha.on("blur change input", function () {
         validacaoConfirmacaoSenha();
     });
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has('erroMC')) {
+        // O parâmetro "id" existe
+        alert("E-mail ou CPF preenchidos incorretamente.");
+    }
 
 
     $('#formEtapa1').submit(async function (event) {
