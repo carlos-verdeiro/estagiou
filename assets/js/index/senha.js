@@ -184,18 +184,31 @@ $(document).ready(function () {
             <div id="successMessage">Confira sua caixa de entrada</div>
             <div id="errorMessage">Confira sua caixa de entrada</div>
             <h1 class="w-100 text-center">Redefinição de senha</h1>
-            <div class="mb-3 wm-50">
-                <label for="email" class="form-label">Endereço de E-mail</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com" required>
-                <div class="form-text">Digite o email referente a conta.</div>
+            <div class="col mb-3">
+                
+                <div class=" wm-50 row">
+                    <label for="dado" class="form-label" id="labelDado">Endereço de E-mail</label>
+                    <input type="email" class="form-control" id="dado" name="dado" placeholder="exemplo@email.com" required>
+                    <div class="form-text" id="dicaCampo">Digite o email referente a conta.</div>
+                </div>
             </div>
-            <div class="mb-3 wm-50">
-                <label for="tipo" class="form-label">Tipo de usuário</label>
-                <select name="tipo" id="tipo" class="form-select" required>
-                    <option value="estagiario">Estagiário</option>
-                    <option value="empresa">Empresa</option>
-                    <option value="escola">Instituição de ensino</option>
-                </select>
+            <div class="mb-3 wm-50 col">
+                <div class=" wm-50 row">
+                    <label for="metodo" class="form-label">Método de redefinição</label>
+                    <select name="metodo" id="metodo" class="form-select" required>
+                        <option value="email">Email</option>
+                        <option value="cpf">CPF</option>
+                        <option value="cnpj">CNPJ</option>
+                    </select>
+                </div>
+                <div class=" wm-50 row">
+                    <label for="tipo" class="form-label">Tipo de usuário</label>
+                    <select name="tipo" id="tipo" class="form-select" required>
+                        <option value="estagiario">Estagiário</option>
+                        <option value="empresa">Empresa</option>
+                        <option value="escola">Instituição de ensino</option>
+                    </select>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary wm-50">Enviar</button>
         </form>`);
@@ -230,6 +243,42 @@ $(document).ready(function () {
                     $('#errorMessage').show();
                 }
             });
+        });
+
+        const selectMetodo = $("#metodo");
+        const dicaCampo = $("#dicaCampo");
+        const labelDado = $("#labelDado");
+        const dado = $("#dado");
+
+        selectMetodo.on('change', function(){
+            switch($(this).val()){
+                case "email":
+                default:
+                    dicaCampo.text('Digite o email referente a conta.');
+                    labelDado.text('Endereço de E-mail');
+                    dado.attr('placeholder','exemplo@email.com');
+                    dado.text('');
+                    dado.attr('type','email');
+                    dado.unmask();
+                break;
+                case "cpf":
+                    dicaCampo.text('Digite o CPF referente a conta.');
+                    labelDado.text('CPF');
+                    dado.attr('placeholder','123.456.789-12');
+                    dado.text('');
+                    dado.attr('type','text');
+                    dado.mask('000.000.000-00', { reverse: false });
+                break;
+                case "cnpj":
+                    dicaCampo.text('Digite o CNPJ referente a conta.');
+                    labelDado.text('CNPJ');
+                    dado.attr('placeholder','12.345.678/9123-45');
+                    dado.text('');
+                    dado.attr('type','text');
+                    dado.mask('99.999.999/9999-99', { reverse: false });
+
+                break;
+            };
         });
     }
 });

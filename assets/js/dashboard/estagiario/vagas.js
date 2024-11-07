@@ -152,7 +152,7 @@ $(document).ready(function () {
                 blocoVagas.empty();
 
                 if (vagaContratado.length === 0) {
-                    blocoVagas.append('<h3 class="text-center">Não há vagas candidatadas</h3>');
+                    blocoVagas.append('<h3 class="text-center">Não há contratos existentes</h3>');
                 } else {
                     vagaContratado.forEach((vaga) => {
                         const {

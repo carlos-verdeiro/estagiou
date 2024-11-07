@@ -102,7 +102,7 @@ switch ($busca) {
                 $mail->Host       = 'email-ssl.com.br';                        // Define o servidor SMTP
                 $mail->SMTPAuth   = true;                                 // Habilita a autenticação SMTP
                 $mail->Username   = 'nao-responda@estagiou.com';              // Seu usuário de e-mail
-                $mail->Password   = 'senha  Estagiou';                          // Sua senha de e-mail
+                $mail->Password   = 'n@0Responda01';                          // Sua senha de e-mail
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Para usar com porta 465
                 $mail->Port       = 465;      // Porta TCP para se conectar
                 $mail->CharSet = 'UTF-8';
@@ -124,15 +124,43 @@ switch ($busca) {
             }
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['tipo'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['dado'], $_POST['tipo'], $_POST['metodo'])) {
             $response = []; // Array para armazenar a resposta
 
             try {
-                // Validate and sanitize input
-                $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    throw new Exception("E-mail inválido.");
+                $metodo = $_POST['metodo'];
+                switch ($metodo) {
+                    default:
+                    case 'email':
+                        $email = filter_var(trim($_POST['dado']), FILTER_SANITIZE_EMAIL);
+                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            throw new Exception("E-mail inválido.");
+                        }
+
+
+
+                        break;
+                    case 'cpf':
+                        $cpf = preg_replace('/[^0-9]/', '', trim($_POST['dado']));
+                        if (strlen($cpf) < 11 || strlen($cpf) > 11) {
+                            throw new Exception("CPF inválido.");
+                        }
+
+
+
+                        break;
+                    case 'cnpj':
+                        $cnpj = preg_replace('/[^0-9]/', '', trim($_POST['dado']));
+
+                        if (strlen($cnpj) < 14 || strlen($cnpj) > 14) {
+                            throw new Exception("CNPJ inválido.");
+                        }
+
+
+
+                        break;
                 }
+
                 $tipo = trim($_POST['tipo']);
 
                 if (empty($tipo)) {
@@ -143,9 +171,9 @@ switch ($busca) {
                 include_once '../conexao.php';
 
                 // Function to verify login
-                function verificarLogin($conn, $email, $table)
+                function verificarLogin($conn, $email, $table, $met)
                 {
-                    $stmt = $conn->prepare("SELECT nome FROM $table WHERE email = ?");
+                    $stmt = $conn->prepare("SELECT nome,email FROM $table WHERE $met = ?");
                     $stmt->bind_param('s', $email);
                     $stmt->execute();
                     return $stmt->get_result()->fetch_assoc();
@@ -156,7 +184,7 @@ switch ($busca) {
                     case 'estagiario':
                     case 'escola':
                     case 'empresa':
-                        $row = verificarLogin($conn, $email, $tipo);
+                        $row = verificarLogin($conn, $email, $tipo, $metodo);
                         break;
                     default:
                         throw new Exception("Tipo de usuário inválido.");
@@ -164,6 +192,7 @@ switch ($busca) {
 
                 if ($row) {
                     $nome = $row['nome'];
+                    $email = $row['email'];
                     $token = bin2hex(random_bytes(16)); // Generates a 32-character token
 
                     // Check if email already used
@@ -263,7 +292,7 @@ switch ($busca) {
                             throw new Exception("Erro ao enviar o e-mail.");
                         }
 
-                        $response['message'] = 'Confira a caixa de entrada do email: ' . $email. ' . Expira em 30 minutos';
+                        $response['message'] = 'Confira a caixa de entrada do email: ' . $email . ' . Expira em 30 minutos';
                     } else {
                         $response['status'] = 'error';
                         $response['message'] = 'Email já foi utilizado para redefinição de senha.';

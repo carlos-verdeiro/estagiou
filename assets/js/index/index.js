@@ -50,6 +50,10 @@ $(document).ready(function () {
         main.load("public/pages/suporte.php");
 
     }
+    if (parametroExiste('acessoNegado')) {
+        alert("Acesso negado!")
+
+    }
 
     if (toastLoginBtn.length && toastLogin.length && larguraPg > 1000) {
         toastLoginBtn.on("mouseenter", function () {

@@ -10,6 +10,8 @@
     <script src="assets/js/bootstrap.bundle.js"></script>
     <script src="assets/js/jquery-3.7.1.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/ring.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.mask.js"></script><!--PLUGIN JQUERY MASK-->
+
     <link rel="stylesheet" href="assets/css/index/senha.css">
 </head>
 
