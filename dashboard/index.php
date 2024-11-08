@@ -127,7 +127,7 @@ if (isset($_GET['logout'])) {
                             </div>';
                     echo '
                             <div class="offcanvas-body itemNav">
-                                <button class="btn linkNav linkNavEscola" id="btnNavEscolaCurriculo"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Currículos</p></button>
+                                <button class="btn linkNav linkNavEscola" id="btnNavEscolaCurriculo"><i class="bi bi-person-vcard iconLinkNav"></i><p class="textLinkNav">Alunos</p></button>
                             </div>';
                     echo '
                             <div class="offcanvas-body itemNav">
