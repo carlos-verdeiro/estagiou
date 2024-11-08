@@ -180,38 +180,46 @@ $(document).ready(function () {
 
     } else {//sem token
 
-        $("#principal").html(`<form method="post" class="container d-flex justify-content-center row m-auto" id="formulario">
-            <div id="successMessage">Confira sua caixa de entrada</div>
-            <div id="errorMessage">Confira sua caixa de entrada</div>
-            <h1 class="w-100 text-center">Redefinição de senha</h1>
-            <div class="col mb-3">
-                
-                <div class=" wm-50 row">
-                    <label for="dado" class="form-label" id="labelDado">Endereço de E-mail</label>
-                    <input type="email" class="form-control" id="dado" name="dado" placeholder="exemplo@email.com" required>
-                    <div class="form-text" id="dicaCampo">Digite o email referente a conta.</div>
-                </div>
-            </div>
-            <div class="mb-3 wm-50 col">
-                <div class=" wm-50 row">
-                    <label for="metodo" class="form-label">Método de redefinição</label>
-                    <select name="metodo" id="metodo" class="form-select" required>
-                        <option value="email">Email</option>
-                        <option value="cpf">CPF</option>
-                        <option value="cnpj">CNPJ</option>
-                    </select>
-                </div>
-                <div class=" wm-50 row">
-                    <label for="tipo" class="form-label">Tipo de usuário</label>
-                    <select name="tipo" id="tipo" class="form-select" required>
-                        <option value="estagiario">Estagiário</option>
-                        <option value="empresa">Empresa</option>
-                        <option value="escola">Instituição de ensino</option>
-                    </select>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary wm-50">Enviar</button>
-        </form>`);
+        $("#principal").html(`<form method="post" class="container d-flex flex-column align-items-center row m-auto" id="formulario">
+    <div id="successMessage" class="d-none text-success text-center w-100">Confira sua caixa de entrada</div>
+    <div id="errorMessage" class="d-none text-danger text-center w-100">Confira sua caixa de entrada</div>
+    <h1 class="w-100 text-center mb-4">Redefinição de senha</h1>
+    
+    <!-- Campo de E-mail -->
+    <div class="col-12 col-md-8 mb-3">
+        <div class="row">
+            <label for="dado" class="form-label" id="labelDado">Endereço de E-mail</label>
+            <input type="email" class="form-control" id="dado" name="dado" placeholder="exemplo@email.com" required>
+            <div class="form-text" id="dicaCampo">Digite o email referente à conta.</div>
+        </div>
+    </div>
+    
+    <!-- Método de Redefinição e Tipo de Usuário -->
+    <div class="col-12 col-md-8 mb-3">
+        <div class="row">
+            <label for="metodo" class="form-label">Método de redefinição</label>
+            <select name="metodo" id="metodo" class="form-select" required>
+                <option value="email">Email</option>
+                <option value="cpf">CPF</option>
+                <option value="cnpj">CNPJ</option>
+            </select>
+        </div>
+        <div class="row mt-3">
+            <label for="tipo" class="form-label">Tipo de usuário</label>
+            <select name="tipo" id="tipo" class="form-select" required>
+                <option value="estagiario">Estagiário</option>
+                <option value="empresa">Empresa</option>
+                <option value="escola">Instituição de ensino</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Botão de Envio -->
+    <button type="submit" class="btn btn-primary mt-4" style="max-width: 300px; width: 100%;">Enviar</button>
+</form>
+
+
+`);
 
 
         $('#formulario').on('submit', function (e) {
@@ -237,10 +245,11 @@ $(document).ready(function () {
                         $('#successMessage').hide();
                     }
                 },
-                error: function () {
+                error: function (response) {
                     $('#loading').hide(); // Oculta o loader
                     $('#errorMessage').text("Erro ao enviar sua solicitação. Tente novamente mais tarde"); // Exibe a mensagem de sucesso
                     $('#errorMessage').show();
+                    console.log(response.responseText);
                 }
             });
         });

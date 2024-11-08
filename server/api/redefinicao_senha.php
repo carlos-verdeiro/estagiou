@@ -30,6 +30,7 @@ switch ($busca) {
                 }
 
                 include_once '../conexao.php';
+                $conn->begin_transaction();
 
                 // Check for token validity
                 $stmt_check = $conn->prepare("SELECT COUNT(*), nome, email, tipo, utilizado FROM redefinicao_senha WHERE token = ?");
@@ -41,10 +42,13 @@ switch ($busca) {
 
                 if ($count < 1) {
                     $response = ['status' => 'error', 'message' => 'Token inválido.'];
+                    $conn->rollback();
                 } else if ($utilizado == 1) {
                     $response = ['status' => 'error', 'message' => 'Token já utilizado.'];
+                    $conn->rollback();
                 } else if ($utilizado == 2) {
                     $response = ['status' => 'error', 'message' => 'Token expirado.'];
+                    $conn->rollback();
                 } else if ($utilizado == 0) {
                     $stmt = $conn->prepare("UPDATE redefinicao_senha SET data_utilizacao = ?, utilizado = 1 WHERE token = ?");
                     $stmt->bind_param('ss', $data, $token);
@@ -65,6 +69,7 @@ switch ($busca) {
                                 break;
                             default:
                                 $response = ['status' => 'error', 'message' => 'Tipo de usuário inválido.'];
+                                $conn->rollback();
                                 exit;
                         }
 
@@ -73,16 +78,20 @@ switch ($busca) {
 
                         if ($stmt->execute()) {
                             $response = ['status' => 'success', 'message' => 'Senha redefinida com sucesso.'];
+                            $conn->commit();
                         } else {
                             $response = ['status' => 'error', 'message' => 'Falha ao redefinir senha.'];
+                            $conn->rollback();
                         }
                     } else {
                         $response = ['status' => 'error', 'message' => 'Erro ao tentar atualizar o uso do token.'];
+                        $conn->rollback();
                     }
                 }
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 $response = ['status' => 'error', 'message' => 'Erro: ' . $e->getMessage()];
+                $conn->rollback();
             }
 
             echo json_encode($response);
@@ -132,8 +141,8 @@ switch ($busca) {
                 switch ($metodo) {
                     default:
                     case 'email':
-                        $email = filter_var(trim($_POST['dado']), FILTER_SANITIZE_EMAIL);
-                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $dado = filter_var(trim($_POST['dado']), FILTER_SANITIZE_EMAIL);
+                        if (!filter_var($dado, FILTER_VALIDATE_EMAIL)) {
                             throw new Exception("E-mail inválido.");
                         }
 
@@ -141,8 +150,8 @@ switch ($busca) {
 
                         break;
                     case 'cpf':
-                        $cpf = preg_replace('/[^0-9]/', '', trim($_POST['dado']));
-                        if (strlen($cpf) < 11 || strlen($cpf) > 11) {
+                        $dado = str_replace(['.', '-', '/'], '', trim($_POST['dado']));
+                        if (!is_numeric($dado) || strlen($dado) != 11) {
                             throw new Exception("CPF inválido.");
                         }
 
@@ -150,9 +159,9 @@ switch ($busca) {
 
                         break;
                     case 'cnpj':
-                        $cnpj = preg_replace('/[^0-9]/', '', trim($_POST['dado']));
+                        $dado = str_replace(['.', '-', '/'], '', trim($_POST['dado']));
 
-                        if (strlen($cnpj) < 14 || strlen($cnpj) > 14) {
+                        if (!is_numeric($dado) || strlen($dado) != 14) {
                             throw new Exception("CNPJ inválido.");
                         }
 
@@ -170,11 +179,13 @@ switch ($busca) {
                 // Database connection
                 include_once '../conexao.php';
 
+                $conn->begin_transaction();
+
                 // Function to verify login
-                function verificarLogin($conn, $email, $table, $met)
+                function verificarLogin($conn, $dado, $table, $met)
                 {
                     $stmt = $conn->prepare("SELECT nome,email FROM $table WHERE $met = ?");
-                    $stmt->bind_param('s', $email);
+                    $stmt->bind_param('s', $dado);
                     $stmt->execute();
                     return $stmt->get_result()->fetch_assoc();
                 }
@@ -184,7 +195,7 @@ switch ($busca) {
                     case 'estagiario':
                     case 'escola':
                     case 'empresa':
-                        $row = verificarLogin($conn, $email, $tipo, $metodo);
+                        $row = verificarLogin($conn, $dado, $tipo, $metodo);
                         break;
                     default:
                         throw new Exception("Tipo de usuário inválido.");
@@ -292,7 +303,21 @@ switch ($busca) {
                             throw new Exception("Erro ao enviar o e-mail.");
                         }
 
-                        $response['message'] = 'Confira a caixa de entrada do email: ' . $email . ' . Expira em 30 minutos';
+
+                        $atPos = strpos($email, '@');
+
+                        $primeiros5 = substr($email, 0, 5);
+
+                        $dominio = substr($email, $atPos + 1);
+                        $ultimos5 = substr($dominio, -5);
+
+                        $meio = strlen($email) - 10 - strlen($dominio); 
+
+                        if ($meio > 0) {
+                            $response['message'] = 'Confira a caixa de entrada do email: ' . $primeiros5 . str_repeat('.', $meio) . '@' . substr($dominio, 0, strlen($dominio) - 5)  . $ultimos5 . ' . Expira em 30 minutos';
+                        } else {
+                            $response['message'] = 'Confira a caixa de entrada do email: ' . $email . ' . Expira em 30 minutos';
+                        }
                     } else {
                         $response['status'] = 'error';
                         $response['message'] = 'Email já foi utilizado para redefinição de senha.';
@@ -300,8 +325,9 @@ switch ($busca) {
                 } else {
                     throw new Exception("E-mail não encontrado.");
                 }
+                $conn->commit();
             } catch (Exception $e) {
-                // Log the error message
+                $conn->rollback();
                 error_log($e->getMessage());
                 $response['status'] = 'error';
                 $response['message'] = 'Erro: ' . $e->getMessage();
