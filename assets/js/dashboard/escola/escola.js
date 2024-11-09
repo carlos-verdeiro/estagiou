@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     // Verifica o parâmetro existente na URL e carrega a página correspondente
     switch (parametroExistente()) {
-        case 'curriculo':
+        case 'curriculos':
             trocaPage(btnNavCurriculos, 'curriculos');
             break;
         case 'vagas':

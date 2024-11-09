@@ -170,7 +170,6 @@ if (
                         <option <?php echo ($genero == 'M') ? 'selected' : ''; ?> value="M">Masculino</option>
                         <option <?php echo ($genero == 'F') ? 'selected' : ''; ?> value="F">Feminino</option>
                         <option <?php echo ($genero == 'O') ? 'selected' : ''; ?> value="O">Outros</option>
-
                     </select>
                     <label for="genero">Gênero *</label>
                     <div class="invalid-feedback" id="feedback-genero">
@@ -192,7 +191,6 @@ if (
                         <option <?php echo ($estadoCivil == 'separado') ? 'selected' : ''; ?> value="separado">Separado(a)</option>
                         <option <?php echo ($estadoCivil == 'divorciado') ? 'selected' : ''; ?> value="divorciado">Divorciado(a)</option>
                         <option <?php echo ($estadoCivil == 'viuvo') ? 'selected' : ''; ?> value="viuvo">Viúvo(a)</option>
-
                     </select>
                     <label for="estadoCivil">Estado Civil *</label>
                     <div class="invalid-feedback" id="feedback-estadoCivil">

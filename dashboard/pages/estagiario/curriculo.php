@@ -113,7 +113,7 @@ try {
             <!-- Experiências -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed"  id="btnAcorExperiencias"  type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoExperiencias" aria-controls="acordeaoExperiencias">
+                    <button class="accordion-button collapsed" id="btnAcorExperiencias" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoExperiencias" aria-controls="acordeaoExperiencias">
                         Experiências
                     </button>
                 </h2>
@@ -158,20 +158,20 @@ try {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select selectNivel " disabled aria-label="Nível de Inglês" name="nivelIngles" id="nivelIngles"name="nivelIngles"">
-                                            <option selected value="0" disabled>Nível de Inglês</option>
+                                        <select class="form-select selectNivel " disabled aria-label="Nível de Inglês" name="nivelIngles" id="nivelIngles" name="nivelIngles"">
+                                            <option selected value=" 0" disabled>Nível de Inglês</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
                                         </select>
-                                        <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Espanhol" name="nivelEspanhol" id="nivelEspanhol"name="nivelEspanhol"">
-                                            <option selected value="0" disabled>Nível de Espanhol</option>
+                                        <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Espanhol" name="nivelEspanhol" id="nivelEspanhol" name="nivelEspanhol"">
+                                            <option selected value=" 0" disabled>Nível de Espanhol</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
                                         </select>
-                                        <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Francês" name="nivelFrances" id="nivelFrances"name="nivelFrances"">
-                                            <option selected value="0" disabled>Nível de Francês</option>
+                                        <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Francês" name="nivelFrances" id="nivelFrances" name="nivelFrances"">
+                                            <option selected value=" 0" disabled>Nível de Francês</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
@@ -188,7 +188,7 @@ try {
             <!-- Certificações e Cursos -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed"  id="btnAcorCertificacoes"  type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoCertificacoes" aria-controls="acordeaoCertificacoes">
+                    <button class="accordion-button collapsed" id="btnAcorCertificacoes" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#acordeaoCertificacoes" aria-controls="acordeaoCertificacoes">
                         Certificações e Cursos
                     </button>
                 </h2>
@@ -246,7 +246,7 @@ try {
                                     <label class="form-check-label" for="meio">Meio Período</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" name="remoto" type="checkbox"id="remoto">
+                                    <input class="form-check-input" name="remoto" type="checkbox" id="remoto">
                                     <label class="form-check-label" for="remoto">Remoto</label>
                                 </div>
                                 <div class="form-check">
