@@ -27,36 +27,49 @@
             <!-- Repita o card acima para cada aluno -->
         </div>
     </div>
+    <!--TOAST INFORMAÇÃO-->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastInformacao" class="toast" role="information" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Estagiou</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="corpoToastInformacao">
+                Text
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- Modal para cadastro de aluno -->
-<div class="modal fade" id="alunoModal" tabindex="-1" aria-labelledby="alunoModalLabel" aria-hidden="true">
+<div class="modal fade" id="alunoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="alunoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="alunoModalLabel">Cadastrar Novo Aluno</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
+            <form id="formAluno" method="post">
+                <input type="hidden" name="tipoForm" id="tipoForm" value="criar">
                 <div class="modal-body">
                     <!-- Informações Pessoais -->
                     <h6>Informações Pessoais</h6>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="nomeAluno" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nomeAluno" required>
-                            <div class="invalid-feedback" id="feedback-nomeAluno">
+                            <label for="nome" class="form-label">Nome*</label>
+                            <input type="text" class="form-control" name="nome" id="nome" required>
+                            <div class="invalid-feedback"  id="feedback-nome">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="sobrenomeAluno" class="form-label">Sobrenome</label>
-                            <input type="text" class="form-control" id="sobrenomeAluno">
+                            <label for="sobrenome" class="form-label">Sobrenome</label>
+                            <input type="text" class="form-control" id="sobrenome" name="sobrenome">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="estadoCivil" class="form-label">Estado Civil</label>
+                            <label for="estadoCivil" class="form-label">Estado Civil*</label>
                             <select id="estadoCivil" class="form-select w-100" placeholder="Estado Civil" aria-label="Estado Civil" name="estadoCivil" value="<?php echo $estadoCivil; ?>" required>
                                 <option hidden disabled value="NA">Selecione</option>
                                 <option value="solteiro">Solteiro(a)</option>
@@ -70,7 +83,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="genero" class="form-label">Gênero</label>
+                            <label for="genero" class="form-label">Gênero*</label>
                             <select id="genero" class="form-select w-100" placeholder="Gênero" aria-label="Gênero" name="genero" value="<?php echo $genero; ?>" required>
                                 <option hidden disabled value="NA">Selecione</option>
                                 <option value="M">Masculino</option>
@@ -84,15 +97,15 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="cpf" class="form-label">CPF</label>
-                            <input type="text" class="form-control" id="cpf" required>
+                            <label for="cpf" class="form-label">CPF*</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" required>
                             <div class="invalid-feedback" id="feedback-cpf">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="rg" class="form-label">RG</label>
-                            <input type="text" class="form-control" id="rg" required>
+                            <label for="rg" class="form-label">RG*</label>
+                            <input type="text" class="form-control" id="rg" name="rg" required>
                             <div class="invalid-feedback" id="feedback-rg">
                                 Preencha corretamente!
                             </div>
@@ -100,7 +113,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="rgOrgEmissor" class="form-label">Órgão Emissor do RG</label>
+                            <label for="rgOrgEmissor" class="form-label">Órgão Emissor do RG*</label>
                             <input type="text" id="orgaoEmissor" list="orgaos" class="form-control w-100" aria-label="Órgão Emissor" name="orgaoEmissor" maxlength="10" required>
 
                             <datalist id="orgaos">
@@ -110,12 +123,12 @@
                                 <option value="PAC">Postos de Atendimento ao Cidadão</option>
 
                             </datalist>
-                            <div class="invalid-feedback" id="feedback-rgOrgEmissor">
+                            <div class="invalid-feedback" id="feedback-orgaoEmissor">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="rgEstadoEmissor" class="form-label">Estado Emissor do RG</label>
+                            <label for="rgEstadoEmissor" class="form-label">Estado Emissor do RG*</label>
                             <select id="estadoEmissor" class="form-select w-100" aria-label="Estado Emissor" name="estadoEmissor" required>
                                 <option hidden value="NA">Selecione</option>
                                 <option value="AC">Acre</option>
@@ -147,13 +160,13 @@
                                 <option value="TO">Tocantins</option>
 
                             </select>
-                            <div class="invalid-feedback" id="feedback-rgEstadoEmissor">
+                            <div class="invalid-feedback" id="feedback-estadoEmissor">
                                 Preencha corretamente!
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                        <label for="dataNascimento" class="form-label">Data de Nascimento*</label>
                         <input autofocus type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
                         <div class="invalid-feedback" id="feedback-dataNascimento">
                             Preencha corretamente!
@@ -164,15 +177,15 @@
                     <h6>Contato</h6>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" required>
+                            <label for="email" class="form-label">E-mail*</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
                             <div class="invalid-feedback" id="feedback-email">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="senha" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="senha" required>
+                            <label for="senha" class="form-label">Senha*</label>
+                            <input type="password" class="form-control" id="senha"  name="senha" required>
                         </div>
                         <div class="invalid-feedback" id="feedback-senha">
                             Preencha corretamente!
@@ -181,14 +194,14 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="telefone">
+                            <input type="text" class="form-control" id="telefone"  name="telefone" >
                             <div class="invalid-feedback" id="feedback-telefone">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="celular" class="form-label">Celular</label>
-                            <input type="text" class="form-control" id="celular" required>
+                            <label for="celular" class="form-label">Celular*</label>
+                            <input type="text" class="form-control" id="celular" name="celular" required>
                             <div class="invalid-feedback" id="feedback-celular">
                                 Preencha corretamente!
                             </div>
@@ -199,15 +212,15 @@
                     <h6>Endereço</h6>
                     <div class="row mb-3">
                         <div class="col-md-8">
-                            <label for="endereco" class="form-label">Endereço</label>
-                            <input type="text" class="form-control" id="endereco" required>
+                            <label for="endereco" class="form-label">Endereço*</label>
+                            <input type="text" class="form-control" id="endereco"  name="endereco"required>
                             <div class="invalid-feedback" id="feedback-endereco">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="numero" class="form-label">Número</label>
-                            <input type="text" class="form-control" id="numero" required>
+                            <label for="numero" class="form-label">Número*</label>
+                            <input type="text" class="form-control" id="numero" name="numero" required>
                             <div class="invalid-feedback" id="feedback-numero">
                                 Preencha corretamente!
                             </div>
@@ -216,14 +229,14 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="complemento" class="form-label">Complemento</label>
-                            <input type="text" class="form-control" id="complemento">
+                            <input type="text" class="form-control" id="complemento" name="complemento">
                             <div class="invalid-feedback" id="feedback-complemento">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="bairro" class="form-label">Bairro</label>
-                            <input type="text" class="form-control" id="bairro">
+                            <label for="bairro" class="form-label">Bairro*</label>
+                            <input type="text" class="form-control" id="bairro" name="bairro">
                             <div class="invalid-feedback" id="feedback-bairro">
                                 Preencha corretamente!
                             </div>
@@ -231,14 +244,14 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="cidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" required>
+                            <label for="cidade" class="form-label">Cidade*</label>
+                            <input type="text" class="form-control" id="cidade" name="cidade" required>
                             <div class="invalid-feedback" id="feedback-cidade">
                                 Preencha corretamente!
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="estado" class="form-label">Estado</label>
+                            <label for="estado" class="form-label">Estado*</label>
                             <select id="estado" class="form-select w-100" aria-label="Estado" name="estado" required>
                                 <option disabled hidden value="NA">Selecione</option>
                                 <option value="AC">Acre</option>
@@ -275,16 +288,16 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="cep" class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="cep">
+                            <label for="cep" class="form-label">CEP*</label>
+                            <input type="text" class="form-control" id="cep" name="cep">
                             <div class="invalid-feedback" id="feedback-cep">
                                 Preencha corretamente!
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="pais" class="form-label">País</label>
-                        <input type="text" class="form-control" id="pais" required>
+                        <label for="pais" class="form-label">País*</label>
+                        <input type="text" class="form-control" id="pais" name="pais" required>
                         <div class="invalid-feedback" id="feedback-pais">
                             Preencha corretamente!
                         </div>
@@ -294,8 +307,8 @@
                     <h6>Informações Adicionais</h6>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="nacionalidade" class="form-label">Nacionalidade</label>
-                            <input type="text" list="listaNacionalidade" class="form-control" id="nacionalidade" required>
+                            <label for="nacionalidade" class="form-label">Nacionalidade*</label>
+                            <input type="text" list="listaNacionalidade" class="form-control" id="nacionalidade" name="nacionalidade" required>
                             <datalist id="listaNacionalidade">
                                 <option value="Brasileira"></option>
                                 <option value="Americana"></option>
@@ -313,8 +326,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="dependentes" class="form-label">Dependentes</label>
-                            <input type="number" class="form-control" id="dependentes" required>
+                            <label for="dependentes" class="form-label">Dependentes*</label>
+                            <input type="number" class="form-control" id="dependentes" name="dependentes" required>
                             <div class="invalid-feedback" id="feedback-dependentes">
                                 Preencha corretamente!
                             </div>
@@ -323,7 +336,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="cnh" class="form-label">CNH</label>
+                        <label for="cnh" class="form-label">CNH*</label>
                         <div class=" m-1 form-floating row p-0 me-1">
                             <div class="form-floating col p-0 me-1">
                                 <div class="form-check">
@@ -372,7 +385,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="nomeSocial" class="form-label">Nome Social</label>
-                        <input type="text" class="form-control" id="nomeSocial">
+                        <input type="text" class="form-control" id="nomeSocial" name="nomeSocial">
                         <div class="invalid-feedback" id="feedback-nomeSocial">
                             Preencha corretamente!
                         </div>
@@ -513,3 +526,4 @@
         </div>
     </div>
 </div>
+<script src="../assets/js/dashboard/escola/curriculos.js"></script>
