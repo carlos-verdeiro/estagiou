@@ -5,26 +5,14 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="mb-0">Alunos Cadastrados</h5>
             <!-- Botão para adicionar novo aluno -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alunoModal">
+            <button class="btn btn-primary" id="btnModalNovoCand" data-bs-toggle="modal" data-bs-target="#alunoModal">
                 Adicionar Novo Aluno
             </button>
         </div>
 
         <!-- Lista de alunos em cards -->
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Nome do Aluno</h5>
-                        <p class="card-text">Curso: Informática</p>
-                        <p class="card-text">Período: 2º Ano</p>
-                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#alunoModal">
-                            Editar
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Repita o card acima para cada aluno -->
+        <div class="row" id="divCardsAlunos">
+            <!-- card aluno -->
         </div>
     </div>
     <!--TOAST INFORMAÇÃO-->
@@ -49,8 +37,10 @@
                 <h5 class="modal-title" id="alunoModalLabel">Cadastrar Novo Aluno</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="formAluno" method="post">
-                <input type="hidden" name="tipoForm" id="tipoForm" value="criar">
+            <form id="formAluno" method="post" enctype='multipart/form-data'>
+                <input type="hidden" name="tipoForm" id="tipoForm" value="novo">
+                <input type="hidden" name="formulario_id" id="formulario_id" value="edicaoEscolar">
+                <input type="hidden" name="id_estagiario" id="id_estagiario">
                 <div class="modal-body">
                     <!-- Informações Pessoais -->
                     <h6>Informações Pessoais</h6>
@@ -58,7 +48,7 @@
                         <div class="col-md-6">
                             <label for="nome" class="form-label">Nome*</label>
                             <input type="text" class="form-control" name="nome" id="nome" required>
-                            <div class="invalid-feedback"  id="feedback-nome">
+                            <div class="invalid-feedback" id="feedback-nome">
                                 Preencha corretamente!
                             </div>
                         </div>
@@ -167,7 +157,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="dataNascimento" class="form-label">Data de Nascimento*</label>
-                        <input autofocus type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
+                        <input type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" required>
                         <div class="invalid-feedback" id="feedback-dataNascimento">
                             Preencha corretamente!
                         </div>
@@ -183,18 +173,18 @@
                                 Preencha corretamente!
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="divSenha">
                             <label for="senha" class="form-label">Senha*</label>
-                            <input type="password" class="form-control" id="senha"  name="senha" required>
-                        </div>
-                        <div class="invalid-feedback" id="feedback-senha">
-                            Preencha corretamente!
+                            <input type="password" class="form-control" id="senha" name="senha">
+                            <div class="invalid-feedback" id="feedback-senha">
+                                Preencha corretamente!
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="telefone"  name="telefone" >
+                            <input type="text" class="form-control" id="telefone" name="telefone">
                             <div class="invalid-feedback" id="feedback-telefone">
                                 Preencha corretamente!
                             </div>
@@ -213,7 +203,7 @@
                     <div class="row mb-3">
                         <div class="col-md-8">
                             <label for="endereco" class="form-label">Endereço*</label>
-                            <input type="text" class="form-control" id="endereco"  name="endereco"required>
+                            <input type="text" class="form-control" id="endereco" name="endereco" required>
                             <div class="invalid-feedback" id="feedback-endereco">
                                 Preencha corretamente!
                             </div>
@@ -463,19 +453,19 @@
                     </div>
                     <div class="mb-3">
                         <label for="formacoes" class="form-label">Formações</label>
-                        <textarea class="form-control" id="formacoes" rows="3"></textarea>
+                        <textarea class="form-control" id="formacoes" name="formacoes" rows="3" maxlength="1000"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="experiencias" class="form-label">Experiências</label>
-                        <textarea class="form-control" id="experiencias" rows="3"></textarea>
+                        <textarea class="form-control" id="experiencias" name="experiencias" rows="3" maxlength="1000"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="certificacoes" class="form-label">Certificações</label>
-                        <textarea class="form-control" id="certificacoes" rows="3"></textarea>
+                        <textarea class="form-control" id="certificacoes" name="certificacoes" rows="3" maxlength="1000"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="habilidades" class="form-label">Habilidades</label>
-                        <textarea class="form-control" id="habilidades" rows="3"></textarea>
+                        <textarea class="form-control" id="habilidades" name="habilidades" rows="3" maxlength="1000"></textarea>
                     </div>
 
                     <!-- Proficiência em Línguas -->
@@ -497,19 +487,19 @@
                         </div>
                         <div class="col">
                             <select class="form-select selectNivel " disabled aria-label="Nível de Inglês" name="nivelIngles" id="nivelIngles" name="nivelIngles"">
-                                            <option selected value=" 0" disabled>Nível de Inglês</option>
+                                <option selected value="0" disabled>Nível de Inglês</option>
                                 <option value="1">Básico</option>
                                 <option value="2">Intermediário</option>
                                 <option value="3">Avançado</option>
                             </select>
                             <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Espanhol" name="nivelEspanhol" id="nivelEspanhol" name="nivelEspanhol"">
-                                            <option selected value=" 0" disabled>Nível de Espanhol</option>
+                                <option selected value="0" disabled>Nível de Espanhol</option>
                                 <option value="1">Básico</option>
                                 <option value="2">Intermediário</option>
                                 <option value="3">Avançado</option>
                             </select>
                             <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Francês" name="nivelFrances" id="nivelFrances" name="nivelFrances"">
-                                            <option selected value=" 0" disabled>Nível de Francês</option>
+                                <option selected value="0" disabled>Nível de Francês</option>
                                 <option value="1">Básico</option>
                                 <option value="2">Intermediário</option>
                                 <option value="3">Avançado</option>

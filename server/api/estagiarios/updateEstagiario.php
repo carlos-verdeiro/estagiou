@@ -2,6 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 
+class variavelNaoExiste extends Exception {}
+
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['mensagem' => 'Método de requisição inválido.', 'code' => 1]);
@@ -42,13 +45,211 @@ try {
             trocarSenha($conn, $id);
             break;
 
+        case 'edicaoEscolar':
+
+            try {
+                function sanitizar($campo, $padrao = NULL, $regex = '/[^a-zA-ZÀ-ÖØ-öø-ÿ0-9\' -]/')
+                {
+                    return isset($_POST[$campo]) && $_POST[$campo] !== NULL ? preg_replace($regex, '', $_POST[$campo]) : $padrao;
+                }
+
+                function validar($valor, $tipo, $min, $max)
+                {
+                    $valor = trim($valor);
+                    if (strlen($valor) < $min || strlen($valor) > $max) return false;
+
+                    $validacoes = [
+                        'texto' => "/^[a-zA-ZÀ-ÖØ-öø-ÿ' -]+$/",
+                        'numero' => "/^[0-9]+$/",
+                        'data' => "/^(\d{4})-(\d{2})-(\d{2})$/"
+                    ];
+
+                    if (!preg_match($validacoes[$tipo], $valor, $matches)) return false;
+
+                    if ($tipo === 'data' && !checkdate($matches[2], $matches[3], $matches[1])) return false;
+
+                    return true;
+                }
+
+                // Dados pessoais
+                $nome = sanitizar('nome');
+                $sobrenome = sanitizar('sobrenome');
+                $genero = sanitizar('genero');
+                $nomeSocial = sanitizar('nomeSocial');
+                $estadoCivil = sanitizar('estadoCivil');
+                $dataNascimento = sanitizar('dataNascimento');
+                $nacionalidade = sanitizar('nacionalidade');
+                $celular = sanitizar('celular', NULL, '/[^0-9]/');
+                $telefone = sanitizar('telefone', NULL, '/[^0-9]/');
+                if (isset($_POST['cnhSem'])) {
+                    $cnh = 'N';
+                } elseif (isset($_POST['cnh'])) {
+                    $cnhzin = implode('', $_POST['cnh']);
+                    $cnh = htmlspecialchars($cnhzin, ENT_QUOTES, 'UTF-8');
+                } else {
+                    $cnh = 'N';
+                }
+                $dependentes = sanitizar('dependentes', 0, '/[^0-9]/');
+
+                // Endereço
+                $endereco = sanitizar('endereco');
+                $bairro = sanitizar('bairro');
+                $numero = sanitizar('numero');
+                $complemento = sanitizar('complemento');
+                $cidade = sanitizar('cidade');
+                $estado = sanitizar('estado');
+                $cep = sanitizar('cep', NULL, '/[^0-9]/');
+                $pais = sanitizar('pais');
+
+                // Disponibilidade
+                $opcoesDisponibilidade = ['integral', 'meio', 'remoto', 'presencial'];
+                $disponibilidade = array_filter($opcoesDisponibilidade, fn($opt) => isset($_POST[$opt]));
+                $disponibilidade = implode('/', $disponibilidade);
+
+                // Outras Informações
+                $escolaridade = sanitizar('escolaridade');
+                $formacoes = sanitizar('formacoes');
+                $experiencias = sanitizar('experiencias');
+                $habilidades = sanitizar('habilidades');
+                $certificacoes = sanitizar('certificacoes');
+                $proIngles = isset($_POST['idiomaIngles']) ? (int)$_POST['nivelIngles'] : 0;
+                $proEspanhol = isset($_POST['idiomaEspanhol']) ? (int)$_POST['nivelEspanhol'] : 0;
+                $proFrances = isset($_POST['idiomaFrances']) ? (int)$_POST['nivelFrances'] : 0;
+
+                // Validações
+                $erros = 0;
+                $camposParaValidar = [
+                    'nome' => ['tipo' => 'texto', 'min' => 1, 'max' => 100],
+                    'sobrenome' => ['tipo' => 'texto', 'min' => 0, 'max' => 100],
+                    'genero' => ['tipo' => 'texto', 'min' => 1, 'max' => 50],
+                    'dataNascimento' => ['tipo' => 'data', 'min' => 0, 'max' => 100],
+                    'celular' => ['tipo' => 'numero', 'min' => 11, 'max' => 11],
+                    'cep' => ['tipo' => 'numero', 'min' => 8, 'max' => 8]
+                ];
+
+                foreach ($camposParaValidar as $campo => $regra) {
+                    if (!validar($$campo, $regra['tipo'], $regra['min'], $regra['max'])) {
+                        throw new Exception("$campo inválido.");
+                        $erros++;
+                    }
+                }
+
+                if ($erros != 0) {
+                    echo json_encode(['mensagem' => "Foram encontrados $erros erro(s) de validação.", 'code' => 1]);
+                }
+            } catch (Exception $e) {
+                echo json_encode(['mensagem' => "Erro: " . $e->getMessage(), 'code' => 1]);
+            }
+
+
+            $id_estagiario = $_POST['id_estagiario'];
+
+            $stmt = $conn->prepare("SELECT * FROM aluno WHERE id_escola = ? AND id_estagiario = ?");
+            $stmt->bind_param('ii', $id, $id_estagiario);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+
+                $stmt2 = $conn->prepare("UPDATE estagiario
+                                SET
+                                    nome = ?,
+                                    sobrenome = ?,
+                                    genero = ?,
+                                    nome_social = ?,
+                                    estado_civil = ?,
+                                    data_nascimento = ?,
+                                    nacionalidade = ?,
+                                    celular = ?,
+                                    telefone = ?,
+                                    cnh = ?,
+                                    dependentes = ?,
+                                    endereco = ?,
+                                    bairro = ?,
+                                    numero = ?,
+                                    complemento = ?,
+                                    cidade = ?,
+                                    estado = ?,
+                                    cep = ?,
+                                    pais = ?,
+                                    formacoes = ?,
+                                    experiencias = ?,
+                                    habilidades = ?,
+                                    proIngles = ?,
+                                    proEspanhol = ?,
+                                    proFrances = ?,
+                                    certificacoes = ?,
+                                    escolaridade = ?,
+                                    disponibilidade = ?
+                                WHERE id = ?;
+                                ");
+
+
+                $stmt2->bind_param(
+                    'sssssssssssssssssssssssssssss',
+                    $nome,
+                    $sobrenome,
+                    $genero,
+                    $nomeSocial,
+                    $estadoCivil,
+                    $dataNascimento,
+                    $nacionalidade,
+                    $celular,
+                    $telefone,
+                    $cnh,
+                    $dependentes,
+                    $endereco,
+                    $bairro,
+                    $numero,
+                    $complemento,
+                    $cidade,
+                    $estado,
+                    $cep,
+                    $pais,
+                    $formacoes,
+                    $experiencias,
+                    $habilidades,
+                    $proIngles,
+                    $proEspanhol,
+                    $proFrances,
+                    $certificacoes,
+                    $escolaridade,
+                    $disponibilidade,
+                    $id_estagiario
+                );
+
+
+
+                // Execute a consulta
+                if ($stmt2->execute()) {
+                    // Verifica se alguma linha foi afetada
+                    if ($stmt2->affected_rows > 0) {
+                        echo json_encode(['mensagem' => "Usuário editado com sucesso.", 'code' => 5]);
+                    } else {
+                        echo json_encode(['mensagem' => "Nenhuma alteração foi feita. Usuário não encontrado ou dados já estão atualizados.", 'code' => 1]);
+                    }
+                } else {
+                    $error = $stmt2->error;
+
+                    if (is_array($error)) {
+                        echo json_encode(['mensagem' => "Erro ao editar usuário.", 'code' => 1]);
+                    } else {
+                        echo json_encode(['mensagem' => "Erro ao editar usuário: $error", 'code' => 1]);
+                    }
+                }
+            } else {
+                echo json_encode(['mensagem' => "Usuário não encontrado.", 'code' => 1]);
+            }
+            break;
+
+
         default:
-            echo json_encode(['mensagem' => 'Parâmetros incorretos.', 'code' => 1]);
+            echo json_encode(['mensagem' => "Parâmetros incorretos.", 'code' => 1]);
             exit;
     }
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
+    echo 'Erro interno: ' . $e->getMessage();
 } finally {
     if (isset($conn)) $conn->close();
 }
@@ -146,7 +347,6 @@ function trocarSenha($conn, $id)
         echo json_encode(['mensagem' => 'Usuário não encontrado.']);
     }
 }
-
 
 // Função para limpar caracteres especiais de números
 function limparNumero($numero)

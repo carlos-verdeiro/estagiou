@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
     const corpoToastInformacao = $('#corpoToastInformacao');
+    let alunosJson;
 
 
     //etapa 1
@@ -9,6 +10,8 @@ $(document).ready(function () {
     const feedbackCPF = $("#feedback-cpf");
     const nome = $("#nome");
     const feedbackNome = $("#feedback-nome");
+    const nomeSocial = $("#nomeSocial");
+    const sobrenome = $("#sobrenome");
     const email = $("#email");
     const feedbackEmail = $("#feedback-email");
     //etapa 2
@@ -48,9 +51,11 @@ $(document).ready(function () {
     const feedbackBairro = $("#feedback-bairro");
     const numero = $("#numero");
     const feedbackNumero = $("#feedback-numero");
+    const complemento = $("#complemento");
     //etapa 5
     const senha = $("#senha");
     const feedbackSenha = $("#feedback-senha");
+
 
     // Máscara para o CPF
     cpf.mask('000.000.000-00', { reverse: false });
@@ -571,20 +576,148 @@ $(document).ready(function () {
     function salvarDados(formulario) {
 
         const dados = $(formulario).serialize();
-        let caminho = ($('#tipoForm').val() == 'criar')? "../server/api/estagiarios/cadastrarEstagiario.php": "../server/api/estagiarios/updateEstagiario.php";
+        let caminho = ($('#tipoForm').val() == 'novo') ? "../server/api/escola/cadastrarEstagiario.php" : "../server/api/estagiarios/updateEstagiario.php";
         $.post(caminho, dados)
             .done(function (response) {
                 console.log(response);
-                corpoToastInformacao.text(response.mensagem);
+                corpoToastInformacao.text(($('#tipoForm').val() == 'novo') ? response : response['mensagem']);
                 toastInformacao.show();
+                $('#alunoModal').modal('hide');
+                $('#formAluno')[0].reset();
+                $('#formAluno input[type="checkbox"]').attr('checked', false);
+
+                puxarAlunos();
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.error("Erro ao salvar dados: " + textStatus, errorThrown);
+            .fail(function (response) {
+                console.error(response.responseText);
                 corpoToastInformacao.text("Erro ao salvar dados, tente novamente mais tarde");
                 toastInformacao.show();
             });
 
     }
+
+    $('#btnModalNovoCand').on('click', () => {
+        cpf.attr('disabled', false);
+        email.attr('disabled', false);
+        rg.attr('disabled', false);
+        orgaoEmissor.attr('disabled', false);
+        estadoEmissor.attr('disabled', false);
+
+        $('#divSenha').show()
+
+        $('#tipoForm').val('novo');
+        $('#alunoModalLabel').text('Cadastrar Novo Aluno');
+        $('#alunoModal').modal('show');
+    })
+
+    $('#divCardsAlunos').on('click', '.btnEditarAluno', function () {
+        $('#formAluno')[0].reset();
+        $('#formAluno input[type="checkbox"]').attr('checked', false);
+
+        let estagiario = alunosJson[$(this).val()];
+
+        cpf.attr('disabled', true);
+        email.attr('disabled', true);
+        rg.attr('disabled', true);
+        orgaoEmissor.attr('disabled', true);
+        estadoEmissor.attr('disabled', true);
+
+        $('#divSenha').hide();
+
+        $('#tipoForm').val('edicao');
+        $('#alunoModalLabel').text(estagiario.nome);
+
+        $('#id_estagiario').val(estagiario.id);
+
+        cpf.val(estagiario.cpf.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
+        nome.val(estagiario.nome);
+        email.val(estagiario.email);
+        sobrenome.val(estagiario.sobrenome);
+        rg.val(estagiario.rg.replace(/\D/g, '').replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, '$1.$2.$3-$4'));
+        orgaoEmissor.val(estagiario.rg_org_emissor);
+        estadoEmissor.val(estagiario.rg_estado_emissor);
+        genero.val(estagiario.genero);
+        estadoCivil.val(estagiario.estado_civil);
+        nacionalidade.val(estagiario.nacionalidade);
+        celular.val(estagiario.celular.replace(/\D/g, '').replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'));
+        telefone.val(estagiario.telefone.replace(/\D/g, '').replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3'));
+        dataNascimento.val(estagiario.data_nascimento);
+        dependentes.val(estagiario.dependentes);
+        cep.val(estagiario.cep.replace(/(\d{5})(\d{3})/, '$1-$2'));
+        pais.val(estagiario.pais);
+        cidade.val(estagiario.cidade);
+        estado.val(estagiario.estado);
+        endereco.val(estagiario.endereco);
+        bairro.val(estagiario.bairro);
+        numero.val(estagiario.numero);
+        complemento.val(estagiario.complemento);
+        nomeSocial.val(estagiario.nome_social);
+
+        var cnh = estagiario.cnh.split('');
+        $.each(cnh, function (index, letra) {
+            $(`#cnh` + letra).attr('checked', true);
+        });
+        if (cnh == "N") {
+            $(`#cnhSem`).attr('checked', true);
+        }
+
+        //1
+        $(`#escolaridade${estagiario.escolaridade}`).prop('checked', true);
+        $(`#formacoes`).text(estagiario.formacoes);
+
+        //2
+        $(`#experiencias`).text(estagiario.experiencias);
+
+        //3
+        if (estagiario.proIngles != null && estagiario.proIngles != 0) { // inglês
+            $(`#idiomaIngles`).prop('checked', true);
+            $(`#nivelIngles`).val(estagiario.proIngles);
+            $(`#nivelIngles`).prop('disabled', false);
+        } else {
+            $(`#idiomaIngles`).prop('checked', false);
+            $(`#nivelIngles`).val(0);
+            $(`#nivelIngles`).prop('disabled', true);
+        }
+
+        if (estagiario.proEspanhol != null && estagiario.proEspanhol != 0) { // espanhol
+            $(`#idiomaEspanhol`).prop('checked', true);
+            $(`#nivelEspanhol`).val(estagiario.proEspanhol);
+            $(`#nivelEspanhol`).prop('disabled', false);
+        } else {
+            $(`#idiomaEspanhol`).prop('checked', false);
+            $(`#nivelEspanhol`).val(0);
+            $(`#nivelEspanhol`).prop('disabled', true);
+        }
+
+        if (estagiario.proFrances != null && estagiario.proFrances != 0) { // francês
+            $(`#idiomaFrances`).prop('checked', true);
+            $(`#nivelFrances`).val(estagiario.proFrances);
+            $(`#nivelFrances`).prop('disabled', false);
+        } else {
+            $(`#idiomaFrances`).prop('checked', false);
+            $(`#nivelFrances`).val(0);
+            $(`#nivelFrances`).prop('disabled', true);
+        }
+
+        //4
+        $(`#certificacoes`).text(estagiario.certificacoes);
+
+        //5
+        $(`#habilidades`).text(estagiario.habilidades);
+
+        //6
+        if (estagiario.disponibilidade) {
+            let valores = estagiario.disponibilidade.split('/');
+
+            valores.forEach(element => {
+                $(`#${element}`).prop('checked', true);
+            });
+        }
+
+
+        $('#alunoModal').modal('show');
+    });
+
 
 
     $('#formAluno').submit(async function (event) {
@@ -592,18 +725,56 @@ $(document).ready(function () {
 
         try {
 
-            let cpaF = await validacaoCPF();
-            let emailF = await validacaoEmail()
+            let cpaF = ($('#tipoForm').val() == 'novo') ? await validacaoCPF() : true;
+            let emailF = ($('#tipoForm').val() == 'novo') ? await validacaoEmail() : true;
+            let rg = ($('#tipoForm').val() == 'novo') ? validacaoRG() : true;
+            let senha = ($('#tipoForm').val() == 'novo') ? validacaoSenha() : true;
 
-
-            if (cpaF && validacaoTamanho(nome, feedbackNome, 'minimo', 0) && emailF && validacaoRG() && validacaoOrgaoEmissor() && validacaoSelect(estadoEmissor, feedbackEstadoEmissor) && validacaoSelect(genero, feedbackGenero) && validacaoSelect(estadoCivil, feedbackEstadoCivil) && validacaoTamanho(dataNascimento, feedbackDataNascimento, 'igual', 10) && validacaoTamanho(nacionalidade, feedbackNacionalidade, 'minimo', 0) && validacaoTamanho(celular, feedbackCelular, 'igual', 15) && validacaoTamanho(cep, feedbackCep, 'igual', 9) && validacaoTamanho(pais, feedbackPais, 'minimo', 0) && validacaoTamanho(cidade, feedbackCidade, 'minimo', 0) && validacaoSelect(estado, feedbackEstado) && validacaoTamanho(endereco, feedbackEndereco, 'minimo', 0) && validacaoTamanho(bairro, feedbackBairro, 'minimo', 0) && validacaoTamanho(numero, feedbackNumero, 'minimo', 0) && validacaoSenha()) {
+            if (cpaF && validacaoTamanho(nome, feedbackNome, 'minimo', 0) && emailF && rg && validacaoOrgaoEmissor() && validacaoSelect(estadoEmissor, feedbackEstadoEmissor) && validacaoSelect(genero, feedbackGenero) && validacaoSelect(estadoCivil, feedbackEstadoCivil) && validacaoTamanho(dataNascimento, feedbackDataNascimento, 'igual', 10) && validacaoTamanho(nacionalidade, feedbackNacionalidade, 'minimo', 0) && validacaoTamanho(celular, feedbackCelular, 'igual', 15) && validacaoTamanho(cep, feedbackCep, 'igual', 9) && validacaoTamanho(pais, feedbackPais, 'minimo', 0) && validacaoTamanho(cidade, feedbackCidade, 'minimo', 0) && validacaoSelect(estado, feedbackEstado) && validacaoTamanho(endereco, feedbackEndereco, 'minimo', 0) && validacaoTamanho(bairro, feedbackBairro, 'minimo', 0) && validacaoTamanho(numero, feedbackNumero, 'minimo', 0) && senha) {
                 salvarDados('#formAluno');
             } else {
                 console.log('Campos não preenchidos corretamente');
+                alert('Campos não preenchidos corretamente');
             }
         } catch (error) {
-            console.log('Erro na validação do CPF:', error);
+            console.log('Erro na validação do CPF ou E-mail:', error);
         }
     });
+
+    const divCardsAlunos = $('#divCardsAlunos');
+
+    function puxarAlunos() {
+        $.getJSON('../../server/api/escola/mostrarAlunos.php/alunos')
+            .done(function (data) {
+                alunosJson = data;
+                console.log(alunosJson);
+                divCardsAlunos.empty();
+                if (data.length === 0) {
+                    divCardsAlunos.append('<h3 class="text-center">Não há alunos cadastrados</h3>');
+                } else {
+                    data.forEach((aluno, index) => {
+                        $('#divCardsAlunos').append(`
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-1">${aluno.nome}</h5>
+                                        <p class="card-text mb-0"><strong>CPF:</strong> ${aluno.cpf}</p>
+                                        <p class="card-text"><strong>Email:</strong> ${aluno.email}</p>
+                                        <button class="btn btn-outline-secondary btnEditarAluno" value="${index}">
+                                            Editar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>`);
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+            });
+    }
+
+    puxarAlunos();
 
 });

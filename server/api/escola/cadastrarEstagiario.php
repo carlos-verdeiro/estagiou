@@ -1,7 +1,7 @@
 <?php
+session_start();
 
 class variavelNaoExiste extends Exception {}
-class validacaoVariaveis extends Exception {}
 
 
 try {
@@ -61,6 +61,7 @@ try {
 
 
     define('CPF_KEY', 'cpf');
+    define('SENHA_KEY', 'senha');
     define('NOME_KEY', 'nome');
     define('SOBRENOME_KEY', 'sobrenome');
     define('EMAIL_KEY', 'email');
@@ -84,7 +85,12 @@ try {
     define('ESTADO_KEY', 'estado');
     define('CEP_KEY', 'cep');
     define('PAIS_KEY', 'pais');
-    define('SENHA_KEY', 'senha');
+    define('ESCOLARIDADE_KEY', 'escolaridade');
+    define('FORMACOES_KEY', 'formacoes');
+    define('EXPERIENCIAS_KEY', 'experiencias');
+    define('HABILIDADES_KEY', 'habilidades');
+    define('CERTIFICACOES_KEY', 'certificacoes');
+
 
     $cpf = preg_replace('/[^0-9]/', '', pegarSessao(CPF_KEY));
     $nome = pegarSessao(NOME_KEY);
@@ -111,6 +117,30 @@ try {
     $cep = preg_replace('/[^0-9]/', '', pegarSessao(CEP_KEY));
     $pais = pegarSessao(PAIS_KEY);
     $senha = pegarSessao(SENHA_KEY);
+    //disponibilidade
+    if (isset($_POST['integral'])) {
+        $result[] = 'integral';
+    }
+    if (isset($_POST['meio'])) {
+        $result[] = 'meio';
+    }
+    if (isset($_POST['remoto'])) {
+        $result[] = 'remoto';
+    }
+    if (isset($_POST['presencial'])) {
+        $result[] = 'presencial';
+    }
+
+    $disponibilidade = !empty($result) ? implode('/', $result) : '';
+    //disponibilidade
+    $escolaridade = pegarSessao(ESCOLARIDADE_KEY);
+    $formacoes = pegarSessao(FORMACOES_KEY);
+    $experiencias = pegarSessao(EXPERIENCIAS_KEY);
+    $habilidades = pegarSessao(HABILIDADES_KEY);
+    $certificacoes = pegarSessao(CERTIFICACOES_KEY);
+    $proIngles = isset($_POST['idiomaIngles']) && $_POST['nivelIngles'] != 0 && is_numeric($_POST['nivelIngles']) ? $_POST['nivelIngles'] : 0;
+    $proEspanhol = isset($_POST['idiomaEspanhol']) && $_POST['nivelEspanhol'] != 0 && is_numeric($_POST['nivelEspanhol']) ? $_POST['nivelEspanhol'] : 0;
+    $proFrances = isset($_POST['idiomaFrances']) && $_POST['nivelFrances'] != 0 && is_numeric($_POST['nivelFrances']) ? $_POST['nivelFrances'] : 0;
 
     $erros = 0;
 
@@ -215,6 +245,8 @@ try {
 
                 break;
             case 'telefone':
+            case 'escolaridade':
+
                 if ($texto != NULL || $texto != '') {
                     if (strlen($texto) < $min || strlen($texto) > $max) {
                         return false;
@@ -230,6 +262,13 @@ try {
             case 'email':
             case 'complemento':
             case 'endereco':
+            case 'formacoes':
+            case 'experiencias':
+            case 'habilidades':
+            case 'proIngles':
+            case 'proEspanhol':
+            case 'proFrances':
+            case 'certificacoes':
 
 
 
@@ -356,17 +395,61 @@ try {
         throw new variavelNaoExiste("Senha ERRO\n");
         $erros++;
     }
+    if (!validar($formacoes, 'formacoes', 0, 1000)) {
+        throw new variavelNaoExiste("Formações ERRO\n");
+        $erros++;
+    }
+    if (!validar($experiencias, 'experiencias', 0, 1000)) {
+        throw new variavelNaoExiste("Experiencias ERRO\n");
+        $erros++;
+    }
+    if (!validar($habilidades, 'habilidades', 0, 1000)) {
+        throw new variavelNaoExiste("Habilidades ERRO\n");
+        $erros++;
+    }
+    if (!validar($proIngles, 'proIngles', 0, 1)) {
+        throw new variavelNaoExiste("Inglês ERRO\n");
+        $erros++;
+    }
+    if (!validar($proEspanhol, 'proEspanhol', 0, 1)) {
+        throw new variavelNaoExiste("Espanhol ERRO\n");
+        $erros++;
+    }
+    if (!validar($proFrances, 'proFrances', 0, 1)) {
+        throw new variavelNaoExiste("Francês ERRO\n");
+        $erros++;
+    }
+    if (!validar($certificacoes, 'certificacoes', 0, 1000)) {
+        throw new variavelNaoExiste("Francês ERRO\n");
+        $erros++;
+    }
+    if (!validar($escolaridade, 'escolaridade', 0, 11)) {
+        throw new variavelNaoExiste("Francês ERRO\n");
+        $erros++;
+    }
+
 
     if ($erros > 0) {
+        http_response_code(500);
         echo "Ocorreu um erro";
         exit;
     }
+} catch (variavelNaoExiste $e) {
+    http_response_code(500);
+    echo 'Erro capturado: ',  $e->getMessage(), "\n";
+} catch (Exception $e) {
+    http_response_code(500);
+    echo 'Erro capturado: ',  $e->getMessage(), "\n";
+}
+
+require_once '../../../server/conexao.php';
+$conn->begin_transaction();
+
+try {
 
     //BANCO DE DADOS
 
-    require_once '../../../server/conexao.php';
 
-    // Dados a serem inseridos
     $dados = [
         'cpf' => $cpf,
         'nome' => $nome,
@@ -392,46 +475,77 @@ try {
         'estado' => $estado,
         'cep' => $cep,
         'pais' => $pais,
-        'senha' => password_hash($senha, PASSWORD_DEFAULT) // Hash da senha
+        'senha' => password_hash($senha, PASSWORD_DEFAULT), // Hash da senha
+        'formacoes' => $formacoes,
+        'experiencias' => $experiencias,
+        'habilidades' => $habilidades,
+        'proIngles' => $proIngles,
+        'proEspanhol' => $proEspanhol,
+        'proFrances' => $proFrances,
+        'certificacoes' => $certificacoes,
+        'escolaridade' => $escolaridade,
+        'disponibilidade' => $disponibilidade
     ];
-
-    // Montagem da query SQL
     $sql = "INSERT INTO estagiario (
     cpf, nome, sobrenome, email, rg, rg_org_emissor, rg_estado_emissor, genero, nome_social, estado_civil, data_nascimento,
     nacionalidade, celular, telefone, cnh, dependentes, endereco, bairro, numero, complemento, cidade, estado,
-    cep, pais, senha
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    cep, pais, senha, formacoes, experiencias, habilidades, proIngles, proEspanhol, proFrances, certificacoes, escolaridade, disponibilidade
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
     // Preparando a consulta
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
+        http_response_code(500);
         die("Erro ao preparar a consulta: " . $conn->error);
     }
-
-    // Associando os parâmetros com os tipos corretos
     $param_types = str_repeat('s', count($dados));
     $param_values = array_values($dados);
 
     $stmt->bind_param($param_types, ...$param_values);
 
-    // Executando a consulta
     if ($stmt->execute()) {
-        session_unset();
-        session_destroy();
-        header("Location: ../sucesso.php");
-        exit();
-    } else {
-        echo "Erro ao inserir usuário: " . $stmt->error;
-    }
+        $estagiario_id = $conn->insert_id;
 
-    // Fechar a consulta e a conexão
-    $stmt->close();
-    $conn->close();
+        $sql2 = "INSERT INTO aluno (id_estagiario, id_escola) VALUES (?, ?)";
+        $stmt2 = $conn->prepare($sql2);
+
+        if ($stmt2 === false) {
+            http_response_code(500);
+            die("Erro ao preparar a segunda consulta: " . $conn->error);
+        }
+
+        $id_escola = $_SESSION['idUsuarioLogin'];
+
+        $param_types2 = 'is';
+        $param_values2 = [$estagiario_id, $id_escola];
+
+        $stmt2->bind_param($param_types2, ...$param_values2);
+
+        if ($stmt2->execute()) {
+
+            $conn->commit();
+            echo "Usuário inseridos com sucesso!";
+        } else {
+            $conn->rollback();
+            http_response_code(500);
+            echo "Erro ao inserir dados na segunda tabela: " . $stmt2->error;
+        }
+
+        $stmt2->close();
+    } else {
+        $conn->rollback();
+        http_response_code(500);
+        echo "Erro ao inserir estagiário: " . $stmt->error;
+    }
 } catch (variavelNaoExiste $e) {
-    echo 'Erro capturado: ',  $e->getMessage(), "\n";
-} catch (validacaoVariaveis $e) {
+    $conn->rollback();
+    http_response_code(500);
     echo 'Erro capturado: ',  $e->getMessage(), "\n";
 } catch (Exception $e) {
+    $conn->rollback();
+    http_response_code(500);
     echo 'Erro capturado: ',  $e->getMessage(), "\n";
 }
+
+exit;
