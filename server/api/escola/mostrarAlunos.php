@@ -34,7 +34,8 @@ switch ($busca) {
         try {
             include_once '../../conexao.php';
 
-            $stmt = $conn->prepare("SELECT a.id_estagiario, e.*
+            $stmt = $conn->prepare("SELECT a.id_estagiario, 
+                                    e.id,e.nome,e.sobrenome,e.estado_civil,e.cpf,e.rg,e.data_nascimento,e.genero,e.nacionalidade,e.email,e.celular,e.telefone,e.endereco,e.numero,e.complemento,e.bairro,e.cidade,e.estado,e.cep,e.pais,escolaridade,e.formacoes,e.experiencias,e.proIngles,e.proEspanhol,e.proFrances,e.certificacoes,e.habilidades,e.disponibilidade,e.cnh,e.dependentes,rg_org_emissor,e.rg_estado_emissor
                                     FROM aluno AS a
                                     LEFT JOIN estagiario AS e ON e.id = a.id_estagiario
                                     WHERE a.id_escola = ?

@@ -32,7 +32,7 @@
                     </li>-->
                 </ul>
                 <div class="list-group mt-1 overflow-y-auto blocoVagas" id="listaVagas">
-                    
+
                 </div>
 
                 <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">
@@ -64,13 +64,13 @@
                 <p class="card-text" id="blocoPublicacaoVaga">Publicação</p>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-primary sm btnVizualizarVaga" id="btnVizualizarVaga">Vizualizar</button>
+                <button type="button" class="btn btn-primary sm btnVizualizarVaga" id="btnVizualizarVaga">Candidatar aluno</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Vaga-->
-    <div class="modal fade" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal Vaga Vizualizar-->
+    <div class="modal fade pgNumBTN" id="modalVaga" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -93,11 +93,28 @@
                     <div class="mb-3">
                         <h6 for="dataPublicacaoVagaModal" class="form-label">Data de Publicação:</h6>
                         <p id="dataPublicacaoVagaModal">--/--/----</p>
+
+
+                        <h6>Selecione os alunos:</h6>
+                        <div class="accordion" id="accordionAlunos">
+                            
+                        </div>
                     </div>
+                    <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item pgVoltar">
+                                <button class="page-link">Voltar</button>
+                            </li>
+                            <div class="page-item pgNumeros pagination d-flex flex-row">
+                            </div>
+                            <li class="page-item pgAvancar">
+                                <button class="page-link">Avançar</button>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnModalCancelarVaga" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary inscreverVaga" id="inscreverVagaModal">Inscrever-se</button>
                 </div>
             </div>
         </div>

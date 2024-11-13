@@ -396,6 +396,85 @@ switch ($uri[5]) {
             if (isset($conn)) $conn->close();
         }
         break;
+    case 'escolaVagas':
+        // Verificação de autenticação e tipo de usuário
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'escola'
+        ) {
+            http_response_code(401);
+            echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
+            exit;
+        }
+
+        $idEscola = $_SESSION['idUsuarioLogin'];
+        $partida = isset($uri[6]) && is_numeric($uri[6]) ? (int)$uri[6] : 0;
+        $limiteBusca = isset($uri[7]) && is_numeric($uri[7]) ? (int)$uri[7] : 30;
+
+        try {
+            include_once '../../conexao.php';
+
+            $stmt = $conn->prepare("
+                    SELECT 
+                        vaga.*, 
+                        empresa.nome AS empresa_nome,
+                        GROUP_CONCAT(estagiario.id SEPARATOR '&') AS candidatos_ids,
+                        GROUP_CONCAT(estagiario.nome SEPARATOR '&') AS candidatos_nomes,
+                        GROUP_CONCAT(estagiario.email SEPARATOR '&') AS candidatos_emails,
+                        GROUP_CONCAT(estagiario.cpf SEPARATOR '&') AS candidatos_cpfs
+                    FROM vaga
+                    INNER JOIN empresa ON vaga.empresa_id = empresa.id
+                    LEFT JOIN candidatura ON candidatura.id_vaga = vaga.id
+                    LEFT JOIN estagiario ON estagiario.id = candidatura.id_estagiario
+                    LEFT JOIN aluno ON aluno.id_estagiario = candidatura.id_estagiario
+                    WHERE vaga.status = ? 
+                    AND vaga.encerrado = ?
+                    AND candidatura.id_estagiario = aluno.id_estagiario
+                    AND aluno.id_escola = ?
+                    GROUP BY vaga.id
+                    ORDER BY vaga.titulo
+                    LIMIT ? OFFSET ?
+                ");
+            if (!$stmt) {
+                throw new Exception("Erro na preparação da consulta: " . $conn->error);
+            }
+
+            $statusVaga = 1;
+            $encerradoVaga = 0;
+            $stmt->bind_param("iiiii", $statusVaga, $encerradoVaga, $idEscola, $limiteBusca, $partida);
+
+            if (!$stmt->execute()) {
+                throw new Exception("Erro ao executar a consulta: " . $stmt->error);
+            }
+
+            $result = $stmt->get_result();
+            $vagas = $result->fetch_all(MYSQLI_ASSOC);
+
+            // Consulta para contar o total de vagas
+            $stmt_total = $conn->prepare("SELECT COUNT(*) AS total_registros FROM vaga WHERE status = ? AND encerrado = ?");
+            $stmt_total->bind_param("ii", $statusVaga, $encerradoVaga);
+            $stmt_total->execute();
+            $total_registros = $stmt_total->get_result()->fetch_assoc()['total_registros'];
+
+            // Prepara a resposta JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'total_registros' => $total_registros,
+                'vagas' => $vagas
+            ]);
+
+            // Fecha as consultas
+            $stmt->close();
+            $stmt_total->close();
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
+        } finally {
+            if (isset($conn)) $conn->close();
+        }
+
+        break;
 
     default:
         http_response_code(404); // Não encontrado

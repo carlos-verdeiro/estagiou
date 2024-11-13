@@ -596,6 +596,47 @@ $(document).ready(function () {
 
     }
 
+    function limparForm(){
+        cpf.val('');
+        nome.val('');
+        email.val('');
+        sobrenome.val('');
+        rg.val('');
+        orgaoEmissor.val('');
+        estadoEmissor.val('');
+        genero.val('');
+        estadoCivil.val('');
+        nacionalidade.val('');
+        celular.val('');
+        telefone.val('');
+        dataNascimento.val('');
+        dependentes.val('');
+        cep.val('');
+        pais.val('');
+        cidade.val('');
+        estado.val('');
+        endereco.val('');
+        bairro.val('');
+        numero.val('');
+        complemento.val('');
+        nomeSocial.val('');
+        $(`#idiomaIngles`).prop('checked', false);
+        $(`#nivelIngles`).prop('disabled', true);
+        $(`#idiomaEspanhol`).prop('checked', false);
+        $(`#nivelEspanhol`).prop('disabled', true);
+        $(`#idiomaFrances`).prop('checked', false);
+        $(`#nivelFrances`).prop('disabled', true);
+        $(`#nivelIngles`).val(0);
+        $(`#nivelEspanhol`).val(0);
+        $(`#nivelFrances`).val(0);
+        $('#formAluno input[type="checkbox"], #formAluno input[type="radio"]').prop('checked', false);
+        $(`#formacoes`).text('');
+        $(`#experiencias`).text('');
+        $(`#habilidades`).text('');
+        $(`#certificacoes`).text('');
+        $('#formAluno')[0].reset();
+    }
+
     $('#btnModalNovoCand').on('click', () => {
         cpf.attr('disabled', false);
         email.attr('disabled', false);
@@ -603,15 +644,18 @@ $(document).ready(function () {
         orgaoEmissor.attr('disabled', false);
         estadoEmissor.attr('disabled', false);
 
+
         $('#divSenha').show()
 
         $('#tipoForm').val('novo');
         $('#alunoModalLabel').text('Cadastrar Novo Aluno');
         $('#alunoModal').modal('show');
+        limparForm();
+        $('#formAluno input[type="checkbox"]').attr('checked', false);
     })
 
     $('#divCardsAlunos').on('click', '.btnEditarAluno', function () {
-        $('#formAluno')[0].reset();
+        limparForm();
         $('#formAluno input[type="checkbox"]').attr('checked', false);
 
         let estagiario = alunosJson[$(this).val()];

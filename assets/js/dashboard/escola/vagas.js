@@ -59,7 +59,7 @@ $(document).ready(function () {
                 vagasJson = data.vagas || [];
                 totalRegistros = data.total_registros || 0;
                 candidaturas = data.candidatura || null;
-                console.log(`Total de registros: ${totalRegistros}`, candidaturas, vagasJson);
+                console.log(data);
 
                 if (inicio === 0) {
                     paginacao(totalRegistros);
@@ -93,10 +93,10 @@ $(document).ready(function () {
                     }
                 }
             })
-            .fail(function (jqXHR, textStatus) {
-                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+            .fail(function (response) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${response}`);
                 toastInformacao.show();
-                console.error('Erro ao obter os dados:', textStatus);
+                console.error('Erro ao obter os dados:', response.responseJSON.mensagem);
             });
     }
 
@@ -247,6 +247,7 @@ $(document).ready(function () {
 
     // Inicializa as vagas
     puxarVagas(0);
+    puxarAlunos();
 
     function vagaBlocoDetalhe(status, vaga, index) {
         let cardGeral = $('#cardGeralVaga');
@@ -274,6 +275,18 @@ $(document).ready(function () {
         }
     }
 
+    function puxarAlunos() {
+        $.getJSON('../../server/api/escola/mostrarAlunos.php/alunos')
+            .done(function (data) {
+                alunosJson = data;
+                console.log(alunosJson);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                corpoToastInformacao.text(`Erro ao obter os dados de alunos: ${textStatus}`);
+                toastInformacao.show();
+            });
+    }
+
     function vagaModalDetalhe(vaga, index) {
 
         $('#tituloVagaModal').text(vaga.titulo);
@@ -281,18 +294,32 @@ $(document).ready(function () {
         $('#requisitosVagaModal').text(vaga.requisitos);
         $('#dataEncerramentoVagaModal').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
         $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
-        $('.inscreverVaga').val(index);
-        if (vaga.candidatou == 0) {
-            $('.inscreverVaga').text('Inscrever-se');
-            $('.inscreverVaga').removeClass('btn-primary');
-            $('.inscreverVaga').removeClass('btn-danger');
-            $('.inscreverVaga').addClass('btn-primary');
-        } else {
-            $('.inscreverVaga').text('Cancelar inscrição');
-            $('.inscreverVaga').removeClass('btn-primary');
-            $('.inscreverVaga').removeClass('btn-danger');
-            $('.inscreverVaga').addClass('btn-danger');
-        }
+
+        let id_candidatado = vaga.candidatos_ids.split('&');
+        let cpf_candidatado = vaga.candidatos_cpfs.split('&');
+        let email_candidatado = vaga.candidatos_emails.split('&');
+        let nome_candidatado = vaga.candidatos_nomes.split('&');
+        alunosJson.forEach((aluno, i) => {
+            const candidatado = id_candidatado.find((element)=>element == aluno.id);
+            $('#accordionAlunos').append(`
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="${candidatado? 'statusSelecionado':''} accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoAluno${aluno.id}" aria-expanded="false" aria-controls="colapsoAluno${aluno.id}">
+                            ${aluno.nome}
+                        </button>
+                    </h2>
+                    <div id="colapsoAluno${aluno.id}" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p><strong>CPF: </strong>${aluno.cpf}</p>
+                            <p><strong>E-mail: </strong>${aluno.email}</p>
+                        </div>
+                    </div>
+                </div>
+                `);
+        });
+
+
+
         modalVaga.modal('show');
 
     }

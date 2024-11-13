@@ -2,3 +2,6 @@
     max-height: 50vh;
     overflow-y: auto;
 }
+.statusSelecionado{
+    background-color: rgba(0, 255, 38, 0.115) !important;
+}
