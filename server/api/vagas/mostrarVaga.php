@@ -422,7 +422,8 @@ switch ($uri[5]) {
                         GROUP_CONCAT(estagiario.id SEPARATOR '&') AS candidatos_ids,
                         GROUP_CONCAT(estagiario.nome SEPARATOR '&') AS candidatos_nomes,
                         GROUP_CONCAT(estagiario.email SEPARATOR '&') AS candidatos_emails,
-                        GROUP_CONCAT(estagiario.cpf SEPARATOR '&') AS candidatos_cpfs
+                        GROUP_CONCAT(estagiario.cpf SEPARATOR '&') AS candidatos_cpfs,
+                        GROUP_CONCAT(candidatura.id SEPARATOR '&') AS candidaturas_ids
                     FROM vaga
                     INNER JOIN empresa ON vaga.empresa_id = empresa.id
                     LEFT JOIN candidatura ON candidatura.id_vaga = vaga.id

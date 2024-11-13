@@ -5,8 +5,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_SESSION['statusLogin']) || $_SESSION['statusLogin'] !== 'autenticado' || !isset($_SESSION['tipoUsuarioLogin'])) {
         die("Erro: Usuário não autenticado.");
     }
-
-    $estagiario_id = $_SESSION['idUsuarioLogin'];
+    if ($_SESSION['tipoUsuarioLogin'] === "estagiario") {
+        $estagiario_id = $_SESSION['idUsuarioLogin'];
+    }else{
+        $estagiario_id = $_POST['idEstagiario'];
+    }
     $vaga_id = $_POST['idVaga'];
     $observacao = isset($_POST['observacao']) ? $_POST['observacao'] : null;
     $status = isset($_POST['status']) ? $_POST['status'] : 1;

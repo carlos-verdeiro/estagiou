@@ -802,7 +802,7 @@ $(document).ready(function () {
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title mb-1">${aluno.nome}</h5>
-                                        <p class="card-text mb-0"><strong>CPF:</strong> ${aluno.cpf}</p>
+                                        <p class="card-text mb-0"><strong>CPF:</strong> ${aluno.cpf.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</p>
                                         <p class="card-text"><strong>Email:</strong> ${aluno.email}</p>
                                         <button class="btn btn-outline-secondary btnEditarAluno" value="${index}">
                                             Editar

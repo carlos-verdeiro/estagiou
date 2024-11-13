@@ -100,133 +100,6 @@ $(document).ready(function () {
             });
     }
 
-    function puxarMinhasVagas(inicio) {
-        $.getJSON(`../../server/api/vagas/mostrarVaga.php/escolaVagasCandidato/${inicio}`)
-            .done(function (data) {
-                vagasJson = data.vagas || [];
-                totalRegistros = data.total_registros || 0;
-                candidaturas = data.candidatura || null;
-                console.log(`Minhas vagas => Total de registros: ${totalRegistros}`, candidaturas, vagasJson);
-
-                if (inicio === 0) {
-                    paginacao(totalRegistros);
-                }
-
-                listaVagas.empty();
-                if (vagasJson.length === 0) {
-                    listaVagas.append('<h3 class="text-center">Não há vagas candidatadas</h3>');
-                } else {
-                    vagasJson.forEach((vaga, index) => {
-                        const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
-                        listaVagas.append(`
-                            <button class="list-group-item btnVaga list-group-item-action p-3 activate" value="${index}">
-                                <div class="d-flex w-100 justify-content-around">
-                                    <h5 class="mb-1">${vaga.empresa_nome}</h5>
-                                    <h5 class="mb-1">${vaga.titulo}</h5>
-                                </div>
-                                <p class="mt-1 mb-1">${vaga.descricao}</p>
-
-                                <div class="d-flex w-100 justify-content-around">
-                                    <small>Encerramento: ${dataEncerramento}</small>
-                                    <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
-                                </div>
-                            </button>
-                        `);
-                    });
-                }
-            })
-            .fail(function (jqXHR, textStatus) {
-                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
-                toastInformacao.show();
-                console.error('Erro ao obter os dados:', textStatus);
-            });
-    }
-
-    function puxarVagaContratado() {
-        $.getJSON(`../../server/api/vagas/mostrarVaga.php/escolaVagaContratado`)
-            .done(function (data) {
-                let vagaContratado = data.vagas || [];
-                console.log(vagaContratado);
-
-                // Limpa a lista de vagas antes de adicionar novas
-                blocoVagas.empty();
-
-                if (vagaContratado.length === 0) {
-                    blocoVagas.append('<h3 class="text-center">Não há contratos existentes</h3>');
-                } else {
-                    vagaContratado.forEach((vaga) => {
-                        const {
-                            vaga_titulo, status, vaga_descricao, vaga_requisitos, vaga_publicacao,
-                            contratacao_data, contrato_fim, empresa_nome, empresa_area_atuacao,
-                            empresa_descricao, empresa_telefone, empresa_email, empresa_website,
-                            empresa_endereco, empresa_numero, empresa_complemento, empresa_bairro,
-                            empresa_cidade, empresa_estado, empresa_cep, empresa_pais,
-                            empresa_linkedin, empresa_instagram, empresa_facebook
-                        } = vaga;
-                        blocoVagas.append(`
-                            <div class="list-group-item p-4 bg-light rounded border shadow-sm">
-                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <h5 class="text-primary">Vaga Contratada: <strong>${vaga_titulo || 'Sem título'}</strong></h5>
-                                    <span class="badge bg-success text-white">${status || 'Ativo'}</span>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="card p-3 h-100">
-                                            ${vaga_descricao ? `<p><strong>Descrição:</strong> ${vaga_descricao}</p>` : ''}
-                                            ${vaga_requisitos ? `<p><strong>Requisitos:</strong> ${vaga_requisitos}</p>` : ''}
-                                            ${vaga_publicacao ? `<p><strong>Data de Publicação:</strong> ${formatarData(vaga_publicacao)}</p>` : ''}
-                                            <hr>
-                                            ${contratacao_data ? `<p><strong>Data de Contratação:</strong> ${formatarData(contratacao_data)}</p>` : ''}
-                                            <p><strong>Data de Término:</strong> ${contrato_fim ? formatarData(contrato_fim) : 'Indefinido'}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6 mb-3">
-                                        <div class="card p-3 h-100">
-                                            ${empresa_nome ? `<p><strong>Nome:</strong> ${empresa_nome}</p>` : ''}
-                                            ${empresa_area_atuacao ? `<p><strong>Área de Atuação:</strong> ${empresa_area_atuacao}</p>` : ''}
-                                            ${empresa_descricao ? `<p><strong>Descrição:</strong> ${empresa_descricao}</p>` : ''}
-                                            ${empresa_telefone ? `<p><strong>Telefone:</strong> ${formatarTelefone(empresa_telefone)}</p>` : ''}
-                                            ${empresa_email ? `<p><strong>Email:</strong> ${empresa_email}</p>` : ''}
-                                            ${empresa_website ? `<p><strong>Website:</strong> <a href="${empresa_website}" target="_blank">${empresa_website}</a></p>` : ''}
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card p-3 mb-3">
-                                    ${empresa_endereco ? `<p><strong>Endereço:</strong> ${empresa_endereco}</p>` : ''}
-                                    ${empresa_numero ? `<p><strong>Número:</strong> ${empresa_numero}</p>` : ''}
-                                    ${empresa_complemento ? `<p><strong>Complemento:</strong> ${empresa_complemento}</p>` : ''}
-                                    ${empresa_bairro ? `<p><strong>Bairro:</strong> ${empresa_bairro}</p>` : ''}
-                                    ${empresa_cidade ? `<p><strong>Cidade:</strong> ${empresa_cidade}</p>` : ''}
-                                    ${empresa_estado ? `<p><strong>Estado:</strong> ${empresa_estado}</p>` : ''}
-                                    ${empresa_cep ? `<p><strong>CEP:</strong> ${formatarCEP(empresa_cep)}</p>` : ''}
-                                    ${empresa_pais ? `<p><strong>País:</strong> ${empresa_pais}</p>` : ''}
-                                    ${empresa_endereco && empresa_cidade && empresa_estado ?
-                                `<button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${empresa_endereco}, ${empresa_numero || ''}, ${empresa_cidade}, ${empresa_estado}`)}', '_blank')" class="btn btn-primary mt-2">Ver no Google Maps</button>` : ''
-                            }
-                                </div>
-                                ${(empresa_linkedin || empresa_instagram || empresa_facebook) ? `
-                                    <div class="card p-3">
-                                        ${empresa_linkedin ? `<p><strong>LinkedIn:</strong> <a href="${empresa_linkedin}" target="_blank">LinkedIn</a></p>` : ''}
-                                        ${empresa_instagram ? `<p><strong>Instagram:</strong> <a href="${empresa_instagram}" target="_blank">Instagram</a></p>` : ''}
-                                        ${empresa_facebook ? `<p><strong>Facebook:</strong> <a href="${empresa_facebook}" target="_blank">Facebook</a></p>` : ''}
-                                    </div>
-                                ` : ''}
-                                
-                            </div>
-                        `);
-                    });
-                }
-            })
-            .fail(function (jqXHR, textStatus) {
-                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
-                toastInformacao.show();
-                console.error('Erro ao obter os dados:', textStatus);
-            });
-    }
-
     function formatarData(data) {
         // Divide a string para pegar apenas a data (YYYY-MM-DD), ignorando o horário, se houver
         const dataSemHora = data.split(' ')[0];
@@ -287,8 +160,8 @@ $(document).ready(function () {
             });
     }
 
-    function vagaModalDetalhe(vaga, index) {
-
+    function vagaModalDetalhe(index) {
+        let vaga = vagasJson[index];
         $('#tituloVagaModal').text(vaga.titulo);
         $('#descricaoVagaModal').text(vaga.descricao);
         $('#requisitosVagaModal').text(vaga.requisitos);
@@ -296,22 +169,28 @@ $(document).ready(function () {
         $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
 
         let id_candidatado = vaga.candidatos_ids.split('&');
+        let id_candidatura = vaga.candidaturas_ids.split('&');
         let cpf_candidatado = vaga.candidatos_cpfs.split('&');
         let email_candidatado = vaga.candidatos_emails.split('&');
         let nome_candidatado = vaga.candidatos_nomes.split('&');
+        $('#accordionAlunos').empty();
         alunosJson.forEach((aluno, i) => {
-            const candidatado = id_candidatado.find((element)=>element == aluno.id);
+            const candidatado = id_candidatado.find((element) => element == aluno.id);
             $('#accordionAlunos').append(`
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="${candidatado? 'statusSelecionado':''} accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoAluno${aluno.id}" aria-expanded="false" aria-controls="colapsoAluno${aluno.id}">
+                        <button class="${candidatado ? 'statusSelecionado' : ''} accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoAluno${aluno.id}" aria-expanded="false" aria-controls="colapsoAluno${aluno.id}">
                             ${aluno.nome}
                         </button>
                     </h2>
                     <div id="colapsoAluno${aluno.id}" class="accordion-collapse collapse">
                         <div class="accordion-body">
-                            <p><strong>CPF: </strong>${aluno.cpf}</p>
+                            <p><strong>CPF: </strong>${aluno.cpf.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</p>
                             <p><strong>E-mail: </strong>${aluno.email}</p>
+                            <button type="button" class="btn btn-primary inscreverVaga" id="inscreverVagaModal"  
+                                    data-idvaga="${index}" data-idestagiario="${aluno.id}">
+                                Inscrever aluno
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -323,6 +202,41 @@ $(document).ready(function () {
         modalVaga.modal('show');
 
     }
+
+    $(document).on('click', '#inscreverVagaModal', function () {
+        let indexVaga = $(this).data('idvaga');
+        const idV = vagasJson[$(this).data('idvaga')].id;
+        const idE = $(this).data('idestagiario');
+        const data = { idVaga: idV, idEstagiario: idE };
+
+        $.post(
+            "../../server/api/candidatos/candVaga.php",
+            data,
+            function (response, textStatus, jqXHR) {
+                corpoToastInformacao.text(response);
+                toastInformacao.show();
+                if (response == "Inscrição realizada!") {
+                    console.log(response)
+                } else if (response == "Inscrição excluída!") {
+                    console.log(response)
+                }
+                vagaModalDetalhe(indexVaga);
+                console.log(vagasJson);
+
+                if ($('#navPageTodas').hasClass('active')) {
+                    puxarVagas(0);
+                } else if ($('#navPageMinhas').hasClass('active')) {
+                    puxarMinhasVagas(0);
+                } else if ($('#navPageContratado').hasClass('active')) {
+                    puxarVagaContratado(0);
+                }
+            }
+        ).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error('Erro:', textStatus, errorThrown);
+            corpoToastInformacao.text(`Erro ao candidatar-se`);
+            toastInformacao.show();
+        });
+    });
 
     //paginação
     $('.pgNumeros').on('click', '.pgNumBTN', function () {
@@ -385,42 +299,6 @@ $(document).ready(function () {
 
 
     $('#btnVizualizarVaga').click(function () {
-        const vagaVizualizar = vagasJson[$(this).val()];
-        vagaModalDetalhe(vagaVizualizar, $(this).val());
+        vagaModalDetalhe($(this).val());
     });
-
-    $('#inscreverVagaModal').click(function () {
-        const idV = $(this).val()
-        const vaga = vagasJson[idV];
-        const data = { idVaga: vaga.id };
-
-        $.post(
-            "../../server/api/candidatos/candVaga.php",
-            data,
-            function (response, textStatus, jqXHR) {
-                modalVaga.modal('hide');
-                corpoToastInformacao.text(response);
-                toastInformacao.show();
-                if (response == "Inscrição realizada!") {
-                    vagasJson[idV].candidatou = 1;
-                } else if (response == "Inscrição excluída!") {
-
-                    vagasJson[idV].candidatou = 0;
-                }
-                console.log(vagasJson);
-                if ($('#navPageTodas').hasClass('active')) {
-                    puxarVagas(0);
-                } else if ($('#navPageMinhas').hasClass('active')) {
-                    puxarMinhasVagas(0);
-                } else if ($('#navPageContratado').hasClass('active')) {
-                    puxarVagaContratado(0);
-                }
-            }
-        ).fail(function (jqXHR, textStatus, errorThrown) {
-            console.error('Erro:', textStatus, errorThrown);
-            corpoToastInformacao.text(`Erro ao candidatar-se`);
-            toastInformacao.show();
-        });
-    });
-
 });
