@@ -102,8 +102,8 @@ if (
     <section id="cadastro">
 
         <form class="formComponent row" method="post" id="formEtapa4" novalidate>
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 70%;">70%</div>
+        <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 80%;">4/6</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
 

@@ -117,8 +117,8 @@ if ($_SESSION['statusCadastroEmpresa'] != "andamento" || $_SESSION['etapaCadastr
     <section id="cadastro">
 
         <form class="formConfirmacao row p-3 gap-3 m-5" method="post" id="formEtapa6">
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 95%;">95%</div>
+        <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 100%;">6/6</div>
             </div>
             <h1 id='tituloCadastro'>CONFIRME SEUS DADOS</h1>
             <!--INICIO FORMULARIO-->

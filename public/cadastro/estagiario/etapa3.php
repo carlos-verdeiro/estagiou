@@ -108,13 +108,13 @@ if (
 
     <section id="cadastro">
         <form class="formComponent row" method="post" id="formEtapa3">
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 40%;">40%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 60%;">3/6</div>
             </div>
             <h1 id='tituloCadastro'>CADASTRO</h1>
             <div class="row divInputs ">
                 <div class="m-1 row">
-                    <div class="form-floating col p-0 me-1"><!--ÓRGÃO EMISSOR-->
+                    <div class="form-floating col p-0 me-1">
                         <input autofocus type="date" id="dataNascimento" min="1924-01-01" max="<?php echo date('Y-m-d'); ?>" class="form-control w-100" placeholder="Data de nascimento" aria-label="Data de nascimento" name="dataNascimento" value="<?php echo $dataNascimento; ?>" required>
                         <label for="dataNascimento">Data de nascimento *</label>
                         <div class="invalid-feedback" id="feedback-dataNascimento">
@@ -195,7 +195,7 @@ if (
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (isset($_SESSION['cnhEstagiario'])&&$_SESSION['cnhEstagiario'] === 'N') ? 'checked' : ''; ?>>
+                                    <input class="form-check-input" type="checkbox" value="cnhSem" id="cnhSem" name="cnhSem" <?php echo $c = (isset($_SESSION['cnhEstagiario']) && $_SESSION['cnhEstagiario'] === 'N') ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="cnhSem">
                                         Não Possuo
                                     </label>

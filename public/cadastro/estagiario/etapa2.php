@@ -97,8 +97,8 @@ if (
 
     <section id="cadastro">
         <form class="formComponent row" method="post" id="formEtapa2">
-            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 20%;">20%</div>
+            <div class="progress p-0" role="progressbar" aria-label="Example with label" style="height: 20px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 40%;">2/6</div>
             </div>
 
             <h1 id='tituloCadastro'>CADASTRO</h1>
@@ -170,7 +170,6 @@ if (
                         <option <?php echo ($genero == 'M') ? 'selected' : ''; ?> value="M">Masculino</option>
                         <option <?php echo ($genero == 'F') ? 'selected' : ''; ?> value="F">Feminino</option>
                         <option <?php echo ($genero == 'O') ? 'selected' : ''; ?> value="O">Outros</option>
-
                     </select>
                     <label for="genero">Gênero *</label>
                     <div class="invalid-feedback" id="feedback-genero">
@@ -192,7 +191,6 @@ if (
                         <option <?php echo ($estadoCivil == 'separado') ? 'selected' : ''; ?> value="separado">Separado(a)</option>
                         <option <?php echo ($estadoCivil == 'divorciado') ? 'selected' : ''; ?> value="divorciado">Divorciado(a)</option>
                         <option <?php echo ($estadoCivil == 'viuvo') ? 'selected' : ''; ?> value="viuvo">Viúvo(a)</option>
-
                     </select>
                     <label for="estadoCivil">Estado Civil *</label>
                     <div class="invalid-feedback" id="feedback-estadoCivil">
