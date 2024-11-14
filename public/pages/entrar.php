@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <a href="esqueci_senha.php" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
+                <a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Esqueceu sua senha?</a>
             </div>
             <div>
                 <button type="submit" class="btn btn-success mb-3 w-100">Entrar</button>
