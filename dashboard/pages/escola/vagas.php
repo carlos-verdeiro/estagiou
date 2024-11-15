@@ -18,12 +18,13 @@
                         <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Buscar</button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Inscrito</button>
+                        <button class="nav-link navPage" aria-current="page" id="navPageIndicacoes">Indicações</button>
                     </li>
+                    <!--
                     <li class="nav-item">
                         <button class="nav-link navPage" aria-current="page" id="navPageContratado">Contratado</button>
                     </li>
-                    <!--<li class="ms-auto">
+                    <li class="ms-auto">
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Titulo, Cidade..."
                                 aria-label="Search">
@@ -64,7 +65,7 @@
                 <p class="card-text" id="blocoPublicacaoVaga">Publicação</p>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-primary sm btnVizualizarVaga" id="btnVizualizarVaga">Candidatar aluno</button>
+                <button type="button" class="btn btn-primary sm btnVizualizarVaga" id="btnVizualizarVaga">Indicar aluno</button>
             </div>
         </div>
     </div>
@@ -97,7 +98,7 @@
 
                         <h6>Selecione os alunos:</h6>
                         <div class="accordion" id="accordionAlunos">
-                            
+
                         </div>
                     </div>
                     <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">

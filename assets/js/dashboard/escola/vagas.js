@@ -100,6 +100,56 @@ $(document).ready(function () {
             });
     }
 
+    function puxarIndicacoes() {
+        $.getJSON(`../../server/api/escola/mostrarIndicacoes.php/escola`)
+            .done(function (data) {
+                console.log(data);
+
+                listaVagas.empty();
+                if (vagasJson.length === 0) {
+                    listaVagas.html('<h3 class="text-center">Não há indicações feitas</h3>');
+                } else {
+                    const row = $('<div id="blocosCards" class="row m-0 p-0">');
+
+                    data.forEach((aluno, index) => {
+                        const card = `
+                            <div class="col-12 col-md-6 col-lg-4 m-0">
+                                <div class="card" style="width: 100%;">
+                                    <div class="card-header">
+                                        <h5 class="card-title">${aluno.nome}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <h6>Vaga:</h6>
+                                        <p class="card-text">Desenvolvedor de Software</p>
+                                        <h6>CPF:</h6>
+                                        <p class="card-text">${aluno.cpf}</p> <!-- Exemplo de CPF -->
+                                        <h6>E-mail:</h6>
+                                        <p class="card-text">${aluno.email}</p> <!-- Exemplo de E-mail -->
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn-danger sm btnRmIndicacao" data-idvaga="${aluno.id_vaga}" data-idestagiario="${aluno.id_estagiario}">Remover</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        row.append(card);
+                    });
+
+                    listaVagas.append(row);
+
+                    if (listaVagas.children().length === 0) {
+                        listaVagas.html('<h3 class="text-center">Não há indicações</h3>');
+                    }
+                }
+            })
+            .fail(function (response) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${response}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', response.responseJSON.mensagem);
+            });
+    }
+
     function formatarData(data) {
         // Divide a string para pegar apenas a data (YYYY-MM-DD), ignorando o horário, se houver
         const dataSemHora = data.split(' ')[0];
@@ -169,17 +219,17 @@ $(document).ready(function () {
         $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
 
         let id_candidatado = vaga.candidatos_ids.split('&');
-        let id_candidatura = vaga.candidaturas_ids.split('&');
+        let id_candidatura = vaga.indicacoes_ids.split('&');
         let cpf_candidatado = vaga.candidatos_cpfs.split('&');
         let email_candidatado = vaga.candidatos_emails.split('&');
         let nome_candidatado = vaga.candidatos_nomes.split('&');
         $('#accordionAlunos').empty();
         alunosJson.forEach((aluno, i) => {
-            const candidatado = id_candidatado.find((element) => element == aluno.id);
+            let candidatado = id_candidatado.find((element) => element == aluno.id);
             $('#accordionAlunos').append(`
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="${candidatado ? 'statusSelecionado' : ''} accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoAluno${aluno.id}" aria-expanded="false" aria-controls="colapsoAluno${aluno.id}">
+                        <button class="${candidatado ? 'statusSelecionado' : ''} accordion-button collapsed" id="btnColapsoAluno${aluno.id}" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoAluno${aluno.id}" aria-expanded="false" aria-controls="colapsoAluno${aluno.id}">
                             ${aluno.nome}
                         </button>
                     </h2>
@@ -210,25 +260,15 @@ $(document).ready(function () {
         const data = { idVaga: idV, idEstagiario: idE };
 
         $.post(
-            "../../server/api/candidatos/candVaga.php",
+            "../../server/api/escola/indicarVaga.php",
             data,
             function (response, textStatus, jqXHR) {
                 corpoToastInformacao.text(response);
                 toastInformacao.show();
-                if (response == "Inscrição realizada!") {
-                    console.log(response)
-                } else if (response == "Inscrição excluída!") {
-                    console.log(response)
-                }
-                vagaModalDetalhe(indexVaga);
-                console.log(vagasJson);
-
-                if ($('#navPageTodas').hasClass('active')) {
-                    puxarVagas(0);
-                } else if ($('#navPageMinhas').hasClass('active')) {
-                    puxarMinhasVagas(0);
-                } else if ($('#navPageContratado').hasClass('active')) {
-                    puxarVagaContratado(0);
+                if (response == "Indicação realizada!") {
+                    $(`#btnColapsoAluno${idE}`).addClass('statusSelecionado');
+                } else if (response == "Indicação excluída!") {
+                    $(`#btnColapsoAluno${idE}`).removeClass('statusSelecionado');
                 }
             }
         ).fail(function (jqXHR, textStatus, errorThrown) {
@@ -236,6 +276,28 @@ $(document).ready(function () {
             corpoToastInformacao.text(`Erro ao candidatar-se`);
             toastInformacao.show();
         });
+        puxarAlunos();
+    });
+
+    $(document).on('click', '.btnRmIndicacao', function () {
+        const idV = $(this).data('idvaga');
+        const idE = $(this).data('idestagiario');
+        const data = { idVaga: idV, idEstagiario: idE };
+
+        $.post(
+            "../../server/api/escola/indicarVaga.php",
+            data,
+            function (response, textStatus, jqXHR) {
+                console.log(response);
+                corpoToastInformacao.text(response);
+                toastInformacao.show();
+            }
+        ).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error('Erro:', textStatus, errorThrown);
+            corpoToastInformacao.text(`Erro ao candidatar-se`);
+            toastInformacao.show();
+        });
+        puxarIndicacoes();
     });
 
     //paginação
@@ -271,19 +333,15 @@ $(document).ready(function () {
     //navVagas
     $('.navPage').click(function () {
         if (!$(this).hasClass('active')) {
-            vagaBlocoDetalhe();//desaparece datalhes
+            vagaBlocoDetalhe();
             if ($(this).attr('id') == 'navPageTodas') {
                 $('.navPage').removeClass('active');
                 $('#navPageTodas').addClass('active');
-                puxarVagas(0);//carrega TODAS as vagas
-            } else if ($(this).attr('id') == 'navPageMinhas') {
+                puxarVagas(0);
+            } else if ($(this).attr('id') == 'navPageIndicacoes') {
                 $('.navPage').removeClass('active');
-                $('#navPageMinhas').addClass('active');
-                puxarMinhasVagas(0);//carrega SOMENTE CANDIDATADAS
-            } else if ($(this).attr('id') == 'navPageContratado') {
-                $('.navPage').removeClass('active');
-                $('#navPageContratado').addClass('active');
-                puxarVagaContratado(0);//carrega SOMENTE CONTRATADO
+                $('#navPageIndicacoes').addClass('active');
+                puxarIndicacoes();
             }
         }
     });

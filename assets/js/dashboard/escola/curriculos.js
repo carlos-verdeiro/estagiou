@@ -596,7 +596,7 @@ $(document).ready(function () {
 
     }
 
-    function limparForm(){
+    function limparForm() {
         cpf.val('');
         nome.val('');
         email.val('');
@@ -620,6 +620,9 @@ $(document).ready(function () {
         numero.val('');
         complemento.val('');
         nomeSocial.val('');
+
+        $('#formAluno input, #formAluno select, #formAluno textarea').removeClass('is-valid is-invalid');
+
         $(`#idiomaIngles`).prop('checked', false);
         $(`#nivelIngles`).prop('disabled', true);
         $(`#idiomaEspanhol`).prop('checked', false);
@@ -634,8 +637,10 @@ $(document).ready(function () {
         $(`#experiencias`).text('');
         $(`#habilidades`).text('');
         $(`#certificacoes`).text('');
+
         $('#formAluno')[0].reset();
     }
+
 
     $('#btnModalNovoCand').on('click', () => {
         cpf.attr('disabled', false);
