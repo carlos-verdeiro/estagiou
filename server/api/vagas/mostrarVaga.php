@@ -425,17 +425,16 @@ switch ($uri[5]) {
                         GROUP_CONCAT(estagiario.cpf SEPARATOR '&') AS candidatos_cpfs,
                         GROUP_CONCAT(indicacao.id SEPARATOR '&') AS indicacoes_ids
                     FROM vaga
-                    INNER JOIN empresa ON vaga.empresa_id = empresa.id
+                    INNER JOIN empresa ON empresa.id = vaga.empresa_id
                     LEFT JOIN indicacao ON indicacao.id_vaga = vaga.id
                     LEFT JOIN estagiario ON estagiario.id = indicacao.id_estagiario
-                    LEFT JOIN aluno ON aluno.id_estagiario = indicacao.id_estagiario
+                    LEFT JOIN aluno ON aluno.id_estagiario = indicacao.id_estagiario AND aluno.id_escola = ?
                     WHERE vaga.status = ? 
                     AND vaga.encerrado = ?
-                    AND indicacao.id_estagiario = aluno.id_estagiario
-                    AND aluno.id_escola = ?
                     GROUP BY vaga.id
                     ORDER BY vaga.titulo
-                    LIMIT ? OFFSET ?
+                    LIMIT ? OFFSET ?;
+
                 ");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
@@ -443,7 +442,7 @@ switch ($uri[5]) {
 
             $statusVaga = 1;
             $encerradoVaga = 0;
-            $stmt->bind_param("iiiii", $statusVaga, $encerradoVaga, $idEscola, $limiteBusca, $partida);
+            $stmt->bind_param("iiiii", $idEscola, $statusVaga, $encerradoVaga, $limiteBusca, $partida);
 
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar a consulta: " . $stmt->error);

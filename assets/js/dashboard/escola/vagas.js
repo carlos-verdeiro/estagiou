@@ -106,14 +106,14 @@ $(document).ready(function () {
                 console.log(data);
 
                 listaVagas.empty();
-                if (vagasJson.length === 0) {
+                if (data.length === 0) {
                     listaVagas.html('<h3 class="text-center">Não há indicações feitas</h3>');
                 } else {
                     const row = $('<div id="blocosCards" class="row m-0 p-0">');
 
                     data.forEach((aluno, index) => {
                         const card = `
-                            <div class="col-12 col-md-6 col-lg-4 m-0">
+                            <div class="col-12 col-md-6 col-lg-4 m-0 mb-1">
                                 <div class="card" style="width: 100%;">
                                     <div class="card-header">
                                         <h5 class="card-title">${aluno.nome}</h5>
@@ -218,11 +218,12 @@ $(document).ready(function () {
         $('#dataEncerramentoVagaModal').text(vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado');
         $('#dataPublicacaoVagaModal').text(formatarData(vaga.data_publicacao));
 
-        let id_candidatado = vaga.candidatos_ids.split('&');
-        let id_candidatura = vaga.indicacoes_ids.split('&');
-        let cpf_candidatado = vaga.candidatos_cpfs.split('&');
-        let email_candidatado = vaga.candidatos_emails.split('&');
-        let nome_candidatado = vaga.candidatos_nomes.split('&');
+        let id_candidatado = vaga.candidatos_ids ? vaga.candidatos_ids.split('&') : [];
+        let id_candidatura = vaga.indicacoes_ids ? vaga.indicacoes_ids.split('&') : [];
+        let cpf_candidatado = vaga.candidatos_cpfs ? vaga.candidatos_cpfs.split('&') : [];
+        let email_candidatado = vaga.candidatos_emails ? vaga.candidatos_emails.split('&') : [];
+        let nome_candidatado = vaga.candidatos_nomes ? vaga.candidatos_nomes.split('&') : [];
+
         $('#accordionAlunos').empty();
         alunosJson.forEach((aluno, i) => {
             let candidatado = id_candidatado.find((element) => element == aluno.id);
