@@ -44,7 +44,7 @@ if (
     <title>Etapa 2</title>
 
     <link rel="stylesheet" href="../../../assets/css/cadastro/etapas.css">
-    <link rel="shortcut icon" href="../../../assets/img/icons/favicontransparente.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../assets/img/logo/logo.svg" type="image/x-icon">
 
     <!--BIBLIOTECAS-->
 

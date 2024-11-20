@@ -126,7 +126,6 @@ switch ($uri[5]) {
                 ORDER BY vaga.titulo
                 LIMIT ?
                 OFFSET ?
-
             ");
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
@@ -273,6 +272,70 @@ switch ($uri[5]) {
             // Fecha as consultas
             $stmt->close();
             $stmt_total->close();
+        } catch (Exception $e) {
+            http_response_code(500); // Erro interno do servidor
+            echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);
+        } finally {
+            if (isset($conn)) $conn->close();
+        }
+        break;
+
+    case 'estagiarioVagasIndicacoes':
+        // Verificação de autenticação e tipo de usuário
+        if (
+            !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
+            $_SESSION['statusLogin'] !== 'autenticado' ||
+            $_SESSION['tipoUsuarioLogin'] !== 'estagiario'
+        ) {
+            http_response_code(401); // Não autorizado
+            echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
+            exit;
+        }
+
+        $idEstagiario = $_SESSION['idUsuarioLogin'];
+
+        try {
+            include_once '../../conexao.php';
+
+            // Consulta para buscar as vagas e verificar candidaturas
+            $stmt = $conn->prepare("
+                        SELECT indicacao.*, vaga.*, empresa.nome AS empresa_nome,
+                        CASE WHEN candidatura.id_vaga IS NOT NULL THEN true ELSE false END AS candidatou
+                        FROM indicacao
+                        INNER JOIN vaga ON indicacao.id_vaga = vaga.id
+                        INNER JOIN empresa ON vaga.empresa_id = empresa.id
+                        LEFT JOIN candidatura ON indicacao.id_estagiario = candidatura.id_estagiario
+                        WHERE indicacao.id_estagiario = ?
+                        AND vaga.status = ?
+                        ORDER BY vaga.titulo
+                    ");
+
+            if (!$stmt) {
+                throw new Exception("Erro na preparação da consulta: " . $conn->error);
+            }
+
+            $statusVaga = 1; // Vagas ativas
+            $stmt->bind_param("ii", $idEstagiario, $statusVaga);
+
+            if (!$stmt->execute()) {
+                throw new Exception("Erro ao executar a consulta: " . $stmt->error);
+            }
+
+            $result = $stmt->get_result();
+            $vagas = [];
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $vagas[] = $row;
+                }
+            }
+
+            // Define o cabeçalho para JSON
+            header('Content-Type: application/json');
+            echo json_encode($vagas);
+
+            // Fecha as consultas
+            $stmt->close();
         } catch (Exception $e) {
             http_response_code(500); // Erro interno do servidor
             echo json_encode(['mensagem' => 'Erro interno: ' . $e->getMessage(), 'code' => 3]);

@@ -1,10 +1,7 @@
 <section id="sectionLogin">
     <link rel="stylesheet" href="assets/css/index/entrar.css">
     <div id="loginDiv1">
-        <div>
-            bagui do google
-        </div>
-        <hr>
+        <h3>Entrar</h3>
         <form method="post" action="public/login.php">
             <div class="mb-3">
                 <label for="email" class="form-label">E-mail</label>

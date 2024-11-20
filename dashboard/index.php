@@ -29,7 +29,7 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Otimize o processo de contratação de estágios conectando estagiários, empregadores e instituições de ensino em uma plataforma intuitiva. Encontre oportunidades de estágio ideais, simplifique o recrutamento e promova o crescimento profissional. Cadastre-se agora e descubra como facilitar sua busca por estágios ou talentos para sua empresa.">
-    <link rel="shortcut icon" href="../assets/img/icons/favicontransparente.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/img/logo/logo.svg" type="image/x-icon">
     <title>Estagiou</title>
 
     <!--BIBLIOTECAS-->
@@ -133,10 +133,10 @@ if (isset($_GET['logout'])) {
                             <div class="offcanvas-body itemNav">
                                 <button class="btn linkNav linkNavEscola" id="btnNavEscolaVagas"><i class="bi bi-grid iconLinkNav"></i></i><p class="textLinkNav">Vagas</p></button>
                             </div>';
-                    echo '
+                    /*echo '
                             <div class="offcanvas-body itemNav">
                                 <button class="btn linkNav linkNavEscola" id="btnNavEscolaEmpresas"><i class="bi bi-building iconLinkNav"></i></i><p class="textLinkNav">Empresas</p></button>
-                            </div>';
+                            </div>';*/
                     /*echo '
                             <div class="offcanvas-body itemNav">
                                 <button class="btn linkNav linkNavEscola" id="btnNavEscolaNotificacoes"><i class="bi bi-bell iconLinkNav"></i><p class="textLinkNav">Notificações</p></button>

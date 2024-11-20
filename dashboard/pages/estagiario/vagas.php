@@ -18,6 +18,9 @@
                         <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Buscar</button>
                     </li>
                     <li class="nav-item">
+                        <button class="nav-link navPage" aria-current="page" id="navIndicacoes">Indicações</button>
+                    </li>
+                    <li class="nav-item">
                         <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Inscrito</button>
                     </li>
                     <li class="nav-item">
@@ -32,7 +35,7 @@
                     </li>-->
                 </ul>
                 <div class="list-group mt-1 overflow-y-auto blocoVagas" id="listaVagas">
-                    
+
                 </div>
 
                 <nav aria-label="Page navigation" class="mt-3 mb-0 navPaginacao">

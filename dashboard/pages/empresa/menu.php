@@ -27,12 +27,12 @@ $idEmpresa = $_SESSION['idUsuarioLogin'];
             <?php
             try {
                 // Consulta para verificar o último login
-                $stmt = $conn->prepare("SELECT ultimo_login FROM estagiario WHERE id = ?");
+                $stmt = $conn->prepare("SELECT ultimo_login FROM empresa WHERE id = ?");
                 if (!$stmt) {
                     throw new Exception("Erro na preparação da consulta: " . $conn->error);
                 }
 
-                $stmt->bind_param('i', $idEstagiario);
+                $stmt->bind_param('i', $idEmpresa);
                 $stmt->execute();
                 $stmt->bind_result($ultimo_login);
                 $stmt->fetch();
@@ -54,12 +54,12 @@ $idEmpresa = $_SESSION['idUsuarioLogin'];
                     ';
                 }
                 // Atualiza o timestamp de último login
-                $stmt = $conn->prepare("UPDATE estagiario SET ultimo_login = NOW() WHERE id = ?");
+                $stmt = $conn->prepare("UPDATE empresa SET ultimo_login = NOW() WHERE id = ?");
                 if (!$stmt) {
                     throw new Exception("Erro na preparação da atualização: " . $conn->error);
                 }
 
-                $stmt->bind_param('i', $idEstagiario);
+                $stmt->bind_param('i', $idEmpresa);
                 $stmt->execute();
                 $stmt->close();
             } catch (Exception $e) {

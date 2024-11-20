@@ -24,6 +24,7 @@ $(document).ready(function () {
     function paginacao(totalRegistros) {
         const paginas = Math.ceil(totalRegistros / 30);
         if (paginas > 1) {
+            $('.navPaginacao').removeClass('invisible');
             $('.pgNumeros').empty();
             for (let i = 1; i <= paginas; i++) {
                 const activeClass = i === 1 ? 'active' : '';
@@ -142,12 +143,52 @@ $(document).ready(function () {
             });
     }
 
+    function puxarIndicacoes() {
+        $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagasIndicacoes`)
+            .done(function (data) {
+
+                paginacao(0);
+                
+                vagasJson = data || [];
+                vagasIndicacoes = data || [];
+                console.log(vagasIndicacoes);
+                listaVagas.empty();
+                if (vagasIndicacoes.length === 0) {
+                    listaVagas.append('<h3 class="text-center">Não há indicações</h3>');
+                } else {
+                    vagasIndicacoes.forEach((vaga, index) => {
+                        const dataEncerramento = vaga.data_encerramento ? formatarData(vaga.data_encerramento) : 'Não programado';
+                        listaVagas.append(`
+                            <button class="list-group-item btnVaga list-group-item-action p-3 activate" value="${index}">
+                                <div class="d-flex w-100 justify-content-around">
+                                    <h5 class="mb-1">${vaga.empresa_nome}</h5>
+                                    <h5 class="mb-1">${vaga.titulo}</h5>
+                                </div>
+                                <p class="mt-1 mb-1">${vaga.descricao}</p>
+
+                                <div class="d-flex w-100 justify-content-around">
+                                    <small>Encerramento: ${dataEncerramento}</small>
+                                    <small>Publicado: ${formatarData(vaga.data_publicacao)}</small>
+                                </div>
+                            </button>
+                        `);
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus) {
+                corpoToastInformacao.text(`Erro ao obter os dados: ${textStatus}`);
+                toastInformacao.show();
+                console.error('Erro ao obter os dados:', textStatus);
+            });
+    }
+
+
     function puxarVagaContratado() {
         $.getJSON(`../../server/api/vagas/mostrarVaga.php/estagiarioVagaContratado`)
             .done(function (data) {
                 let vagaContratado = data.vagas || [];
                 console.log(vagaContratado);
-
+                paginacao(0);
                 // Limpa a lista de vagas antes de adicionar novas
                 blocoVagas.empty();
 
@@ -335,6 +376,10 @@ $(document).ready(function () {
                 $('.navPage').removeClass('active');
                 $('#navPageTodas').addClass('active');
                 puxarVagas(0);//carrega TODAS as vagas
+            } else if ($(this).attr('id') == 'navIndicacoes') {
+                $('.navPage').removeClass('active');
+                $('#navIndicacoes').addClass('active');
+                puxarIndicacoes(0);//carrega INDICAÇÕES
             } else if ($(this).attr('id') == 'navPageMinhas') {
                 $('.navPage').removeClass('active');
                 $('#navPageMinhas').addClass('active');
@@ -385,6 +430,8 @@ $(document).ready(function () {
                     puxarVagas(0);
                 } else if ($('#navPageMinhas').hasClass('active')) {
                     puxarMinhasVagas(0);
+                } else if ($('#navIndicacoes').hasClass('active')) {
+                    puxarIndicacoes();
                 } else if ($('#navPageContratado').hasClass('active')) {
                     puxarVagaContratado(0);
                 }

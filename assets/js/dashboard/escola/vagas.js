@@ -120,11 +120,11 @@ $(document).ready(function () {
                                     </div>
                                     <div class="card-body">
                                         <h6>Vaga:</h6>
-                                        <p class="card-text">Desenvolvedor de Software</p>
+                                        <p class="card-text">${aluno.titulo}</p>
                                         <h6>CPF:</h6>
-                                        <p class="card-text">${aluno.cpf}</p> <!-- Exemplo de CPF -->
+                                        <p class="card-text">${aluno.cpf.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</p>
                                         <h6>E-mail:</h6>
-                                        <p class="card-text">${aluno.email}</p> <!-- Exemplo de E-mail -->
+                                        <p class="card-text">${aluno.email}</p>
                                     </div>
                                     <div class="card-footer">
                                         <button type="button" class="btn btn-danger sm btnRmIndicacao" data-idvaga="${aluno.id_vaga}" data-idestagiario="${aluno.id_estagiario}">Remover</button>

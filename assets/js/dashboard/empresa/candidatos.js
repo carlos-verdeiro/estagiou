@@ -42,10 +42,8 @@ $(document).ready(function () {
                                                             </button>
                                                             <ul class="dropdown-menu w-100">
                                                                 <li><button class="dropdown-item btnContratarCand" type="button" value="${candidato.id_candidatura}">Contratar</button></li>
-                                                                <li><hr class="dropdown-divider"></li>
                                                                 <li><button class="dropdown-item btnCurriculoCand" type="button" value="${candidato.id_candidatura}">Ver Currículo</button></li>
-                                                                <li><button class="dropdown-item" type="button" value="${candidato.id_candidatura}">Enviar Mensagem</button></li>
-                                                                <li><hr class="dropdown-divider"></li>
+                                                                <!--<li><button class="dropdown-item" type="button" value="${candidato.id_candidatura}">Enviar Mensagem</button></li>-->
                                                                 <li><button class="dropdown-item btnRemoveCand" type="button" value="${candidato.id_candidatura}">Remover</button></li>
                                                             </ul>
                                                         </div>
