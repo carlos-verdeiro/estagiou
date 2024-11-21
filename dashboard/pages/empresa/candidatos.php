@@ -1,3 +1,8 @@
+<?php
+$hoje = date('Y-m-d');
+$ontem = date('Y-m-d', strtotime('-1 day'));
+
+?>
 <section class="container my-5 sectionPagesEstagiario" id="sectionPageVagas">
     <link rel="stylesheet" href="../assets/css/dashboard/empresa/candidatos.css">
     <script src="../assets/js/dashboard/empresa/candidatos.js"></script>
@@ -115,6 +120,44 @@
         </div>
     </div>
 
+    <!-- Modal contrato-->
+    <div class="modal fade" id="modalContrato" tabindex="-1" aria-labelledby="modalContrato" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <form method="post" enctype="multipart/form-data" id="formContratar">
+                    <input type="hidden" name="idCand" id="idCand">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Contratar candidato</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="iniContra" class="form-label">Início de contrato:</label>
+                            <input type="date" class="form-control" id="iniContra" min="<?php echo $ontem; ?>" value="<?php echo $hoje; ?>" name="iniContra">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fimContra" class="form-label">Fim de contrato:</label>
+                            <input type="date" class="form-control" id="fimContra" min="<?php echo $hoje; ?>" name="fimContra">
+                        </div>
+                        <div class="mb-3">
+                            <label for="obsContra" class="form-label">Observação:</label>
+                            <textarea class="form-control" id="obsContra" rows="3" maxlength="1000" name="obsContra"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fileContra" class="form-label">Salvar contrato:</label>
+                            <input type="file" class="form-control" id="fileContra" accept="application/pdf" name="fileContra">
+                            <p class="text-secondary fs-6">Formato PDF</p>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" id="btnModalContrato" class="btn btn-primary">Contratar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!--TOAST INFORMÇÃO-->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="toastInformacao" class="toast" role="information" aria-live="assertive" aria-atomic="true">
@@ -140,6 +183,11 @@
                     <button type="button" id="btnModalExcluir" data-bs-dismiss="modal" class="btn btn-danger">Remover</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="text-center" id="overlay">
+        <div class="spinner-border text-light" id="loading" role="status">
+            <span class="visually-hidden">Carregando...</span>
         </div>
     </div>
 </section>

@@ -220,20 +220,46 @@ $(document).ready(function () {
         );
     });
 
+
     $("#sectionPageVagas").on('click', '.btnContratarCand', function () {
-        let candidaturaId = $(this).val(); // Obtém o valor do botão (ID do candidato)
-        $.post('../../server/api/candidatos/contratarCandidato.php',
-            {idCand: candidaturaId},
-            function (data, textStatus, jqXHR) {
-                puxarCandidatos();
-                console.log(data)
-                // Exibe o toast com a mensagem de resposta
-                corpoToastInformacao.text(data);
+        $("#idCand").val($(this).val());
+        $('#modalContrato').modal('show');
+    });
+
+    $("#formContratar").submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            url: '../server/api/candidatos/contratarCandidato.php',
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $("#overlay").show();
+            },
+            success: function (response) {
+                puxarCandidatos(); 
+                console.log(response);
+                corpoToastInformacao.text(response);
+                toastInformacao.show();
+                $('#modalContrato').modal('hide'); 
+            },
+            error: function (response) {
+                console.log(response);
+                corpoToastInformacao.text('Erro ao enviar arquivo.');
                 toastInformacao.show();
             },
-            "text"
-        );
+            complete: function () {
+                $("#overlay").hide();
+            }
+        });
     });
+
 
 
     puxarCandidatos();
