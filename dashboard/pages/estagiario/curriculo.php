@@ -159,19 +159,19 @@ try {
                                     </div>
                                     <div class="col">
                                         <select class="form-select selectNivel " disabled aria-label="Nível de Inglês" name="nivelIngles" id="nivelIngles" name="nivelIngles"">
-                                            <option selected value=" 0" disabled>Nível de Inglês</option>
+                                            <option selected value="0" disabled>Nível de Inglês</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
                                         </select>
                                         <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Espanhol" name="nivelEspanhol" id="nivelEspanhol" name="nivelEspanhol"">
-                                            <option selected value=" 0" disabled>Nível de Espanhol</option>
+                                            <option selected value="0" disabled>Nível de Espanhol</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>
                                         </select>
                                         <select class="form-select mt-2 selectNivel" disabled aria-label="Nível de Francês" name="nivelFrances" id="nivelFrances" name="nivelFrances"">
-                                            <option selected value=" 0" disabled>Nível de Francês</option>
+                                            <option selected value="0" disabled>Nível de Francês</option>
                                             <option value="1">Básico</option>
                                             <option value="2">Intermediário</option>
                                             <option value="3">Avançado</option>

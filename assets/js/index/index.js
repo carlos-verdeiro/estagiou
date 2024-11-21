@@ -31,21 +31,21 @@ $(document).ready(function () {
     }
     if (parametroExiste('sobre')) {
         $('.nav-link').removeClass('active');
-        btnEntrar.addClass('active');
+        btnSobre.addClass('active');
         main.empty();
         main.load("public/pages/sobre.php");
 
     }
     if (parametroExiste('objetivos')) {
         $('.nav-link').removeClass('active');
-        btnEntrar.addClass('active');
+        btnObjetivos.addClass('active');
         main.empty();
         main.load("public/pages/objetivos.php");
 
     }
     if (parametroExiste('suporte')) {
         $('.nav-link').removeClass('active');
-        btnEntrar.addClass('active');
+        btnSuporte.addClass('active');
         main.empty();
         main.load("public/pages/suporte.php");
 

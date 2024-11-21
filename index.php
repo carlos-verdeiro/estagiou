@@ -25,7 +25,7 @@ if (isset($_SESSION['statusLogin']) && $_SESSION['statusLogin'] === 'autenticado
     <script src="assets/js/bootstrap.bundle.js"></script>
     <!--FIM BOOTSTRAP-->
 
-        <!--JQUERY-->
+    <!--JQUERY-->
     <script src="assets/js/jquery-3.7.1.js"></script>
     <script type="text/javascript" src="assets/js/jquery.mask.js"></script><!--PLUGIN JQUERY MASK-->
 
@@ -47,6 +47,7 @@ if (isset($_SESSION['statusLogin']) && $_SESSION['statusLogin'] === 'autenticado
         include_once "assets/templates/index/initial.php";
         ?>
     </main>
+    
     <script src="assets/js/index/index.js"></script>
 </body>
 

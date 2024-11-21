@@ -26,5 +26,7 @@
     </div>
     <div id="loginDiv2"><img src="assets\img\loginImg.svg" alt="Imagem de login"></div>
 </section>
-
+<?php
+include_once "../../assets/templates/index/footer.php";
+?>
 <script src="assets/js/index/entrar.js"></script>

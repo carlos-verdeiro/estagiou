@@ -17,9 +17,30 @@
                     <li class="nav-item">
                         <button class="nav-link active navPage" aria-current="page" id="navPageTodas">Buscar</button>
                     </li>
-                    <li class="nav-item">
+                    <?php
+                    session_start();
+                    include_once '../../../server/conexao.php';
+
+                    $stmt = $conn->prepare("SELECT COUNT(*) FROM aluno WHERE id_estagiario = ?");
+                    $stmt->bind_param('i', $_SESSION['idUsuarioLogin']); 
+                    $stmt->execute(); 
+
+                    $result = $stmt->get_result();
+
+                    $row = $result->fetch_row();
+                    $count = $row[0];
+
+                    if ($count > 0) {
+                        echo'<li class="nav-item">
                         <button class="nav-link navPage" aria-current="page" id="navIndicacoes">Indicações</button>
-                    </li>
+                    </li>';
+                    }
+
+                    // Fecha a conexão
+                    $stmt->close();
+                    $conn->close();
+                    ?>
+
                     <li class="nav-item">
                         <button class="nav-link navPage" aria-current="page" id="navPageMinhas">Inscrito</button>
                     </li>
