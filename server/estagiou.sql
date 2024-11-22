@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20/11/2024 às 00:11
+-- Tempo de geração: 22/11/2024 às 16:00
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -35,18 +35,6 @@ CREATE TABLE `aluno` (
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `aluno`
---
-
-INSERT INTO `aluno` (`id`, `id_escola`, `id_estagiario`, `data_criacao`, `status`) VALUES
-(3, 8, 56, '2024-11-11 19:43:00', 1),
-(4, 8, 57, '2024-11-11 21:11:00', 1),
-(5, 8, 59, '2024-11-12 02:22:21', 1),
-(6, 8, 60, '2024-11-12 17:26:40', 1),
-(7, 8, 61, '2024-11-12 19:25:17', 1),
-(8, 10, 62, '2024-11-12 22:02:36', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -62,6 +50,14 @@ CREATE TABLE `candidatura` (
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `candidatura`
+--
+
+INSERT INTO `candidatura` (`id`, `id_estagiario`, `id_vaga`, `data_candidatura`, `observacao`, `status`) VALUES
+(290, 63, 233, '2024-11-21 02:46:16', NULL, 2),
+(292, 63, 234, '2024-11-21 02:46:21', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -73,19 +69,20 @@ CREATE TABLE `contratos` (
   `id_estagiario` int(11) NOT NULL,
   `id_empresa` int(11) NOT NULL,
   `id_vaga` int(11) NOT NULL,
-  `data_contratacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_contratacao` date NOT NULL DEFAULT current_timestamp(),
   `caminho_anexo` varchar(500) DEFAULT NULL,
   `nome_anexo` varchar(200) DEFAULT NULL,
   `observacoes` varchar(1000) DEFAULT NULL,
-  `data_termino` date DEFAULT NULL
+  `data_termino` date DEFAULT NULL,
+  `data_insercao` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `contratos`
 --
 
-INSERT INTO `contratos` (`id`, `id_estagiario`, `id_empresa`, `id_vaga`, `data_contratacao`, `caminho_anexo`, `nome_anexo`, `observacoes`, `data_termino`) VALUES
-(7, 62, 6, 199, '2024-11-13 23:15:32', NULL, NULL, NULL, NULL);
+INSERT INTO `contratos` (`id`, `id_estagiario`, `id_empresa`, `id_vaga`, `data_contratacao`, `caminho_anexo`, `nome_anexo`, `observacoes`, `data_termino`, `data_insercao`) VALUES
+(24, 63, 7, 232, '2024-11-21', '673e9f10d1dea.pdf', 'Certificado - Python 3_ Trabalhando com I_O.pdf', 'da', '2024-11-22', '2024-11-21 02:47:14');
 
 -- --------------------------------------------------------
 
@@ -109,8 +106,7 @@ CREATE TABLE `curriculo` (
 --
 
 INSERT INTO `curriculo` (`id`, `data_submissao`, `nome_arquivo`, `tipo_arquivo`, `tamanho_arquivo`, `caminho_arquivo`, `observacoes`, `estagiario_id`) VALUES
-(85, '2024-10-25', 'Currículo_Carlos2.pdf', 'application/pdf', 69442, '671bf27e58033.pdf', '', 41),
-(86, '2024-10-27', 'CuCo.pdf', 'application/pdf', 619015, '671e3dd033c30.pdf', '', 43);
+(87, '2024-11-20', 'Carlos_Formal.pdf', 'application/pdf', 126604, '673e1e1c46284.pdf', 'Currículo formal feito em sala', 63);
 
 -- --------------------------------------------------------
 
@@ -152,7 +148,7 @@ CREATE TABLE `empresa` (
 --
 
 INSERT INTO `empresa` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `area_atuacao`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(6, 'arruda', '4499156772', 'arruda@gmail.com', '$2y$10$ja9KYHQD3FMa0I7MdxAXcOxwjsa7Ga4cqNzQ4/ZcXyR6d3LE.nXBC', '60827301000115', 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'Dono', '4499156772', 'carlos.d.verdeiro@gmail.com', 'Website', 'top', NULL, NULL, NULL, NULL, 1, '2024-11-19 22:21:25');
+(7, 'Pruden Med', '4499156772', 'prudenmed@gmail.com', '$2y$10$g1lxkgZEsRcNwlz4Eu81Z.LkWuxak5NSeavjjYke4MnK/SXDie35K', '77323104000161', 'Rua Joaquim Nabuco', '1506', NULL, 'Presidente Prudente', 'SP', '19010071', 'Brasil', 'Centro', 'Rodrigo José da Silva', 'Gerente', '1844644515', 'rodrigo@gmail.com', 'Consultório médico', 'Consultório médico prudentino, ', 'www.prudenmed.br', NULL, NULL, NULL, 1, '2024-11-22 14:58:40');
 
 -- --------------------------------------------------------
 
@@ -194,8 +190,7 @@ CREATE TABLE `escola` (
 --
 
 INSERT INTO `escola` (`id`, `nome`, `telefone`, `email`, `senha`, `cnpj`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `nome_responsavel`, `cargo_responsavel`, `telefone_responsavel`, `email_responsavel`, `niveis_ensino`, `descricao`, `website`, `linkedin`, `instagram`, `facebook`, `status`, `ultimo_login`) VALUES
-(8, 'arruda', '2222222222', 'carlos.d.verdeiro@gmail.co', '$2y$10$BLNC9fBX7pnvSOcmOc3MUeWPy4bDaJz2FpbfswmSPzwxCGZg0YT6a', '31151656000139', 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'w', '4499156772', 'carlos.d.verdeiro@gmail.com', 'dasd', 'w', NULL, NULL, NULL, NULL, 1, '2024-11-18 22:35:11'),
-(10, 'arruda', '2222222222', 'carlos.verdeiro@gmail.com', '$2y$10$BLNC9fBX7pnvSOcmOc3MUeWPy4bDaJz2FpbfswmSPzwxCGZg0YT6a', '31151656000136', 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 'Carlos Daniel Verdeiro', 'w', '4499156772', 'carlos.d.verdeiro@gmail.com', 'dasd', 'w', NULL, NULL, NULL, NULL, 1, '2024-11-12 22:01:33');
+(11, 'ETEC Professor Adolpho Arruda Mello', '1839163779', 'arrudamello@gmail.com', '$2y$10$ncP25TN9HcVS8axf5V747OmWa8y7HxvhU3E1wUON.IphTBHDXO8NS', '08898665000176', 'Rua Ribeiro de Barros', '1770', NULL, 'Presidente Prudente', 'SP', '19015030', 'Brasil', 'Vila Dubus', 'Sergio Brugnolo', 'Coordenador de curso', '1898157494', 'sergiobrugnolo@gmail.com', 'Médio, Técnico', 'Escola técnica do CPS, somos a melhor escola pública da região', 'etecarrudamello.cps.sp.gov.br/', NULL, NULL, NULL, 1, '2024-11-20 18:27:33');
 
 -- --------------------------------------------------------
 
@@ -250,15 +245,7 @@ CREATE TABLE `estagiario` (
 --
 
 INSERT INTO `estagiario` (`id`, `email`, `senha`, `nome`, `sobrenome`, `estado_civil`, `cpf`, `rg`, `rg_org_emissor`, `data_nascimento`, `telefone`, `celular`, `data_criacao`, `ultimo_login`, `status`, `rg_estado_emissor`, `nacionalidade`, `dependentes`, `cnh`, `genero`, `nome_social`, `endereco`, `numero`, `complemento`, `cidade`, `estado`, `cep`, `pais`, `bairro`, `curriculo_id`, `escolaridade`, `formacoes`, `experiencias`, `proIngles`, `proEspanhol`, `proFrances`, `certificacoes`, `habilidades`, `disponibilidade`) VALUES
-(41, 'carlos.d.verdeiro@gmail.com', '$2y$10$lVwCxHlhro0KZSLiNggiDOO9mXetaXrw2JVUvGOJ5JuDGP5ujKSi6', 'Carlos Daniel', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '4444444444', '44444444444', '2024-11-01 21:16:08', '2024-11-19 22:40:00', 1, 'SP', 'Brasileira', 0, 'N', 'M', '', 'Rua João Zanuto', '576', 'casa', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 85, 2, 'opa', 'técnico', 1, 1, 0, 'Redes', NULL, 'meio/remoto'),
-(43, 'carlosgvd0410@gmail.com', '$2y$10$stffttMNHaNvujK/HMeZo.hMm1R7dFO7UwGrdPMbkrYaa.x3jYiEC', 'Carlos', 'Verdeiro', 'solteiro', '01234567890', '511484848', 'SSP', '2007-02-09', '', '44991567723', '2024-10-27 13:19:12', '2024-09-08 14:01:51', 1, 'PR', 'Brasileira', 0, 'N', 'M', NULL, 'Rua João Zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 86, 1, '', 'd', NULL, NULL, NULL, 't', 'd', 'integral/meio/remoto/presencial'),
-(44, 'carlos.d.verdeiro@gmail.c', '$2y$10$arVg8DWLClw5Er8cOnYqwe4nCMTKnpr3aCWY8b1N45DETehcCmn0K', 'Carlos', NULL, 'solteiro', '03626394930', '321312312', 'SSP', '2024-10-29', '4499156772', '44991567723', '2024-11-09 04:55:44', '2024-11-12 01:46:47', 1, 'PE', 'd', 3, 'E', 'M', 'Carlos Daniel Verdeiro', 'Rua joão zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(56, 'carlos.d.verdeo@gmail.com', '$2y$10$0/Pt130sA5UTVO.QDIb1y.ChUP5i3DCcFDSkTesRYG2qBy2/HOgrK', 'Carlos', 'Verdeiro', 'casado', '75782445076', '321321421', 'dsa', '2007-02-09', '4499156772', '34412421412', '2024-11-11 19:43:00', NULL, 1, 'MA', 'n', 70, 'ABCDE', 'M', '', 'Rua joão zanutoeeedas', '576', 'dsadasecccc', 'Presidente Prudented', 'MT', '19024410', 'Brasa', 'Porto Bello Residence', NULL, 8, 'f', 'e', 1, 1, 2, 'c', 'h', 'integral/meio/remoto/presencial'),
-(57, 'carlos..verdeiro@gmail.com', '$2y$10$r4bDiI808QrvcCjyGgGgo.BFcGr1v22WwbU0nNh.E5wm0ZQv6dfYm', 'Rafael', 'saf', 'solteiro', '45261848024', '222222222', 'SSP', '2001-01-09', '4499156772', '23213213213', '2024-11-11 21:11:00', NULL, 1, 'PE', 'd', 2, 'N', 'M', 'Carlos Daniel Verdeiro', 'Rua joão zanuto', '576', 'das', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, 2, 'd', 's', 0, 0, 3, 'a', 'd', 'remoto'),
-(59, 'daiane_dacosta@mv1.com.br', '$2y$10$nxVt7fgC6SZqWLGrDxv0B.eASEMrYG7j2vZeJ9PAf260U1wz9/47G', 'Pedro', 'saf', 'solteiro', '43263194020', '222222223', 'SSP', '2001-01-09', '4499156772', '23213213213', '2024-11-12 02:22:21', NULL, 1, 'PE', 'd', 2, 'N', 'M', 'Carlos Daniel Verdeiro', 'Rua joão zanuto', '576', 'das', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, 2, 'd', 's', 0, 0, 3, 'a', 'd', 'remoto'),
-(60, 'teste123@email.com', '$2y$10$G3z9RKWaKjIvRePQYbf.9OQQJke1XqmIVOigdtaCzZMNqWb23c7Xu', 'Henry', 'Verdeiro', 'solteiro', '74833760070', '415959159', 'SSP', '2007-02-09', '4499156772', '44991567723', '2024-11-12 17:26:40', '2024-11-12 21:05:04', 1, 'MA', 'Brasileira', 0, 'N', 'M', 'Carlos Daniel Verdeiro', 'Rua joão zanuto', '576', '123', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, 3, 'f', 'e', 2, 1, 0, 'c', 'h', 'integral/meio/remoto/presencial'),
-(61, 'teste123@gmail.com', '$2y$10$hptFZhqUgoCt92ab/p/ki.ITvG1725hhCPQKkq.LFUndLOh8FVncS', 'SONIA', 'M VERDEIRO', 'separado', '38685504023', '232321321', 'SSP', '2001-09-01', '4499156772', '23213231213', '2024-11-12 19:25:17', '2024-11-12 19:28:18', 1, 'PB', 'd', 0, 'N', 'F', 'Carlos Daniel Verdeiro', 'Rua joão zanuto', '576', 'dasd', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, 3, NULL, NULL, 1, 0, 0, NULL, NULL, 'presencial'),
-(62, 'carlos.d.verdeiro@gmail.ch', '$2y$10$lXQT01tPYUwFR4VNMAVP1.z1vDgQmT7mgK.3pZqbL7RZy1g9BSNga', 'SONIA', 'M VERDEIRO', 'solteiro', '50797601090', '232134213', 'SSP', '2007-02-09', '4499156772', '23213213123', '2024-11-12 22:02:36', '2024-11-12 22:03:35', 1, 'SP', 'Brasileira', 0, 'N', 'M', 'Carlos Daniel Verdeiro', 'Rua joão zanuto', '576', NULL, 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', NULL, 2, NULL, NULL, 0, 0, 0, NULL, NULL, 'presencial');
+(63, 'carlos.d.verdeiro@gmail.com', '$2y$10$8pn9R96iOG3rGzmBBNmeaOCPhh3JDLIYGygguUHzivdBEuotlEqtK', 'Carlos Daniel', 'Verdeiro', 'solteiro', '12384316907', '143873722', 'SSP', '2007-02-09', '', '44991567723', '2024-11-20 17:33:14', '2024-11-22 12:25:14', 1, 'PR', 'Brasileira', 0, 'N', 'M', NULL, 'Rua João Zanuto', '576', 'casa 2', 'Presidente Prudente', 'SP', '19024410', 'Brasil', 'Porto Bello Residence', 87, 3, 'Redes de Computadores\r\nInformática para Internet', 'Suporte técnico Help Desk', 1, 0, 0, 'Alura Java Script', 'Resolução de problema\r\nProativo\r\nDinâmico', 'meio/remoto/presencial');
 
 -- --------------------------------------------------------
 
@@ -274,14 +261,6 @@ CREATE TABLE `indicacao` (
   `data_indicacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `indicacao`
---
-
-INSERT INTO `indicacao` (`id`, `id_vaga`, `id_escola`, `id_estagiario`, `data_indicacao`, `status`) VALUES
-(26, 199, 8, 56, '2024-11-18 22:31:30', 1),
-(27, 199, 8, 41, '2024-11-18 22:31:30', 1);
 
 -- --------------------------------------------------------
 
@@ -300,13 +279,18 @@ CREATE TABLE `redefinicao_senha` (
   `token` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `redefinicao_senha`
+-- Estrutura para tabela `suporte_usuario`
 --
 
-INSERT INTO `redefinicao_senha` (`id`, `nome`, `email`, `tipo`, `data_pedido`, `data_utilizacao`, `utilizado`, `token`) VALUES
-(38, 'Carlos Daniel', 'carlos.d.verdeiro@gmail.com', 'estagiario', '2024-11-08 13:16:01', NULL, 0, '1e27c74f289bdb0488d4083aa44ed9dc'),
-(40, 'arruda', 'carlos.d.verdeiro@gmail.co', 'escola', '2024-11-08 13:20:49', NULL, 0, 'b39cf9106231539d5655ef49aa3d124f');
+CREATE TABLE `suporte_usuario` (
+  `nome` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mensagem` varchar(500) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -331,38 +315,9 @@ CREATE TABLE `vaga` (
 --
 
 INSERT INTO `vaga` (`id`, `empresa_id`, `titulo`, `descricao`, `requisitos`, `data_publicacao`, `data_encerramento`, `encerrado`, `status`) VALUES
-(199, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(200, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(201, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(202, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(203, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(204, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(205, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(206, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(207, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(208, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(209, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(210, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(211, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(212, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(213, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(214, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(215, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(216, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(217, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(218, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(219, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(220, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(221, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(222, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(223, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(224, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(225, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(226, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(227, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(228, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(229, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1),
-(230, 6, 'testeVaga1', 'teste', 'roi', '2024-11-12 17:30:08', NULL, 0, 1);
+(232, 7, 'Técnico de TI', 'Oferecemos R$ 1.400,00\r\nVT + VR', 'Proativo\r\nMínimo curso técnico\r\nPerspicaz', '2024-11-20 17:47:22', '2024-12-31', 0, 1),
+(233, 7, 'Administrador de escritório', 'R$ 5.210,00\r\nVT + VR', 'Ensino médio completo', '2024-11-20 17:49:42', NULL, 0, 1),
+(234, 7, 'Técnico em enfermagem', 'R$ 2.100,00\r\nVT+VR', '1 ano de experiência\r\nProativo', '2024-11-20 17:51:39', NULL, 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -443,6 +398,12 @@ ALTER TABLE `redefinicao_senha`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `suporte_usuario`
+--
+ALTER TABLE `suporte_usuario`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `vaga`
 --
 ALTER TABLE `vaga`
@@ -457,43 +418,43 @@ ALTER TABLE `vaga`
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `candidatura`
 --
 ALTER TABLE `candidatura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `curriculo`
 --
 ALTER TABLE `curriculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `escola`
 --
 ALTER TABLE `escola`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `estagiario`
 --
 ALTER TABLE `estagiario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de tabela `indicacao`
@@ -508,10 +469,16 @@ ALTER TABLE `redefinicao_senha`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
+-- AUTO_INCREMENT de tabela `suporte_usuario`
+--
+ALTER TABLE `suporte_usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `vaga`
 --
 ALTER TABLE `vaga`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
 
 --
 -- Restrições para tabelas despejadas

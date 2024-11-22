@@ -43,11 +43,17 @@ switch ($busca) {
             $stmt = $conn->prepare("
             SELECT c.id AS id_contrato,
                 c.data_contratacao,
+                c.caminho_anexo,
+                c.nome_anexo,
+                c.observacoes,
+                c.data_termino,
+
                 e.id AS id_estagiario,
                 e.nome AS nome_estagiario,
                 e.sobrenome AS sobrenome_estagiario,
                 e.email AS email_estagiario,
                 e.celular AS celular_estagiario,
+                
                 v.titulo AS titulo_vaga,
                 v.descricao AS descricao_vaga
             FROM contratos c
