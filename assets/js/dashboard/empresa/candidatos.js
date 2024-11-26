@@ -223,6 +223,9 @@ $(document).ready(function () {
 
     $("#sectionPageVagas").on('click', '.btnContratarCand', function () {
         $("#idCand").val($(this).val());
+        $('#fimContra').val('');
+        $('#obsContra').text('');
+        $('#fileContra').val('');
         $('#modalContrato').modal('show');
     });
 
@@ -232,7 +235,7 @@ $(document).ready(function () {
         var formData = new FormData($(this)[0]);
 
         $.ajax({
-            url: '../server/api/candidatos/contratarCandidato.php',
+            url: '../server/api/candidatos/contratarCandidato.php/contratar',
             type: 'POST',
             data: formData,
             async: false,
