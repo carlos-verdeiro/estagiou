@@ -47,6 +47,7 @@ switch ($busca) {
                 c.nome_anexo,
                 c.observacoes,
                 c.data_termino,
+                c.status,
 
                 e.id AS id_estagiario,
                 e.nome AS nome_estagiario,

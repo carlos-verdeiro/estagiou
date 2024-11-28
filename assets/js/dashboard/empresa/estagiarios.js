@@ -3,6 +3,7 @@ $(document).ready(function () {
     const toastInformacao = new bootstrap.Toast($('#toastInformacao')[0]);
     const corpoToastInformacao = $('#corpoToastInformacao');
     let contratos = [];
+    let cEncerrados = [];
 
     function formatarData(data) {
         if (!data) {
@@ -36,25 +37,41 @@ $(document).ready(function () {
                     `);
 
                     const estagiariosContainer = $('#estagiariosContainer');
+                    $('#registrosContEncerrados').empty();
                     data.contratos.forEach((estagiario, index) => {
-                        estagiariosContainer.append(`
-                            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${estagiario.nome_estagiario} ${estagiario.sobrenome_estagiario}</h5>
-                                    <p class="card-text"><strong>Vaga:</strong> ${estagiario.titulo_vaga}</p>
-                                    <p class="card-text"><strong>Data de Contratação:</strong> ${formatarData(estagiario.data_contratacao)}</p>
-                                    <p class="card-text"><strong>Contato:</strong> ${estagiario.email_estagiario}</p>
+                        if (estagiario.status === 0) {
+                            cEncerrados.push(index);
+                            $('#registrosContEncerrados').append(`
+                                <tr>
+                                    <td>${estagiario.nome_estagiario} ${estagiario.sobrenome_estagiario}</td>
+                                    <td>${estagiario.titulo_vaga}</td>
+                                    <td>${formatarData(estagiario.data_contratacao)}</td>
+                                    <td>${formatarData(estagiario.data_termino) || 'Não definido'}</td>
+                                    <td>${estagiario.email_estagiario}</td>
+                                </tr>
+                             `);
+                        } else {
+                            estagiariosContainer.append(`
+                                <div class="col-12 col-sm-12 col-md-9 col-lg-6 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${estagiario.nome_estagiario} ${estagiario.sobrenome_estagiario}</h5>
+                                            <p class="card-text"><strong>Vaga:</strong> ${estagiario.titulo_vaga}</p>
+                                            <p class="card-text"><strong>Data de Contratação:</strong> ${formatarData(estagiario.data_contratacao)}</p>
+                                            <p class="card-text"><strong>Contato:</strong> ${estagiario.email_estagiario}</p>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-between align-items-center">
+                                            <button class="btn btn-primary btn-sm btnEditarContrato" value="${index}">Editar</button>
+                                            <button class="btn btn-secondary btn-sm btnVerContrato" value="${index}">Ver Contrato</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-footer d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-sm btnEditarContrato" value="${index}">Editar</button>
-                                    <button class="btn btn-secondary btn-sm btnVerContrato" value="${index}">Ver Contrato</button>
-                                </div>
-                            </div>
-                        </div>
+                             `);
+                        }
 
-                        `);
                     });
+                    console.log(cEncerrados)
+
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
@@ -71,12 +88,12 @@ $(document).ready(function () {
         let contrato = contratos[index];
         console.table(contrato);
         $('#modalContratoTitulo').text(contrato.nome_estagiario);
-        $('#modalNomeEditar').text(contrato.nome_estagiario + ' ' + contrato.sobrenome_estagiario);
+        $('#modalEstagiarioNome').text(contrato.nome_estagiario + ' ' + contrato.sobrenome_estagiario);
         $('#modalEstagiarioVaga').text(contrato.titulo_vaga);
         $('#modalEstagiarioCelular').text(contrato.celular_estagiario.replace(/(\d{2})(\d{1})(\d{4})(\d{4})/, '($1) $2 $3-$4'));
         $('#modalEstagiarioEmail').text(contrato.email_estagiario);
         $('#modalEstagiarioDataContratacao').text(formatarData(contrato.data_contratacao));
-        $('#modalEstagiarioFimContrato').text(formatarData(contrato.data_termino)  || 'Não definido');
+        $('#modalEstagiarioFimContrato').text(formatarData(contrato.data_termino) || 'Não definido');
         $('#modalEstagiarioObservacoes').text(contrato.observacoes || 'Nenhuma observação');
         $('#btnEditarContratoModalView').val(index);
 
@@ -103,6 +120,7 @@ $(document).ready(function () {
         $('#modalFimContratoEditar').val(contrato.data_termino);
         $('#modalObservacoesEditar').text(contrato.observacoes || 'Nenhuma observação');
         $('#anexoEditarContrato').val('');
+        $('#btnModalEncerrarCont').val(index);
         $('#divAnexo').show();
 
         if (contrato.caminho_anexo !== null && contrato.caminho_anexo !== '') {
@@ -165,4 +183,43 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#btnModalEncerrarCont').on('click', function () {
+        $('#btnModalEncerrar').val($(this).val());
+        $('#formAtualizarContrato').modal('hide');
+        $('#modalEncerrar').modal('show');
+    })
+
+    $('#btnModalEncerrar').on('click', function () {
+        let idCont = contratos[$(this).val()].id_contrato;
+
+        $.ajax({
+            url: `../server/api/candidatos/contratarCandidato.php/encerrar`,
+            type: 'POST',
+            data: { idContrato: idCont },
+            success: function (data) {
+                puxarEstagiarios();
+                console.log(data);
+                corpoToastInformacao.text(data);
+                toastInformacao.show();
+            },
+            error: function (xhr, status, error) {
+                console.log(`Erro: ${xhr.responseText} | Status: ${status} | Detalhe: ${error}`);
+                corpoToastInformacao.text('Erro ao encerrar contrato');
+                toastInformacao.show();
+                puxarEstagiarios();
+            }
+        });
+    });
+
+    $('#contEncerrados').on('click',function(){
+        if ($('#tabelaEncerrados').val() == 0) {
+            $('#tabelaEncerrados').show();
+            $('#tabelaEncerrados').val(1);
+        } else {
+            $('#tabelaEncerrados').hide();
+            $('#tabelaEncerrados').val(0);
+        }
+    })
+
 });

@@ -1,8 +1,28 @@
-<section class="sectionPages">
+<section class="sectionPages  py-5 ">
     <h2 class="text-center mb-4">Estagiários Contratados</h2>
-    <div id="principal">
+    <div id="principal" class="container">
         <!-- Conteúdo-->
     </div>
+
+    <p id="contEncerrados" class="text-secondary btn mt-4">
+        ➤ Clique aqui para ver os contratos encerrados
+    </p>
+
+    <table class="table table-bordered mt-3" id="tabelaEncerrados" style="display:none" value = "0">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Vaga</th>
+                <th>Contratação</th>
+                <th>Encerramento</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody id="registrosContEncerrados">
+
+        </tbody>
+    </table>
+
 
     <!-- Modal contrato -->
     <div class="modal fade " id="modalContrato" aria-hidden="true" aria-labelledby="modalContrato" tabindex="-1">
@@ -114,11 +134,26 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger sm btnEncerrar" data-bs-toggle="modal" data-bs-target="#modalExcluir">Excluir</button>
+                        <button type="button" class="btn btn-danger sm btnEncerrar" id="btnModalEncerrarCont" data-bs-toggle="modal" data-bs-target="#modalExcluir">Encerrar</button>
                         <button type="button" id="btnModalCancelarVagaEditar" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Salvar</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Exluir-->
+    <div class="modal fade" id="modalEncerrar" tabindex="-1" aria-labelledby="modalEncerrar" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja Encerrar contrato?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnModalEncerrar" data-bs-dismiss="modal" class="btn btn-danger">Encerrar</button>
+                </div>
             </div>
         </div>
     </div>

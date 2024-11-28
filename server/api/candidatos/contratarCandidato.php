@@ -209,6 +209,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             break;
 
+        case 'encerrar':
+            $id_contrato = $_POST['idContrato'];
+
+            try {
+                include_once '../../conexao.php';
+
+                $status = 0;
+
+                $stmt = $conn->prepare("UPDATE contratos SET status = ? , data_termino = ? WHERE id = ?");
+                $stmt->bind_param('isi', $status, $hoje, $id_contrato);
+
+                if (!$stmt->execute()) {
+                    throw new Exception("Erro ao atualizar contrato: " . $stmt->error);
+                }
+
+                if ($stmt->affected_rows > 0) {
+                    echo "Contrato encerrado.";
+                } else {
+                    echo "Nenhuma alteração foi feita. O contrato pode já estar no status informado ou o ID não existe.";
+                }
+            } catch (Exception $e) {
+                error_log("Erro ao encerrar contrato: " . $e->getMessage());
+                echo "Ocorreu um erro ao encerrar o contrato. Por favor, tente novamente mais tarde.";
+            } finally {
+                $conn->close();
+            }
+
+            break;
         default:
             echo "Requisição inválida.";
             break;

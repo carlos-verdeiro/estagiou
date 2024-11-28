@@ -2,8 +2,7 @@
 <section class="sectionPages">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Cadastro de Alunos</h2>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0">Alunos Cadastrados</h5>
+        <div class="d-flex align-items-center justify-content-end mb-3">
             <!-- Botão para adicionar novo aluno -->
             <button class="btn btn-primary" id="btnModalNovoCand" data-bs-toggle="modal" data-bs-target="#alunoModal">
                 Adicionar Novo Aluno
