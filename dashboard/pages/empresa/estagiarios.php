@@ -7,21 +7,9 @@
     <p id="contEncerrados" class="text-secondary btn mt-4">
         ➤ Clique aqui para ver os contratos encerrados
     </p>
-
-    <table class="table table-bordered mt-3" id="tabelaEncerrados" style="display:none" value = "0">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Vaga</th>
-                <th>Contratação</th>
-                <th>Encerramento</th>
-                <th>E-mail</th>
-            </tr>
-        </thead>
-        <tbody id="registrosContEncerrados">
-
-        </tbody>
-    </table>
+    <div id="registrosContEncerrados"  style="display:none" value = "0" class="container">
+        <div id="estagiariosEncContainer" class="row"></div>
+    </div>
 
 
     <!-- Modal contrato -->

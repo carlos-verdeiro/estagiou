@@ -22,8 +22,8 @@
                     include_once '../../../server/conexao.php';
 
                     $stmt = $conn->prepare("SELECT COUNT(*) FROM aluno WHERE id_estagiario = ?");
-                    $stmt->bind_param('i', $_SESSION['idUsuarioLogin']); 
-                    $stmt->execute(); 
+                    $stmt->bind_param('i', $_SESSION['idUsuarioLogin']);
+                    $stmt->execute();
 
                     $result = $stmt->get_result();
 
@@ -31,7 +31,7 @@
                     $count = $row[0];
 
                     if ($count > 0) {
-                        echo'<li class="nav-item">
+                        echo '<li class="nav-item">
                         <button class="nav-link navPage" aria-current="page" id="navIndicacoes">Indicações</button>
                     </li>';
                     }
@@ -122,6 +122,60 @@
                 <div class="modal-footer">
                     <button type="button" id="btnModalCancelarVaga" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-primary inscreverVaga" id="inscreverVagaModal">Inscrever-se</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal contrato -->
+    <div class="modal fade " id="modalContrato" aria-hidden="true" aria-labelledby="modalContrato" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h2 class="modal-title fs-4 fw-bold user-select-all" id="modalContratoTitulo">Contrato</h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-target="#modalContrato" data-bs-toggle="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- info estagiario -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Vaga:</h5>
+                                <p id="modalEstagiarioVaga" class=" user-select-all">vaga</p>
+                            </div>
+                           
+                        </div>
+
+                        <!-- Data Contratacao -->
+                        <div class="row mb-3" id="modalEstagiarioDatas">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Data de contratação:</h5>
+                                <p id="modalEstagiarioDataContratacao">contratacao</p>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="fw-bold">Fim de contrato:</h5>
+                                <p id="modalEstagiarioFimContrato">fim contratacao</p>
+                            </div>
+                        </div>
+
+                        <!-- Observacoes -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h5 class="fw-bold">Observações:</h5>
+                                <p id="modalEstagiarioObservacoes">Observações</p>
+                            </div>
+                        </div>
+
+                        <!-- Currículo -->
+                        <div class="row" id="modalEstagiarioContratoGeral">
+                            <div class="col-12">
+                                <iframe id="modalEstagiarioContrato" class="rounded border" frameborder="0" style="height: 80vh; max-height: 600px; width: 100%;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

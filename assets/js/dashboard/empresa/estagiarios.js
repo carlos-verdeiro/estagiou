@@ -37,18 +37,22 @@ $(document).ready(function () {
                     `);
 
                     const estagiariosContainer = $('#estagiariosContainer');
-                    $('#registrosContEncerrados').empty();
+                    $('#estagiariosEncContainer').empty();
                     data.contratos.forEach((estagiario, index) => {
                         if (estagiario.status === 0) {
                             cEncerrados.push(index);
-                            $('#registrosContEncerrados').append(`
-                                <tr>
-                                    <td>${estagiario.nome_estagiario} ${estagiario.sobrenome_estagiario}</td>
-                                    <td>${estagiario.titulo_vaga}</td>
-                                    <td>${formatarData(estagiario.data_contratacao)}</td>
-                                    <td>${formatarData(estagiario.data_termino) || 'Não definido'}</td>
-                                    <td>${estagiario.email_estagiario}</td>
-                                </tr>
+                            $('#estagiariosEncContainer').append(`
+                                <div class="col-12 col-sm-12 col-md-9 col-lg-6 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${estagiario.nome_estagiario} ${estagiario.sobrenome_estagiario}</h5>
+                                            <p class="card-text"><strong>Vaga:</strong> ${estagiario.titulo_vaga}</p>
+                                            <p class="card-text"><strong>Data de Contratação:</strong> ${formatarData(estagiario.data_contratacao)}</p>
+                                            <p class="card-text"><strong>Término contrato:</strong> ${formatarData(estagiario.data_termino) || 'Não definido'}</p>
+                                            <p class="card-text"><strong>Contato:</strong> ${estagiario.email_estagiario}</p>
+                                        </div>
+                                    </div>
+                                </div>
                              `);
                         } else {
                             estagiariosContainer.append(`
@@ -213,12 +217,12 @@ $(document).ready(function () {
     });
 
     $('#contEncerrados').on('click',function(){
-        if ($('#tabelaEncerrados').val() == 0) {
-            $('#tabelaEncerrados').show();
-            $('#tabelaEncerrados').val(1);
+        if ($('#registrosContEncerrados').val() == 0) {
+            $('#registrosContEncerrados').show();
+            $('#registrosContEncerrados').val(1);
         } else {
-            $('#tabelaEncerrados').hide();
-            $('#tabelaEncerrados').val(0);
+            $('#registrosContEncerrados').hide();
+            $('#registrosContEncerrados').val(0);
         }
     })
 

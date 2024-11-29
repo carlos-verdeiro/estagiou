@@ -369,6 +369,10 @@ switch ($uri[5]) {
                         c.id_vaga AS vaga_id,
                         c.id_empresa AS empresa_id,
                         c. data_termino AS contrato_fim,
+                        c.status,
+                        c.observacoes,
+                        c.caminho_anexo,
+                        c.nome_anexo,
 
                         v.titulo AS vaga_titulo,
                         v.descricao AS vaga_descricao,
@@ -398,6 +402,7 @@ switch ($uri[5]) {
                         LEFT JOIN vaga AS v ON c.id_vaga = v.id
                         LEFT JOIN empresa AS e ON c.id_empresa = e.id
                         WHERE c.id_estagiario = ?
+                        ORDER BY status DESC
                     ");
 
             if (!$stmt) {
