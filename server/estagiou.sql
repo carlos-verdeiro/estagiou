@@ -61,7 +61,7 @@ CREATE TABLE `contratos` (
   `id_estagiario` int(11) NOT NULL,
   `id_empresa` int(11) NOT NULL,
   `id_vaga` int(11) NOT NULL,
-  `data_contratacao` date NOT NULL DEFAULT current_timestamp(),
+  `data_contratacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `caminho_anexo` varchar(500) DEFAULT NULL,
   `nome_anexo` varchar(200) DEFAULT NULL,
   `observacoes` varchar(1000) DEFAULT NULL,
