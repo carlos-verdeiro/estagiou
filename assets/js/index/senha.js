@@ -181,8 +181,8 @@ $(document).ready(function () {
     } else {//sem token
 
         $("#principal").html(`<form method="post" class="container d-flex flex-column align-items-center row m-auto" id="formulario">
-    <div id="successMessage" class="d-none text-success text-center w-100">Confira sua caixa de entrada</div>
-    <div id="errorMessage" class="d-none text-danger text-center w-100">Confira sua caixa de entrada</div>
+    <div id="successMessage" style="display:none"  class="text-success text-center w-100">Confira sua caixa de entrada</div>
+    <div id="errorMessage" style="display:none" class="text-danger text-center w-100">Confira sua caixa de entrada</div>
     <h1 class="w-100 text-center mb-4">Redefinição de senha</h1>
     
     <!-- Campo de E-mail -->
