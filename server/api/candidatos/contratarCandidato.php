@@ -19,6 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $data_contrato = !empty($_POST['iniContra']) ? $_POST['iniContra'] : $hoje;
             $data_termino = !empty($_POST['fimContra']) ? $_POST['fimContra'] : null;
+
+            if (!DateTime::createFromFormat('Y-m-d', $data_contrato)) {
+                die('Data de início inválida.');
+            }
+            if ($data_termino && !DateTime::createFromFormat('Y-m-d', $data_termino)) {
+                die('Data de término inválida.');
+            }
+
+            if ($data_termino && $data_contrato >= $data_termino) {
+                die('A data de término deve ser maior que a data de início.');
+            }
+
             $observacao = !empty($_POST['obsContra']) ? $_POST['obsContra'] : null;
 
             if (isset($_FILES['fileContra']) && $_FILES['fileContra']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -141,6 +153,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'editar':
             $id_contrato = $_POST['idContrato'];
             $data_termino = !empty($_POST['modalFimContratoEditar']) ? $_POST['modalFimContratoEditar'] : null;
+            $data_contrato = !empty($_POST['inicioContrato']) ? $_POST['inicioContrato'] : $hoje;
+
+            if ($data_termino && !DateTime::createFromFormat('Y-m-d', $data_termino)) {
+                die('Data de término inválida.');
+            }
+
+            if ($data_termino && $data_contrato >= $data_termino) {
+                die('A data de término deve ser maior que a data de início.');
+            }
+
             $observacao = !empty($_POST['modalObservacoesEditar']) ? $_POST['modalObservacoesEditar'] : null;
             $rmAnexo = isset($_POST['rmAnexo']) && $_POST['rmAnexo'] ? true : false;
             try {

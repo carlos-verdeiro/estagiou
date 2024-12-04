@@ -94,6 +94,7 @@ switch ($uri[5]) {
 
 
     case 'estagiarioVagas':
+        
         // Verificação de autenticação e tipo de usuário
         if (
             !isset($_SESSION['statusLogin'], $_SESSION['tipoUsuarioLogin']) ||
@@ -104,11 +105,11 @@ switch ($uri[5]) {
             echo json_encode(['mensagem' => 'Usuário não autenticado.', 'code' => 2]);
             exit;
         }
-
+        
         $idEstagiario = $_SESSION['idUsuarioLogin'];
         $partida = isset($uri[6]) && is_numeric($uri[6]) ? (int)$uri[6] : 0;
         $limiteBusca = isset($uri[7]) && is_numeric($uri[7]) ? (int)$uri[7] : 30;
-
+        
         try {
             include_once '../../conexao.php';
 
@@ -127,16 +128,17 @@ switch ($uri[5]) {
                 LIMIT ?
                 OFFSET ?
             ");
+            
             if (!$stmt) {
                 throw new Exception("Erro na preparação da consulta: " . $conn->error);
             }
-
+           
             $statusVaga = 1;
             $encerradoVaga = 0;
             $candidatado = 0;
 
             $stmt->bind_param("iiiiii", $idEstagiario, $idEstagiario, $statusVaga, $encerradoVaga, $limiteBusca, $partida);
-
+            
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar a consulta: " . $stmt->error);
             }

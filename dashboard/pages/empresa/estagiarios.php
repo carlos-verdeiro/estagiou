@@ -88,6 +88,8 @@
                 </div>
                 <form method="post" id="formAtualizarContrato">
                     <input type="hidden" name="idContrato" id="idContrato">
+                    <input type="hidden" name="inicioContrato" id="inicioContrato">
+
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-md-6">

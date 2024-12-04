@@ -240,7 +240,7 @@ $(document).ready(function () {
                             <p><strong>E-mail: </strong>${aluno.email}</p>
                             <button type="button" class="btn btn-primary inscreverVaga" id="inscreverVagaModal"  
                                     data-idvaga="${index}" data-idestagiario="${aluno.id}">
-                                Inscrever aluno
+                                Indicar aluno
                             </button>
                         </div>
                     </div>

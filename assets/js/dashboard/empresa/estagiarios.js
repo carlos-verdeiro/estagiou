@@ -21,7 +21,7 @@ $(document).ready(function () {
                 console.log(data.contratos);
                 contratos = data.contratos;
                 main.empty();
-                if (data.contratos.length === 0) {
+                if (data.length === 0) {
                     main.append('<h3 class="text-center">Não há estagiários contratados</h3>');
                 } else {
                     main.append(`
@@ -125,6 +125,7 @@ $(document).ready(function () {
         $('#modalObservacoesEditar').text(contrato.observacoes || 'Nenhuma observação');
         $('#anexoEditarContrato').val('');
         $('#btnModalEncerrarCont').val(index);
+        $('#inicioContrato').val(contrato.data_contratacao);
         $('#divAnexo').show();
 
         if (contrato.caminho_anexo !== null && contrato.caminho_anexo !== '') {
